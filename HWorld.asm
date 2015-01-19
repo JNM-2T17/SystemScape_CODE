@@ -2,7 +2,7 @@ DOSSEG
 .MODEL SMALL
 .STACK 100h
 .DATA
-	HW db "Hello World$"
+	HW db 48h,65h,6Ch,6Ch,6FH,20h,57h,6Fh,72h,6Ch,64h,24h
 .CODE
 	BEGIN:
 		MOV AX, @data
