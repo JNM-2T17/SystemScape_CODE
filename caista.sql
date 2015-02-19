@@ -6,14 +6,16 @@ CREATE SCHEMA IF NOT EXISTS `caista`;
 USE `caista`;
 
 CREATE TABLE IF NOT EXISTS Supplier (
-	name varchar(255) PRIMARY KEY,
-	address varchar(255)
+	name VARCHAR(255) PRIMARY KEY,
+	country VARCHAR(255),
+    state VARCHAR(255),
+    city VARCHAR(255)
 ) engine = innoDB;
 
 CREATE TABLE IF NOT EXISTS SupplierContact (
-	supplier varchar(255),
-	type varchar(255),
-	value int,
+	supplier VARCHAR(255),
+	type VARCHAR(255),
+	value INT,
 	PRIMARY KEY(supplier,type,value),
 	CONSTRAINT SupplierContactfk_1
 		FOREIGN KEY (supplier) 
@@ -23,29 +25,30 @@ CREATE TABLE IF NOT EXISTS SupplierContact (
 ) engine = innoDB;
 
 CREATE TABLE IF NOT EXISTS PurchaseOrder ( 
-	type varchar(255), 
-	no int, 
+	type VARCHAR(255), 
+	no INT, 
 	date Date NOT NULL, 
-	supplier varchar(255) NOT NULL,
+	supplier VARCHAR(255) NOT NULL,
 	PRIMARY KEY (type,no),
 	CONSTRAINT PurchaseOrderfk_1
 		FOREIGN KEY (supplier) 
 		REFERENCES Supplier(name)
 		ON UPDATE CASCADE
-		ON DELETE CASCADE
+		ON DELETE CASCADE,
+	INDEX PurchaseOrderidx_1 (supplier ASC)
 ) engine = innoDB; 
 
 CREATE TABLE IF NOT EXISTS ItemData (
-	name varchar(255) PRIMARY KEY,
-	description varchar(255),
-	unitPrice int NOT NULL
+	name VARCHAR(255) PRIMARY KEY,
+	description VARCHAR(255),
+	unitPrice INT NOT NULL
 ) engine = innoDB;
 
 CREATE TABLE IF NOT EXISTS POItem (
-	type varchar(255),
-	no int,
-	itemname varchar(255),
-	quantity int NOT NULL,
+	type VARCHAR(255),
+	no INT,
+	itemname VARCHAR(255),
+	quantity INT NOT NULL,
 	PRIMARY KEY(type,no,itemname),
 	CONSTRAINT POItemfk_1
 		FOREIGN KEY (type,no) 
@@ -60,19 +63,20 @@ CREATE TABLE IF NOT EXISTS POItem (
 ) engine = innoDB;
 
 CREATE TABLE IF NOT EXISTS InventoryItem (
-	ID int PRIMARY KEY,
-	itemData varchar(255) NOT NULL,
-	status varchar(255) NOT NULL,
-	classification varchar(255) NOT NULL,
+	ID INT PRIMARY KEY,
+	itemData VARCHAR(255) NOT NULL,
+	status VARCHAR(255) NOT NULL,
+	classification VARCHAR(255) NOT NULL,
 	CONSTRAINT InventoryItemfk_1
 		FOREIGN KEY (itemData) 
 		REFERENCES ItemData(name)
 		ON UPDATE CASCADE
-		ON DELETE CASCADE
+		ON DELETE CASCADE,
+	INDEX InventoryItemidx_1 (itemData ASC)
 ) engine = innoDB;
 
 CREATE TABLE IF NOT EXISTS HardwareItem (
-	ID int PRIMARY KEY,
+	ID INT PRIMARY KEY,
 	CONSTRAINT HardwareItemfk_1
 		FOREIGN KEY (ID) 
 		REFERENCES InventoryItem(ID)
@@ -81,10 +85,10 @@ CREATE TABLE IF NOT EXISTS HardwareItem (
 ) engine = innoDB;
 
 CREATE TABLE IF NOT EXISTS Contract (
-	hardware int,
+	hardware INT,
 	startDate Date NOT NULL,
 	endDate Date NOT NULL,
-	maintainanceCost int NOT NULL,
+	maINTainanceCost INT NOT NULL,
 	PRIMARY KEY( hardware, startDate ),
 	CONSTRAINT Contractfk_1
 		FOREIGN KEY (hardware) 
@@ -94,9 +98,9 @@ CREATE TABLE IF NOT EXISTS Contract (
 ) engine = innoDB;
 
 CREATE TABLE IF NOT EXISTS ITAsset (
-	ID int PRIMARY KEY,
-	assetTag int NOT NULL,
-	serviceTag int NOT NULL,
+	ID INT PRIMARY KEY,
+	assetTag INT NOT NULL,
+	serviceTag INT NOT NULL,
 	deliveryDate Date NOT NULL,
 	CONSTRAINT ITAssetfk_1
 		FOREIGN KEY (ID) 
@@ -106,7 +110,7 @@ CREATE TABLE IF NOT EXISTS ITAsset (
 ) engine = innoDB;
 
 CREATE TABLE IF NOT EXISTS Warranty (
-	hardware int,
+	hardware INT,
 	startDate Date,
 	endDate Date NOT NULL,
 	PRIMARY KEY (hardware, startDate),
@@ -118,8 +122,8 @@ CREATE TABLE IF NOT EXISTS Warranty (
 ) engine = innoDB;
 
 CREATE TABLE IF NOT EXISTS SoftwareItem (
-	ID int PRIMARY KEY,
-	licenseKey varchar(255) NOT NULL,
+	ID INT PRIMARY KEY,
+	licenseKey VARCHAR(255) NOT NULL,
 	CONSTRAINT SoftwareItemfk_1
 		FOREIGN KEY (ID) 
 		REFERENCES InventoryItem(ID)
@@ -128,14 +132,15 @@ CREATE TABLE IF NOT EXISTS SoftwareItem (
 ) engine = innoDB;
 
 CREATE TABLE IF NOT EXISTS Employee (
-	ID int PRIMARY KEY,
-	name varchar(255) NOT NULL
+	ID INT PRIMARY KEY,
+	name VARCHAR(255) NOT NULL
 ) engine = innoDB;
 
 CREATE TABLE IF NOT EXISTS SoftwareAssignment (
-	ID int,
-	employee int,
-	PRIMARY KEY( ID, employee ),
+	ID INT,
+	employee INT,
+	project VARCHAR(255),
+	PRIMARY KEY( ID, employee, project ),
 	CONSTRAINT SoftwareAssignmentfk_1
 		FOREIGN KEY (ID) 
 		REFERENCES SoftwareItem(ID)
@@ -145,13 +150,19 @@ CREATE TABLE IF NOT EXISTS SoftwareAssignment (
 		FOREIGN KEY (employee) 
 		REFERENCES Employee(ID)
 		ON UPDATE CASCADE
+		ON DELETE CASCADE,
+	CONSTRAINT SoftwareAssignmentfk_3
+		FOREIGN KEY (project)
+		REFERENCES Project(name)
+		ON UPDATE CASCADE
 		ON DELETE CASCADE
 ) engine = innoDB;
 
 CREATE TABLE IF NOT EXISTS AssetAssignment (
-	ID int,
-	employee int,
-	PRIMARY KEY (ID, employee),
+	ID INT,
+	employee INT,
+	project VARCHAR(255),
+	PRIMARY KEY (ID, employee,project),
 	CONSTRAINT AssetAssignmentfk_1
 		FOREIGN KEY (ID)
 		REFERENCES ITAsset(ID)
@@ -161,27 +172,18 @@ CREATE TABLE IF NOT EXISTS AssetAssignment (
 		FOREIGN KEY (employee) 
 		REFERENCES Employee(ID)
 		ON UPDATE CASCADE
+		ON DELETE CASCADE,
+	CONSTRAINT AssetAssignmentfk_3
+		FOREIGN KEY (project)
+		REFERENCES Project(name)
+		ON UPDATE CASCADE
 		ON DELETE CASCADE
 ) engine = innoDB;
 
 CREATE TABLE IF NOT EXISTS Project (
-	name varchar(255) PRIMARY KEY
-) engine = innoDB;
-
-CREATE TABLE IF NOT EXISTS ProjectAssignment (
-	projName varchar(255),
-	employee int,
-	PRIMARY KEY( projName, employee ),
-	CONSTRAINT ProjectAssignmentfk_1
-		FOREIGN KEY (projName) 
-		REFERENCES Project(name)
-		ON UPDATE CASCADE
-		ON DELETE CASCADE,
-	CONSTRAINT ProjectAssignmentfk_2
-		FOREIGN KEY (employee)
-		REFERENCES Employee(id)
-		ON UPDATE CASCADE
-		ON DELETE CASCADE
+	name VARCHAR(255) PRIMARY KEY,
+	startDate DATE NOT NULL,
+	endDate DATE NOT NULL	
 ) engine = innoDB;
 
 SET SQL_MODE = @OLD_SQL_MODE;
