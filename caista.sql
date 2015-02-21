@@ -25,9 +25,9 @@ CREATE TABLE IF NOT EXISTS SupplierContact (
 ) engine = innoDB;
 
 CREATE TABLE IF NOT EXISTS PurchaseOrder ( 
-	type VARCHAR(255), 
-	no INT, 
-	date Date NOT NULL, 
+	type VARCHAR(255),
+    no VARCHAR(15), 
+	date DATE NOT NULL, 
 	supplier VARCHAR(255) NOT NULL,
 	PRIMARY KEY (type,no),
 	CONSTRAINT PurchaseOrderfk_1
@@ -44,9 +44,11 @@ CREATE TABLE IF NOT EXISTS ItemData (
 	unitPrice INT NOT NULL
 ) engine = innoDB;
 
+DROP TABLE POItem;
+
 CREATE TABLE IF NOT EXISTS POItem (
 	type VARCHAR(255),
-	no INT,
+	no VARCHAR(15),
 	itemname VARCHAR(255),
 	quantity INT NOT NULL,
 	PRIMARY KEY(type,no,itemname),
