@@ -11,6 +11,7 @@ package caista.model;
  */
 public class InventoryItem {
 
+    private ItemData itemData;
     private String status;
     private String classification;
     private int ID;
