@@ -198,7 +198,7 @@ CREATE TABLE IF NOT EXISTS Project (
 
 CREATE TABLE IF NOT EXISTS User (
 	username VARCHAR(255) PRIMARY KEY,
-    password VARCHAR(255)
+    password VARCHAR(45) NOT NULL
 ) engine = innoDB;
 
 CREATE TABLE IF NOT EXISTS Admin (
