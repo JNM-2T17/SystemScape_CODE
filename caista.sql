@@ -29,6 +29,7 @@ CREATE TABLE IF NOT EXISTS PurchaseOrder (
     no VARCHAR(15), 
 	date DATE NOT NULL, 
 	supplier VARCHAR(255) NOT NULL,
+    invoiceNo VARCHAR(45) NOT NULL UNIQUE,
 	PRIMARY KEY (type,no),
 	CONSTRAINT PurchaseOrderfk_1
 		FOREIGN KEY (supplier) 
@@ -44,13 +45,12 @@ CREATE TABLE IF NOT EXISTS ItemData (
 	unitPrice INT NOT NULL
 ) engine = innoDB;
 
-DROP TABLE POItem;
-
 CREATE TABLE IF NOT EXISTS POItem (
 	type VARCHAR(255),
 	no VARCHAR(15),
 	itemname VARCHAR(255),
-	quantity INT NOT NULL,
+	quantityOrdered INT NOT NULL,
+    quantityReceived INT,
 	PRIMARY KEY(type,no,itemname),
 	CONSTRAINT POItemfk_1
 		FOREIGN KEY (type,no) 
@@ -69,12 +69,20 @@ CREATE TABLE IF NOT EXISTS InventoryItem (
 	itemData VARCHAR(255) NOT NULL,
 	status VARCHAR(255) NOT NULL,
 	classification VARCHAR(255) NOT NULL,
+    invoiceNo VARCHAR(45),
+    location VARCHAR(255) NOT NULL,
 	CONSTRAINT InventoryItemfk_1
 		FOREIGN KEY (itemData) 
 		REFERENCES ItemData(name)
 		ON UPDATE CASCADE
 		ON DELETE CASCADE,
-	INDEX InventoryItemidx_1 (itemData ASC)
+	CONSTRAINT InventoryItemfk_2
+		FOREIGN KEY (invoiceNo)
+        REFERENCES PurchaseOrder(invoiceNo)
+		ON UPDATE CASCADE
+		ON DELETE CASCADE,
+	INDEX InventoryItemidx_1 (itemData ASC),
+    INDEX InventoryItemidx_2 (invoiceNo ASC)
 ) engine = innoDB;
 
 CREATE TABLE IF NOT EXISTS HardwareItem (
@@ -186,6 +194,20 @@ CREATE TABLE IF NOT EXISTS Project (
 	name VARCHAR(255) PRIMARY KEY,
 	startDate DATE NOT NULL,
 	endDate DATE NOT NULL	
+) engine = innoDB;
+
+CREATE TABLE IF NOT EXISTS User (
+	username VARCHAR(255) PRIMARY KEY,
+    password VARCHAR(255)
+) engine = innoDB;
+
+CREATE TABLE IF NOT EXISTS Admin (
+	username VARCHAR(255) PRIMARY KEY,
+    CONSTRAINT Adminfk_1
+		FOREIGN KEY (username)
+        REFERENCES User(username)
+        ON UPDATE CASCADE
+        ON DELETE CASCADE
 ) engine = innoDB;
 
 SET SQL_MODE = @OLD_SQL_MODE;
