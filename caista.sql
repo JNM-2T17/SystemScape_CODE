@@ -69,7 +69,7 @@ CREATE TABLE IF NOT EXISTS InventoryItem (
 	itemData VARCHAR(255) NOT NULL,
 	status VARCHAR(255) NOT NULL,
 	classification VARCHAR(255) NOT NULL,
-    invoiceNo VARCHAR(45),
+    invoiceNo VARCHAR(45) NOT NULL,
     location VARCHAR(255) NOT NULL,
 	CONSTRAINT InventoryItemfk_1
 		FOREIGN KEY (itemData) 
