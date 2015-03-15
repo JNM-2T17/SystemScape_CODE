@@ -16,9 +16,12 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 
+import javax.swing.JFrame;
 import javax.swing.JTextField;
 import javax.swing.JTextArea;
 import javax.swing.JComboBox;
+
+import view.Message;
 
 import com.toedter.calendar.JDateChooser;
 
@@ -34,10 +37,12 @@ public class ItemTileWarranty extends ItemPanelDecorator implements ItemPanelPar
 	private JDateChooser startWarrantyDate;
 	private JDateChooser endWarrantyDate;
 	
-	public ItemTileWarranty(ItemPanelTemplate addItemPanelReference) {
+	private JFrame parent;
+	
+	public ItemTileWarranty(JFrame parent, ItemPanelTemplate addItemPanelReference) {
 		super(addItemPanelReference);
 		// TODO Auto-generated constructor stub
-		
+		this.parent=parent;
 	}
 	
 	@Override
@@ -100,6 +105,18 @@ public class ItemTileWarranty extends ItemPanelDecorator implements ItemPanelPar
 		infoList.add(startWarrantyDate.getDate());
 		infoList.add(endWarrantyDate.getDate());
 		return infoList.iterator();
+	}
+
+	@Override
+	public boolean checkInput() {
+		Date st = startWarrantyDate.getDate();
+		Date end = endWarrantyDate.getDate();
+		
+		if(st.compareTo(end)>0){
+			new Message(parent, Message.ERROR, "Warranty start date must occur before the end date");
+			return false;
+		}
+		return true;
 	}
 	
 }

@@ -21,9 +21,12 @@ import java.util.Date;
 import java.util.Iterator;
 
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JFrame;
 import javax.swing.JTextField;
 import javax.swing.JTextArea;
 import javax.swing.JComboBox;
+
+import view.Message;
 
 import com.toedter.calendar.JDateChooser;
 
@@ -41,10 +44,12 @@ public class ItemTileSoftware extends ItemPanelDecorator implements ItemPanelPar
 	private JTextField tfLicenseKey;
 	private JDateChooser deliveryDateChooser;
 	
-	public ItemTileSoftware(ItemPanelTemplate addItemPanelReference) {
+	private JFrame parent;
+	
+	public ItemTileSoftware(JFrame parent, ItemPanelTemplate addItemPanelReference) {
 		super(addItemPanelReference);
 		// TODO Auto-generated constructor stub
-		
+		this.parent=parent;
 	}
 	
 	@Override
@@ -136,5 +141,14 @@ public class ItemTileSoftware extends ItemPanelDecorator implements ItemPanelPar
 			PanelRegistry.getInstance().setCurrentType(cbType.getSelectedItem().toString());
 			System.out.println("HAI!");
 		}
+	}
+
+	@Override
+	public boolean checkInput() {
+		if(tfLicenseKey.getText().equals("")){
+			new Message(parent, Message.ERROR, "Please specity item license key.");
+			return false;
+		}
+		return true;
 	}
 }

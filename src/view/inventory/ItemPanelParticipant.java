@@ -4,4 +4,5 @@ import java.util.Iterator;
 
 public interface ItemPanelParticipant {
 	public Iterator retrieveInformation();
+	public boolean checkInput();
 }

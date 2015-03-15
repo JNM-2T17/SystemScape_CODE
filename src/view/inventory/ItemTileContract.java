@@ -1,5 +1,6 @@
 package view.inventory;
 
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
@@ -23,6 +24,8 @@ import com.toedter.calendar.JDateChooser;
 
 import javax.swing.JComboBox;
 
+import view.Message;
+
 public class ItemTileContract extends ItemPanelDecorator implements ItemPanelParticipant{
 	
 	private JPanel panContract = null;
@@ -36,8 +39,11 @@ public class ItemTileContract extends ItemPanelDecorator implements ItemPanelPar
 	private JDateChooser startDateChooser;
 	private JDateChooser endDateChooser;
 	
-	public ItemTileContract(ItemPanelTemplate addItemPanelReference) {
+	private JFrame parent;
+	
+	public ItemTileContract(JFrame parent, ItemPanelTemplate addItemPanelReference) {
 		super(addItemPanelReference);
+		this.parent=parent;
 		// TODO Auto-generated constructor stub
 		panContract = new JPanel();
 		panContract.setBorder(new LineBorder(new Color(30, 144, 255), 3, true));
@@ -173,6 +179,28 @@ public class ItemTileContract extends ItemPanelDecorator implements ItemPanelPar
 		infoList.add(startDateChooser.getDate());
 		infoList.add(endDateChooser.getDate());
 		return infoList.iterator();
+	}
+
+	@Override
+	public boolean checkInput() {
+		boolean stat=true;
+		Date st = startDateChooser.getDate();
+		Date end = endDateChooser.getDate();
+		
+		if(st.compareTo(end)>0){
+			new Message(parent, Message.ERROR, "Contract start date must occur before the end date");
+			stat=false;
+		}
+		else{
+			try{
+				float f=Float.parseFloat(tfMainCost.getText());
+			}
+			catch(Exception e){
+				new Message(parent, Message.ERROR, "Invalid maintenance cost");
+				stat=false; 
+			}
+		}
+		return stat;
 	}
 	
 }

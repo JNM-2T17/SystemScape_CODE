@@ -21,9 +21,12 @@ import java.util.Date;
 import java.util.Iterator;
 
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JFrame;
 import javax.swing.JTextField;
 import javax.swing.JTextArea;
 import javax.swing.JComboBox;
+
+import view.Message;
 
 import com.toedter.calendar.JDateChooser;
 
@@ -44,10 +47,12 @@ public class ItemTileIT extends ItemPanelDecorator implements ItemPanelParticipa
 	
 	private JDateChooser deliveryDateChooser;
 	
-	public ItemTileIT(ItemPanelTemplate addItemPanelReference) {
+	private JFrame parent;
+	
+	public ItemTileIT(JFrame parent, ItemPanelTemplate addItemPanelReference) {
 		super(addItemPanelReference);
 		// TODO Auto-generated constructor stub
-		
+		this.parent=parent;
 	}
 	
 	@Override
@@ -154,6 +159,22 @@ public class ItemTileIT extends ItemPanelDecorator implements ItemPanelParticipa
 		{
 			PanelRegistry.getInstance().setCurrentType(cbType.getSelectedItem().toString());
 		}
+	}
+
+	@Override
+	public boolean checkInput() {
+		boolean stat=true;
+		if(tfAssetTag.getText().equals("")){
+			System.out.println("ASSET: "+tfAssetTag.getText());
+			new Message(parent, Message.ERROR, "Please specity item asset tag.");
+			stat=false;
+		}
+		else if(tfServiceTag.getText().equals("")){
+			new Message(parent, Message.ERROR, "Please specity item service tag.");
+			stat=false;
+		}
+		
+		return stat;
 	}
 	
 	

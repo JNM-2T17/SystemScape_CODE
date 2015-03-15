@@ -19,6 +19,7 @@ import java.util.Date;
 import java.util.Iterator;
 
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JFrame;
 import javax.swing.JTextField;
 import javax.swing.JTextArea;
 import javax.swing.JComboBox;
@@ -38,7 +39,7 @@ public class ItemTileNonIT extends ItemPanelDecorator implements ItemPanelPartic
 	
 	
 
-	public ItemTileNonIT(ItemPanelTemplate addItemPanelReference) {
+	public ItemTileNonIT(JFrame parent, ItemPanelTemplate addItemPanelReference) {
 		super(addItemPanelReference);
 		// TODO Auto-generated constructor stub
 
@@ -124,5 +125,11 @@ public class ItemTileNonIT extends ItemPanelDecorator implements ItemPanelPartic
 		{
 			PanelRegistry.getInstance().setCurrentType(cbType.getSelectedItem().toString());
 		}
+	}
+
+	@Override
+	public boolean checkInput() {
+		// TODO Auto-generated method stub
+		return true;
 	}
 }
