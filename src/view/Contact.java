@@ -70,5 +70,10 @@ public class Contact extends JPanel {
 	public JButton getBtn() {
 		return btn;
 	}
+
+	public void clear() {
+		value.setText("");
+		type.setSelectedIndex(0);
+	}
 	
 }
