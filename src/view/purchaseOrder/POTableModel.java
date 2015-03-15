@@ -25,7 +25,7 @@ public class POTableModel extends DefaultTableModel{
 		while(itemList.hasNext())
 		{
 			ItemData i = (ItemData) itemList.next();
-			addRow(new Object[] { i.getName(), i.getDescription(), po.getQuantity(i), i.getUnitPrice(), poController.computeAmount(po.getQuantity(i),i.getUnitPrice()) });
+			addRow(new Object[] { i.getName(), i.getDescription(), po.getQuantity(i), i.getUnitPrice(), poController.computeAmount(i) });
 		}
 	}
 	

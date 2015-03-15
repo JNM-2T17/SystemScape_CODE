@@ -14,8 +14,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+import java.util.Locale;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -24,7 +29,11 @@ import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
+import javax.swing.border.Border;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.text.AbstractDocument;
+import javax.swing.text.DefaultFormatter;
+import javax.swing.text.NumberFormatter;
 
 import model.ItemData;
 import net.miginfocom.swing.MigLayout;
@@ -33,8 +42,11 @@ import javax.swing.JScrollBar;
 
 import view.Button;
 import view.Button.ButtonBuilder;
+import view.Message;
 import view.PopUp;
+import view.JTextFieldFilter;
 import controller.PurchaseOrderController;
+
 import javax.swing.JComboBox;
 
 public class AddPOItem extends PopUp implements ActionListener, FocusListener{
@@ -48,10 +60,13 @@ public class AddPOItem extends PopUp implements ActionListener, FocusListener{
 	private PurchaseOrderController poController;
 	private JLabel lblType;
 	private JComboBox cmbType;
+	private JFrame parent;
 	
 	public AddPOItem(JFrame parent, String type, PurchaseOrderController poController) 
 	{
+	
 		super(parent);
+		this.parent = parent;
 		this.poController = poController;
 		this.addFocusListener(this);
 		this.setUndecorated(true);
@@ -73,7 +88,7 @@ public class AddPOItem extends PopUp implements ActionListener, FocusListener{
 		lblItem.setFont(new Font("Arial", Font.PLAIN, 18));
 		panContent.add(lblItem, "cell 0 1,alignx left");
 		
-		txtItem = new JTextField();
+		txtItem = new JTextField("");
 		txtItem.setFont(new Font("Arial", Font.PLAIN, 18));
 		panContent.add(txtItem, "cell 1 1,growx");
 		txtItem.setColumns(10);
@@ -87,7 +102,7 @@ public class AddPOItem extends PopUp implements ActionListener, FocusListener{
 		scrollPane.setPreferredSize(new Dimension(300, 150));
 		panContent.add(scrollPane, "cell 1 3,growy");
 		
-		txtDescription = new JTextArea();
+		txtDescription = new JTextArea("");
 		txtDescription.setLineWrap(true);
 		scrollPane.setViewportView(txtDescription);
 		
@@ -107,6 +122,7 @@ public class AddPOItem extends PopUp implements ActionListener, FocusListener{
 		panContent.add(lblQuantity, "cell 0 6,alignx left");
 		
 		txtQuantity = new JTextField();
+		txtQuantity.setDocument(new JTextFieldFilter(JTextFieldFilter.NUMERIC));
 		txtQuantity.setPreferredSize(new Dimension(10, 25));
 		panContent.add(txtQuantity, "cell 1 6");
 		txtQuantity.setColumns(10);
@@ -114,8 +130,9 @@ public class AddPOItem extends PopUp implements ActionListener, FocusListener{
 		lblPrice = new JLabel("Unit Price :");
 		lblPrice.setFont(new Font("Arial", Font.PLAIN, 18));
 		panContent.add(lblPrice, "cell 0 7");
-		
-		txtPrice = new JTextField();
+	
+		txtPrice = new JTextField("");
+		txtPrice.setDocument(new JTextFieldFilter(JTextFieldFilter.FLOAT));
 		txtPrice.setPreferredSize(new Dimension(10, 25));
 		panContent.add(txtPrice, "cell 1 7");
 		txtPrice.addActionListener(new TextAmountActionListener());
@@ -150,6 +167,8 @@ public class AddPOItem extends PopUp implements ActionListener, FocusListener{
 		
 		this.setVisible(true);
 	}
+	
+	
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -163,7 +182,8 @@ public class AddPOItem extends PopUp implements ActionListener, FocusListener{
 		else if(e.getSource() == btnSubmit)
 		{
 			
-			if(isBlank() == false)
+			String error = checkFields();
+			if(error.equals("") == true)
 			{
 				String item = txtItem.getText();
 				String description = txtDescription.getText();
@@ -171,13 +191,13 @@ public class AddPOItem extends PopUp implements ActionListener, FocusListener{
 				float price = (float) parseStringFloat(txtPrice.getText());
 				
 				poController.addItem(new ItemData(item, description, price), quantity);
-//				DefaultTableModel model = (DefaultTableModel) table.getModel();
-//				model.addRow(new Object[]{item, description, quantity, price, computeAmount(price, quantity)});
-//				table.getColumnModel().getColumn(2).setPreferredWidth(20);
-				
 				this.setVisible(false); //you can't see me!
 				this.dispose();
 				
+			}
+			else if(error.equals("") == false)
+			{
+				Message msg = new Message(parent, Message.ERROR,  error);
 			}
 			else
 			{
@@ -196,13 +216,7 @@ public class AddPOItem extends PopUp implements ActionListener, FocusListener{
 		txtPrice.setText("");
 		txtItem.setText("");
 	}
-//	public float computeAmount(float price, int quantity)
-//	{
-//		float result = price * quantity;
-////		lblAmountValue.setText(String.valueOf(result));
-//		return result;
-//	}
-	
+
 	public int parseStringInt(String quantity)
 	{
 		return Integer.parseInt(quantity);
@@ -213,12 +227,29 @@ public class AddPOItem extends PopUp implements ActionListener, FocusListener{
 		return  Float.parseFloat(price);
 	}
 	
-	public boolean isBlank()
+	public String checkFields()
 	{
-		if(txtDescription.equals("") || txtItem.equals("")|| txtQuantity.equals("")|| txtPrice.equals(""))
-			return true;
-		
-		return false;
+		String error = "";
+		Border border = BorderFactory.createLineBorder(Color.RED, 2);
+	
+		if(txtItem.getText().equals("")){
+			error+= "Item Name Field is empty \n\n";
+			txtItem.setBorder(border);
+		}
+		if(txtDescription.getText().equals("")){
+			error+= "Item Description Area is empty \n\n";
+			txtDescription.setBorder(border);
+		}
+		if(txtQuantity.getText().equals("")){
+			error+= "Quantity Field is empty \n\n";
+			txtQuantity.setBorder(border);
+		}
+		if(txtPrice.getText().equals("")){
+			error+= "Price Field is empty";
+			txtPrice.setBorder(border);
+		}
+
+		return error;
 	}
 
 	class TextAmountActionListener implements ActionListener
@@ -229,7 +260,7 @@ public class AddPOItem extends PopUp implements ActionListener, FocusListener{
 			// TODO Auto-generated method stub
 			int quantity = parseStringInt(txtQuantity.getText());
 			float price = (float) parseStringFloat(txtPrice.getText());
-			float result = poController.computeAmount(quantity, price);
+			float result = quantity * price;
 			 lblAmountValue.setText(String.valueOf(result));
 		}
 		
@@ -245,6 +276,5 @@ public class AddPOItem extends PopUp implements ActionListener, FocusListener{
 		// TODO Auto-generated method stub
 		JFrame f=(JFrame) e.getSource();
 		f.toFront();
-		System.out.println("FUU");
 	}
 }

@@ -60,6 +60,7 @@ public class AddPO extends JPanel implements ActionListener, Observer {
 	private JComboBox cmbCurrency;
 	
 	private JFrame parent;
+	private JLabel lblGrandValue;
 
 	public AddPO(JFrame parent) {
 		
@@ -202,6 +203,10 @@ public class AddPO extends JPanel implements ActionListener, Observer {
 		lblGrandTotal = new JLabel("Grand Total :");
 		lblGrandTotal.setFont(new Font("Arial", Font.PLAIN, 22));
 		panGrandTotal.add(lblGrandTotal);
+		
+		lblGrandValue = new JLabel("0.00");
+		lblGrandValue.setFont(new Font("Arial", Font.PLAIN, 22));
+		panGrandTotal.add(lblGrandValue);
 
 		panItemTable = new JPanel();
 		panItemTable.setBackground(Color.white);
@@ -232,11 +237,9 @@ public class AddPO extends JPanel implements ActionListener, Observer {
 		if (event.getSource() == btnAddItem) {
 			AddPOItem i = new AddPOItem(parent, (String)cmbClass.getSelectedItem(), poController);
 		} else if (event.getSource() == btnSubmit) {
-			System.out.println("SUBMIT PO! :>");
 
 			if (checkFields() == false) {
 				selectedDate = dateChooser.getDate();
-				System.out.println("DATE: " + selectedDate);
 				Supplier supplier = (Supplier) supplierController.getObject((String) cmbSupplier.getSelectedItem());// dev
 				poController.addPurchaseOrder(new PurchaseOrder(selectedDate, 0,cmbClass.getSelectedItem().toString(),supplier, ""));// dev
                                 Message msg = new Message(parent, Message.SUCCESS, "Purchase Order added successfully.");
@@ -253,6 +256,7 @@ public class AddPO extends JPanel implements ActionListener, Observer {
 	public void clear(){
 		cmbSupplier.setSelectedIndex(0);
 		cmbClass.setSelectedIndex(0);
+		lblGrandValue.setText("");
 		dateChooser.setDate(new Date());
 		for (int i = 0; i < table.getModel().getRowCount(); i++) {
 			for (int j = 0; j < table.getModel().getRowCount(); j++) {
@@ -289,5 +293,6 @@ public class AddPO extends JPanel implements ActionListener, Observer {
 		// TODO Auto-generated method stub
 		poTableModel = new POTableModel(poController);
 		table.setModel(poTableModel);
+		lblGrandValue.setText(String.valueOf(poController.computeGrandTotal()));
 	}
 }
