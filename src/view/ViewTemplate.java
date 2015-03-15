@@ -35,23 +35,24 @@ public abstract class ViewTemplate extends JPanel{
 
 		model = new DefaultTableModel() {
 			public boolean isCellEditable(int rowIndex, int mColIndex) {
-				if(mColIndex==3) return true;
+				if(mColIndex==4) return true;
 				return false;
 			}
 
 			public boolean isFocusable(int rowIndex, int mColIndex) {
-				return true;
+				return false;
 			}
 
 			public boolean isCellSelectable(int rowIndex, int mColIndex) {
-				return true;
+				return false;
 			}
 		};
 
 		System.out.println("MODEL: "+ model);
 		 table = new JXTable(model);
 		 table.setHorizontalScrollEnabled(true);
-		 System.out.println("TABLE: "+ table);
+		 table.getTableHeader().setReorderingAllowed(false);
+		// System.out.println("TABLE: "+ table);
 		 ColumnControlButton columnControl = new ColumnControlButton(table) {
 
 			    @Override
