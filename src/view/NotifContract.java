@@ -31,7 +31,7 @@ public class NotifContract extends JPanel {
 		panLeft.setLayout(sl_panLeft);
 
 		String suffix= (days>6) ? "wk":"dy";
-		int prefix= (days>6) ? days/7:6;
+		int prefix= (days>6) ? days/7:days;
 		JLabel lblDuration = new JLabel(prefix+""+suffix);
 		lblDuration.setHorizontalAlignment(SwingConstants.CENTER);
 		lblDuration.setForeground(Color.white);
