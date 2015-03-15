@@ -106,8 +106,10 @@ public abstract class ViewTemplate extends JPanel{
 	}
 	
 	public void toggle(){
-		if(table.getModel()==model) table.setModel(tglModel);
-		else{
+		if(table.getModel()==model) {
+			table.setModel(tglModel);
+		}
+		else {
 			table.setModel(model);
 			setColRendEdit();
 		}

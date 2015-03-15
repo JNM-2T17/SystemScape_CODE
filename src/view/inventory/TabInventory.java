@@ -143,7 +143,8 @@ public class TabInventory extends JPanel implements ActionListener{
 		}
 		PanelRegistry.getInstance().clearParticipants();
 		BasicAddItem template = new BasicAddItem();
-		itemTileWarranty = new ItemTileWarranty(gui, template);
+		itemTileContract = new ItemTileContract(gui, template);
+		itemTileWarranty = new ItemTileWarranty(gui, itemTileContract);
 		itemTileNonIT = new ItemTileNonIT(gui, itemTileWarranty);
 		itemTileGenInfo = new ItemTileGenInfo(gui, itemTileNonIT);
 		ItemPanelDecorator dec = itemTileGenInfo;
@@ -152,11 +153,13 @@ public class TabInventory extends JPanel implements ActionListener{
 		PanelRegistry.getInstance().registerParticipant(itemTileGenInfo);
 		PanelRegistry.getInstance().registerParticipant(itemTileNonIT);
 		PanelRegistry.getInstance().registerParticipant(itemTileWarranty);
+		PanelRegistry.getInstance().registerParticipant(itemTileContract);
+		
 		
 		dec.renderPanel();
 		dec.repaint();
 		dec.revalidate();
-		temp=new Content.ContentBuilder().caption("View Inventory").back(true).content(template).build();
+		temp=new Content.ContentBuilder().caption("Add Inventory").back(true).content(template).build();
 		temp.getBtnBack().addActionListener(this);
 		
 		this.add(temp, "add");
@@ -167,21 +170,17 @@ public class TabInventory extends JPanel implements ActionListener{
 	
 	public void displaySoftware()
 	{
-		if(temp != null)
-		{
+		if(temp != null) {
 			remove(temp);
 		}
 		PanelRegistry.getInstance().clearParticipants();
 		BasicAddItem template = new BasicAddItem();
-		itemTileWarranty = new ItemTileWarranty(gui, template);
-		itemTileSoftware = new ItemTileSoftware(gui, itemTileWarranty);
+		itemTileSoftware = new ItemTileSoftware(gui, template);
 		itemTileGenInfo = new ItemTileGenInfo(gui, itemTileSoftware);
-		ItemPanelDecorator dec = itemTileGenInfo;
-		
+		ItemPanelDecorator dec = itemTileGenInfo;		
 
 		PanelRegistry.getInstance().registerParticipant(itemTileGenInfo);
 		PanelRegistry.getInstance().registerParticipant(itemTileSoftware);
-		PanelRegistry.getInstance().registerParticipant(itemTileWarranty);
 		
 		dec.renderPanel();
 		dec.repaint();
@@ -204,15 +203,13 @@ public class TabInventory extends JPanel implements ActionListener{
 		PanelRegistry.getInstance().clearParticipants();
 		BasicAddItem template = new BasicAddItem();
 		itemTileWarranty = new ItemTileWarranty(gui, template);
-		itemTileGeneral = new ItemTileGeneral(gui, itemTileWarranty);
+		itemTileGeneral = new ItemTileGeneral(gui, template);
 		itemTileGenInfo = new ItemTileGenInfo(gui, itemTileGeneral);
 		ItemPanelDecorator dec = itemTileGenInfo;
 		
 
 		PanelRegistry.getInstance().registerParticipant(itemTileGenInfo);
 		PanelRegistry.getInstance().registerParticipant(itemTileGeneral);
-		PanelRegistry.getInstance().registerParticipant(itemTileWarranty);
-		
 		dec.renderPanel();
 		dec.repaint();
 		dec.revalidate();
