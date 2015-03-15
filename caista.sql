@@ -98,7 +98,7 @@ CREATE TABLE IF NOT EXISTS Contract (
 	hardware INT,
 	startDate Date NOT NULL,
 	endDate Date NOT NULL,
-	maINTainanceCost INT NOT NULL,
+	maINTainanceCost FLOAT NOT NULL,
 	PRIMARY KEY( hardware, startDate ),
 	CONSTRAINT Contractfk_1
 		FOREIGN KEY (hardware) 
@@ -209,6 +209,27 @@ CREATE TABLE IF NOT EXISTS Admin (
         ON UPDATE CASCADE
         ON DELETE CASCADE
 ) engine = innoDB;
+
+CREATE VIEW `Inventory` AS
+SELECT I.ID, ID.name, ID.description, ID.unitprice, status, classification, 
+		invoiceNo, location, assetTag, serviceTag, deliveryDate, licenseKey, 
+		W.startDate `Warranty Start`, W.endDate `Warranty End`, 
+		C.startDate `Contract Start`, C.endDate `Contract End`, 
+		C.maintainanceCost
+FROM inventoryItem I 
+	LEFT JOIN hardwareItem H ON I.ID = H.ID
+    LEFT JOIN itasset IA ON H.ID = IA.ID
+    LEFT JOIN softwareitem S ON I.ID = S.ID
+    LEFT JOIN warranty W ON W.hardware = H.ID AND 
+							W.endDate = (SELECT MAX(endDate)
+										 FROM warranty
+										 WHERE hardware = H.ID)
+	LEFT JOIN contract C ON C.hardware = H.ID AND 
+							C.endDate = (SELECT MAX(endDate)
+										 FROM contract
+										 WHERE hardware = H.ID), 
+    itemdata ID
+WHERE I.itemData = ID.name
 
 SET SQL_MODE = @OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS = @OLD_FOREIGN_KEY_CHECKS;

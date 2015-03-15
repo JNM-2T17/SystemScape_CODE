@@ -12,6 +12,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
+
+import model.HardwareItem;
 import model.ITAsset;
 import model.InventoryItem;
 import model.ItemData;
@@ -31,83 +33,61 @@ public class InventoryItemDAO implements IDBCUD {
         Connection con = DBConnection.getConnection();
 
         try {
-            String query = "SELECT * FROM inventoryitem";
+            String query = "SELECT * FROM inventory";
 
             PreparedStatement preparedStatement = con.prepareStatement(query);
             ResultSet resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
                 InventoryItem inventoryItem = null;
-                String query2 = "SELECT * FROM itemdata id WHERE id.name = \"" + resultSet.getString("itemData") + "\"";
-                PreparedStatement preparedStatement2 = con.prepareStatement(query2);
-                ResultSet resultSet2 = preparedStatement2.executeQuery();
-                if (resultSet2.next()) {
-                    String query3 = "SELECT * FROM hardwareitem WHERE ID = \"" + resultSet.getString("ID") + "\"";
-                    PreparedStatement preparedStatement3 = con.prepareStatement(query3);
-                    ResultSet resultSet3 = preparedStatement3.executeQuery();
-
-                    if (resultSet3.next()) {//IF hardware
-                        String query4 = "SELECT * FROM itasset WHERE ID = \"" + resultSet.getString("ID") + "\"";
-                        PreparedStatement preparedStatement4 = con.prepareStatement(query4);
-                        ResultSet resultSet4 = preparedStatement4.executeQuery();
-
-                        if (resultSet4.next()) {//IF ITAsset
-                            String query6 = "SELECT * FROM warranty WHERE hardware = \"" + resultSet.getString("ID") + "\"";
-                            PreparedStatement preparedStatement6 = con.prepareStatement(query6);
-                            ResultSet resultSet6 = preparedStatement6.executeQuery();
-                            resultSet6.next();
-                            String query7 = "SELECT * FROM contract WHERE hardware = \"" + resultSet.getString("ID") + "\"";
-                            PreparedStatement preparedStatement7 = con.prepareStatement(query7);
-                            ResultSet resultSet7 = preparedStatement7.executeQuery();
-                            resultSet7.next();
-                            System.out.println(resultSet7);
-                            try {
-	                            inventoryItem = new ITAsset(resultSet.getInt("ID"),
-	                                    resultSet2.getString("name"), resultSet2.getString("description"),
-	                                    resultSet2.getFloat("unitPrice"), resultSet.getString("invoiceNo"),
-	                                    resultSet.getString("location"), resultSet.getString("status"),
-	                                    resultSet.getString("classification"), resultSet4.getInt("assetTag"), resultSet4.getString("serviceTag"),
-	                                    resultSet4.getDate("deliveryDate"), 
-	                                    resultSet6.getDate("startDate"), 
-	                                    resultSet6.getDate("endDate"),
-	                                    resultSet7.getDate("startDate"), 
-	                                    resultSet7.getDate("endDate"), 
-	                                    resultSet7.getInt("maintenanceCost") );
-                            } catch( NullPointerException ne ) {
-                            	inventoryItem = new ITAsset(resultSet.getInt("ID"),
-	                                    resultSet2.getString("name"), resultSet2.getString("description"),
-	                                    resultSet2.getFloat("unitPrice"), resultSet.getString("invoiceNo"),
-	                                    resultSet.getString("location"), resultSet.getString("status"),
-	                                    resultSet.getString("classification"), resultSet4.getInt("assetTag"), resultSet4.getString("serviceTag"),
-	                                    resultSet4.getDate("deliveryDate"), 
-	                                    null, null, null, null, 0 );
-                            }
-                        } else {//Else NonITAsset
-                            inventoryItem = new NonITAsset(resultSet.getInt("ID"), resultSet2.getString("name"),
-                                    resultSet2.getString("description"), resultSet2.getFloat("unitPrice"),
-                                    resultSet.getString("invoiceNo"), resultSet.getString("location"),
-                                    resultSet.getString("status"), resultSet.getString("classification"));
-                        }
-                    } else {//Else not hardware
-                        String query5 = "SELECT * FROM softwareitem WHERE ID = \"" + resultSet.getString("ID") + "\"";
-                        PreparedStatement preparedStatement5 = con.prepareStatement(query5);
-                        ResultSet resultSet5 = preparedStatement5.executeQuery();
-                        if (resultSet5.next()) {//if software
-                            inventoryItem = new SoftwareItem(resultSet.getInt("ID"), resultSet2.getString("name"),
-                                    resultSet2.getString("description"), resultSet2.getFloat("unitPrice"),
-                                    resultSet.getString("invoiceNo"), resultSet.getString("location"),
-                                    resultSet.getString("status"), resultSet.getString("classification"),
-                                    resultSet5.getString("licenseKey"));
-                        } else {//if general
-                            inventoryItem = new InventoryItem(resultSet.getInt("ID"), resultSet2.getString("name"),
-                                    resultSet2.getString("description"), resultSet2.getFloat("unitPrice"),
-                                    resultSet.getString("invoiceNo"), resultSet.getString("location"),
-                                    resultSet.getString("status"), resultSet.getString("classification"));
-                        }
-                    }
-
-                    inventoryItems.add(inventoryItem);
+                String itemClass = resultSet.getString("classification");
+                
+                if( itemClass.equalsIgnoreCase( "hardware" ) ) {
+                    inventoryItem = new HardwareItem(resultSet.getInt("ID"),resultSet.getString("name"), 
+                    								 resultSet.getString("description"), 
+                    								 resultSet.getFloat("unitPrice"), 
+                    								 resultSet.getString("invoiceNo"), 
+                    								 resultSet.getString("location"), 
+                    								 resultSet.getString("status"), 
+                    								 resultSet.getString("classification"));
                 }
+                else if( itemClass.equalsIgnoreCase( "software" ) ) {
+                	inventoryItem = new SoftwareItem(resultSet.getInt("ID"),resultSet.getString("name"), 
+							 resultSet.getString("description"), 
+							 resultSet.getFloat("unitPrice"), 
+							 resultSet.getString("invoiceNo"), 
+							 resultSet.getString("location"), 
+							 resultSet.getString("status"), 
+							 resultSet.getString("classification"),
+							 resultSet.getString("licenseKey"));
+                }
+                else if( itemClass.equalsIgnoreCase( "IT" ) ) {
+                	inventoryItem = new ITAsset(resultSet.getInt("ID"),resultSet.getString("name"), 
+							 resultSet.getString("description"), 
+							 resultSet.getFloat("unitPrice"), 
+							 resultSet.getString("invoiceNo"), 
+							 resultSet.getString("location"), 
+							 resultSet.getString("status"), 
+							 resultSet.getString("classification"),
+							 resultSet.getInt("assetTag"), 
+							 resultSet.getString("serviceTag"), 
+							 resultSet.getDate("deliveryDate"), 
+							 resultSet.getDate("Warranty Start"), 
+							 resultSet.getDate("Warranty End"), 
+							 resultSet.getDate("Contract Start"), 
+							 resultSet.getDate("Contract End"), 
+							 resultSet.getFloat("maintainanceCost"));
+                }
+                else {
+                	inventoryItem = new InventoryItem(resultSet.getInt("ID"),resultSet.getString("name"), 
+							 resultSet.getString("description"), 
+							 resultSet.getFloat("unitPrice"), 
+							 resultSet.getString("invoiceNo"), 
+							 resultSet.getString("location"), 
+							 resultSet.getString("status"), 
+							 resultSet.getString("classification"));
+                }
+                inventoryItems.add(inventoryItem);
             }
         } catch (SQLException sqlException) {
             sqlException.printStackTrace();
