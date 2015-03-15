@@ -75,4 +75,8 @@ public class InventoryItemController implements InventoryItemInterface, Subject 
             o.update();
         }
     }
+
+	public Iterator getAllQuantity() {
+		return dao.get("InventoryItemQuantity");
+	}
 }

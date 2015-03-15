@@ -19,6 +19,7 @@ public class InventoryItem {
     private int ID;
     private String invoiceNo;
     private String location;
+    private int quantity;
 
     public InventoryItem(int ID, String name, String description, float unitPrice, String invoiceNo, String location, String status, String classification) {
         itemData = new ItemData(name, description, unitPrice);
@@ -35,6 +36,7 @@ public class InventoryItem {
         setId(iib.ID);
         setInvoiceNo(iib.invoiceNo);
         setLocation(iib.location);
+        setQuantity(iib.quantity);
     }
 
     public InventoryItem() {
@@ -112,6 +114,12 @@ public class InventoryItem {
         this.location = location;
 
     }
+    public int getQuantity(){
+    	return quantity;
+    }
+    public void setQuantity(int quantity){
+    	this.quantity=quantity;
+    }
     
 public static class InventoryItemBuilder {
 		
@@ -123,6 +131,7 @@ public static class InventoryItemBuilder {
 		private String location;
 		private String status;
 		private String classification;
+		private int quantity;
 		
 		public InventoryItemBuilder()
 		{
@@ -134,6 +143,7 @@ public static class InventoryItemBuilder {
 			location = "";
 			status = "";
 			classification = "";
+			quantity=0;
 		}
 		
 		public InventoryItemBuilder addID(int buildID)
@@ -174,6 +184,10 @@ public static class InventoryItemBuilder {
 		public InventoryItemBuilder addClassification(String buildClass)
 		{
 			classification = buildClass;
+			return this;
+		}
+		public InventoryItemBuilder addQuantity(int buildQuantity){
+			quantity=buildQuantity;
 			return this;
 		}
 		public InventoryItem build() {
