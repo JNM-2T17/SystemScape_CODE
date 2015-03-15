@@ -89,6 +89,20 @@ public class AddPOItem extends PopUp implements ActionListener, FocusListener{
 		panContent.add(lblItem, "cell 0 1,alignx left");
 		
 		txtItem = new JTextField("");
+		txtItem.addFocusListener( new FocusListener() {
+			Border border = BorderFactory.createLineBorder(Color.BLACK, 1);
+			@Override
+			public void focusLost(FocusEvent e) {
+				// TODO Auto-generated method stub
+				//txtItem.setBorder(border);
+			}
+			
+			@Override
+			public void focusGained(FocusEvent e) {
+				// TODO Auto-generated method stub
+				txtItem.setBorder(border);
+			}
+		});
 		txtItem.setFont(new Font("Arial", Font.PLAIN, 18));
 		panContent.add(txtItem, "cell 1 1,growx");
 		txtItem.setColumns(10);
@@ -103,6 +117,20 @@ public class AddPOItem extends PopUp implements ActionListener, FocusListener{
 		panContent.add(scrollPane, "cell 1 3,growy");
 		
 		txtDescription = new JTextArea("");
+		txtDescription.addFocusListener( new FocusListener() {
+			Border border = BorderFactory.createLineBorder(Color.BLACK, 1);
+			@Override
+			public void focusLost(FocusEvent e) {
+				// TODO Auto-generated method stub
+				//txtItem.setBorder(border);
+			}
+			
+			@Override
+			public void focusGained(FocusEvent e) {
+				// TODO Auto-generated method stub
+				txtDescription.setBorder(border);
+			}
+		});
 		txtDescription.setLineWrap(true);
 		scrollPane.setViewportView(txtDescription);
 		
@@ -122,6 +150,20 @@ public class AddPOItem extends PopUp implements ActionListener, FocusListener{
 		panContent.add(lblQuantity, "cell 0 6,alignx left");
 		
 		txtQuantity = new JTextField();
+		txtQuantity.addFocusListener( new FocusListener() {
+			Border border = BorderFactory.createLineBorder(Color.BLACK, 1);
+			@Override
+			public void focusLost(FocusEvent e) {
+				// TODO Auto-generated method stub
+				//txtItem.setBorder(border);
+			}
+			
+			@Override
+			public void focusGained(FocusEvent e) {
+				// TODO Auto-generated method stub
+				txtQuantity.setBorder(border);
+			}
+		});
 		txtQuantity.setDocument(new JTextFieldFilter(JTextFieldFilter.NUMERIC));
 		txtQuantity.setPreferredSize(new Dimension(10, 25));
 		panContent.add(txtQuantity, "cell 1 6");
@@ -132,6 +174,20 @@ public class AddPOItem extends PopUp implements ActionListener, FocusListener{
 		panContent.add(lblPrice, "cell 0 7");
 	
 		txtPrice = new JTextField("");
+		txtPrice.addFocusListener( new FocusListener() {
+			Border border = BorderFactory.createLineBorder(Color.BLACK, 1);
+			@Override
+			public void focusLost(FocusEvent e) {
+				// TODO Auto-generated method stub
+				//txtItem.setBorder(border);
+			}
+			
+			@Override
+			public void focusGained(FocusEvent e) {
+				// TODO Auto-generated method stub
+				txtPrice.setBorder(border);
+			}
+		});
 		txtPrice.setDocument(new JTextFieldFilter(JTextFieldFilter.FLOAT));
 		txtPrice.setPreferredSize(new Dimension(10, 25));
 		panContent.add(txtPrice, "cell 1 7");
@@ -233,15 +289,15 @@ public class AddPOItem extends PopUp implements ActionListener, FocusListener{
 		Border border = BorderFactory.createLineBorder(Color.RED, 2);
 	
 		if(txtItem.getText().equals("")){
-			error+= "Item Name Field is empty \n\n";
+			error+= "Item Name Field is empty \n";
 			txtItem.setBorder(border);
 		}
 		if(txtDescription.getText().equals("")){
-			error+= "Item Description Area is empty \n\n";
+			error+= "Item Description Area is empty \n";
 			txtDescription.setBorder(border);
 		}
 		if(txtQuantity.getText().equals("")){
-			error+= "Quantity Field is empty \n\n";
+			error+= "Quantity Field is empty \n";
 			txtQuantity.setBorder(border);
 		}
 		if(txtPrice.getText().equals("")){
