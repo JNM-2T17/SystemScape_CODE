@@ -48,8 +48,8 @@ public class PurchaseOrderController implements Subject, PurchaseOrderInterface,
             return dao.filter("PurchaseOrder", conditions);
         }
     
-    public float computeAmount(int quantity, float price) {
-        return quantity * price;
+    public float computeAmount(ItemData i) {
+        return po.computeTotal(i);
     }
 
     public PurchaseOrder getPurchaseOrder() {
@@ -93,6 +93,14 @@ public class PurchaseOrderController implements Subject, PurchaseOrderInterface,
 
     }
 
+    public float computeGrandTotal()
+    {
+    	float total = 0;
+    	total = po.computeGrandTotal();
+    	//System.out.println("TOTAL ISIDE PO CONTROLLER: "+ total);
+    	return total;
+    }
+    
     @Override
     public void addPurchaseOrder(PurchaseOrder purchaseOrder) {
 		// TODO Auto-generated method stub
