@@ -25,8 +25,8 @@ CREATE TABLE IF NOT EXISTS SupplierContact (
 ) engine = innoDB;
 
 CREATE TABLE IF NOT EXISTS PurchaseOrder ( 
-	type VARCHAR(255),
-    no INT AUTO_INCREMENT, 
+	type VARCHAR(255) NOT NULL,
+    no INT NOT NULL UNIQUE AUTO_INCREMENT, 
 	date DATE NOT NULL, 
 	supplier VARCHAR(255) NOT NULL,
     invoiceNo VARCHAR(45) NOT NULL UNIQUE,
@@ -46,8 +46,8 @@ CREATE TABLE IF NOT EXISTS ItemData (
 ) engine = innoDB;
 
 CREATE TABLE IF NOT EXISTS POItem (
-	type VARCHAR(255),
-	no VARCHAR(15),
+	type VARCHAR(255) NOT NULL,
+    no INT NOT NULL, 
 	itemname VARCHAR(255),
 	quantityOrdered INT NOT NULL,
     quantityReceived INT,
@@ -71,13 +71,11 @@ CREATE TABLE IF NOT EXISTS InventoryItem (
 	classification VARCHAR(255) NOT NULL,
     invoiceNo VARCHAR(45) NOT NULL,
     location VARCHAR(255) NOT NULL,
-	CONSTRAINT InventoryItemfk_1
-		FOREIGN KEY (itemData) 
+	CONSTRAINT inventoryitemfk_1
+		FOREIGN KEY (itemData)
 		REFERENCES ItemData(name)
 		ON UPDATE CASCADE
-		ON DELETE CASCADE,
-	INDEX InventoryItemidx_1 (itemData ASC),
-    INDEX InventoryItemidx_2 (invoiceNo ASC)
+		ON DELETE CASCADE
 ) engine = innoDB;
 
 CREATE TABLE IF NOT EXISTS HardwareItem (
@@ -224,7 +222,7 @@ FROM inventoryItem I
 										 FROM contract
 										 WHERE hardware = H.ID), 
     itemdata ID
-WHERE I.itemData = ID.name
+WHERE I.itemData = ID.name;
 
 SET SQL_MODE = @OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS = @OLD_FOREIGN_KEY_CHECKS;
