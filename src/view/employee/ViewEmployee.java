@@ -13,7 +13,7 @@ public class ViewEmployee extends ViewTemplate{
 		setColWidth(0, 500);
 		setColWidth(1, 220);
 		setColWidth(2, 15);
-		setColRendEdit(4);
+		setColRendEdit();
 	}
 
 	@Override

@@ -32,7 +32,7 @@ public class ViewPOItemTable extends ViewTemplate implements Observer{
 		setColWidth(4, 80);
 		setColWidth(5, 80);
 		setColWidth(6, 15);
-		setColRendEdit(6);
+		setColRendEdit();
 //		getModel().setValueAt(new CellEdit(), 0, 6);
 //		packTable();
 	}

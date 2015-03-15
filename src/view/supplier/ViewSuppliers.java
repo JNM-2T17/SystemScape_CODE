@@ -43,7 +43,7 @@ public class ViewSuppliers extends ViewTemplate implements Observer {
         setColWidth(1, 400);
         setColWidth(2, 30);
         setColWidth(3, 15);
-        setColRendEdit(3);
+        setColRendEdit();
 
     }
 

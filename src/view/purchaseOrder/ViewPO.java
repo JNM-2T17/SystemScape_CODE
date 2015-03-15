@@ -29,7 +29,7 @@ public class ViewPO extends ViewTemplate implements Observer{
 		setColWidth(2, 50);
 		setColWidth(3, 80);
 		setColWidth(4, 15);
-		setColRendEdit(4);
+		setColRendEdit();
 	}
 
 	@Override

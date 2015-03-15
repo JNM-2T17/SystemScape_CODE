@@ -7,18 +7,22 @@ import controller.ITAssetController;
 import controller.InventoryItemController;
 import controller.WarrantyController;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Iterator;
+
+import javax.swing.table.DefaultTableModel;
+
 import model.Contract;
 import model.Employee;
 import model.ITAsset;
-
 import model.InventoryItem;
 import model.Warranty;
 import view.CellEdit;
 import view.Observer;
 import view.ViewTemplate;
 
-public class ViewInventory extends ViewTemplate implements Observer{
+public class ViewInventory extends ViewTemplate implements Observer, ActionListener{
     
         InventoryItemController iiController;
         ITAssetController itAssetController;
@@ -26,6 +30,8 @@ public class ViewInventory extends ViewTemplate implements Observer{
         EmployeeController employeeController;
         ContractController contractController;
         WarrantyController warrantyController;
+        
+        private DefaultTableModel tglModel;
         
 	public ViewInventory(){
 		super();
@@ -46,8 +52,26 @@ public class ViewInventory extends ViewTemplate implements Observer{
 
 		//String headers[] = { "Item", "Description", "Type", "Quantity", "Location", "Asset Tag", "Service Tag", "Assignee", "Invoice#", "Delivery Date", "End of Contract", "End of Warranty", "" };
 		getModel().setColumnIdentifiers(headers);
-		setColRendEdit(11);
+		setColRendEdit();
 		
+		String headers2[] = { "Item", "Description", "Type", "Quantity"};
+		tglModel = new DefaultTableModel(headers2, 4) {
+			public boolean isCellEditable(int rowIndex, int mColIndex) {
+				if(mColIndex==3) return true;
+				return false;
+			}
+
+			public boolean isFocusable(int rowIndex, int mColIndex) {
+				return true;
+			}
+
+			public boolean isCellSelectable(int rowIndex, int mColIndex) {
+				return true;
+			}
+		};
+		tglModel.setRowCount(0);
+		activateToggle(tglModel);
+		getToggle().addActionListener(this);
 		
 		packTable();
 	}
@@ -108,4 +132,10 @@ public class ViewInventory extends ViewTemplate implements Observer{
             getModel().setValueAt(new CellEdit(), getModel().getRowCount() - 1, 11);
         }
     }
+    
+    @Override
+	public void actionPerformed(ActionEvent arg0) {
+		// TODO Auto-generated method stub
+		toggle();
+	}
 }
