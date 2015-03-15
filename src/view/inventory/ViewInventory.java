@@ -174,6 +174,8 @@ public class ViewInventory extends ViewTemplate implements Observer,
 			tglModel.setValueAt(inventoryItem.getQuantity(), tglModel
 					.getRowCount() - 1, 3);
 		}
+		
+		packTable();
 	}
 
 	@Override
