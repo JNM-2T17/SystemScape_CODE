@@ -76,11 +76,6 @@ CREATE TABLE IF NOT EXISTS InventoryItem (
 		REFERENCES ItemData(name)
 		ON UPDATE CASCADE
 		ON DELETE CASCADE,
-	CONSTRAINT InventoryItemfk_2
-		FOREIGN KEY (invoiceNo)
-        REFERENCES PurchaseOrder(invoiceNo)
-		ON UPDATE CASCADE
-		ON DELETE CASCADE,
 	INDEX InventoryItemidx_1 (itemData ASC),
     INDEX InventoryItemidx_2 (invoiceNo ASC)
 ) engine = innoDB;
