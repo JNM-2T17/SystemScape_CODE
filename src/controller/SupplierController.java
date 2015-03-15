@@ -50,21 +50,23 @@ public class SupplierController implements SupplierInterface, Subject {
     }
 
     @Override
-    public void addSupplier(Supplier supp, SupplierContact sc) {
+    public void addSupplier(Supplier supp) {
         // TODO Auto-generated method stub
         supplier.setName(supp.getName());
         supplier.setCountry(supp.getCountry());
         supplier.setState(supp.getState());
         supplier.setCity(supp.getCity());
         dao.add("Supplier", supplier);
-        System.out.println("START TO");
-        dao.add("SupplierContact", sc);
+        
+        
+       
+//        dao.add("SupplierContact", sc);
 //        Iterator<SupplierContact> i = supplier.getSupplierContactList(); 
-        System.out.println("SUPPLIER CONTACT "+ sc);
-        Iterator i = supplier.getSupplierContactList();
+//        System.out.println("SUPPLIER CONTACT "+ sc);
+        Iterator i = supp.getSupplierContactList();
         while (i.hasNext()) {
-            dao.add("SupplierContact", i.next());
-            System.out.println("HI PUMASOK NA: "+i.next().toString());
+            dao.add("SupplierContact", (SupplierContact) i.next());
+//            System.out.println("HI PUMASOK NA: "+i.next().toString());
             System.out.println("WILL NOTIFY OBSERVER oh yeah");
         }
         System.out.println("WILL NOTIFY OBSERVER");

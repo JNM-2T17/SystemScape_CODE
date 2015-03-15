@@ -32,216 +32,271 @@ import view.Message;
 
 public class AddSupplier extends JPanel implements ActionListener {
 
-    private JTextField txtSupp;
-    private JComboBox cmbCountry, cmbState, cmbCity;
-    private Contact temp;
-    private JPanel panContact, panClose;
-    private ArrayList<JPanel> list;
-    private ArrayList<JButton> close;
-    private JButton btnSubmit;
-    private SupplierController supplierController;
-    private JFrame parent;
+	private JTextField txtSupp;
+	// private JComboBox cmbCountry, cmbState, cmbCity;
+	private JTextField cmbCountry, cmbState, cmbCity;
+	private Contact temp;
+	private JPanel panContact, panClose;
+	private ArrayList<Contact> list;
+	private ArrayList<JButton> close;
+	private JButton btnSubmit;
+	private SupplierController supplierController;
+	private JFrame parent;
 
-    public AddSupplier(JFrame parent) {
-        this.parent = parent;
-        this.setBackground(Color.WHITE);
+	public AddSupplier(JFrame parent) {
+		this.parent = parent;
+		this.setBackground(Color.WHITE);
 
-        list = new ArrayList<JPanel>();
-        close = new ArrayList<JButton>();
-        setLayout(new BorderLayout(0, 0));
+		list = new ArrayList<Contact>();
+		close = new ArrayList<JButton>();
+		setLayout(new BorderLayout(0, 0));
 
-        JPanel panContent = new JPanel();
-        panContent.setBackground(Color.WHITE);
-        add(panContent);
-        panContent.setLayout(null);
+		JPanel panContent = new JPanel();
+		panContent.setBackground(Color.WHITE);
+		add(panContent);
+		panContent.setLayout(null);
 
-        JLabel lblSupp = new JLabel("Supplier: ");
-        lblSupp.setBounds(157, 90, 93, 27);
-        panContent.add(lblSupp);
-        lblSupp.setFont(new Font("Tahoma", Font.PLAIN, 22));
+		JLabel lblSupp = new JLabel("Supplier: ");
+		lblSupp.setBounds(157, 90, 93, 27);
+		panContent.add(lblSupp);
+		lblSupp.setFont(new Font("Tahoma", Font.PLAIN, 22));
 
-        txtSupp = new JTextField();
-        txtSupp.setBounds(289, 89, 372, 32);
-        panContent.add(txtSupp);
-        txtSupp.setFont(new Font("Tahoma", Font.PLAIN, 20));
-        txtSupp.setColumns(10);
+		txtSupp = new JTextField();
+		txtSupp.setBounds(289, 89, 372, 32);
+		panContent.add(txtSupp);
+		txtSupp.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		txtSupp.setColumns(10);
 
-        JLabel lblAddress = new JLabel("Address:");
-        lblAddress.setBounds(158, 138, 92, 26);
-        panContent.add(lblAddress);
-        lblAddress.setFont(new Font("Tahoma", Font.PLAIN, 22));
+		JLabel lblAddress = new JLabel("Address:");
+		lblAddress.setBounds(158, 138, 92, 26);
+		panContent.add(lblAddress);
+		lblAddress.setFont(new Font("Tahoma", Font.PLAIN, 22));
 
-        JLabel lblCountry = new JLabel("Country:");
-        lblCountry.setBounds(182, 185, 92, 26);
-        panContent.add(lblCountry);
-        lblCountry.setFont(new Font("Tahoma", Font.PLAIN, 22));
+		JLabel lblCountry = new JLabel("Country:");
+		lblCountry.setBounds(182, 185, 92, 26);
+		panContent.add(lblCountry);
+		lblCountry.setFont(new Font("Tahoma", Font.PLAIN, 22));
 
-        JLabel lblState = new JLabel("State:");
-        lblState.setBounds(182, 232, 92, 26);
-        panContent.add(lblState);
-        lblState.setFont(new Font("Tahoma", Font.PLAIN, 22));
+		JLabel lblState = new JLabel("State:");
+		lblState.setBounds(182, 232, 92, 26);
+		panContent.add(lblState);
+		lblState.setFont(new Font("Tahoma", Font.PLAIN, 22));
 
-        JLabel lblCity = new JLabel("City:");
-        lblCity.setBounds(182, 279, 92, 26);
-        panContent.add(lblCity);
-        lblCity.setFont(new Font("Tahoma", Font.PLAIN, 22));
+		JLabel lblCity = new JLabel("City:");
+		lblCity.setBounds(182, 279, 92, 26);
+		panContent.add(lblCity);
+		lblCity.setFont(new Font("Tahoma", Font.PLAIN, 22));
 
-        cmbCountry = new JComboBox();
-        cmbCountry.setBounds(289, 185, 372, 32);
-        panContent.add(cmbCountry);
-        cmbCountry.setBackground(Color.white);
+		cmbCountry = new JTextField();
+		cmbCountry.setBounds(289, 185, 372, 32);
+		panContent.add(cmbCountry);
+		cmbCountry.setBackground(Color.white);
 
-        cmbState = new JComboBox();
-        cmbState.setBounds(289, 230, 372, 32);
-        panContent.add(cmbState);
-        cmbState.setBackground(Color.white);
+		cmbState = new JTextField();
+		cmbState.setBounds(289, 230, 372, 32);
+		panContent.add(cmbState);
+		cmbState.setBackground(Color.white);
 
-        cmbCity = new JComboBox();
-        cmbCity.setBounds(289, 277, 372, 32);
-        panContent.add(cmbCity);
-        cmbCity.setBackground(Color.white);
+		cmbCity = new JTextField();
+		cmbCity.setBounds(289, 277, 372, 32);
+		panContent.add(cmbCity);
+		cmbCity.setBackground(Color.white);
 
-        JLabel lblContact = new JLabel("Contact #:");
-        lblContact.setBounds(157, 334, 139, 26);
-        panContent.add(lblContact);
-        lblContact.setFont(new Font("Tahoma", Font.PLAIN, 22));
+		JLabel lblContact = new JLabel("Contact #:");
+		lblContact.setBounds(157, 334, 139, 26);
+		panContent.add(lblContact);
+		lblContact.setFont(new Font("Tahoma", Font.PLAIN, 22));
 
-        panContact = new JPanel();
-        panContact.setBackground(Color.WHITE);
-        panContact.setBounds(51, 478, 457, 200);
-        panContact.setLayout(new MigLayout());
+		panContact = new JPanel();
+		panContact.setBackground(Color.WHITE);
+		panContact.setBounds(51, 478, 457, 200);
+		panContact.setLayout(new MigLayout());
 
-        panClose = new JPanel();
-        panClose.setBackground(Color.WHITE);
-        panClose.setAlignmentX(Component.LEFT_ALIGNMENT);
-        panContact.add(panClose);
+		panClose = new JPanel();
+		panClose.setBackground(Color.WHITE);
+		panClose.setAlignmentX(Component.LEFT_ALIGNMENT);
+		panContact.add(panClose);
 
-        panClose.setLayout(new MigLayout("", "[]", "[]"));
+		panClose.setLayout(new MigLayout("", "[]", "[]"));
 
-        JScrollPane scrollPane = new JScrollPane();
-        scrollPane.setBounds(289, 334, 500, 200);
-        panContent.add(scrollPane);
-        scrollPane.setBorder(null);
-        scrollPane.setViewportView(panContact);
-        panClose.setVisible(false);
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(289, 334, 500, 200);
+		panContent.add(scrollPane);
+		scrollPane.setBorder(null);
+		scrollPane.setViewportView(panContact);
+		panClose.setVisible(false);
 
-        temp = new Contact();
-        temp.getBtn().addActionListener(this);
-        panContact.add(temp, "newline");
+		temp = new Contact();
+		temp.getBtn().addActionListener(this);
+		panContact.add(temp, "newline");
 
-        JPanel panFooter = new JPanel();
-        panFooter.setBackground(Color.WHITE);
-        panFooter.setBorder(new EmptyBorder(0, 0, 50, 0));
-        add(panFooter, BorderLayout.SOUTH);
+		JPanel panFooter = new JPanel();
+		panFooter.setBackground(Color.WHITE);
+		panFooter.setBorder(new EmptyBorder(0, 0, 50, 0));
+		add(panFooter, BorderLayout.SOUTH);
 
-        btnSubmit = new JButton("Submit");
-        panFooter.add(btnSubmit);
-        btnSubmit.setForeground(Color.WHITE);
-        btnSubmit.setBackground(new Color(32, 130, 213));
-        btnSubmit.setFont(new Font("Tahoma", Font.PLAIN, 24));
-        btnSubmit.addActionListener(this);
+		btnSubmit = new JButton("Submit");
+		panFooter.add(btnSubmit);
+		btnSubmit.setForeground(Color.WHITE);
+		btnSubmit.setBackground(new Color(32, 130, 213));
+		btnSubmit.setFont(new Font("Tahoma", Font.PLAIN, 24));
+		btnSubmit.addActionListener(this);
 
-        supplierController = SupplierController.getInstance();
-        populate();
-        System.out.println("STUPID");
-    }
+		supplierController = SupplierController.getInstance();
+		// populate();
+		System.out.println("STUPID");
+	}
 
-    public void addContact(Contact pan) {
-        JButton close = new Button.ButtonBuilder().img(
-                "src/assets/Round/Delete.png", 30, 30).build();
-        close.addActionListener(this);
-        this.close.add(close);
+	public boolean contactError(String val) {
+		boolean stat = false;
+		for (int i = 0; i < val.length(); i++) {
+			if (!(val.charAt(i) >= '0' && val.charAt(i) <= '9')) {
+				stat = true;
+			}
+		}
 
-        Contact temp = new Contact();
-        temp.setButton(close);
-        temp.getBtn().setActionCommand("close");
+		return stat;
 
-        System.out.println("PAN VALUE" + pan.getValue());
-        System.out.println("PAN TYPE" + pan.getType());
+	}
 
-        temp.setValue(pan.getValue());
-        temp.setType(pan.getType());
+	public void addContact(Contact pan) {
 
-        pan.setValue("");
-        pan.setType("FAX");
+		if (pan.getValue().equals("")) {
+			new Message(parent, Message.ERROR, "Please set contact value.");
+		} else if (contactError(pan.getValue())) {
+			new Message(parent, Message.ERROR,
+					"Contact value can only be composed of numbers.");
+		} else {
+			JButton close = new Button.ButtonBuilder().img(
+					"src/assets/Round/Delete.png", 30, 30).build();
+			close.addActionListener(this);
+			this.close.add(close);
 
-        panClose.add(temp, "newline");
-        list.add(temp);
-        if (!panClose.isVisible()) {
-            panClose.setVisible(true);
-        }
-        this.repaint();
-        this.revalidate();
-    }
+			Contact temp = new Contact();
+			temp.setButton(close);
+			temp.getBtn().setActionCommand("close");
 
-    public void populate() {
-        Iterator iterator = supplierController.getDistinct("country");
-        ArrayList<String> data = new ArrayList();
+			System.out.println("PAN VALUE" + pan.getValue());
+			System.out.println("PAN TYPE" + pan.getType());
 
-        while (iterator.hasNext()) {
-            data.add((String) iterator.next());
-        }
-        cmbCountry.setModel(new DefaultComboBoxModel(data.toArray()));
-        data.removeAll(data);
+			temp.setValue(pan.getValue());
+			temp.setType(pan.getType());
 
-        iterator = supplierController.getDistinct("state");
-        while (iterator.hasNext()) {
-            data.add((String) iterator.next());
-        }
-        cmbState.setModel(new DefaultComboBoxModel(data.toArray()));
-        data.removeAll(data);
+			pan.setValue("");
+			pan.setType("FAX");
 
-        iterator = supplierController.getDistinct("city");
-        while (iterator.hasNext()) {
-            data.add((String) iterator.next());
-        }
+			panClose.add(temp, "newline");
+			list.add(temp);
+			if (!panClose.isVisible()) {
+				panClose.setVisible(true);
+			}
+			this.repaint();
+			this.revalidate();
+		}
 
-        cmbCity.setModel(new DefaultComboBoxModel(data.toArray()));
+	}
 
-    }
+	// public void populate() {
+	// Iterator iterator = supplierController.getDistinct("country");
+	// ArrayList<String> data = new ArrayList();
+	//
+	// while (iterator.hasNext()) {
+	// data.add((String) iterator.next());
+	// }
+	// cmbCountry.setModel(new DefaultComboBoxModel(data.toArray()));
+	// data.removeAll(data);
+	//
+	// iterator = supplierController.getDistinct("state");
+	// while (iterator.hasNext()) {
+	// data.add((String) iterator.next());
+	// }
+	// cmbState.setModel(new DefaultComboBoxModel(data.toArray()));
+	// data.removeAll(data);
+	//
+	// iterator = supplierController.getDistinct("city");
+	// while (iterator.hasNext()) {
+	// data.add((String) iterator.next());
+	// }
+	//
+	// cmbCity.setModel(new DefaultComboBoxModel(data.toArray()));
+	//
+	// }
 
-    public void clear() {
-        list.clear();
-        close.clear();
-        txtSupp.setText("");
-        cmbCountry.setSelectedIndex(0);
-        cmbState.setSelectedIndex(0);
-        cmbCity.setSelectedIndex(0);
-        panClose.removeAll();
-        this.repaint();
-        this.revalidate();
-    }
+	public void clear() {
+		list.clear();
+		close.clear();
+		txtSupp.setText("");
+		cmbCountry.setText("");
+		cmbState.setText("");
+		cmbCity.setText("");
+		panClose.removeAll();
 
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        // TODO Auto-generated method stub
-        if (e.getActionCommand().equals("add")) {
-            addContact((Contact) panContact.getComponent(1));
-        }
-        if (e.getSource() == btnSubmit) {
-            Supplier checkSupplier;
-            Supplier supplier = new Supplier(txtSupp.getText(), (String) cmbCountry.getSelectedItem(), (String) cmbState.getSelectedItem(), (String) cmbCity.getSelectedItem());
-//                    supplier.setSupplierContactList(contacts);    
+		Contact pan = (Contact) panContact.getComponent(1);
+		pan.clear();
+		this.repaint();
+		this.revalidate();
+	}
 
-            checkSupplier = (Supplier) supplierController.getObject(supplier.getName());
+	public boolean checkInput() {
+		boolean stat = true;
 
-            if (checkSupplier == null) {
-                supplier.addSupplierContact(txtSupp.getText(), temp.getType().toString(), Integer.parseInt(temp.getValue()));
-                supplierController.addSupplier(supplier, supplier.getSupplierContact(0));
-                Message msg = new Message(parent, Message.SUCCESS, "Supplier added successfully.");
-            }else{
-                Message msg = new Message(parent, Message.ERROR, "Supplier already exists!");
-            }
-            supplierController.init();
-            clear();
-        } else {
-            int index = close.indexOf(e.getSource());
-            close.remove(index);
-            panClose.remove(index);
-            list.remove(index);
-            System.out.println(list.size());
-            this.repaint();
-            this.revalidate();
-        }
-    }
+		if (txtSupp.getText().equals("")) {
+			new Message(parent, Message.ERROR, "Please specify the supplier.");
+			stat = false;
+		} else if (cmbCountry.getText().equals("")
+				|| cmbState.getText().equals("")
+				|| cmbCity.getText().equals("")) {
+			new Message(parent, Message.ERROR,
+					"Please accomplish supplier location.");
+			stat = false;
+		}
+		return stat;
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		if (e.getActionCommand().equals("add")) {
+			addContact((Contact) panContact.getComponent(1));
+		} else if (e.getSource() == btnSubmit) {
+			if (checkInput()) {
+				Supplier checkSupplier;
+				Supplier supplier = new Supplier(txtSupp.getText(),
+						(String) cmbCountry.getText(),
+						(String) cmbState.getText(), (String) cmbCity.getText());
+				// supplier.setSupplierContactList(contacts);
+
+				checkSupplier = (Supplier) supplierController
+						.getObject(supplier.getName());
+
+				if (checkSupplier == null) {
+					for (int i = 0; i < list.size(); i++) {
+						System.out.println("RISSA: "+i);
+						supplier.addSupplierContact(txtSupp.getText(), list
+								.get(i).getType().toString(),
+								Integer.parseInt(list.get(i).getValue()));
+					}
+
+					supplierController.addSupplier(supplier);
+
+					Message msg = new Message(parent, Message.SUCCESS,
+							"Supplier added successfully.");
+				} else {
+					Message msg = new Message(parent, Message.ERROR,
+							"Supplier already exists!");
+				}
+				supplierController.init();
+				clear();
+			}
+
+		} else {
+			int index = close.indexOf(e.getSource());
+			close.remove(index);
+			panClose.remove(index);
+			list.remove(index);
+			System.out.println(list.size());
+			this.repaint();
+			this.revalidate();
+		}
+	}
 }

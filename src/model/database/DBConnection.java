@@ -45,7 +45,7 @@ public class DBConnection {
         url = "jdbc:mysql://localhost:3306/";
         database = "caista";
         username = "root";
-        password = "???";//tempo
+        password = "1234";//tempo
         //BufferedReader br = null;
 
 //        try {
