@@ -3,7 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package caista.model;
+package model;
+
+import java.util.Date;
 
 /**
  *
@@ -11,33 +13,65 @@ package caista.model;
  */
 public class InventoryItem {
 
-    private ItemData itemData;
+   private ItemData itemData;
     private String status;
     private String classification;
     private int ID;
+    private String invoiceNo;
+    private String location;
 
-    public InventoryItem() {
-        setItemData(null);
-        setStatus("");
-        setClassification("");
-        setId(0);
-    }
-    
-    public InventoryItem(ItemData itemData, String status, String classification, int id){
-        setItemData(itemData);
+    public InventoryItem(int ID, String name, String description, float unitPrice, String invoiceNo, String location, String status, String classification) {
+        itemData = new ItemData(name, description, unitPrice);
         setStatus(status);
         setClassification(classification);
-        setId(id);
+        setId(ID);
+        setInvoiceNo(invoiceNo);
+        setLocation(location);
+    }
+    public InventoryItem(InventoryItemBuilder iib) {
+        itemData = new ItemData(iib.name, iib.description, iib.unitPrice);
+        setStatus(iib.status);
+        setClassification(iib.classification);
+        setId(iib.ID);
+        setInvoiceNo(iib.invoiceNo);
+        setLocation(iib.location);
     }
 
-    public ItemData getItemData() {
-        return this.itemData;
+    public InventoryItem() {
+		// TODO Auto-generated constructor stub
+    	itemData = new ItemData();
+    	status = "";
+    	classification = "";
+    	ID = 0;
+    	invoiceNo = "";
+    	location = "";
+	}
+
+	public String getName() {
+        return itemData.getName();
+
     }
 
-    public void setItemData(ItemData itemData) {
-        this.itemData = itemData;
+    public void setName(String name) {
+        itemData.setName(name);
     }
 
+    public String getDescription() {
+        return itemData.getDescription();
+    }
+
+    public void setDescription(String description) {
+        itemData.setDescription(description);
+    }
+
+    public float getUnitPrice() {
+        return itemData.getUnitPrice();
+    }
+
+    public void setUnitPrice(float unitPrice) {
+        itemData.setUnitPrice(unitPrice);
+    }
+    
     public String getStatus() {
         return this.status;
     }
@@ -54,11 +88,99 @@ public class InventoryItem {
         this.classification = classification;
     }
 
-    public int getId() {
+    public int getID() {
         return this.ID;
     }
 
     public void setId(int ID) {
         this.ID = ID;
     }
+
+    public String getInvoiceNo() {
+        return invoiceNo;
+    }
+    
+    public void setInvoiceNo(String invoiceNo) {
+        this.invoiceNo = invoiceNo;
+    }
+    
+    public String getLocation() {
+        return location;
+    }
+    
+    public void setLocation(String location) {
+        this.location = location;
+
+    }
+    
+public static class InventoryItemBuilder {
+		
+		private int ID;
+		private String name;
+		private String description;
+		private float unitPrice;
+		private String invoiceNo;
+		private String location;
+		private String status;
+		private String classification;
+		
+		public InventoryItemBuilder()
+		{
+			ID = 0;
+			name = "";
+			description = "";
+			unitPrice = 0;
+			invoiceNo = "";
+			location = "";
+			status = "";
+			classification = "";
+		}
+		
+		public InventoryItemBuilder addID(int buildID)
+		{
+			ID = buildID;
+			return this;
+		}
+		public InventoryItemBuilder addName(String buildName)
+		{
+			name = buildName;
+			return this;
+		}
+		public InventoryItemBuilder addDescription(String buildDesc)
+		{
+			description = buildDesc;
+			return this;
+		}
+		public InventoryItemBuilder addUnitPrice(float buildUnit)
+		{
+			unitPrice = buildUnit;
+			return this;
+		}
+		public InventoryItemBuilder addInvoiveNo(String buildInvoice)
+		{
+			invoiceNo = buildInvoice;
+			return this;
+		}
+		public InventoryItemBuilder addLocation(String buildLocation)
+		{
+			location = buildLocation;
+			return this;
+		}
+		public InventoryItemBuilder addStatus(String buildStatus)
+		{
+			status = buildStatus;
+			return this;
+		}
+		public InventoryItemBuilder addClassification(String buildClass)
+		{
+			classification = buildClass;
+			return this;
+		}
+		public InventoryItem build() {
+			return new InventoryItem(this);
+		}
+		
+		
+		
+	}
 }

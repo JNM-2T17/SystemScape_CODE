@@ -5,34 +5,74 @@
  */
 package controller;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import model.InventoryItem;
 import model.ItemData;
 import model.database.DAO;
+import view.Observer;
+import view.Subject;
 
 /**
  *
  * @author Christian Gabriel
  */
-public class InventoryItemController {
+public class InventoryItemController implements InventoryItemInterface, Subject {
 
-    DAO dao;
+    private static InventoryItemController instance;
+    private DAO dao;
+    private ArrayList<Observer> observerList;
+    private InventoryItem inventoryItem;
     //InventoryItemView view;
-    InventoryItem ii = null;
 
     public InventoryItemController() {
         dao = DAO.getInstance();
-        //view = new InventoryItemView();
-        ii = new InventoryItem();
-
+        observerList = new ArrayList();
+    }
+    
+    public static InventoryItemController getInstance() {
+        if (instance == null) {
+            instance = new InventoryItemController();
+        }
+        return instance;
+    }
+    
+    public Object get(String key){
+        return dao.get("inventoryitem", key);
     }
 
-    public void addInventoryItem(String name, String description, float unitPrice, String status, String classification, int ID) {
-        ItemData itemData = new ItemData(name, description, unitPrice);
-        ii.setItemData(itemData);
-        ii.setStatus(status);
-        ii.setClassification(classification);
-        ii.setId(ID);
+    @Override
+    public void addInventoryItem(InventoryItem invItem) {
+        // TODO Auto-generated method stub
+        dao.add("ItemData", new ItemData(invItem.getName(), invItem.getDescription(), invItem.getUnitPrice()));
+        dao.add("InventoryItem", invItem);
+        
+        notifyObserver();
+    }
 
-        dao.add("InventoryItem", ii);
+    public Iterator getAll() {
+        return dao.get("InventoryItem");
+    }
+
+    public Iterator filter(Iterator conditions) {
+        return dao.filter("InventoryItem", conditions);
+    }
+
+    @Override
+    public void registerObserver(Observer o) {
+        o.update();
+        observerList.add(o);
+    }
+
+    @Override
+    public void unregisterObserver(Observer o) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void notifyObserver() {
+        for (Observer o : observerList) {
+            o.update();
+        }
     }
 }

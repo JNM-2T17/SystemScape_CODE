@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package caista.model.database;
+package model.database;
 
 /**
  *
@@ -14,21 +14,21 @@ package caista.model.database;
 public interface IDBCUD extends IDBGet
 {
 	/**
-	* adds obj to the database
-	* @param obj object to add
+	* adds object to the database
+	* @param object object to add
 	*/
-	public void add( Object obj );
+	public void add( Object object );
 	
 	/**
-	* updates the object with key origKey with the values in obj
-	* @param obj new values of object
+	* updates the object with key origKey with the values in object
+	* @param object new values of object
 	* @param origKey original key of object
 	*/
-	public void update( Object obj, String origKey );
+	public void update( Object object, String origKey );
 	
 	/**
 	* deletes object
-	* @param obj object to delete
+	* @param object object to delete
 	*/
-	public void delete( Object obj );
+	public void delete( Object object );
 }

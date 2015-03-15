@@ -3,10 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package caista.model;
+package model;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+
 /**
  *
  * @author Christian Gabriel
@@ -14,19 +15,25 @@ import java.util.Iterator;
 public class Supplier {
 
     private String name;
-    private String address;
+    private String country;
+    private String state;
+    private String city;
     private ArrayList<SupplierContact> contacts;
 
-    public Supplier(String name, String address) {
+    public Supplier(String name, String country, String state, String city) {
         contacts = new ArrayList<SupplierContact>();
         setName(name);
-        setAddress(address);
+        setCountry(country);
+        setState(state);
+        setCity(city);
     }
     
     public Supplier() {
         contacts = new ArrayList<SupplierContact>();
         setName("");
-        setAddress("");
+        setCountry("");
+        setState("");
+        setCity("");
     }
 
     public String getName() {
@@ -37,12 +44,28 @@ public class Supplier {
         this.name = name;
     }
 
-    public String getAddress() {
-        return address;
+    public String getCountry() {
+        return country;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
+    public void setCountry(String country) {
+        this.country = country;
+    }
+    
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
+    
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
     }
 
     public SupplierContact getSupplierContact(int index) {
@@ -52,7 +75,7 @@ public class Supplier {
         return contacts.get(index);
     }
 
-    public Iterator getSupplierContact() {
+    public Iterator getSupplierContactList() {
         return contacts.iterator();
     }
 
@@ -60,8 +83,10 @@ public class Supplier {
         contacts.add(new SupplierContact(supplier, type, value));
     }
 
-    public void setSupplierContact(ArrayList<SupplierContact> contacts) {
-        this.contacts = contacts;
+    public void setSupplierContactList(Iterator contacts) {
+        while(contacts.hasNext()){
+            this.contacts.add(((SupplierContact)contacts.next()));
+        }
     }
 
 }

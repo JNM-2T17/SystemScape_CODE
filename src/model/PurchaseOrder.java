@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package caista.model;
+package model;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -18,25 +18,35 @@ public class PurchaseOrder {
     private Date date;
     private int idNo;
     private String type;
-    private String supplier;
+    private Supplier supplier;
     private HashMap<ItemData, Integer> item;
+    private String invoiceNo;
 
     public PurchaseOrder() {
         setDate(null);
         setIdNo(0);
         setType("");
         item = new HashMap<ItemData, Integer>();
-        setSupplier("");
+        setSupplier(null);
     }
-    
-    public PurchaseOrder(Date date, int idNo, String type, String supplier) {
+
+    public PurchaseOrder(Date date, int idNo, String type, Supplier supplier, String invoiceNo) {
         setDate(date);
         setIdNo(idNo);
         setType(type);
+        setInvoiceNo(invoiceNo);
         item = new HashMap<ItemData, Integer>();
         setSupplier(supplier);
     }
-
+    
+    public String getInvoiceNo(){
+        return invoiceNo;
+    }
+    
+    public void setInvoiceNo(String invoiceNo){
+        this.invoiceNo = invoiceNo;
+    }
+    
     public Date getDate() {
         return date;
     }
@@ -65,34 +75,33 @@ public class PurchaseOrder {
         ItemData itemData = new ItemData(name, description, unitPrice);
         item.put(itemData, qty);
     }
-    
-    public Iterator getItems(){
+
+    public Iterator getItems() {
         return item.keySet().iterator();
     }
-    
+
     public int getQuantity(ItemData itemData) {
         return item.get(itemData);
     }
 
-    public String getSupplier() {
+    public Supplier getSupplier() {
         return supplier;
     }
 
-    public void setSupplier(String supplier) {
+    public void setSupplier(Supplier supplier) {
         this.supplier = supplier;
     }
 
-    public int computeTotal() {
+    public float computeTotal(ItemData itemData) {
+        return itemData.getUnitPrice() * item.get(itemData);
+    }
+
+    public float computeGrandTotal() {
         int total = 0;
-        Iterator<ItemData> keySetIterator = item.keySet().iterator();
-        while (keySetIterator.hasNext()) {
-            ItemData key = keySetIterator.next();
-            total += key.getUnitPrice();
+        for (Iterator<ItemData> i = item.keySet().iterator(); i.hasNext();) {
+            ItemData key = i.next();
+            total += computeTotal(key);
         }
         return total;
     }
-
-//    public int computeGrandTotal() {
-//        return 
-//    }
 }

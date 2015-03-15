@@ -42,10 +42,10 @@ public class DBConnection {
      */
     private DBConnection() {
         driverName = "com.mysql.jdbc.Driver";
-        this.url = "jdbc:mysql://127.0.0.1:3306/";
+        url = "jdbc:mysql://localhost:3306/";
         database = "caista";
         username = "root";
-        password = "PASSWORD";//tempo
+        password = "???";//tempo
         //BufferedReader br = null;
 
 //        try {
@@ -138,7 +138,7 @@ public class DBConnection {
      * @param password password to checkPassword
      * @return whether password is correct or not
      */
-    public boolean checkPassword(String password) {
+    public boolean isCorrectPassword(String password) {
         return password.equals(this.password);
     }
 }

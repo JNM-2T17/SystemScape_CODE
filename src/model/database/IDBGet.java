@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package caista.model.database;
+package model.database;
 
 /**
  *

@@ -8,46 +8,111 @@ package controller;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
+
+import view.Observer;
+import view.Subject;
 import model.ItemData;
 import model.PurchaseOrder;
+import model.Supplier;
 import model.database.DAO;
 
 /**
  *
  * @author Christian Gabriel
  */
-public class PurchaseOrderController {
+public class PurchaseOrderController implements Subject, PurchaseOrderInterface, ItemDataInterface {
 
+    private static PurchaseOrderController instance;
     private DAO dao;
-    //PurchaseOrderView view;
-    private PurchaseOrder po = null;
-    private ArrayList<ItemData> itemData;
+    private PurchaseOrder po;
+    private ArrayList<Observer> observerList;
 
     public PurchaseOrderController() {
         dao = DAO.getInstance();
-        //view = new PurchaseOrderView();
         po = new PurchaseOrder();
-        itemData = new ArrayList();
+        observerList = new ArrayList();
     }
-
-    public void addPurchaseOrder(Date date, int idNo, String type, String supplierName) {//SUBMIT AL SA PURCHASE ORDER
-
-        po.setDate(date);
-        po.setIdNo(idNo);
-        po.setType(type);
-        po.setSupplier(supplierName);
-        Iterator<ItemData> iterator = po.getItems();
-
-        dao.add("PurchaseOrder", po);
-        while(iterator.hasNext()){
-            dao.add("ItemData", iterator.next());
+    
+    public void init(){
+        po = new PurchaseOrder();
+    }
+    
+    public static PurchaseOrderController getInstance() {
+        if (instance == null) {
+            instance = new PurchaseOrderController();
         }
-        
+        return instance;
+    }
+    
+    public Iterator filter(Iterator conditions){
+            return dao.filter("PurchaseOrder", conditions);
+        }
+    
+    public float computeAmount(int quantity, float price) {
+        return quantity * price;
     }
 
-    public void addItem(String name, String description, float unitPrice, int qty) {//SUBMIT AL SA ADD ITEM
+    public PurchaseOrder getPurchaseOrder() {
+        return po;
+    }
+
+    @Override
+    public void registerObserver(Observer o) {
+        o.update();
+        observerList.add(o);
+    }
+
+    @Override
+    public void unregisterObserver(Observer o) {
+        // TODO Auto-generated method stub
+        observerList.remove(o);
+    }
+
+    @Override
+    public void notifyObserver() {
+        // TODO Auto-generated method stub
+        for (Observer o : observerList) {
+            o.update();
+        }
+    }
+    
+    public Iterator getAll(){
+        return dao.get("PurchaseOrder");
+    }
+
+    @Override
+    public void addItem(ItemData item, int qty) {
+        // TODO Auto-generated method stub
+        po.addItem(item.getName(), item.getDescription(), item.getUnitPrice(), qty);
+        notifyObserver();
+    }
+
+    @Override
+    public void editItem(ItemData item, int qty) {
+		// TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public void addPurchaseOrder(PurchaseOrder purchaseOrder) {
+		// TODO Auto-generated method stub
+        // Supplier supplier = (Supplier) dao.get("Supplier", supplierName);
+        po.setDate(purchaseOrder.getDate());
+        po.setIdNo(purchaseOrder.getIdNo());
+        po.setType(purchaseOrder.getType());
+        po.setSupplier(purchaseOrder.getSupplier());
+
+        for(Iterator<ItemData> i = po.getItems(); i.hasNext();) 
+            dao.add("ItemData", i.next());
+   
         
-        po.addItem(name, description, unitPrice, qty);
-        //dao.add("ItemData", new ItemData(name, description, unitPrice));
+        dao.add("PurchaseOrder", po);
+        notifyObserver();
+    }
+
+    @Override
+    public void editPurchaseOrder(PurchaseOrder purchaseOrder) {
+		// TODO Auto-generated method stub
+
     }
 }

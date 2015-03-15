@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package caista.model.database;
+package model.database;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -20,44 +20,69 @@ import model.SupplierContact;
 public class SupplierContactDAO implements IDBCUD {
 
     public Iterator get() {
-        ArrayList<SupplierContact> supplierContact = new ArrayList();
+        Connection con = DBConnection.getConnection();
+        ArrayList<SupplierContact> supplierContacts = new ArrayList();
         try {
             String query = "SELECT * FROM SupplierContact ORDER BY 1";
-            Connection c = DBConnection.getConnection();
-            PreparedStatement ps = c.prepareStatement(query);
-            ResultSet rs = ps.executeQuery();
+            PreparedStatement preparedStatement = con.prepareStatement(query);
+            ResultSet resultSet = preparedStatement.executeQuery();
 
-            while (rs.next()) {
+            while (resultSet.next()) {
 
-                SupplierContact sc = new SupplierContact(rs.getString("supplier"), rs.getString("type"), rs.getInt("value"));
-                supplierContact.add(sc);
+                SupplierContact supplierContact = new SupplierContact(resultSet.getString("supplier"), resultSet.getString("type"), resultSet.getInt("value"));
+                supplierContacts.add(supplierContact);
 
             }
-        } catch (SQLException se) {
-            se.printStackTrace();
+        } catch (SQLException sqlException) {
+            sqlException.printStackTrace();
+        } finally {
+            try {
+                if (con != null) {
+                    con.close();
+                }
+            } catch (SQLException sqlee) {
+                sqlee.printStackTrace();
+            }
         }
-        return supplierContact.iterator();
+        return supplierContacts.iterator();
 
     }
 
     public Object get(String key) {
-        SupplierContact supplierContact = null;
+        Connection con = DBConnection.getConnection();
+        SupplierContact supplierContacts = null;
 
         try {
-            String query = "SELECT * FROM SupplierContact where type =  ?, value =  ? ORDER  BY 1";
-            Connection con = DBConnection.getConnection();
-            PreparedStatement ps = con.prepareStatement(query);
-            ps.setString(1, key);
-            ResultSet rs = ps.executeQuery();
+            String query = "SELECT * FROM SupplierContact where value = ? ORDER  BY 1";
+            PreparedStatement preparedStatement = con.prepareStatement(query);
+            preparedStatement.setString(1, key);
+            ResultSet resultSet = preparedStatement.executeQuery();
 
-            if (rs.next()) {
-                supplierContact = new SupplierContact(rs.getString("supplier"), rs.getString("type"), rs.getInt("value"));
-                return supplierContact;
+            if (resultSet.next()) {
+                supplierContacts = new SupplierContact(resultSet.getString("supplier"), resultSet.getString("type"), resultSet.getInt("value"));
+
+                try {
+                    if (con != null) {
+                        con.close();
+                    }
+                } catch (SQLException sqlee) {
+                    sqlee.printStackTrace();
+                }
+
+                return supplierContacts;
 
             }
 
-        } catch (SQLException se) {
-            se.printStackTrace();
+        } catch (SQLException sqlException) {
+            sqlException.printStackTrace();
+        } finally {
+            try {
+                if (con != null) {
+                    con.close();
+                }
+            } catch (SQLException sqlee) {
+                sqlee.printStackTrace();
+            }
         }
 
         return null;
@@ -65,77 +90,109 @@ public class SupplierContactDAO implements IDBCUD {
     }
 
     public Iterator search(String searchStr) {
-
-        ArrayList<SupplierContact> supplierContact = new ArrayList<SupplierContact>();
+        Connection con = DBConnection.getConnection();
+        ArrayList<SupplierContact> supplierContacts = new ArrayList<SupplierContact>();
 
         try {
             String query = "SELECT * FROM SupplierContact where type LIKE ?, value LIKE ? ORDER BY 1";
-            Connection con = DBConnection.getConnection();
-            PreparedStatement ps = con.prepareStatement(query);
-            ps.setString(1, "%" + searchStr
+            PreparedStatement preparedStatement = con.prepareStatement(query);
+            preparedStatement.setString(1, "%" + searchStr
                     + "%");
-            ResultSet rs = ps.executeQuery();
+            ResultSet resultSet = preparedStatement.executeQuery();
 
-            while (rs.next()) {
+            while (resultSet.next()) {
 
-                SupplierContact sc = new SupplierContact(rs.getString("supplier"), rs.getString("type"), rs.getInt("value"));
-                supplierContact.add(sc);
+                SupplierContact supplierContact = new SupplierContact(resultSet.getString("supplier"), resultSet.getString("type"), resultSet.getInt("value"));
+                supplierContacts.add(supplierContact);
 
             }
-        } catch (SQLException se) {
-            se.printStackTrace();
+        } catch (SQLException sqlException) {
+            sqlException.printStackTrace();
+        } finally {
+            try {
+                if (con != null) {
+                    con.close();
+                }
+            } catch (SQLException sqlee) {
+                sqlee.printStackTrace();
+            }
         }
-        return supplierContact.iterator();
+        return supplierContacts.iterator();
     }
 
-    public void add(Object obj) {
-
-        SupplierContact supplierContact = (SupplierContact) obj;
-
-        try {
-            String stmt = "INSERT INTO suppliercontact VALUES(?,?,?);";
-            PreparedStatement ps = DBConnection.getConnection().prepareStatement(stmt);
-            ps.setString(1, supplierContact.getSupplier());
-            ps.setString(2, supplierContact.getType());
-            ps.setInt(3, supplierContact.getValue());
-            ps.execute();
-        } catch (SQLException se) {
-            se.printStackTrace();
-        }
-
-    }
-
-    public void update(Object obj, String key) {
-
-        SupplierContact supplierContact = (SupplierContact) obj;
+    public void add(Object object) {
+        Connection con = DBConnection.getConnection();
+        SupplierContact supplierContacts = (SupplierContact) object;
 
         try {
-
-            String stmt = "UPDATE SupplierContact SET supplier= ?, type= ?, value= ? WHERE type= ? AND value = ?;";
-            PreparedStatement ps = DBConnection.getConnection().prepareStatement(stmt);
-            ps.setString(1, supplierContact.getSupplier());
-            ps.setString(2, supplierContact.getType());
-            ps.setInt(3, supplierContact.getValue());
-            ps.setString(4, key);
-            ps.execute();
-        } catch (SQLException se) {
-            se.printStackTrace();
+            String query = "INSERT INTO suppliercontact VALUES(?,?,?);";
+            PreparedStatement preparedStatement = con.prepareStatement(query);
+            preparedStatement.setString(1, supplierContacts.getSupplier());
+            preparedStatement.setString(2, supplierContacts.getType());
+            preparedStatement.setInt(3, supplierContacts.getValue());
+            preparedStatement.execute();
+        } catch (SQLException sqlException) {
+            sqlException.printStackTrace();
+        }finally {
+            try {
+                if (con != null) {
+                    con.close();
+                }
+            } catch (SQLException sqlee) {
+                sqlee.printStackTrace();
+            }
         }
 
     }
 
-    public void delete(Object obj) {
-        SupplierContact sc = (SupplierContact) obj;
+    public void update(Object object, String key) {
+        Connection con = DBConnection.getConnection();
+        SupplierContact supplierContacts = (SupplierContact) object;
 
         try {
-            String stmt = "DELETE FROM SupplierContact WHERE type= ? AND value = ?;";
-            PreparedStatement ps = DBConnection.getConnection()
-                    .prepareStatement(stmt);
-            ps.setString(1, sc.getType());
-            ps.setInt(2, sc.getValue());
-            ps.execute();
-        } catch (SQLException se) {
-            se.printStackTrace();
+
+            String query = "UPDATE SupplierContact SET supplier= ?, type= ?, value= ? WHERE type= ? AND value = ?;";
+            PreparedStatement preparedStatement = con.prepareStatement(query);
+            preparedStatement.setString(1, supplierContacts.getSupplier());
+            preparedStatement.setString(2, supplierContacts.getType());
+            preparedStatement.setInt(3, supplierContacts.getValue());
+            preparedStatement.setString(4, key);
+            preparedStatement.execute();
+        } catch (SQLException sqlException) {
+            sqlException.printStackTrace();
+        }finally {
+            try {
+                if (con != null) {
+                    con.close();
+                }
+            } catch (SQLException sqlee) {
+                sqlee.printStackTrace();
+            }
+        }
+
+    }
+
+    public void delete(Object object) {
+        Connection con = DBConnection.getConnection();
+        SupplierContact supplierContact = (SupplierContact) object;
+
+        try {
+            String query = "DELETE FROM SupplierContact WHERE type= ? AND value = ?;";
+            PreparedStatement preparedStatement = con
+                    .prepareStatement(query);
+            preparedStatement.setString(1, supplierContact.getType());
+            preparedStatement.setInt(2, supplierContact.getValue());
+            preparedStatement.execute();
+        } catch (SQLException sqlException) {
+            sqlException.printStackTrace();
+        }finally {
+            try {
+                if (con != null) {
+                    con.close();
+                }
+            } catch (SQLException sqlee) {
+                sqlee.printStackTrace();
+            }
         }
     }
 

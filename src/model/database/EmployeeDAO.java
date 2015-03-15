@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package caista.model.database;
+package model.database;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -12,6 +12,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import model.Employee;
+import model.builder.QueryFilterDirector;
+import model.builder.SupplierFilterQueryBuilder;
 
 /**
  *
@@ -24,32 +26,32 @@ public class EmployeeDAO implements IDBCUD {
 
         try {
             String query = "SELECT * FROM employee";
-            PreparedStatement ps = DBConnection.getConnection().prepareStatement(query);
-            ResultSet rs = ps.executeQuery();
+            PreparedStatement preparedStatement = DBConnection.getConnection().prepareStatement(query);
+            ResultSet resultSet = preparedStatement.executeQuery();
 
-            while (rs.next()) {
-                Employee e = new Employee(rs.getInt("ID"), rs.getString("name"));
-                employees.add(e);
+            while (resultSet.next()) {
+                Employee employee = new Employee(resultSet.getInt("ID"), resultSet.getString("name"));
+                employees.add(employee);
             }
-        } catch (SQLException se) {
-            se.printStackTrace();
+        } catch (SQLException sqlException) {
+            sqlException.printStackTrace();
         }
         return employees.iterator();
     }
 
     public Object get(String key) {
         try {
-            String query = "SELECT * FROM employee WHERE name = ?";
-            PreparedStatement ps = DBConnection.getConnection().prepareStatement(query);
-            ps.setString(1, key);
-            ResultSet rs = ps.executeQuery();
+            String query = "SELECT * FROM employee WHERE ID = ?";
+            PreparedStatement preparedStatement = DBConnection.getConnection().prepareStatement(query);
+            preparedStatement.setString(1, key);
+            ResultSet resultSet = preparedStatement.executeQuery();
 
-            if (rs.next()) {
-                Employee e = new Employee(rs.getInt("ID"), rs.getString("name"));
-                return e;
+            if (resultSet.next()) {
+                Employee employee = new Employee(resultSet.getInt("ID"), resultSet.getString("name"));
+                return employee;
             }
-        } catch (SQLException se) {
-            se.printStackTrace();
+        } catch (SQLException sqlException) {
+            sqlException.printStackTrace();
         }
         return null;
     }
@@ -59,65 +61,101 @@ public class EmployeeDAO implements IDBCUD {
         ArrayList<Employee> employees = new ArrayList<Employee>();
         try {
 
-            String query = "SELECT * FROM employee WHERE name LIKE ? " + "ORDER BY 1";
-            Connection c = DBConnection.getConnection();
-            PreparedStatement ps = c.prepareStatement(query);
-            ps.setString(1, "%" + searchStr + "%");
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                Employee e = new Employee(rs.getInt("ID"), rs.getString("name"));
-                employees.add(e);
+            String query = "SELECT * FROM employee WHERE ID LIKE ? " + "ORDER BY 1";
+            Connection connection = DBConnection.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setString(1, "%" + searchStr + "%");
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                Employee employee = new Employee(resultSet.getInt("ID"), resultSet.getString("name"));
+                employees.add(employee);
             }
-        } catch (SQLException se) {
-            se.printStackTrace();
+        } catch (SQLException sqlException) {
+            sqlException.printStackTrace();
         }
 
         return employees.iterator();
     }
+    //under construction
+    public Iterator filter(Iterator conditions){
+        QueryFilterDirector director = new QueryFilterDirector(new SupplierFilterQueryBuilder());
+        ArrayList<String> results = new ArrayList<String>();
+        try {
+            String query = director.getQuery(conditions);
+            PreparedStatement preparedStatement = DBConnection.getConnection().prepareStatement(query);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                results.add(resultSet.getString("name"));
+                results.add(resultSet.getString("country"));
+                results.add(resultSet.getString("state"));
+                results.add(resultSet.getString("city"));
+                results.add(resultSet.getString("value"));
+            }
+            return results.iterator();
+        }catch(Exception exception){
+            exception.printStackTrace();
+        }
+        return null;
+   }
+    
+    public Iterator getDistinct(String string){
+        ArrayList<String> results = new ArrayList<String>();
+        try {
+            String query = "SELECT DISTINCT "+string+" FROM employee";
+            PreparedStatement preparedStatement = DBConnection.getConnection().prepareStatement(query);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                results.add(resultSet.getString(1));
+            }
+        } catch (SQLException sqlException) {
+            sqlException.printStackTrace();
+        }
+        return results.iterator();
+    }
+    
+    public void add(Object object) {
 
-    public void add(Object obj) {
-
-        Employee e = (Employee) obj;
+        Employee employee = (Employee) object;
         try {
 
-            String stmt = "INSERT INTO employee VALUES(?,?);";
-            Connection con = DBConnection.getConnection();
-            PreparedStatement ps = con.prepareStatement(stmt);
-            ps.setInt(1, e.getID());
-            ps.setString(2, e.getName());
-            ps.execute();
-        } catch (SQLException se) {
-            se.printStackTrace();
+            String query = "INSERT INTO employee VALUES(?,?);";
+            Connection connection = DBConnection.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1, employee.getID());
+            preparedStatement.setString(2, employee.getName());
+            preparedStatement.execute();
+        } catch (SQLException sqlException) {
+            sqlException.printStackTrace();
         }
 
     }
 
-    public void update(Object obj, String origKey) {
-        Employee e = (Employee) obj;
+    public void update(Object object, String origKey) {
+        Employee employee = (Employee) object;
 
         try {
-            String stmt = "UPDATE employee SET ID = ?,name = ? WHERE ID = ?;";
-            PreparedStatement ps = DBConnection.getConnection().prepareStatement(stmt);
-            ps.setInt(1, e.getID());
-            ps.setString(2, e.getName());//not sure bout the address format
-            ps.setString(3, origKey);
-            ps.execute();
-        } catch (SQLException se) {
-            se.printStackTrace();
+            String query = "UPDATE employee SET ID = ?,name = ? WHERE ID = ?;";
+            PreparedStatement preparedStatement = DBConnection.getConnection().prepareStatement(query);
+            preparedStatement.setInt(1, employee.getID());
+            preparedStatement.setString(2, employee.getName());//not sure bout the address format
+            preparedStatement.setString(3, origKey);
+            preparedStatement.execute();
+        } catch (SQLException sqlException) {
+            sqlException.printStackTrace();
         }
 
     }
 
-    public void delete(Object obj) {
+    public void delete(Object object) {
 
-        Employee s = (Employee) obj;
+        Employee employee = (Employee) object;
         try {
-            String stmt = "DELETE FROM employee WHERE ID = ?;";
-            PreparedStatement ps = DBConnection.getConnection().prepareStatement(stmt);
-            ps.setInt(1, s.getID());
-            ps.execute();
-        } catch (SQLException se) {
-            se.printStackTrace();
+            String query = "DELETE FROM employee WHERE ID = ?;";
+            PreparedStatement preparedStatement = DBConnection.getConnection().prepareStatement(query);
+            preparedStatement.setInt(1, employee.getID());
+            preparedStatement.execute();
+        } catch (SQLException sqlException) {
+            sqlException.printStackTrace();
         }
 
     }

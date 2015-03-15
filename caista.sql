@@ -26,7 +26,7 @@ CREATE TABLE IF NOT EXISTS SupplierContact (
 
 CREATE TABLE IF NOT EXISTS PurchaseOrder ( 
 	type VARCHAR(255),
-    no VARCHAR(15), 
+    no INT AUTO_INCREMENT, 
 	date DATE NOT NULL, 
 	supplier VARCHAR(255) NOT NULL,
     invoiceNo VARCHAR(45) NOT NULL UNIQUE,

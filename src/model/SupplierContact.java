@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package caista.model;
+package model;
 
 /**
  *
@@ -11,37 +11,42 @@ package caista.model;
  */
 public class SupplierContact {
 
-    private String supplier;
-    private String type;
-    private int value;
-    
-    public SupplierContact(String supplier, String type, int value) {
-        setSupplier(supplier);
-        setType(type);
-        setValue(value);
-    }
+	private String supplier;
+	private String type;
+	private int value;
 
-    public String getSupplier() {
-        return supplier;
-    }
+	public SupplierContact(String supplier, String type, int value) {
+		setSupplier(supplier);
+		setType(type);
+		setValue(value);
+	}
 
-    public void setSupplier(String supplier) {
-        this.supplier = supplier;
-    }
+	public String getSupplier() {
+		return supplier;
+	}
 
-    public String getType() {
-        return type;
-    }
+	public void setSupplier(String supplier) {
+		this.supplier = supplier;
+	}
 
-    public void setType(String type) {
-        this.type = type;
-    }
+	public String getType() {
+		return type;
+	}
 
-    public int getValue() {
-        return value;
-    }
+	public void setType(String type) {
+		this.type = type;
+	}
 
-    public void setValue(int value) {
-        this.value = value;
-    }
+	public int getValue() {
+		return value;
+	}
+
+	public void setValue(int value) {
+		this.value = value;
+	}
+        
+        public String toString(){
+            return type+":"+value;
+        }
+        
 }

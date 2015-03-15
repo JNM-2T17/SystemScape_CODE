@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package caista.model.database;
+package model.database;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -11,9 +11,14 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import model.ItemData;
 import model.PurchaseOrder;
 import model.Supplier;
+import model.builder.QueryFilterDirector;
+import model.builder.POFilterQueryBuilder;
 
 /**
  *
@@ -22,146 +27,354 @@ import model.Supplier;
 public class PurchaseOrderDAO implements IDBCUD {
 
     public Iterator get() {
+        Connection con = DBConnection.getConnection();
         ArrayList<PurchaseOrder> purchaseOrders = new ArrayList();
-        //DBCineDirector dbcd = new DBCineDirector();
-
+        PreparedStatement preparedStatement;
         try {
-            String query = "SELECT * FROM purchaseorder";
-            PreparedStatement ps = DBConnection.getConnection()
-                    .prepareStatement(query);
-            ResultSet rs = ps.executeQuery();
+            String query = "SELECT p.date, p.no,  p.type, s.name, s.country, s.state, s.city, p.invoiceNo\n"
+                    + "FROM purchaseorder p\n"
+                    + "INNER JOIN supplier s\n"
+                    + "ON s.name=p.supplier";
+            preparedStatement = con.prepareStatement(query);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                Supplier s = new Supplier(resultSet.getString("name"), resultSet.getString("country"), resultSet.getString("state"), resultSet.getString("city"));
+                PurchaseOrder purchaseorder = new PurchaseOrder(resultSet.getDate("date"), resultSet.getInt("no"), resultSet.getString("type"), s, resultSet.getString("invoiceNo"));
 
-            while (rs.next()) {
-                String[] date = rs.getString("date").split(",");
-                //Date dateobj = new Date(date[0], date[1], date[2]);
-
-                String query2 = "SELECT * FROM purchaseorder p,supplier s, WHERE s.name = p.supplier ";
-                PreparedStatement ps2 = DBConnection.getConnection().prepareStatement(query2);
-                ResultSet rs2 = ps2.executeQuery();
-                String address = rs2.getString("city") + ", " + rs2.getString("state") + ", " + rs2.getString("country");
-                //Supplier s = new Supplier(rs2.getString("name"), rs2.getString("address"));
-
-                PurchaseOrder po = new PurchaseOrder(rs.getDate("date"), rs.getString("no"), rs.getString("type"), rs2.getString("name"));
-
-                String query3 = "SELECT * FROM purchaseorder po, poitem pi, itemdata i WHERE po.type ="
-                        + "pi.type AND po.no = pi.no AND pi.itemname= i.name "; //this query statement may need work
-                PreparedStatement ps3 = DBConnection.getConnection()
-                        .prepareStatement(query3);
-                ResultSet rs3 = ps3.executeQuery();
-                ItemData id;
-                while (rs3.next()) {
-                    po.addItem(rs3.getString("name"), rs3.getString("description"), rs3.getFloat("unitPrice"), rs3.getInt("quantity"));
+                String query2 = "SELECT i.name, i.description, i.unitPrice, pi.quantityOrdered\n"
+                        + "FROM itemdata i\n"
+                        + "INNER JOIN poitem pi\n"
+                        + "ON pi.itemname=i.name AND  pi.type=\"" + resultSet.getString("type") + "\" AND pi.no=\"" + resultSet.getInt("no") + "\" ";
+                PreparedStatement preparedStatement2 = con.prepareStatement(query2);
+                ResultSet resultSet2 = preparedStatement2.executeQuery();
+                while (resultSet2.next()) {
+                    purchaseorder.addItem(resultSet2.getString("name"), resultSet2.getString("description"), resultSet2.getFloat("unitPrice"), resultSet2.getInt("quantityOrdered"));
                 }
-                purchaseOrders.add(po);
+                purchaseOrders.add(purchaseorder);
             }
-        } catch (SQLException se) {
-            se.printStackTrace();
+        } catch (SQLException sqlException) {
+            sqlException.printStackTrace();
+        }finally {
+            try {
+                if (con != null) {
+                    con.close();
+                }
+            } catch (SQLException sqlee) {
+                sqlee.printStackTrace();
+            }
         }
+
         return purchaseOrders.iterator();
     }
 
     public Object get(String key) {
+        Connection con = DBConnection.getConnection();
         try {
-            String query = "SELECT * FROM purchaseorder";
-            PreparedStatement ps = DBConnection.getConnection()
-                    .prepareStatement(query);
-            ResultSet rs = ps.executeQuery();
+            String[] keys = key.split(",");
+            String query = "SELECT p.date, p.no,  p.type, s.name, s.country, s.state, s.city, p.invoiceNo\n"
+                    + "FROM purchaseorder p\n"
+                    + "INNER JOIN supplier s\n"
+                    + "ON s.name=p.supplier\n"
+                    + "WHERE p.no = ? AND p.type = ?";
+            PreparedStatement preparedStatement = con.prepareStatement(query);
+            preparedStatement.setString(1, keys[0]);
+            preparedStatement.setString(2, keys[1]);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                Supplier s = new Supplier(resultSet.getString("name"), resultSet.getString("country"), resultSet.getString("state"), resultSet.getString("city"));
+                PurchaseOrder purchaseorder = new PurchaseOrder(resultSet.getDate("date"), resultSet.getInt("no"), resultSet.getString("type"), s, resultSet.getString("invoiceNo"));
 
-            if (rs.next()) {
-                String[] date = rs.getString("date").split(",");
-                //Date dateobj = new Date(date[0], date[1], date[2]);
+                String query2 = "SELECT i.name, i.description, i.unitPrice, pi.quantityOrdered\n"
+                        + "FROM itemdata i\n"
+                        + "INNER JOIN poitem pi\n"
+                        + "ON pi.itemname=i.name AND  pi.type=\"" + resultSet.getString("type") + "\" AND pi.no=\"" + resultSet.getInt("no") + "\" ";
 
-                String query2 = "SELECT * FROM purchaseorder p,supplier sWHERE s.name = p.supplier ";
-                PreparedStatement ps2 = DBConnection.getConnection().prepareStatement(query2);
-                ResultSet rs2 = ps2.executeQuery();
-                String address = rs2.getString("city") + ", " + rs2.getString("state") + ", " + rs2.getString("country");
-                Supplier s = new Supplier(rs2.getString("name"), address);
-
-                PurchaseOrder po = new PurchaseOrder(rs.getDate("date"), rs.getString("no"), rs.getString("type"), rs2.getString("name"));
-                String query3 = "SELECT * FROM purchaseorder po, poitem pi,itemdata iWHERE po.type = pi.type AND po.no = pi.no AND pi.itemname= i.name "; //this query statement may need work
-                PreparedStatement ps3 = DBConnection.getConnection().prepareStatement(query3);
-                ResultSet rs3 = ps3.executeQuery();
-                ItemData id;
-                while (rs3.next()) {
-                    po.addItem(rs3.getString("name"), rs3.getString("description"), rs3.getFloat("unitPrice"), rs3.getInt("quantity"));
+                PreparedStatement preparedStatement2 = con.prepareStatement(query2);
+                ResultSet resultSet2 = preparedStatement2.executeQuery();
+                while (resultSet2.next()) {
+                    purchaseorder.addItem(resultSet2.getString("name"), resultSet2.getString("description"), resultSet2.getFloat("unitPrice"), resultSet2.getInt("quantity"));
                 }
-                return po;
+
+                try {
+                    if(con!=null)
+                        con.close();
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+
+                return purchaseorder;
             }
-        } catch (SQLException se) {
-            se.printStackTrace();
+        } catch (SQLException sqlException) {
+            sqlException.printStackTrace();
+        }finally {
+            try {
+                if (con != null) {
+                    con.close();
+                }
+            } catch (SQLException sqlee) {
+                sqlee.printStackTrace();
+            }
         }
+
+        try {
+            con.close();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+
         return null;
 
     }
 
     public Iterator search(String searchStr) {
+        Connection con = DBConnection.getConnection();
         ArrayList<PurchaseOrder> purchaseOrders = new ArrayList<PurchaseOrder>();
         try {
-            String query = "SELECT * FROM purchaseorder WHERE  LIKE ? ORDER BY 1";
-            Connection c = DBConnection.getConnection();
-            PreparedStatement ps = c.prepareStatement(query);
-            ps.setString(1, "%" + searchStr + "%");
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                String[] date = rs.getString("date").split(",");
-                //Date dateobj = new Date(date[0], date[1], date[2]);
+            String query = "SELECT p.date, p.no,  p.type, s.name, s.country, s.state, s.city, p.invoiceNo\n"
+                    + "FROM purchaseorder p\n"
+                    + "INNER JOIN supplier s\n"
+                    + "ON s.name=p.supplier "
+                    + "WHERE type LIKE ?\n"
+                    + "OR no LIKE ?\n"
+                    + "OR date LIKE ?\n"
+                    + "OR supplier LIKE ?\n";
+            PreparedStatement preparedStatement = con.prepareStatement(query);
+            preparedStatement.setString(1, "%" + searchStr + "%");
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                Supplier s = new Supplier(resultSet.getString("name"), resultSet.getString("country"), resultSet.getString("state"), resultSet.getString("city"));
+                PurchaseOrder purchaseorder = new PurchaseOrder(resultSet.getDate("date"), resultSet.getInt("no"), resultSet.getString("type"), s, resultSet.getString("invoiceNo"));
 
-                String query2 = "SELECT * FROM purchaseorder p,supplier sWHERE s.name = p.supplier ";
-                PreparedStatement ps2 = DBConnection.getConnection().prepareStatement(query2);
-                ResultSet rs2 = ps2.executeQuery();
-                String address = rs2.getString("city") + ", " + rs2.getString("state") + ", " + rs2.getString("country");
-                Supplier s = new Supplier(rs2.getString("name"), address);
+                String query2 = "SELECT i.name, i.description, i.unitPrice, pi.quantityOrdered \n"
+                        + "FROM itemdata i\n"
+                        + "INNER JOIN poitem pi\n"
+                        + "ON pi.itemname=i.name AND  pi.type=\"" + resultSet.getString("type") + "\" AND pi.no=\"" + resultSet.getInt("no") + "\" ";
 
-                PurchaseOrder po = new PurchaseOrder(rs.getDate("date"), rs.getString("no"), rs.getString("type"), rs2.getString("name"));
-                String query3 = "SELECT * FROM purchaseorder po, poitem pi,itemdata iWHERE po.type = pi.type AND po.no = pi.no AND pi.itemname= i.name "; //this query statement may need work
-                PreparedStatement ps3 = DBConnection.getConnection().prepareStatement(query3);
-                ResultSet rs3 = ps3.executeQuery();
-                ItemData id;
-                while (rs3.next()) {
-                    po.addItem(rs3.getString("name"), rs3.getString("description"), rs3.getFloat("unitPrice"), rs3.getInt("quantity"));
+                PreparedStatement preparedStatement2 = con.prepareStatement(query2);
+                ResultSet resultSet2 = preparedStatement2.executeQuery();
+                while (resultSet2.next()) {
+                    purchaseorder.addItem(resultSet2.getString("name"), resultSet2.getString("description"), resultSet2.getFloat("unitPrice"), resultSet2.getInt("quantity"));
                 }
-                purchaseOrders.add(po);
+                purchaseOrders.add(purchaseorder);
             }
-        } catch (SQLException se) {
-            se.printStackTrace();
+        } catch (SQLException sqlException) {
+            sqlException.printStackTrace();
+        }finally {
+            try {
+                if (con != null) {
+                    con.close();
+                }
+            } catch (SQLException sqlee) {
+                sqlee.printStackTrace();
+            }
         }
         return purchaseOrders.iterator();
 
     }
 
-    public void add(Object obj) {
-
-        PurchaseOrder po = (PurchaseOrder) obj;
-        String date = "test";
-
+    public Iterator filter(Iterator conditions) {
+        Connection con = DBConnection.getConnection();
+        QueryFilterDirector director = new QueryFilterDirector(new POFilterQueryBuilder());
+        ArrayList<String> results = new ArrayList<String>();
         try {
-            String stmt = "INSERT INTO purchaseorder VALUES(?,?,?,?);";
-            Connection con = DBConnection.getConnection();
-            PreparedStatement ps = con.prepareStatement(stmt);
-            ps.setString(1, po.getType());
-            ps.setInt(2, po.getIdNo());
-            ps.setDate(3, new java.sql.Date(po.getDate().getTime()));
-            ps.setString(4, po.getSupplier());
-            ps.execute();
-        }catch (SQLException se) {
-            se.printStackTrace();
+            String query = director.getQuery(conditions);
+            PreparedStatement preparedStatement = con.prepareStatement(query);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                results.add(resultSet.getString("no"));
+                results.add(resultSet.getString("type"));
+                results.add(resultSet.getString("supplier"));
+                results.add(resultSet.getString("date"));
+                results.add(resultSet.getString("Sum"));
+            }
+            return results.iterator();
+        } catch (Exception exeption) {
+            exeption.printStackTrace();
+        }finally {
+            try {
+                if (con != null) {
+                    con.close();
+                }
+            } catch (SQLException sqlee) {
+                sqlee.printStackTrace();
+            }
+        }
+        return null;
+    }
+
+    public Iterator getDistinct(String string) {
+        Connection con = DBConnection.getConnection();
+        ArrayList<String> results = new ArrayList<String>();
+        try {
+            String query = "SELECT DISTINCT " + string + " FROM purchaseorder";
+            PreparedStatement preparedStatement = con.prepareStatement(query);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                results.add(resultSet.getString(1));
+            }
+        } catch (SQLException sqlException) {
+            sqlException.printStackTrace();
+        }finally {
+            try {
+                if (con != null) {
+                    con.close();
+                }
+            } catch (SQLException sqlee) {
+                sqlee.printStackTrace();
+            }
+        }
+
+        return results.iterator();
+    }
+
+    public void add(Object object) {
+        PurchaseOrder purchaseorder = (PurchaseOrder) object;
+        Connection con = DBConnection.getConnection();
+        try {
+            String query = "INSERT INTO purchaseorder  VALUES (?,NULL,?,?,?);";
+            PreparedStatement preparedStatement = con.prepareStatement(query);
+            preparedStatement.setString(1, purchaseorder.getType());
+            preparedStatement.setDate(2, new java.sql.Date(purchaseorder.getDate().getTime()));
+            preparedStatement.setString(3, purchaseorder.getSupplier().getName());
+
+            //
+            String queryE = "SELECT MAX(no) FROM purchaseorder";
+            PreparedStatement preparedStatementE = con.prepareStatement(queryE);
+            ResultSet resultSetE = preparedStatementE.executeQuery();
+            resultSetE.next();
+            //
+
+            preparedStatement.setString(4, "iv" + resultSetE.getInt(1));
+            preparedStatement.execute();
+
+            Iterator items = purchaseorder.getItems();
+
+            while (items.hasNext()) {
+                query = "SELECT MAX(no) FROM purchaseorder";
+                preparedStatement = con.prepareStatement(query);
+                ResultSet resultSet = preparedStatement.executeQuery();
+                resultSet.next();
+
+                ItemData itemData = (ItemData) items.next();
+                query = "INSERT INTO poitem  VALUES(?,?,?,?,?);";
+                preparedStatement = con.prepareStatement(query);
+                preparedStatement.setString(1, purchaseorder.getType());
+                preparedStatement.setInt(2, resultSet.getInt(1));
+                preparedStatement.setString(3, itemData.getName());
+                preparedStatement.setInt(4, purchaseorder.getQuantity(itemData));
+                preparedStatement.setInt(5, purchaseorder.getQuantity(itemData));//temppo
+                preparedStatement.execute();
+            }
+        } catch (SQLException sqlException) {
+            sqlException.printStackTrace();
+        }finally {
+            try {
+                if (con != null) {
+                    con.close();
+                }
+            } catch (SQLException sqlee) {
+                sqlee.printStackTrace();
+            }
+        }
+
+    }
+
+    public void update(Object object, String key) {
+        PurchaseOrder purchaseorder = (PurchaseOrder) object;
+        Connection con = DBConnection.getConnection();
+        Map.Entry es;
+        Iterator iterator = purchaseorder.getItems();
+        ItemData itemData;
+        try {
+            String query = "BEGIN transaction\n"
+                    + "\n"
+                    + "UPDATE purchaseorder SET date = ?, no = ?, type = ?, supplier = ?\n"
+                    + "WHERE type =? AND no = ?\n"
+                    + "\n"
+                    + "UPDATE supplier SET name = ?, country = ?, state = ?, city = ?\n"
+                    + "FROM purchaseorder p, supplier s\n"
+                    + "WHERE p.name = s.supplier\n"
+                    + "AND p.name = ?\n"
+                    + "\n"
+                    + "COMMIT";
+
+            PreparedStatement preparedStatement = con.prepareStatement(query);
+            java.sql.Date sqlDate = new java.sql.Date(purchaseorder.getDate().getTime());
+            preparedStatement.setDate(1, sqlDate);
+            preparedStatement.setString(2, "" + purchaseorder.getIdNo());
+            preparedStatement.setString(3, purchaseorder.getType());
+            preparedStatement.setString(4, purchaseorder.getSupplier().getName());
+            preparedStatement.setString(5, purchaseorder.getType());
+            preparedStatement.setString(6, "" + purchaseorder.getIdNo());
+            preparedStatement.setString(7, purchaseorder.getSupplier().getName());
+            preparedStatement.setString(8, purchaseorder.getSupplier().getCountry());
+            preparedStatement.setString(9, purchaseorder.getSupplier().getState());
+            preparedStatement.setString(10, purchaseorder.getSupplier().getCity());
+            preparedStatement.setString(11, purchaseorder.getSupplier().getName());
+            preparedStatement.setString(12, purchaseorder.getType());
+            preparedStatement.setString(13, "" + purchaseorder.getIdNo());
+            preparedStatement.execute();
+
+            while (iterator.hasNext()) {
+                es = (Map.Entry) iterator.next();
+                itemData = (ItemData) es.getKey();
+                String stmt2 = "BEGIN transaction\n\n"
+                        + "UPDATE poitem SET type = ?, no = ?, itemname = ?, quantity = ?\n"
+                        + "FROM purchaseorder po, poitem pi\n"
+                        + "WHERE po.type = pi.type AND po.no = po.type\n"
+                        + "AND po.type = ? AND po.no = ?\n\n"
+                        + "UPDATE itemdata SET name = ?, description = ?, unitPrice = ?\n"
+                        + "FROM poitem p, itemdata i\n"
+                        + "WHERE po.itemname = i.name\n"
+                        + "AND i.name = ?\n\n"
+                        + "COMMIT";
+
+                PreparedStatement preparedStatement2 = con
+                        .prepareStatement(stmt2);
+                preparedStatement2.setString(1, purchaseorder.getType());
+                preparedStatement2.setString(2, "" + purchaseorder.getIdNo());
+                preparedStatement2.setString(3, itemData.getName());
+                preparedStatement2.setString(4, "" + (Integer) es.getValue());
+                preparedStatement2.setString(5, purchaseorder.getType());
+                preparedStatement2.setString(6, "" + purchaseorder.getIdNo());
+                preparedStatement2.setString(7, itemData.getName());
+                preparedStatement2.setString(8, itemData.getDescription());
+                preparedStatement2.setString(9, "" + itemData.getUnitPrice());
+                preparedStatement2.setString(10, itemData.getName());
+                preparedStatement.execute();
+            }
+        } catch (SQLException sqlException) {
+            sqlException.printStackTrace();
+        }finally {
+            try {
+                if (con != null) {
+                    con.close();
+                }
+            } catch (SQLException sqlee) {
+                sqlee.printStackTrace();
+            }
         }
     }
 
-    public void update(Object obj, String key) {
-    }
-
-    public void delete(Object obj) {
-
-        PurchaseOrder po = (PurchaseOrder) obj;
+    public void delete(Object object) {
+        Connection con = DBConnection.getConnection();
+        PurchaseOrder purchaseorder = (PurchaseOrder) object;
         try {
-            String stmt = "DELETE FROM purchaseorder WHERE type = ? AND no = ? ;";
-            PreparedStatement ps = DBConnection.getConnection().prepareStatement(stmt);
-            ps.setString(1, po.getType());
-            ps.setInt(2, po.getIdNo());
-            ps.execute();
-        } catch (SQLException se) {
-            se.printStackTrace();
+            String query = "DELETE FROM purchaseorder WHERE type = ? AND no = ? ;";
+            PreparedStatement preparedStatement = con.prepareStatement(query);
+            preparedStatement.setString(1, purchaseorder.getType());
+            preparedStatement.setInt(2, purchaseorder.getIdNo());
+            preparedStatement.execute();
+        } catch (SQLException sqlException) {
+            sqlException.printStackTrace();
+        }finally {
+            try {
+                if (con != null) {
+                    con.close();
+                }
+            } catch (SQLException sqlee) {
+                sqlee.printStackTrace();
+            }
         }
     }
 }

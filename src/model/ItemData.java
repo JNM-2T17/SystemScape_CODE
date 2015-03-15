@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package caista.model;
+package model;
 
 /**
  *
@@ -11,38 +11,45 @@ package caista.model;
  */
 public class ItemData {
 
-    private String name;
-    private String description;
-    private float unitPrice;
+	private String name;
+	private String description;
+	private float unitPrice;
 
-    public ItemData(String name, String description, float unitPrice) {
-        setName(name);
-        setDescription(description);
-        setUnitPrice(unitPrice);
-    }
+	public ItemData(String name, String description, float unitPrice) {
+		setName(name);
+		setDescription(description);
+		setUnitPrice(unitPrice);
+	}
 
-    public String getName() {
-        return this.name;
-    }
+	public ItemData() {
+		// TODO Auto-generated constructor stub
+		name = "";
+		description = "";
+		unitPrice = 0;
+	}
 
-    public void setName(String name) {
-        this.name = name;
-    }
+	public String getName() {
+		return this.name;
+	}
 
-    public String getDescription() {
-        return description;
-    }
+	public void setName(String name) {
+		this.name = name;
+	}
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
+	public String getDescription() {
+		return description;
+	}
 
-    public float getUnitPrice() {
-        return unitPrice;
-    }
+	public void setDescription(String description) {
+		this.description = description;
+	}
 
-    public void setUnitPrice(float unitPrice) {
-        this.unitPrice = unitPrice;
-    }
+	public float getUnitPrice() {
+		return unitPrice;
+	}
+
+	public void setUnitPrice(float unitPrice) {
+		this.unitPrice = unitPrice;
+	}
 
 }

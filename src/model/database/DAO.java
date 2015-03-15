@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package caista.model.database;
+package model.database;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -52,6 +52,10 @@ public class DAO {
         data.add(new ItemDataDAO());
         data.add(new SupplierContactDAO());
         data.add(new EmployeeDAO());
+        data.add(new WarrantyDAO());
+        data.add(new ContractDAO());
+        data.add(new UserDAO());
+        data.add(new AssignmentDAO());
     }
 
     public static DAO getInstance() {
@@ -61,20 +65,51 @@ public class DAO {
         return instance;
     }
     
+    public Iterator filter( String table, Iterator conditions ){
+        if( table.equalsIgnoreCase( "purchaseorder" ) )
+		return ((PurchaseOrderDAO)data.get(0)).filter(conditions);
+	else if( table.equalsIgnoreCase( "supplier" ) )
+		return ((SupplierDAO)data.get(1)).filter(conditions);
+        else if( table.equalsIgnoreCase( "inventoryitem" ) )
+		return ((InventoryItemDAO)data.get(2)).filter(conditions);
+        else if( table.equalsIgnoreCase( "employee" ) )
+                return ((EmployeeDAO)data.get(5)).filter(conditions);
+	return null;
+    }
+    
+    public Iterator getDistinct( String table, String string ){
+        if( table.equalsIgnoreCase( "purchaseorder" ) )
+		return ((PurchaseOrderDAO)data.get(0)).getDistinct(string);
+	else if( table.equalsIgnoreCase( "supplier" ) )
+		return ((SupplierDAO)data.get(1)).getDistinct(string);
+        else if( table.equalsIgnoreCase( "inventoryitem" ) )
+		return ((InventoryItemDAO)data.get(2)).getDistinct(string);
+        else if( table.equalsIgnoreCase( "employee" ) )
+                return ((EmployeeDAO)data.get(5)).getDistinct(string);
+	return null;
+    }
+    
+   
     public Iterator get( String table )
 	{
 		if( table.equalsIgnoreCase( "purchaseorder" ) )
 			return data.get(0).get();
 		else if( table.equalsIgnoreCase( "supplier" ) )
 			return data.get(1).get();
-		else if( table.equalsIgnoreCase( "inventoryitem" ) )
+                else if( table.equalsIgnoreCase( "inventoryitem" ) )
 			return data.get(2).get();
-		else if( table.equalsIgnoreCase( "itemdata" ) )
+                else if( table.equalsIgnoreCase( "itemdata" ) )
 			return data.get(3).get();
-		else if( table.equalsIgnoreCase( "suppliercontact" ) )
+                else if( table.equalsIgnoreCase( "suppliercontact" ) )
 			return data.get(4).get();
-		else if( table.equalsIgnoreCase( "employee" ) )
+                else if( table.equalsIgnoreCase( "employee" ) )
 			return data.get(5).get();
+                else if( table.equalsIgnoreCase( "warranty" ) )
+			return data.get(6).get();
+                else if( table.equalsIgnoreCase( "contract" ) )
+			return data.get(7).get();
+                else if( table.equalsIgnoreCase( "assignment" ) )
+			return data.get(9).get();
 		return null;
 	}
 	
@@ -109,17 +144,25 @@ public class DAO {
 	public Object get( String table, String key )
 	{
 		if( table.equalsIgnoreCase( "purchaseorder" ) )
-			return data.get(0).get();
+			return data.get(0).get(key);
 		else if( table.equalsIgnoreCase( "supplier" ) )
-			return data.get(1).get();
+			return data.get(1).get(key);
                 else if( table.equalsIgnoreCase( "inventoryitem" ) )
-			return data.get(2).get();
+			return data.get(2).get(key);
                 else if( table.equalsIgnoreCase( "itemdata" ) )
-			return data.get(3).get();
+			return data.get(3).get(key);
                 else if( table.equalsIgnoreCase( "suppliercontact" ) )
-			return data.get(4).get();
+			return data.get(4).get(key);
                 else if( table.equalsIgnoreCase( "employee" ) )
-			return data.get(5).get();
+			return data.get(5).get(key);
+                else if( table.equalsIgnoreCase( "warranty" ) )
+			return data.get(6).get(key);
+                else if( table.equalsIgnoreCase( "contract" ) )
+			return data.get(7).get(key);
+                else if( table.equalsIgnoreCase( "user" ) )
+                        return data.get(8).get(key);
+                else if( table.equalsIgnoreCase( "assignment" ) )
+			return data.get(9).get(key);
 		return null;
 	}
 	
@@ -132,17 +175,23 @@ public class DAO {
 	public Iterator search( String table, String searchStr )
 	{
 		if( table.equalsIgnoreCase( "purchaseorder" ) )
-			return data.get(0).get();
+			return data.get(0).search(searchStr);
 		else if( table.equalsIgnoreCase( "supplier" ) )
-			return data.get(1).get();
+			return data.get(1).search(searchStr);
                 else if( table.equalsIgnoreCase( "inventoryitem" ) )
-			return data.get(2).get();
+			return data.get(2).search(searchStr);
                 else if( table.equalsIgnoreCase( "itemdata" ) )
-			return data.get(3).get();
+			return data.get(3).search(searchStr);
                 else if( table.equalsIgnoreCase( "suppliercontact" ) )
-			return data.get(4).get();
+			return data.get(4).search(searchStr);
                 else if( table.equalsIgnoreCase( "employee" ) )
-			return data.get(5).get();
+			return data.get(5).search(searchStr);
+                else if( table.equalsIgnoreCase( "warranty" ) )
+			return data.get(6).search(searchStr);
+                else if( table.equalsIgnoreCase( "contract" ) )
+			return data.get(7).search(searchStr);
+                else if( table.equalsIgnoreCase( "assignment" ) )
+			return data.get(9).search(searchStr);
 		return null;
 	}
 	
@@ -177,6 +226,12 @@ public class DAO {
 			((IDBCUD)data.get(4)).add( obj );
                 else if( table.equalsIgnoreCase( "employee" ) )
 			((IDBCUD)data.get(5)).add( obj );
+                else if( table.equalsIgnoreCase( "warranty" ) )
+			((IDBCUD)data.get(6)).add( obj );
+                else if( table.equalsIgnoreCase( "contract" ) )
+			((IDBCUD)data.get(7)).add( obj );
+                else if( table.equalsIgnoreCase( "assignment" ) )
+			((IDBCUD)data.get(9)).add( obj );
 	}
 	
 	/**
@@ -188,17 +243,24 @@ public class DAO {
 	public void update( String table, Object obj, String origKey )
 	{
 		if( table.equalsIgnoreCase( "purchaseorder" ) )
-			((IDBCUD)data.get(0)).add( obj );
+			((IDBCUD)data.get(0)).update(obj, origKey);
 		else if( table.equalsIgnoreCase( "supplier" ) )
-			((IDBCUD)data.get(1)).add( obj );
+			((IDBCUD)data.get(1)).update(obj, origKey);
                 else if( table.equalsIgnoreCase( "inventoryitem" ) )
-			((IDBCUD)data.get(2)).add( obj );
+			((IDBCUD)data.get(2)).update(obj, origKey);
                 else if( table.equalsIgnoreCase( "itemdata" ) )
-			((IDBCUD)data.get(3)).add( obj );
+			((IDBCUD)data.get(3)).update(obj, origKey);
                 else if( table.equalsIgnoreCase( "suppliercontact" ) )
-			((IDBCUD)data.get(4)).add( obj );
+			((IDBCUD)data.get(4)).update(obj, origKey);
                 else if( table.equalsIgnoreCase( "employee" ) )
-			((IDBCUD)data.get(5)).add( obj );
+			((IDBCUD)data.get(5)).update(obj, origKey);
+                else if( table.equalsIgnoreCase( "warranty" ) )
+			((IDBCUD)data.get(6)).update(obj, origKey);
+                else if( table.equalsIgnoreCase( "contract" ) )
+			((IDBCUD)data.get(7)).update(obj, origKey);
+                else if( table.equalsIgnoreCase( "assignment" ) )
+			((IDBCUD)data.get(9)).update(obj, origKey);
+                
 	}
 	
 	/**
@@ -209,16 +271,24 @@ public class DAO {
 	public void delete( String table, Object obj )
 	{
 		if( table.equalsIgnoreCase( "purchaseorder" ) )
-			((IDBCUD)data.get(0)).add( obj );
+			((IDBCUD)data.get(0)).delete(obj);
 		else if( table.equalsIgnoreCase( "supplier" ) )
-			((IDBCUD)data.get(1)).add( obj );
+			((IDBCUD)data.get(1)).delete(obj);
                 else if( table.equalsIgnoreCase( "inventoryitem" ) )
-			((IDBCUD)data.get(2)).add( obj );
+			((IDBCUD)data.get(2)).delete(obj);
                 else if( table.equalsIgnoreCase( "itemdata" ) )
-			((IDBCUD)data.get(3)).add( obj );
+			((IDBCUD)data.get(3)).delete(obj);
                 else if( table.equalsIgnoreCase( "suppliercontact" ) )
-			((IDBCUD)data.get(4)).add( obj );
+			((IDBCUD)data.get(4)).delete(obj);
                 else if( table.equalsIgnoreCase( "employee" ) )
-			((IDBCUD)data.get(5)).add( obj );
+			((IDBCUD)data.get(5)).delete(obj);
+                else if( table.equalsIgnoreCase( "warranty" ) )
+			((IDBCUD)data.get(6)).delete(obj);
+                else if( table.equalsIgnoreCase( "contract" ) )
+			((IDBCUD)data.get(7)).delete(obj);
+                else if( table.equalsIgnoreCase( "assignment" ) )
+			((IDBCUD)data.get(9)).delete(obj);
+                
 	}
+       
 }
