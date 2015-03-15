@@ -76,7 +76,7 @@ public class InventoryItemDAO implements IDBCUD {
 							 resultSet.getDate("Warranty End"), 
 							 resultSet.getDate("Contract Start"), 
 							 resultSet.getDate("Contract End"), 
-							 resultSet.getFloat("maintainanceCost"));
+							 resultSet.getFloat("maintenanceCost"));
                 }
                 else {
                 	inventoryItem = new InventoryItem(resultSet.getInt("ID"),resultSet.getString("name"), 

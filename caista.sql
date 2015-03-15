@@ -91,7 +91,7 @@ CREATE TABLE IF NOT EXISTS Contract (
 	hardware INT,
 	startDate Date NOT NULL,
 	endDate Date NOT NULL,
-	maINTainanceCost FLOAT NOT NULL,
+	maintenanceCost FLOAT NOT NULL,
 	PRIMARY KEY( hardware, startDate ),
 	CONSTRAINT Contractfk_1
 		FOREIGN KEY (hardware) 
@@ -208,7 +208,7 @@ SELECT I.ID, ID.name, ID.description, ID.unitprice, status, classification,
 		invoiceNo, location, assetTag, serviceTag, deliveryDate, licenseKey, 
 		W.startDate `Warranty Start`, W.endDate `Warranty End`, 
 		C.startDate `Contract Start`, C.endDate `Contract End`, 
-		C.maintainanceCost
+		C.maintenanceCost
 FROM inventoryItem I 
 	LEFT JOIN hardwareItem H ON I.ID = H.ID
     LEFT JOIN itasset IA ON H.ID = IA.ID
