@@ -1,298 +1,316 @@
 package view.purchaseOrder;
 
+
+
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.ComponentOrientation;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Date;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 
-import javax.swing.DefaultComboBoxModel;
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.SwingConstants;
-import javax.swing.table.DefaultTableModel;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+import javax.swing.border.Border;
 
-import model.PurchaseOrder;
-import model.Supplier;
-import view.Button;
-import view.Observer;
-import view.Button.ButtonBuilder;
-
-import com.toedter.calendar.JDateChooser;
-
-import controller.PurchaseOrderController;
-import controller.SupplierController;
-
-import java.util.ArrayList;
-import java.util.Iterator;
+import model.ItemData;
+import net.miginfocom.swing.MigLayout;
+import view.JTextFieldFilter;
 import view.Message;
+import view.PopUp;
+import controller.PurchaseOrderController;
 
-public class AddPO extends JPanel implements ActionListener, Observer {
-	private JPanel panDefinition, panLeft, panCenter, panRight, panSupplier,
-			panDate, panAddItem, panItemTable, panClass, panHeader, panFooter;
-	private JLabel lblSupplier, lblClass, lblDate, lblItem;
-	private JButton btnAddItem, btnSubmit;
-	private JComboBox cmbSupplier, cmbClass;
-	private DefaultTableModel model;
-	private POTableModel poTableModel;
-	private JTable table;
+public class AddPOItem extends PopUp implements ActionListener, FocusListener{
+	private JPanel panHeader, panCenter, panClose, panContent,panFooter,panWest,panEast, panSubmit;
+	private JLabel lblItem,lblAmount,lblAmountValue,lblQuantity,lblDescription,lblPrice;
+	private JTextArea txtDescription;
+	private JTextField txtQuantity,txtPrice, txtItem;
+	private JButton btnSubmit;
 	private JScrollPane scrollPane;
-	private JPanel panSubmit;
-	private JPanel panGrandTotal;
-	private JLabel lblGrandTotal;
-	private JDateChooser dateChooser;
-	private Date selectedDate;
 
 	private PurchaseOrderController poController;
-	private SupplierController supplierController;
-	private JPanel panCurrency;
-	private JLabel lblCurrency;
-	private JComboBox cmbCurrency;
-	
+	private JLabel lblType;
+	private JComboBox cmbType;
 	private JFrame parent;
-	private JLabel lblGrandValue;
-
-	public AddPO(JFrame parent) {
+	
+	public AddPOItem(JFrame parent, String type, PurchaseOrderController poController) 
+	{
+	
+		super(parent);
+		this.parent = parent;
+		this.poController = poController;
+		this.addFocusListener(this);
+		this.setUndecorated(true);
 		
-		this.parent=parent;
-		poController = PurchaseOrderController.getInstance();
-		poTableModel = new POTableModel(poController);
-
-		supplierController = SupplierController.getInstance();
-
-		setLayout(new BorderLayout(0, 0));
-		panDefinition = new JPanel();
-		panDefinition.setPreferredSize(new Dimension(10, 80));
-		add(panDefinition, BorderLayout.NORTH);
-		panDefinition.setBackground(Color.white);
-		panDefinition.setLayout(new BorderLayout(0, 0));
-
-		panLeft = new JPanel();
-		panLeft.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
-		panDefinition.add(panLeft, BorderLayout.WEST);
-		panLeft.setBackground(Color.white);
-		panLeft.setLayout(new BorderLayout(0, 0));
-
-		panSupplier = new JPanel();
-		panSupplier.setBackground(Color.white);
-		panLeft.add(panSupplier, BorderLayout.NORTH);
-
-		lblSupplier = new JLabel("Supplier :");
-		panSupplier.add(lblSupplier);
-		lblSupplier.setFont(new Font("Arial", Font.PLAIN, 22));
-
-		cmbSupplier = new JComboBox();
-		populateSupplierNames();
-                
-		panSupplier.add(cmbSupplier);
-		cmbSupplier.setFont(new Font("Arial", Font.PLAIN, 22));
-		cmbSupplier.setBackground(Color.white);
-		cmbSupplier.setPreferredSize(new Dimension(200, 30));
-
-		panClass = new JPanel();
-		panClass.setBackground(Color.white);
-		panLeft.add(panClass, BorderLayout.WEST);
-
-		lblClass = new JLabel("Item Classification :");
-		lblClass.setHorizontalTextPosition(SwingConstants.LEFT);
-		lblClass.setHorizontalAlignment(SwingConstants.LEFT);
-		lblClass.setFont(new Font("Arial", Font.PLAIN, 22));
-		panClass.add(lblClass);
-
-		cmbClass = new JComboBox();
-		cmbClass.setPreferredSize(new Dimension(100, 30));
-		cmbClass.setModel(new DefaultComboBoxModel(new String[] { "Hardware",
-				"Software", "Gen" }));
-		cmbClass.setFont(new Font("Arial", Font.PLAIN, 22));
-		cmbClass.setBackground(Color.white);
-		panClass.add(cmbClass);
-
-		panRight = new JPanel();
-		panRight.setBackground(Color.white);
-		panDefinition.add(panRight, BorderLayout.EAST);
-		panRight.setLayout(new BorderLayout(0, 0));
-
-		panDate = new JPanel();
-		panDate.setBackground(Color.white);
-		panRight.add(panDate, BorderLayout.NORTH);
-
-		lblDate = new JLabel("Date :");
-		panDate.add(lblDate);
-		lblDate.setFont(new Font("Arial", Font.PLAIN, 22));
-
-		dateChooser = new JDateChooser();
-		dateChooser.setOpaque(false);
-		dateChooser.setDate(new Date());
-		dateChooser.setBorder(null);
-		dateChooser.setFont(new Font("Arial", Font.PLAIN, 15));
-		dateChooser.setDateFormatString("yyyy-MM-dd");
-		dateChooser.setBackground(Color.WHITE);
-		dateChooser.setPreferredSize(new Dimension(150, 30));
-
-		panDate.add(dateChooser);
-
-		panCurrency = new JPanel();
-		panLeft.setBackground(Color.white);
-		panRight.add(panCurrency, BorderLayout.WEST);
-
-		lblCurrency = new JLabel("Currency :");
-		lblCurrency.setFont(new Font("Arial", Font.PLAIN, 22));
-		panCurrency.add(lblCurrency);
-
-		cmbCurrency = new JComboBox();
-		cmbCurrency.setPreferredSize(new Dimension(110, 30));
-		panCurrency.add(cmbCurrency);
-
 		panCenter = new JPanel();
+//		getContentPane().add(panCenter, BorderLayout.CENTER);
+
 		panCenter.setBackground(Color.white);
-		add(panCenter, BorderLayout.CENTER);
 		panCenter.setLayout(new BorderLayout(0, 0));
-
-		btnAddItem = new Button.ButtonBuilder().img("src/assets/Round/Add.png",
-				40, 40).build();
-		btnAddItem.setActionCommand("add");
-		btnAddItem.addActionListener(this);
-
-		panHeader = new JPanel();
-		panHeader.setBackground(Color.white);
-		panCenter.add(panHeader, BorderLayout.NORTH);
-		panHeader.setLayout(new BorderLayout(0, 0));
-
-		panAddItem = new JPanel();
-		panAddItem.setBackground(Color.white);
-		panHeader.add(panAddItem, BorderLayout.WEST);
-		panAddItem.setSize(new Dimension(100, 80));
-		panAddItem.setPreferredSize(new Dimension(125, 60));
-		panAddItem.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
-
-		lblItem = new JLabel("Item/s");
-		lblItem.setFont(new Font("Arial", Font.PLAIN, 22));
-		panAddItem.add(lblItem);
-		panAddItem.add(btnAddItem);
-
-		panFooter = new JPanel();
-		panFooter.setBackground(Color.white);
-		panCenter.add(panFooter, BorderLayout.SOUTH);
-		panFooter.setLayout(new BorderLayout(0, 0));
-
-		panSubmit = new JPanel();
-		panSubmit.setBackground(Color.white);
-		panFooter.add(panSubmit, BorderLayout.SOUTH);
-
-		btnSubmit = new JButton("Submit");
-		btnSubmit.setForeground(Color.WHITE);
-		btnSubmit.setBackground(new Color(32, 130, 213));
-		btnSubmit.setFont(new Font("Arial", Font.PLAIN, 24));
-		btnSubmit.addActionListener(this);
-		panSubmit.add(btnSubmit);
-
-		panGrandTotal = new JPanel();
-		panGrandTotal.setBackground(Color.white);
-		panFooter.add(panGrandTotal, BorderLayout.EAST);
-
-		lblGrandTotal = new JLabel("Grand Total :");
-		lblGrandTotal.setFont(new Font("Arial", Font.PLAIN, 22));
-		panGrandTotal.add(lblGrandTotal);
+		panCenter.setSize(new Dimension(600,400));
+		panCenter.setPreferredSize(new Dimension(500,500));
 		
-		lblGrandValue = new JLabel("0.00");
-		lblGrandValue.setFont(new Font("Arial", Font.PLAIN, 22));
-		panGrandTotal.add(lblGrandValue);
-
-		panItemTable = new JPanel();
-		panItemTable.setBackground(Color.white);
-		panCenter.add(panItemTable, BorderLayout.CENTER);
-
-		scrollPane = new JScrollPane();
-		scrollPane.getViewport().setBackground(Color.white);
-		scrollPane.setBackground(Color.WHITE);
-		panCenter.add(scrollPane);
-
-		table = new JTable(poTableModel);
-		scrollPane.setViewportView(table);
-		table.getTableHeader().setReorderingAllowed(false);
-		table.setFont(new Font("Arial", Font.PLAIN, 18));
-		table.getTableHeader().setFont(new Font("Arial", Font.PLAIN, 20));
-		table.setRowHeight(55);
-		table.getColumnModel().getColumn(2).setPreferredWidth(20);
-
-		supplierController.registerObserver(this);// dev
-		poController.registerObserver(this);
-
-	}
-
-	@Override
-	public void actionPerformed(ActionEvent event) {
-		// TODO Auto-generated method stub
-
-		if (event.getSource() == btnAddItem) {
-			AddPOItem i = new AddPOItem(parent, (String)cmbClass.getSelectedItem(), poController);
-		} else if (event.getSource() == btnSubmit) {
-
-			if (checkFields() == false) {
-				selectedDate = dateChooser.getDate();
-				Supplier supplier = (Supplier) supplierController.getObject((String) cmbSupplier.getSelectedItem());// dev
-				poController.addPurchaseOrder(new PurchaseOrder(selectedDate, 0,cmbClass.getSelectedItem().toString(),supplier, ""));// dev
-                                Message msg = new Message(parent, Message.SUCCESS, "Purchase Order added successfully.");
-                        } else {
-				JOptionPane.showMessageDialog(null, "No date");
-
+		panContent = new JPanel();
+		panContent.setBackground(Color.white);
+		panCenter.add(panContent, BorderLayout.CENTER);
+		panContent.setLayout(new MigLayout("", "[grow][188.00,grow][][][]", "[][][][grow][][][][][][]"));
+		
+		lblItem = new JLabel("Item :");
+		lblItem.setFont(new Font("Arial", Font.PLAIN, 18));
+		panContent.add(lblItem, "cell 0 1,alignx left");
+		
+		txtItem = new JTextField("");
+		txtItem.addFocusListener( new FocusListener() {
+			Border border = BorderFactory.createLineBorder(Color.BLACK, 1);
+			@Override
+			public void focusLost(FocusEvent e) {
+				// TODO Auto-generated method stub
+				//txtItem.setBorder(border);
 			}
 			
-			clear();
+			@Override
+			public void focusGained(FocusEvent e) {
+				// TODO Auto-generated method stub
+				txtItem.setBorder(border);
+			}
+		});
+		txtItem.setFont(new Font("Arial", Font.PLAIN, 18));
+		panContent.add(txtItem, "cell 1 1,growx");
+		txtItem.setColumns(10);
+		
+		lblDescription = new JLabel("Item Description :");
+		lblDescription.setFont(new Font("Arial", Font.PLAIN, 18));
+		panContent.add(lblDescription, "cell 0 2,alignx left");
+		
+		scrollPane = new JScrollPane();
+		scrollPane.getViewport().setBackground(Color.white);
+		scrollPane.setPreferredSize(new Dimension(300, 150));
+		panContent.add(scrollPane, "cell 1 3,growy");
+		
+		txtDescription = new JTextArea("");
+		txtDescription.addFocusListener( new FocusListener() {
+			Border border = BorderFactory.createLineBorder(Color.BLACK, 1);
+			@Override
+			public void focusLost(FocusEvent e) {
+				// TODO Auto-generated method stub
+				//txtItem.setBorder(border);
+			}
+			
+			@Override
+			public void focusGained(FocusEvent e) {
+				// TODO Auto-generated method stub
+				txtDescription.setBorder(border);
+			}
+		});
+		txtDescription.setLineWrap(true);
+		scrollPane.setViewportView(txtDescription);
+		
+		lblType = new JLabel("Type:");
+		lblType.setFont(new Font("Arial", Font.PLAIN, 18));
+		panContent.add(lblType, "cell 0 5,alignx left");
+		
+		String[] types={"IT Asset", "Non-IT Asset"};
+		cmbType = new JComboBox(types);
+		cmbType.setFont(new Font("Arial", Font.PLAIN, 18));
+		cmbType.setPreferredSize(new Dimension(185, 32));
+		cmbType.setBackground(Color.WHITE);
+		panContent.add(cmbType, "cell 1 5,alignx left");
+		
+		lblQuantity = new JLabel("Quantity :");
+		lblQuantity.setFont(new Font("Arial", Font.PLAIN, 18));
+		panContent.add(lblQuantity, "cell 0 6,alignx left");
+		
+		txtQuantity = new JTextField();
+		txtQuantity.addFocusListener( new FocusListener() {
+			Border border = BorderFactory.createLineBorder(Color.BLACK, 1);
+			@Override
+			public void focusLost(FocusEvent e) {
+				// TODO Auto-generated method stub
+				//txtItem.setBorder(border);
+			}
+			
+			@Override
+			public void focusGained(FocusEvent e) {
+				// TODO Auto-generated method stub
+				txtQuantity.setBorder(border);
+			}
+		});
+		txtQuantity.setDocument(new JTextFieldFilter(JTextFieldFilter.NUMERIC));
+		txtQuantity.setPreferredSize(new Dimension(10, 25));
+		panContent.add(txtQuantity, "cell 1 6");
+		txtQuantity.setColumns(10);
+		
+		lblPrice = new JLabel("Unit Price :");
+		lblPrice.setFont(new Font("Arial", Font.PLAIN, 18));
+		panContent.add(lblPrice, "cell 0 7");
+	
+		txtPrice = new JTextField("");
+		txtPrice.addFocusListener( new FocusListener() {
+			Border border = BorderFactory.createLineBorder(Color.BLACK, 1);
+			@Override
+			public void focusLost(FocusEvent e) {
+				// TODO Auto-generated method stub
+				//txtItem.setBorder(border);
+			}
+			
+			@Override
+			public void focusGained(FocusEvent e) {
+				// TODO Auto-generated method stub
+				txtPrice.setBorder(border);
+			}
+		});
+		txtPrice.setDocument(new JTextFieldFilter(JTextFieldFilter.FLOAT));
+		txtPrice.setPreferredSize(new Dimension(10, 25));
+		panContent.add(txtPrice, "cell 1 7");
+		txtPrice.addActionListener(new TextAmountActionListener());
+		txtPrice.setColumns(10);
+		
+		lblAmount = new JLabel("Amount :");
+		lblAmount.setFont(new Font("Arial", Font.PLAIN, 18));
+		panContent.add(lblAmount, "cell 0 8");
+		
+		lblAmountValue = new JLabel("0.00");
+		lblAmountValue.setFont(new Font("Arial", Font.PLAIN, 18));
+		panContent.add(lblAmountValue, "cell 1 8");
+		
+		panSubmit = new JPanel();
+		panSubmit.setBackground(Color.white);
+		panCenter.add(panSubmit, BorderLayout.SOUTH);
+		
+		btnSubmit = new JButton("Submit");
+		btnSubmit.setFont(new Font("Arial", Font.PLAIN, 18));
+		btnSubmit.addActionListener(this);
+		btnSubmit.setForeground(Color.WHITE);
+		btnSubmit.setBackground(new Color(32, 130, 213));
+		panSubmit.add(btnSubmit);
+		
+		setContent(panCenter);
+		getClose().addActionListener(this);
+		
+		if(!type.equals("Hardware")){
+			lblType.setVisible(false);
+			cmbType.setVisible(false);
 		}
-
+		
+		this.setVisible(true);
 	}
 	
-	public void clear(){
-		cmbSupplier.setSelectedIndex(0);
-		cmbClass.setSelectedIndex(0);
-		lblGrandValue.setText("");
-		dateChooser.setDate(new Date());
-		for (int i = 0; i < table.getModel().getRowCount(); i++) {
-			for (int j = 0; j < table.getModel().getRowCount(); j++) {
-				table.getModel().setValueAt(null, i, j);
-			}
-		}
-		
-		poTableModel.setRowCount(0);
-		poController.init();
-		
-	}
-
-	public boolean checkFields() {
-		boolean isEmpty = false;
-
-		if (dateChooser.getDate() == null) {
-			isEmpty = true;
-		}
-
-		return isEmpty;
-	}
-        
-        public void populateSupplierNames(){
-            Iterator<Supplier> iterator = supplierController.getAll();
-            ArrayList<String> supplierNames = new ArrayList();
-            while(iterator.hasNext()){
-                supplierNames.add(iterator.next().getName());
-            }
-            cmbSupplier.setModel(new DefaultComboBoxModel(supplierNames.toArray()));
-        }
+	
 
 	@Override
-	public void update() {
+	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
-		poTableModel = new POTableModel(poController);
-		table.setModel(poTableModel);
-		lblGrandValue.setText(String.valueOf(poController.computeGrandTotal()));
+		
+		if(e.getSource() == getClose())
+		{
+			this.setVisible(false); //you can't see me! - LOL
+			this.dispose();
+		}
+		else if(e.getSource() == btnSubmit)
+		{
+			
+			String error = checkFields();
+			if(error.equals("") == true)
+			{
+				String item = txtItem.getText();
+				String description = txtDescription.getText();
+				int quantity = parseStringInt(txtQuantity.getText());
+				float price = (float) parseStringFloat(txtPrice.getText());
+				
+				poController.addItem(new ItemData(item, description, price), quantity);
+				this.setVisible(false); //you can't see me!
+				this.dispose();
+				
+			}
+			else if(error.equals("") == false)
+			{
+				Message msg = new Message(parent, Message.ERROR,  error);
+			}
+			else
+			{
+				clearFields();
+			}
+			
+
+		}
+		
+	}
+	
+	public void clearFields()
+	{
+		txtDescription.setText("");
+		txtQuantity.setText("");
+		txtPrice.setText("");
+		txtItem.setText("");
+	}
+
+	public int parseStringInt(String quantity)
+	{
+		return Integer.parseInt(quantity);
+	}
+	
+	public double parseStringFloat(String  price)
+	{
+		return  Float.parseFloat(price);
+	}
+	
+	public String checkFields()
+	{
+		String error = "";
+		Border border = BorderFactory.createLineBorder(Color.RED, 2);
+	
+		if(txtItem.getText().equals("")){
+			error+= "Item Name Field is empty \n";
+			txtItem.setBorder(border);
+		}
+		if(txtDescription.getText().equals("")){
+			error+= "Item Description Area is empty \n";
+			txtDescription.setBorder(border);
+		}
+		if(txtQuantity.getText().equals("")){
+			error+= "Quantity Field is empty \n";
+			txtQuantity.setBorder(border);
+		}
+		if(txtPrice.getText().equals("")){
+			error+= "Price Field is empty";
+			txtPrice.setBorder(border);
+		}
+
+		return error;
+	}
+
+	class TextAmountActionListener implements ActionListener
+	{
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			// TODO Auto-generated method stub
+			int quantity = parseStringInt(txtQuantity.getText());
+			float price = (float) parseStringFloat(txtPrice.getText());
+			float result = quantity * price;
+			 lblAmountValue.setText(String.valueOf(result));
+		}
+		
+	}
+	@Override
+	public void focusGained(FocusEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void focusLost(FocusEvent e) {
+		// TODO Auto-generated method stub
+		JFrame f=(JFrame) e.getSource();
+		f.toFront();
 	}
 }
