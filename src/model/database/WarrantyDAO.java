@@ -105,6 +105,7 @@ public class WarrantyDAO implements IDBCUD {
 
         try {
             String query = "SELECT * FROM warranty WHERE endDate <= ? AND endDate >=  ?" + "ORDER BY 1";
+            System.out.println(con);
             PreparedStatement preparedStatement = con.prepareStatement(query);
             preparedStatement.setString(1, "\'" + searchStr + "\'");
             preparedStatement.setString(2, "\'" + dateNow + "\'");
