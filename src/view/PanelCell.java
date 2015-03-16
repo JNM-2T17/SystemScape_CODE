@@ -17,14 +17,14 @@ public class PanelCell extends AbstractCellEditor implements TableCellEditor,
 	CellEdit panel;
 
 	public PanelCell() {
-		panel = new CellEdit();
+//		panel = new CellEdit();
 	}
 
 	private void updateData(CellEdit pan, boolean isSelected, JTable table) {
 		panel = pan;
 		if (isSelected) {
 			panel.setBackground(table.getSelectionBackground());
-		} else {
+		} else if(panel!=null) {
 			panel.setBackground(table.getBackground());
 		}
 	}

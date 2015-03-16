@@ -5,6 +5,7 @@ import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
+import model.InventoryItem;
 import view.Content;
 import view.Gui;
 import view.Content.ContentBuilder;
@@ -36,7 +37,7 @@ public class TabInventory extends JPanel implements ActionListener{
 		PanelRegistry.getInstance().setTabInventory(this);
 		this.setBackground(Color.WHITE);
 		setLayout(cl);
-		Content temp=new Content.ContentBuilder().caption("View Inventory").add(true).filter(true).export(true).content(new ViewInventory()).build();
+		Content temp=new Content.ContentBuilder().caption("View Inventory").add(true).filter(true).export(true).content(new ViewInventory(this)).build();
 		temp.getBtnAdd().addActionListener(this);
 		temp.getBtnFilter().addActionListener(this);
 		temp.getBtnExport().addActionListener(this);
@@ -49,6 +50,11 @@ public class TabInventory extends JPanel implements ActionListener{
 		
 		cl.show(this, "view");
 	}
+	
+	public void setEdit(InventoryItem ii){
+		
+	}
+	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub

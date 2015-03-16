@@ -5,6 +5,7 @@ import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
+import model.Supplier;
 import view.Content;
 import view.Gui;
 import view.Content.ContentBuilder;
@@ -29,7 +30,7 @@ public class TabSupplier extends JPanel implements ActionListener{
 		this.setBackground(Color.WHITE);
 		setLayout(cl);
 		
-		Content temp=new Content.ContentBuilder().caption("View Suppliers").add(true).filter(true).content(new ViewSuppliers()).build();
+		Content temp=new Content.ContentBuilder().caption("View Suppliers").add(true).filter(true).content(new ViewSuppliers(this)).build();
 		temp.getBtnAdd().addActionListener(this);
 		temp.getBtnFilter().addActionListener(this);
 		this.add(temp, "view");
@@ -42,6 +43,17 @@ public class TabSupplier extends JPanel implements ActionListener{
 		
 		cl.show(this, "view");
 	}
+	
+	public void setEdit(Supplier supp){
+		Content temp=new Content.ContentBuilder().caption("Edit Supplier").back(true).content(new EditSupplier(gui, supp)).build();
+		temp.getBtnBack().addActionListener(this);
+		this.add(temp, "edit");
+		list.add(temp);
+		
+		cl.show(this, "edit");
+	}
+	
+	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub

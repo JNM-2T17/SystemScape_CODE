@@ -6,7 +6,7 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 
 
-public class CellEdit extends JPanel implements ActionListener {
+public abstract class CellEdit extends JPanel implements ActionListener {
 	private JButton edit;
 	private JButton view;
 	public CellEdit(){
@@ -24,14 +24,11 @@ public class CellEdit extends JPanel implements ActionListener {
 		this.repaint();
 		this.revalidate();
 	}
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		if(e.getSource()==edit){
-			System.out.println("edit");
-		}
-		else if(e.getSource()==view){
-			System.out.println("view");
-		}
+	public abstract Object get();
+	public JButton getBtnEdit(){
+		return edit;
 	}
-	
+	public JButton getBtnView(){
+		return view;
+	}
 }

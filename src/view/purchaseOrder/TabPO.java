@@ -9,6 +9,7 @@ import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import model.PurchaseOrder;
 import view.Content;
 import view.Gui;
 import view.Content.ContentBuilder;
@@ -26,7 +27,7 @@ public class TabPO extends JPanel implements ActionListener{
 		this.setBackground(Color.WHITE);
 		setLayout(cl);
 		
-		Content temp=new Content.ContentBuilder().caption("View Purchase Orders").add(true).filter(true).content(new ViewPO()).build();
+		Content temp=new Content.ContentBuilder().caption("View Purchase Orders").add(true).filter(true).content(new ViewPO(this)).build();
 		temp.getBtnAdd().addActionListener(this);
 		temp.getBtnFilter().addActionListener(this);
 		this.add(temp, "view");
@@ -45,6 +46,10 @@ public class TabPO extends JPanel implements ActionListener{
 		list.add(temp);
 		
 		cl.show(this, "view");
+	}
+	
+	public void setEdit(PurchaseOrder po){
+		
 	}
         
         public void updateSupplierBox(){

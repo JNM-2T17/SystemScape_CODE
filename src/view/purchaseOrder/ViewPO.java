@@ -11,11 +11,14 @@ import view.ViewTemplate;
 public class ViewPO extends ViewTemplate implements Observer{
 
         PurchaseOrderController poController;
+        private TabPO tab;
     
-        public ViewPO() {
+        public ViewPO(TabPO tab) {
 		super();
+		this.tab = tab;
         poController = PurchaseOrderController.getInstance();
         poController.registerObserver(this);
+       
 	}
         
 	@Override
@@ -55,7 +58,7 @@ public class ViewPO extends ViewTemplate implements Observer{
                 getModel().setValueAt(purchaseOrder.getInvoiceNo(), getModel().getRowCount() - 1, 2);
                 getModel().setValueAt(purchaseOrder.getDate(), getModel().getRowCount() - 1, 3);
                 getModel().setValueAt(purchaseOrder.computeGrandTotal(), getModel().getRowCount() - 1, 4);
-                getModel().setValueAt(new CellEdit(), getModel().getRowCount() - 1, 5);
+                getModel().setValueAt(new POCellEdit(purchaseOrder, tab), getModel().getRowCount() - 1, 5);
             }
             packTable();
 	}

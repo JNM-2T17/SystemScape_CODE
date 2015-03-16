@@ -33,9 +33,11 @@ public class ViewInventory extends ViewTemplate implements Observer,
 	WarrantyController warrantyController;
 
 	private DefaultTableModel tglModel;
+	private TabInventory tab;
 
-	public ViewInventory() {
+	public ViewInventory(TabInventory tab) {
 		super();
+		this.tab=tab;
 		iiController = InventoryItemController.getInstance();
 		itAssetController = ITAssetController.getInstance();
 		assignmentController = AssignmentController.getInstance();
@@ -62,8 +64,6 @@ public class ViewInventory extends ViewTemplate implements Observer,
 		String headers2[] = { "Item", "Description", "Type", "Quantity" };
 		tglModel = new DefaultTableModel(headers2, 4) {
 			public boolean isCellEditable(int rowIndex, int mColIndex) {
-				if (mColIndex == 3)
-					return true;
 				return false;
 			}
 
@@ -152,7 +152,7 @@ public class ViewInventory extends ViewTemplate implements Observer,
 				getModel().setValueAt(warranty.getEndDate(),
 						getModel().getRowCount() - 1, 10);
 			}
-			getModel().setValueAt(new CellEdit(), getModel().getRowCount() - 1,
+			getModel().setValueAt(new InventoryCellEdit(inventoryItem, tab), getModel().getRowCount() - 1,
 					11);
 		}
 

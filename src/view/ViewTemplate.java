@@ -36,7 +36,7 @@ public abstract class ViewTemplate extends JPanel{
 
 		model = new DefaultTableModel() {
 			public boolean isCellEditable(int rowIndex, int mColIndex) {
-				if(mColIndex==4) return true;
+				if(mColIndex==model.getColumnCount()-1) return true;
 				return false;
 			}
 
