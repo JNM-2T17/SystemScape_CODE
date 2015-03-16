@@ -27,27 +27,9 @@ public class DBConnection {
         url = "jdbc:mysql://localhost:3306/";
         database = "caista";
         username = "root";
-        password = "1234";//tempo
-        //BufferedReader br = null;
-
-//        try {
-//            br = new BufferedReader(
-//                    new FileReader(
-//                            new File("config.txt")));
-//            password = br.readLine();
-//        } catch (IOException ioe) {
-//            ioe.printStackTrace();
-//        } finally {
-//            if (br != null) {
-//                try {
-//                    br.close();
-//                } catch (IOException ioe) {
-//                    ioe.printStackTrace();
-//                }
-//            }
-//        }
+        password = "";//tempo
     }
-
+     
     /**
      * returns an instance of the Database Connection
      *
