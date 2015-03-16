@@ -18,14 +18,14 @@ public class NotifContract extends JPanel {
 	private JButton btnView;
 
 	public NotifContract(String name, int days) {
-		setBorder(new EmptyBorder(10, 10, 10, 10));
+		setBorder(new EmptyBorder(5, 5, 5, 5));
 		setLayout(new BorderLayout(0, 0));
 		
 		setBackground(new Color(246, 246, 246));
 		
 		JPanel panLeft = new JPanel();
 		panLeft.setBackground(new Color(246, 246, 246));
-		panLeft.setPreferredSize(new Dimension(60, 10));
+		panLeft.setPreferredSize(new Dimension(40, 10));
 		add(panLeft, BorderLayout.WEST);
 		SpringLayout sl_panLeft = new SpringLayout();
 		panLeft.setLayout(sl_panLeft);
@@ -35,7 +35,7 @@ public class NotifContract extends JPanel {
 		JLabel lblDuration = new JLabel(prefix+""+suffix);
 		lblDuration.setHorizontalAlignment(SwingConstants.CENTER);
 		lblDuration.setForeground(Color.white);
-		lblDuration.setFont(new Font("Arial", Font.PLAIN, 24));
+		lblDuration.setFont(new Font("Arial", Font.PLAIN, 14));
 		sl_panLeft.putConstraint(SpringLayout.WEST, lblDuration, 0,
 				SpringLayout.WEST, panLeft);
 		sl_panLeft.putConstraint(SpringLayout.EAST, lblDuration, 0,
@@ -47,18 +47,18 @@ public class NotifContract extends JPanel {
 		panLeft.add(lblDuration);
 
 		JLabel redDuration = new ImageLabel.ImageBuilder().img(
-				"src/assets/red.png", 0.115).build();
+				"src/assets/red.png", 0.08).build();
 		sl_panLeft.putConstraint(SpringLayout.NORTH, redDuration, 0,
 				SpringLayout.NORTH, panLeft);
 		panLeft.add(redDuration);
 
 		JLabel lblContract = new JLabel(name);
 		lblContract.setHorizontalAlignment(SwingConstants.CENTER);
-		lblContract.setFont(new Font("Arial", Font.PLAIN, 24));
+		lblContract.setFont(new Font("Arial", Font.PLAIN, 14));
 		add(lblContract, BorderLayout.CENTER);
 
 		btnView = new Button.ButtonBuilder().img(
-				"src/assets/Round/Preview.png", 50, 50).build();
+				"src/assets/Round/Preview.png", 35, 35).build();
 		add(btnView, BorderLayout.EAST);
 	}
 }

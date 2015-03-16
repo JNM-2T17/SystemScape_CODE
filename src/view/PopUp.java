@@ -39,7 +39,7 @@ public abstract class PopUp extends JDialog {
 		getContentPane().setLayout(springLayout);
 
 		btnClose = new Button.ButtonBuilder().img(
-				"src/assets/Round/Cancel.png", 50, 50).build();
+				"src/assets/Round/Cancel.png", 35, 35).build();
 		springLayout.putConstraint(SpringLayout.NORTH, btnClose, 0,
 				SpringLayout.NORTH, getContentPane());
 		springLayout.putConstraint(SpringLayout.EAST, btnClose, 0,
@@ -66,8 +66,8 @@ public abstract class PopUp extends JDialog {
 		this.setUndecorated(true);
 		this.setBackground(new Color(0, 0, 0, 0));
 		this.setModalityType(ModalityType.APPLICATION_MODAL);
-		this.setPreferredSize(new Dimension(1000, 330));
-		this.setSize(new Dimension(1000, 330));
+		this.setPreferredSize(new Dimension(600, 250));
+		this.setSize(new Dimension(600, 250));
 
 		int x = parent.getLocation().x;
 		int y = parent.getLocation().y;

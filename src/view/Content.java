@@ -30,16 +30,16 @@ public class Content extends JPanel {
 		panCaption.setBackground(Color.WHITE);
 		panTop.add(panCaption, BorderLayout.WEST);
 
-		btnBack = new Button.ButtonBuilder().img("src/assets/Round/In.png", 50,
-				50).build();
+		btnBack = new Button.ButtonBuilder().img("src/assets/Round/In.png", 35,
+				35).build();
 		btnBack.setVisible(cb.back);
 		btnBack.setActionCommand("back");
 		panCaption.add(btnBack);
 
 		JLabel lblCaption = new JLabel(cb.caption);
-		lblCaption.setPreferredSize(new Dimension(500, 50));
+		lblCaption.setPreferredSize(new Dimension(500, 35));
 		lblCaption.setOpaque(true);
-		lblCaption.setFont(new Font("Tahoma", Font.PLAIN, 25));
+		lblCaption.setFont(new Font("Arial", Font.PLAIN, 14));
 		lblCaption.setBackground(new Color(246, 246, 246));
 		panCaption.add(lblCaption);
 
@@ -48,28 +48,28 @@ public class Content extends JPanel {
 		panTop.add(panOption, BorderLayout.EAST);
 
 		JLabel lblDelete = new JLabel("Delete");
-		lblDelete.setFont(new Font("Tahoma", Font.PLAIN, 25));
+		lblDelete.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		lblDelete.setForeground(new Color(139, 0, 0));
 		lblDelete.setVisible(cb.delete);
 		panOption.add(lblDelete);
 
 		btnDelete = new Button.ButtonBuilder().img(
-				"src/assets/Round/Delete.png", 50, 50).build();
+				"src/assets/Round/Delete.png", 35, 35).build();
 		btnDelete.setVisible(cb.delete);
 		btnDelete.setActionCommand("delete");
 		panOption.add(btnDelete);
 
-		btnAdd = new Button.ButtonBuilder().img("src/assets/Round/Add.png", 50,50).build();
+		btnAdd = new Button.ButtonBuilder().img("src/assets/Round/Add.png", 35,35).build();
 		btnAdd.setVisible(cb.add);
 		btnAdd.setActionCommand("add");
 		panOption.add(btnAdd);
 
-		btnFilter = new Button.ButtonBuilder().img("src/assets/Round/Find.png",50, 50).build();
+		btnFilter = new Button.ButtonBuilder().img("src/assets/Round/Find.png",35, 35).build();
 		btnFilter.setVisible(cb.filter);
 		btnFilter.setActionCommand("filter");
 		panOption.add(btnFilter);
 
-		btnExport = new Button.ButtonBuilder().img("src/assets/Round/Export.png", 50, 50).build();
+		btnExport = new Button.ButtonBuilder().img("src/assets/Round/Export.png", 35, 35).build();
 		btnExport.setVisible(cb.export);
 		btnExport.setActionCommand("export");
 		panOption.add(btnExport);

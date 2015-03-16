@@ -22,6 +22,7 @@ public abstract class ViewTemplate extends JPanel{
 	private DefaultTableModel tglModel;
 	private JXTable table;
 	private JToggleButton tglButton;
+	private JPanel panTop;
 
 	public ViewTemplate() {
 		setLayout(new BorderLayout(0, 0));
@@ -72,15 +73,16 @@ public abstract class ViewTemplate extends JPanel{
 		scrollPane.setViewportView(table);
 		
 		
-		table.setFont(new Font("Arial", Font.PLAIN, 18));
-		table.getTableHeader().setFont(new Font("Arial", Font.PLAIN, 20));
-		table.setRowHeight(55);
+//		table.setFont(new Font("Arial", Font.PLAIN, 18));
+		table.getTableHeader().setFont(new Font("Arial", Font.PLAIN, 14));
+		table.setRowHeight(40);
 		model.setRowCount(0);
 		
-		JPanel panTop = new JPanel();
+		 panTop = new JPanel();
 		panTop.setBackground(Color.white);
 		FlowLayout flowLayout = (FlowLayout) panTop.getLayout();
 		flowLayout.setAlignment(FlowLayout.LEFT);
+		panTop.setVisible(false);
 		add(panTop, BorderLayout.NORTH);
 		
 		tglButton = new JToggleButton("Toggle View");
@@ -98,6 +100,7 @@ public abstract class ViewTemplate extends JPanel{
 	
 	public void activateToggle(DefaultTableModel model){
 		tglButton.setVisible(true);
+		panTop.setVisible(true);
 		tglModel = model;
 	}
 	

@@ -10,6 +10,7 @@ import javax.swing.JTextArea;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Image;
 import java.awt.Window;
 
 import javax.swing.JButton;
@@ -44,8 +45,8 @@ public class Message extends PopUp implements ActionListener{
 		getClose().addActionListener(this);
 		
 		JPanel panMain=new JPanel();
-		panMain.setSize(new Dimension(1000,275));
-		panMain.setPreferredSize(new Dimension(1000,275));
+		panMain.setSize(new Dimension(600,200));
+		panMain.setPreferredSize(new Dimension(600,200));
 		setContent(panMain);
 		
 		panMain.setBackground(Color.WHITE);
@@ -53,21 +54,29 @@ public class Message extends PopUp implements ActionListener{
 		panMain.setLayout(springLayout);
 		
 		JLabel icon = new JLabel("");
+		ImageIcon ii;
 		if (type == Message.INFORMATION)
-			icon.setIcon(new ImageIcon(Message.class
-					.getResource("/assets/Metro/Info.png")));
+			ii=new ImageIcon(Message.class
+					.getResource("/assets/Metro/Info.png"));
 		else if (type == Message.WARNING)
-			icon.setIcon(new ImageIcon(Message.class
-					.getResource("/assets/Metro/Warning.png")));
+			ii=new ImageIcon(Message.class
+					.getResource("/assets/Metro/Warning.png"));
 		else if (type == Message.SUCCESS)
-			icon.setIcon(new ImageIcon(Message.class
-					.getResource("/assets/Metro/Check.png")));
+			ii=new ImageIcon(Message.class
+					.getResource("/assets/Metro/Check.png"));
 		else if (type == Message.ERROR)
-			icon.setIcon(new ImageIcon(Message.class
-					.getResource("/assets/Metro/Delete.png")));
+			ii=new ImageIcon(Message.class
+					.getResource("/assets/Metro/Delete.png"));
 		else
-			icon.setIcon(new ImageIcon(Message.class
-					.getResource("/assets/Metro/Info.png")));
+			ii=new ImageIcon(Message.class
+					.getResource("/assets/Metro/Info.png"));
+		
+        Image img = ii.getImage();
+        Image newimg = img.getScaledInstance((int) (ii.getIconWidth() * 0.7),
+                (int) (ii.getIconHeight() * 0.7), java.awt.Image.SCALE_SMOOTH);
+        ii = new ImageIcon(newimg);
+        icon.setIcon(ii);
+
 
 		springLayout.putConstraint(SpringLayout.NORTH, icon, 10,
 				SpringLayout.NORTH, this);
@@ -94,21 +103,21 @@ public class Message extends PopUp implements ActionListener{
 		btnOk = new JButton("Ok");
 		btnOk.setForeground(Color.WHITE);
 		btnOk.setBackground(new Color(32, 130, 213));
-		btnOk.setFont(new Font("Arial", Font.PLAIN, 32));
+		btnOk.setFont(new Font("Arial", Font.PLAIN, 18));
 		btnOk.addActionListener(this);
 		panFooter.add(btnOk);
 
 		btnYes = new JButton("Yes");
 		btnYes.setForeground(Color.WHITE);
 		btnYes.setBackground(new Color(32, 130, 213));
-		btnYes.setFont(new Font("Arial", Font.PLAIN, 32));
+		btnYes.setFont(new Font("Arial", Font.PLAIN, 18));
 		btnYes.addActionListener(this);
 		panFooter.add(btnYes);
 
 		btnCancel = new JButton("Cancel");
 		btnCancel.setForeground(Color.WHITE);
 		btnCancel.setBackground(new Color(32, 130, 213));
-		btnCancel.setFont(new Font("Arial", Font.PLAIN, 32));
+		btnCancel.setFont(new Font("Arial", Font.PLAIN, 18));
 		btnCancel.addActionListener(this);
 		panFooter.add(btnCancel);
 		
@@ -122,7 +131,7 @@ public class Message extends PopUp implements ActionListener{
 
 		JTextArea msg = new JTextArea();
 		msg.setText(text);
-		msg.setFont(new Font("Arial", Font.PLAIN, 32));
+		msg.setFont(new Font("Arial", Font.PLAIN, 18));
 		msg.setLineWrap(true);
 		msg.setWrapStyleWord(true);
 		msg.setBackground(Color.WHITE);

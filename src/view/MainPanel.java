@@ -19,6 +19,7 @@ import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.border.EmptyBorder;
 
+import java.awt.Image;
 import java.awt.Insets;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
@@ -29,6 +30,7 @@ import java.awt.event.ActionListener;
 import java.util.Iterator;
 
 import javax.swing.JScrollPane;
+
 import view.purchaseOrder.AddPO;
 import view.purchaseOrder.TabPO;
 import view.supplier.AddSupplier;
@@ -50,53 +52,59 @@ public class MainPanel extends JPanel implements ActionListener {
 		setLayout(new BorderLayout(0, 0));
 
 		panTop = new JPanel();
-		panTop.setPreferredSize(new Dimension(10, 80));
+		panTop.setPreferredSize(new Dimension(10, 55));
 		panTop.setBackground(new Color(32, 130, 213));
 		add(panTop, BorderLayout.NORTH);
 		panTop.setLayout(new BorderLayout(0, 0));
 
 		panTabs = new JPanel();
-		panTabs.setPreferredSize(new Dimension(1000, 10));
+		panTabs.setPreferredSize(new Dimension(600, 10));
+//		panTabs.setBackground(Color.red);
 		panTabs.setBackground(new Color(32, 130, 213));
 		panTop.add(panTabs, BorderLayout.WEST);
 		panTabs.setLayout(null);
 
 		panUser = new JPanel();
-		panUser.setPreferredSize(new Dimension(400, 60));
+		panUser.setPreferredSize(new Dimension(300, 30));
 		panUser.setBackground(new Color(32, 130, 213));
 		panUser.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
 		panTop.add(panUser, BorderLayout.EAST);
-		panUser.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		panUser.setLayout(new FlowLayout(FlowLayout.RIGHT, 5, 5));
 
 		lblUser = new JLabel("Loki");
 		lblUser.setForeground(Color.WHITE);
-		lblUser.setFont(new Font("Arial", Font.PLAIN, 32));
+		lblUser.setFont(new Font("Arial", Font.PLAIN, 16));
 		panUser.add(lblUser);
 
 		JLabel lblFollow = new JLabel("");
 		lblFollow.setBorder(new EmptyBorder(0, 5, 0, 0));
-		lblFollow.setIcon(new ImageIcon(MainPanel.class
-				.getResource("/assets/FollowersLogo.png")));
+		ImageIcon ii = new ImageIcon(MainPanel.class
+				.getResource("/assets/FollowersLogo.png"));
+        Image img = ii.getImage();
+        Image newimg = img.getScaledInstance((int) (ii.getIconWidth() * 0.5),
+                (int) (ii.getIconHeight() * 0.5), java.awt.Image.SCALE_SMOOTH);
+        ii = new ImageIcon(newimg);
+        lblFollow.setIcon(ii);
 		panUser.add(lblFollow);
 
 		btnLogOut = new JButton("Log out");
 		btnLogOut.setBorder(new EmptyBorder(0, 100, 0, 0));
 		btnLogOut.setForeground(Color.WHITE);
-		btnLogOut.setFont(new Font("Arial", Font.PLAIN, 21));
+//		btnLogOut.setFont(new Font("Arial", Font.PLAIN, 21));
 		btnLogOut.setBorderPainted(false);
 		btnLogOut.setContentAreaFilled(false);
 		btnLogOut.addActionListener(this);
 		panUser.add(btnLogOut);
 
 		btnClose = new Button.ButtonBuilder().img(
-				"src/assets/Metro/Delete.png", 40, 40).build();
+				"src/assets/Metro/Delete.png", 30, 30).build();
 		btnClose.addActionListener(this);
 		panUser.add(btnClose);
 
 		panNotif = new Notification();
                 ((Observer)panNotif).update();
                 
-		panNotif.setPreferredSize(new Dimension(300, 10));
+		panNotif.setPreferredSize(new Dimension(200, 10));
 		add(panNotif, BorderLayout.EAST);
 		panNotif.setBackground(new Color(32, 130, 213));
 
@@ -117,7 +125,6 @@ public class MainPanel extends JPanel implements ActionListener {
 		panContent.setBackground(new Color(32, 130, 213));
 
 		add(panContent, BorderLayout.CENTER);
-
 		panContent.setLayout(cl);
 	}
 
@@ -125,7 +132,7 @@ public class MainPanel extends JPanel implements ActionListener {
 		for (int i = 0; i < panTabs.getComponentCount(); i++) {
 			try {
 				JButton btn = (JButton) panTabs.getComponent(i);
-				btn.setLocation(btn.getLocation().x, 25);
+				btn.setLocation(btn.getLocation().x, 15);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -133,14 +140,14 @@ public class MainPanel extends JPanel implements ActionListener {
 	}
 
 	public void addTab(JPanel cont, String title) {
-		int n = 200 * panTabs.getComponentCount() + 20;
+		int n = 150 * panTabs.getComponentCount() + 20;
 
 		JButton btn = new JButton(title);
-		btn.setFont(new Font("Arial", Font.PLAIN, 20));
+		btn.setFont(new Font("Arial", Font.PLAIN, 16));
 		btn.setBorder(null);
 		btn.setBackground(Color.WHITE);
-		btn.setBounds(n, 25, 190, 45);
-		btn.setPreferredSize(new Dimension(190, 45));
+		btn.setBounds(n, 0, 140, 30);
+		btn.setPreferredSize(new Dimension(140, 30));
 		btn.addActionListener(this);
 		panTabs.add(btn);
 		panContent.add(cont, title);

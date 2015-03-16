@@ -63,14 +63,13 @@ public class Notification extends JPanel implements ActionListener, Observer{
 
 		panContract = new JPanel();
 		panContract.setBackground(new Color(32, 130, 213));
-		panContract.setPreferredSize(new Dimension(120, 125));
+		panContract.setPreferredSize(new Dimension(70, 75));
 		panHeader.add(panContract);
 
 		SpringLayout sl_panContract = new SpringLayout();
 		panContract.setLayout(sl_panContract);
 
 		numContract = new JLabel("");
-		numContract.setFont(new Font("Arial", Font.PLAIN, 20));
 		numContract.setForeground(Color.white);
 		sl_panContract.putConstraint(SpringLayout.NORTH, numContract, 1,
 				SpringLayout.NORTH, panContract);
@@ -79,7 +78,7 @@ public class Notification extends JPanel implements ActionListener, Observer{
 		panContract.add(numContract);
 
 		redContract = new ImageLabel.ImageBuilder().img("src/assets/red.png",
-				0.07).build();
+				0.05).build();
 		sl_panContract.putConstraint(SpringLayout.NORTH, redContract, 0,
 				SpringLayout.NORTH, panContract);
 		sl_panContract.putConstraint(SpringLayout.EAST, redContract, 0,
@@ -90,7 +89,7 @@ public class Notification extends JPanel implements ActionListener, Observer{
 		numContract.setVisible(false);
 
 		btnContract = new Button.ButtonBuilder().img(
-				"src/assets/Metro/Documents.png", 90, 90).build();
+				"src/assets/Metro/Documents.png", 60, 60).build();
 		btnContract.setToolTipText("Contract Notifications");
 		sl_panContract.putConstraint(SpringLayout.NORTH, btnContract, 15,
 				SpringLayout.NORTH, panContract);
@@ -99,14 +98,13 @@ public class Notification extends JPanel implements ActionListener, Observer{
 
 		panWarranty = new JPanel();
 		panWarranty.setBackground(new Color(32, 130, 213));
-		panWarranty.setPreferredSize(new Dimension(120, 125));
+		panWarranty.setPreferredSize(new Dimension(70, 75));
 		panHeader.add(panWarranty);
 
 		SpringLayout sl_panWarranty = new SpringLayout();
 		panWarranty.setLayout(sl_panWarranty);
 
 		numWarranty = new JLabel("");
-		numWarranty.setFont(new Font("Arial", Font.PLAIN, 20));
 		numWarranty.setForeground(Color.white);
 		sl_panWarranty.putConstraint(SpringLayout.NORTH, numWarranty, 1,
 				SpringLayout.NORTH, panWarranty);
@@ -115,7 +113,7 @@ public class Notification extends JPanel implements ActionListener, Observer{
 		panWarranty.add(numWarranty);
 
 		redWarranty = new ImageLabel.ImageBuilder().img("src/assets/red.png",
-				0.07).build();
+				0.05).build();
 		sl_panWarranty.putConstraint(SpringLayout.NORTH, redWarranty, 0,
 				SpringLayout.NORTH, panWarranty);
 		sl_panWarranty.putConstraint(SpringLayout.EAST, redWarranty, 0,
@@ -126,7 +124,7 @@ public class Notification extends JPanel implements ActionListener, Observer{
 		numWarranty.setVisible(false);
 
 		btnWarranty = new Button.ButtonBuilder().img(
-				"src/assets/Metro/Document3.png", 90, 90).build();
+				"src/assets/Metro/Document3.png", 60, 60).build();
 		btnWarranty.setToolTipText("Warranty Notifications");
 		sl_panWarranty.putConstraint(SpringLayout.NORTH, btnWarranty, 15,
 				SpringLayout.NORTH, panWarranty);
@@ -172,6 +170,10 @@ public class Notification extends JPanel implements ActionListener, Observer{
                 inventoryItemController = new InventoryItemController();
                 warrantyController.registerObserver(this);
                 contractController.registerObserver(this);
+                
+                addContract("Rissa",5 );
+                addContract("Weeza",5 );
+                addWarranty("Weeza",7 );
 		
 	}
         @Override

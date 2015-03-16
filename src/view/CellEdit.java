@@ -10,10 +10,10 @@ public class CellEdit extends JPanel implements ActionListener {
 	private JButton edit;
 	private JButton view;
 	public CellEdit(){
-		edit=new Button.ButtonBuilder().img("src/assets/Round/Note2.png", 40,
-				40).build();
-		view=new Button.ButtonBuilder().img("src/assets/Round/Preview.png", 40,
-				40).build();
+		edit=new Button.ButtonBuilder().img("src/assets/Round/Note2.png", 30,
+				30).build();
+		view=new Button.ButtonBuilder().img("src/assets/Round/Preview.png", 30,
+				30).build();
 		
 		edit.addActionListener(this);
 		view.addActionListener(this);

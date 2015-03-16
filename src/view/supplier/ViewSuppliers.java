@@ -84,6 +84,7 @@ public class ViewSuppliers extends ViewTemplate implements Observer {
             getModel().setValueAt(contactsString, getModel().getRowCount() - 1, 2);
             getModel().setValueAt(new CellEdit(), getModel().getRowCount() - 1, 3);
         }
+        packTable();
     }
     
     public void filterPopulate(Iterator data){

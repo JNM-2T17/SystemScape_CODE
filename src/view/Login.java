@@ -69,8 +69,8 @@ public class Login extends JPanel implements ActionListener {
         JLabel logo = new JLabel(" ");
         ImageIcon ii = new ImageIcon("src/assets/logo.png");
         Image img = ii.getImage();
-        Image newimg = img.getScaledInstance((int) (ii.getIconWidth() * 1),
-                (int) (ii.getIconHeight() * 1), java.awt.Image.SCALE_SMOOTH);
+        Image newimg = img.getScaledInstance((int) (ii.getIconWidth() * 0.5),
+                (int) (ii.getIconHeight() * 0.5), java.awt.Image.SCALE_SMOOTH);
         ii = new ImageIcon(newimg);
         logo.setIcon(ii);
 
@@ -81,7 +81,7 @@ public class Login extends JPanel implements ActionListener {
         panMain.add(panClose, BorderLayout.EAST);
 
         close = new Button.ButtonBuilder().img("src/assets/Metro/Delete.png",
-                40, 40).build();
+                30, 30).build();
         close.addActionListener(this);
         panClose.add(close);
 
@@ -93,14 +93,14 @@ public class Login extends JPanel implements ActionListener {
 
         panLogin = new JPanel();
         panLogin.setBorder(new LineBorder(new Color(32, 130, 213), 1, true));
-        panLogin.setPreferredSize(new Dimension(500, 300));
+        panLogin.setPreferredSize(new Dimension(370, 200));
         GridBagConstraints gbc_panLogin = new GridBagConstraints();
         gbc_panLogin.gridx = 0;
         panCenter.add(panLogin, gbc_panLogin);
         panLogin.setLayout(new BorderLayout(0, 0));
 
         panHeader = new JPanel();
-        panHeader.setPreferredSize(new Dimension(10, 60));
+        panHeader.setPreferredSize(new Dimension(10, 40));
         panHeader.setBackground(new Color(32, 130, 213));
         panLogin.add(panHeader, BorderLayout.NORTH);
         GridBagLayout gbl_panHeader = new GridBagLayout();
@@ -109,7 +109,7 @@ public class Login extends JPanel implements ActionListener {
 
         lblLogIn = new JLabel("Log In");
         lblLogIn.setForeground(Color.WHITE);
-        lblLogIn.setFont(new Font("Tahoma", Font.PLAIN, 32));
+        lblLogIn.setFont(new Font("Tahoma", Font.PLAIN, 24));
         GridBagConstraints gbc_lblLogIn = new GridBagConstraints();
         gbc_lblLogIn.insets = new Insets(0, 0, 5, 0);
         gbc_lblLogIn.gridx = 0;
@@ -122,24 +122,22 @@ public class Login extends JPanel implements ActionListener {
         panContent.setLayout(null);
 
         txtUsername = new JTextField();
-        txtUsername.setFont(new Font("Tahoma", Font.PLAIN, 20));
         txtUsername.setText("Username");
-        txtUsername.setBounds(21, 34, 456, 45);
+        txtUsername.setBounds(21, 25, 320, 30);
         panContent.add(txtUsername);
         txtUsername.setColumns(10);
 
         pwdPassword = new JPasswordField();
-        pwdPassword.setFont(new Font("Tahoma", Font.PLAIN, 20));
         pwdPassword.setText("Password");
-        pwdPassword.setBounds(21, 93, 456, 45);
+        pwdPassword.setBounds(21, 66, 320, 30);
         panContent.add(pwdPassword);
 
         btnLogin = new JButton("Login");
         btnLogin.setForeground(Color.WHITE);
-        btnLogin.setFont(new Font("Tahoma", Font.PLAIN, 25));
+        btnLogin.setFont(new Font("Tahoma", Font.PLAIN, 18));
         btnLogin.setBackground(new Color(32, 130, 213));
         btnLogin.setBorder(null);
-        btnLogin.setBounds(21, 159, 456, 45);
+        btnLogin.setBounds(21, 112, 320, 30);
         btnLogin.addActionListener(this);
         panContent.add(btnLogin);
 
