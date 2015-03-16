@@ -12,7 +12,6 @@ package model.database;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-
 import java.io.FileReader;
 import java.io.BufferedReader;
 import java.io.File;
@@ -24,7 +23,8 @@ import java.io.IOException;
 public class DBConnection {
 
     private static DBConnection instance = null;
-
+    private static Connection con = null;
+    
     private String driverName;
     private String url;
     private String database;
@@ -72,9 +72,9 @@ public class DBConnection {
      * @return instance of the Database Connection
      */
     public static DBConnection getInstance() {
-        if (instance == null) {
-            instance = new DBConnection();
-        }
+	    if ( instance == null ) {
+	    	instance = new DBConnection();
+	    }
 
         return instance;
     }
@@ -85,20 +85,19 @@ public class DBConnection {
      * @return connection to database
      */
     public static Connection getConnection() {
-        if (instance == null) {
-            instance = new DBConnection();
+        if (con == null) {
+        	instance = getInstance();
+        	try {
+                con = DriverManager.getConnection(instance.getUrl()
+                        + instance.getDatabase(),
+                        instance.getUsername(),
+                        instance.getPassword());
+            } catch (SQLException se) {
+                se.printStackTrace();
+            }
         }
-
-        try {
-            return DriverManager.getConnection(instance.getUrl()
-                    + instance.getDatabase(),
-                    instance.getUsername(),
-                    instance.getPassword());
-        } catch (SQLException se) {
-            se.printStackTrace();
-        }
-
-        return null;
+    
+        return con;
     }
 
     /**
