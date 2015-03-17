@@ -44,9 +44,9 @@ public class FilterPO extends PopUp implements ActionListener {
 
 		JPanel panMain = new JPanel();
 		panMain.setBackground(Color.white);
-		panMain.setSize(new Dimension(750, 400));
-		panMain.setPreferredSize(new Dimension(750, 400));
-		add(panMain);
+		panMain.setSize(new Dimension(500, 300));
+		panMain.setPreferredSize(new Dimension(500, 300));
+		getContentPane().add(panMain);
 		panMain.setLayout(new BorderLayout(0, 0));
 
 		JPanel panContent = new JPanel();
@@ -56,15 +56,13 @@ public class FilterPO extends PopUp implements ActionListener {
 		panContent.setLayout(sl_panContent);
 
 		JLabel lblItem = new JLabel("Item Classification:");
-		lblItem.setFont(new Font("Arial", Font.PLAIN, 24));
 		sl_panContent.putConstraint(SpringLayout.NORTH, lblItem, 50,
 				SpringLayout.NORTH, panContent);
-		sl_panContent.putConstraint(SpringLayout.WEST, lblItem, 57,
+		sl_panContent.putConstraint(SpringLayout.WEST, lblItem, 50,
 				SpringLayout.WEST, panContent);
 		panContent.add(lblItem);
 
 		JLabel lblSupplier = new JLabel("Supplier:");
-		lblSupplier.setFont(new Font("Arial", Font.PLAIN, 24));
 		sl_panContent.putConstraint(SpringLayout.NORTH, lblSupplier, 20,
 				SpringLayout.SOUTH, lblItem);
 		sl_panContent.putConstraint(SpringLayout.WEST, lblSupplier, 0,
@@ -72,7 +70,6 @@ public class FilterPO extends PopUp implements ActionListener {
 		panContent.add(lblSupplier);
 
 		JLabel lblDate = new JLabel("Date:");
-		lblDate.setFont(new Font("Arial", Font.PLAIN, 24));
 		sl_panContent.putConstraint(SpringLayout.NORTH, lblDate, 20,
 				SpringLayout.SOUTH, lblSupplier);
 		sl_panContent.putConstraint(SpringLayout.WEST, lblDate, 0,
@@ -80,7 +77,6 @@ public class FilterPO extends PopUp implements ActionListener {
 		panContent.add(lblDate);
 
 		JLabel lblGrandTotal = new JLabel("Grand Total:");
-		lblGrandTotal.setFont(new Font("Arial", Font.PLAIN, 24));
 		sl_panContent.putConstraint(SpringLayout.NORTH, lblGrandTotal, 20,
 				SpringLayout.SOUTH, lblDate);
 		sl_panContent.putConstraint(SpringLayout.WEST, lblGrandTotal, 0,
@@ -88,19 +84,17 @@ public class FilterPO extends PopUp implements ActionListener {
 		panContent.add(lblGrandTotal);
 
 		cmbItem = new JComboBox();
+		sl_panContent.putConstraint(SpringLayout.EAST, cmbItem, -50,
+				SpringLayout.EAST, panContent);
 		cmbItem.setBackground(Color.white);
-		cmbItem.setFont(new Font("Arial", Font.PLAIN, 24));
 		sl_panContent.putConstraint(SpringLayout.NORTH, cmbItem, 50,
 				SpringLayout.NORTH, panContent);
 		sl_panContent.putConstraint(SpringLayout.WEST, cmbItem, 26,
-				SpringLayout.EAST, lblItem);
-		sl_panContent.putConstraint(SpringLayout.EAST, cmbItem, 431,
 				SpringLayout.EAST, lblItem);
 		panContent.add(cmbItem);
 
 		cmbSupplier = new JComboBox();
 		cmbSupplier.setBackground(Color.white);
-		cmbSupplier.setFont(new Font("Arial", Font.PLAIN, 24));
 		sl_panContent.putConstraint(SpringLayout.NORTH, cmbSupplier, 0,
 				SpringLayout.NORTH, lblSupplier);
 		sl_panContent.putConstraint(SpringLayout.WEST, cmbSupplier, 0,
@@ -111,20 +105,16 @@ public class FilterPO extends PopUp implements ActionListener {
 
 		cmbTotal = new JComboBox();
 		sl_panContent.putConstraint(SpringLayout.NORTH, cmbTotal, 0, SpringLayout.NORTH, lblGrandTotal);
-		sl_panContent.putConstraint(SpringLayout.EAST, cmbTotal, -294, SpringLayout.EAST, panContent);
 		cmbTotal.setBackground(Color.white);
-		cmbTotal.setFont(new Font("Arial", Font.PLAIN, 24));
 		panContent.add(cmbTotal);
 
 		dateChooser = new JDateChooser();
 		dateChooser.setBackground(Color.white);
-		dateChooser.setFont(new Font("Arial", Font.PLAIN, 24));
 		dateChooser.setOpaque(false);
 		dateChooser.setBorder(null);
-		dateChooser.setFont(new Font("Arial", Font.PLAIN, 15));
 		dateChooser.setDateFormatString("yyyy-MM-dd");
 		dateChooser.setBackground(Color.WHITE);
-		dateChooser.setPreferredSize(new Dimension(150, 30));
+//		dateChooser.setPreferredSize(new Dimension(150, 30));
 		sl_panContent.putConstraint(SpringLayout.NORTH, dateChooser, 0,
 				SpringLayout.NORTH, lblDate);
 		sl_panContent.putConstraint(SpringLayout.WEST, dateChooser, 0,
@@ -137,13 +127,11 @@ public class FilterPO extends PopUp implements ActionListener {
 		sl_panContent.putConstraint(SpringLayout.NORTH, txtTotal, 0, SpringLayout.NORTH, cmbTotal);
 		sl_panContent.putConstraint(SpringLayout.WEST, txtTotal, 6, SpringLayout.EAST, cmbTotal);
 		sl_panContent.putConstraint(SpringLayout.EAST, txtTotal, 0, SpringLayout.EAST, cmbItem);
-		txtTotal.setFont(new Font("Arial", Font.PLAIN, 24));
 		panContent.add(txtTotal);
 		txtTotal.setColumns(10);
 		
 		JLabel lblInvoice = new JLabel("Invoice #:");
 		sl_panContent.putConstraint(SpringLayout.WEST, lblInvoice, 0, SpringLayout.WEST, lblItem);
-		lblInvoice.setFont(new Font("Arial", Font.PLAIN, 24));
 		panContent.add(lblInvoice);
 		
 		txtInvoice = new JTextField();
@@ -151,16 +139,15 @@ public class FilterPO extends PopUp implements ActionListener {
 		sl_panContent.putConstraint(SpringLayout.NORTH, txtInvoice, 14, SpringLayout.SOUTH, cmbTotal);
 		sl_panContent.putConstraint(SpringLayout.WEST, txtInvoice, 0, SpringLayout.WEST, cmbItem);
 		sl_panContent.putConstraint(SpringLayout.EAST, txtInvoice, 0, SpringLayout.EAST, cmbItem);
-		txtInvoice.setFont(new Font("Arial", Font.PLAIN, 24));
 		txtInvoice.setColumns(10);
 		panContent.add(txtInvoice);
 		
 		cmbUnit = new JComboBox();
+		sl_panContent.putConstraint(SpringLayout.EAST, cmbTotal, 75, SpringLayout.EAST, cmbUnit);
+		sl_panContent.putConstraint(SpringLayout.EAST, cmbUnit, 50, SpringLayout.WEST, dateChooser);
+		sl_panContent.putConstraint(SpringLayout.WEST, cmbUnit, 0, SpringLayout.WEST, dateChooser);
 		sl_panContent.putConstraint(SpringLayout.WEST, cmbTotal, 6, SpringLayout.EAST, cmbUnit);
 		sl_panContent.putConstraint(SpringLayout.NORTH, cmbUnit, 0, SpringLayout.NORTH, lblGrandTotal);
-		sl_panContent.putConstraint(SpringLayout.WEST, cmbUnit, 92, SpringLayout.EAST, lblGrandTotal);
-		sl_panContent.putConstraint(SpringLayout.EAST, cmbUnit, 175, SpringLayout.EAST, lblGrandTotal);
-		cmbUnit.setFont(new Font("Arial", Font.PLAIN, 24));
 		cmbUnit.setBackground(Color.WHITE);
 		panContent.add(cmbUnit);
 
@@ -172,7 +159,7 @@ public class FilterPO extends PopUp implements ActionListener {
 		panFooter.add(btnFilter);
 		btnFilter.setForeground(Color.white);
 		btnFilter.setBackground(new Color(32, 130, 213));
-		btnFilter.setFont(new Font("Arial", Font.PLAIN, 32));
+		btnFilter.setFont(new Font("Arial", Font.PLAIN, 16));
 		panFooter.add(btnFilter);
 
 		this.getClose().addActionListener(this);

@@ -21,7 +21,7 @@ import javax.swing.JComboBox;
 import view.PopUp;
 
 public class ExportInventory extends PopUp implements ActionListener{
-	private JButton btnFilter, btnBrowse;
+	private JButton btnExport, btnBrowse;
 	private JTextField txtName;
 	private JTextField txtDest;
 	private JComboBox cmbType;
@@ -30,9 +30,9 @@ public class ExportInventory extends PopUp implements ActionListener{
 		super(parent);
 
 		JPanel panMain = new JPanel();
-		panMain.setSize(new Dimension(750, 350));
-		panMain.setPreferredSize(new Dimension(750, 350));
-		add(panMain);
+		panMain.setSize(new Dimension(500, 250));
+		panMain.setPreferredSize(new Dimension(500, 250));
+		getContentPane().add(panMain);
 		panMain.setLayout(new BorderLayout(0, 0));
 		
 
@@ -40,12 +40,12 @@ public class ExportInventory extends PopUp implements ActionListener{
 		panFooter.setBackground(Color.WHITE);
 		panMain.add(panFooter, BorderLayout.SOUTH);
 
-		btnFilter = new JButton("Filter");
-		panFooter.add(btnFilter);
-		btnFilter.setForeground(Color.white);
-		btnFilter.setBackground(new Color(32, 130, 213));
-		btnFilter.setFont(new Font("Arial", Font.PLAIN, 32));
-		panFooter.add(btnFilter);
+		btnExport = new JButton("Export");
+		panFooter.add(btnExport);
+		btnExport.setForeground(Color.white);
+		btnExport.setBackground(new Color(32, 130, 213));
+		btnExport.setFont(new Font("Arial", Font.PLAIN, 16));
+		panFooter.add(btnExport);
 
 		JPanel panContent = new JPanel();
 		panContent.setBackground(Color.WHITE);
@@ -54,15 +54,13 @@ public class ExportInventory extends PopUp implements ActionListener{
 		panContent.setLayout(sl_panContent);
 
 		JLabel lblName = new JLabel("Name:");
-		lblName.setFont(new Font("Arial", Font.PLAIN, 24));
-		sl_panContent.putConstraint(SpringLayout.NORTH, lblName, 56,
+		sl_panContent.putConstraint(SpringLayout.NORTH, lblName, 50,
 				SpringLayout.NORTH, panContent);
-		sl_panContent.putConstraint(SpringLayout.WEST, lblName, 69,
+		sl_panContent.putConstraint(SpringLayout.WEST, lblName, 50,
 				SpringLayout.WEST, panContent);
 		panContent.add(lblName);
 
 		JLabel lblFileType = new JLabel("File Type:");
-		lblFileType.setFont(new Font("Arial", Font.PLAIN, 24));
 		sl_panContent.putConstraint(SpringLayout.NORTH, lblFileType, 20,
 				SpringLayout.SOUTH, lblName);
 		sl_panContent.putConstraint(SpringLayout.WEST, lblFileType, 0,
@@ -70,7 +68,6 @@ public class ExportInventory extends PopUp implements ActionListener{
 		panContent.add(lblFileType);
 
 		JLabel lblDestination = new JLabel("Destination:");
-		lblDestination.setFont(new Font("Arial", Font.PLAIN, 24));
 		sl_panContent.putConstraint(SpringLayout.NORTH, lblDestination, 20,
 				SpringLayout.SOUTH, lblFileType);
 		sl_panContent.putConstraint(SpringLayout.WEST, lblDestination, 0,
@@ -78,13 +75,12 @@ public class ExportInventory extends PopUp implements ActionListener{
 		panContent.add(lblDestination);
 
 		txtName = new JTextField();
-		txtName.setFont(new Font("Arial", Font.PLAIN, 24));
 		sl_panContent.putConstraint(SpringLayout.NORTH, txtName, 50,
 				SpringLayout.NORTH, panContent);
 		sl_panContent.putConstraint(SpringLayout.WEST, txtName, 72,
 				SpringLayout.EAST, lblName);
-		sl_panContent.putConstraint(SpringLayout.EAST, txtName, 519,
-				SpringLayout.EAST, lblName);
+		sl_panContent.putConstraint(SpringLayout.EAST, txtName, -30,
+				SpringLayout.EAST, panContent);
 		panContent.add(txtName);
 		txtName.setColumns(10);
 
@@ -94,13 +90,11 @@ public class ExportInventory extends PopUp implements ActionListener{
 		sl_panContent.putConstraint(SpringLayout.SOUTH, cmbType, 0, SpringLayout.SOUTH, lblFileType);
 		sl_panContent.putConstraint(SpringLayout.EAST, cmbType, 258,
 				SpringLayout.EAST, lblFileType);
-		cmbType.setFont(new Font("Arial", Font.PLAIN, 24));
 		panContent.add(cmbType);
 
 		txtDest = new JTextField();
 		sl_panContent.putConstraint(SpringLayout.WEST, txtDest, 0, SpringLayout.WEST, txtName);
 		sl_panContent.putConstraint(SpringLayout.SOUTH, txtDest, 0, SpringLayout.SOUTH, lblDestination);
-		txtDest.setFont(new Font("Arial", Font.PLAIN, 24));
 		panContent.add(txtDest);
 		txtDest.setColumns(10);
 
@@ -109,7 +103,6 @@ public class ExportInventory extends PopUp implements ActionListener{
 		btnBrowse.setBackground(Color.white);
 		sl_panContent.putConstraint(SpringLayout.EAST, txtDest, -6,
 				SpringLayout.WEST, btnBrowse);
-		btnBrowse.setFont(new Font("Arial", Font.PLAIN, 24));
 		sl_panContent.putConstraint(SpringLayout.SOUTH, btnBrowse, 0,
 				SpringLayout.SOUTH, lblDestination);
 		sl_panContent.putConstraint(SpringLayout.EAST, btnBrowse, 0,

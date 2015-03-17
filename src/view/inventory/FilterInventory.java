@@ -31,8 +31,8 @@ public class FilterInventory extends PopUp implements ActionListener {
 
 		JPanel panMain = new JPanel();
 		panMain.setBackground(Color.WHITE);
-		panMain.setPreferredSize(new Dimension(750, 300));
-		panMain.setSize(new Dimension(750, 300));
+		panMain.setPreferredSize(new Dimension(450, 200));
+		panMain.setSize(new Dimension(500, 200));
 		add(panMain);
 		panMain.setLayout(new BorderLayout(0, 0));
 
@@ -44,7 +44,7 @@ public class FilterInventory extends PopUp implements ActionListener {
 		panFooter.add(btnFilter);
 		btnFilter.setForeground(Color.white);
 		btnFilter.setBackground(new Color(32, 130, 213));
-		btnFilter.setFont(new Font("Arial", Font.PLAIN, 32));
+		btnFilter.setFont(new Font("Arial", Font.PLAIN, 16));
 		panFooter.add(btnFilter);
 
 		JPanel panContent = new JPanel();
@@ -54,16 +54,14 @@ public class FilterInventory extends PopUp implements ActionListener {
 		panContent.setLayout(sl_panContent);
 
 		JLabel lblItem = new JLabel("Item:");
-		lblItem.setFont(new Font("Arial", Font.PLAIN, 24));
-		sl_panContent.putConstraint(SpringLayout.NORTH, lblItem, 45,
+		sl_panContent.putConstraint(SpringLayout.NORTH, lblItem, 35,
 				SpringLayout.NORTH, panContent);
-		sl_panContent.putConstraint(SpringLayout.WEST, lblItem, 68,
+		sl_panContent.putConstraint(SpringLayout.WEST, lblItem, 50,
 				SpringLayout.WEST, panContent);
 		panContent.add(lblItem);
 
 		JLabel lblClassification = new JLabel("Classification: ");
-		lblClassification.setFont(new Font("Arial", Font.PLAIN, 24));
-		sl_panContent.putConstraint(SpringLayout.NORTH, lblClassification, 30,
+		sl_panContent.putConstraint(SpringLayout.NORTH, lblClassification, 20,
 				SpringLayout.SOUTH, lblItem);
 		sl_panContent.putConstraint(SpringLayout.WEST, lblClassification, 0,
 				SpringLayout.WEST, lblItem);
@@ -71,8 +69,7 @@ public class FilterInventory extends PopUp implements ActionListener {
 
 		cmbItem = new JComboBox();
 		cmbItem.setBackground(Color.white);
-		cmbItem.setFont(new Font("Arial", Font.PLAIN, 24));
-		sl_panContent.putConstraint(SpringLayout.NORTH, cmbItem, 39,
+		sl_panContent.putConstraint(SpringLayout.NORTH, cmbItem, 35,
 				SpringLayout.NORTH, panContent);
 		sl_panContent.putConstraint(SpringLayout.WEST, cmbItem, 106,
 				SpringLayout.EAST, lblItem);
@@ -81,7 +78,6 @@ public class FilterInventory extends PopUp implements ActionListener {
 		panContent.add(cmbItem);
 
 		cmbClassification = new JComboBox();
-		cmbClassification.setFont(new Font("Arial", Font.PLAIN, 24));
 		cmbClassification.setBackground(Color.WHITE);
 		sl_panContent.putConstraint(SpringLayout.WEST, cmbClassification, 0,
 				SpringLayout.WEST, cmbItem);
