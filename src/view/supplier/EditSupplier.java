@@ -1,6 +1,7 @@
 package view.supplier;
 
 import controller.SupplierController;
+
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
@@ -19,12 +20,13 @@ import net.miginfocom.swing.MigLayout;
 
 import java.awt.BorderLayout;
 import java.util.Iterator;
+
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JFrame;
-
 import javax.swing.border.EmptyBorder;
-import model.Supplier;
 
+import model.Supplier;
+import model.SupplierContact;
 import view.Button;
 import view.Contact;
 import view.Button.ButtonBuilder;
@@ -145,6 +147,36 @@ public class EditSupplier extends JPanel implements ActionListener {
 		supplierController = SupplierController.getInstance();
 		// populate();
 		System.out.println("STUPID");
+		
+		init(supp.getSupplierContactList());
+	}
+	
+	private void init(Iterator it){
+		while(it.hasNext()){
+			SupplierContact sc=(SupplierContact) it.next();
+			JButton close = new Button.ButtonBuilder().img(
+					"src/assets/Round/Delete.png", 30, 30).build();
+			close.addActionListener(this);
+			this.close.add(close);
+
+			Contact temp = new Contact();
+			temp.setButton(close);
+			temp.getBtn().setActionCommand("close");
+			temp.setValue(sc.getValue()+"");
+			temp.setType(sc.getType());
+
+//			pan.setValue("");
+//			pan.setType("FAX");
+
+			panClose.add(temp, "newline");
+			list.add(temp);
+			if (!panClose.isVisible()) {
+				panClose.setVisible(true);
+			}
+			
+		}
+		this.repaint();
+		this.revalidate();
 	}
 
 	public boolean contactError(String val) {
