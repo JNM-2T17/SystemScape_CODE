@@ -122,7 +122,7 @@ public class ItemTileIT extends ItemPanelDecorator implements ItemPanelParticipa
 		
 		
 		tfServiceTag = new JTextField();
-		tfServiceTag.setFont(new Font("Tahoma", Font.BOLD, 20));
+		tfServiceTag.setFont(new Font("Arial", Font.BOLD, 20));
 		tfServiceTag.setColumns(10);
 		panIT.add(tfServiceTag, "cell 5 5 3 1,growx");
 		

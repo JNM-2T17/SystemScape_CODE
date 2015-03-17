@@ -70,7 +70,7 @@ public class ItemTileGenInfo extends ItemPanelDecorator implements
 		panGeneral.add(lblName, "cell 0 0,alignx right");
 
 		tfName = new JTextField();
-		tfName.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		tfName.setFont(new Font("Arial", Font.PLAIN, 20));
 		panGeneral.add(tfName, "cell 2 0,growx");
 		tfName.setColumns(10);
 
@@ -96,7 +96,7 @@ public class ItemTileGenInfo extends ItemPanelDecorator implements
 		panGeneral.add(lblUnitPrice, "cell 0 2,alignx right");
 
 		tfUnitPrice = new JTextField();
-		tfUnitPrice.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		tfUnitPrice.setFont(new Font("Arial", Font.PLAIN, 20));
 		tfUnitPrice.setColumns(10);
 		panGeneral.add(tfUnitPrice, "cell 2 2,growx");
 
@@ -105,7 +105,7 @@ public class ItemTileGenInfo extends ItemPanelDecorator implements
 		panGeneral.add(lblInvoiceNumber, "cell 0 3");
 
 		tfInvoiceNumber = new JTextField();
-		tfInvoiceNumber.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		tfInvoiceNumber.setFont(new Font("Arial", Font.PLAIN, 20));
 		tfInvoiceNumber.setColumns(10);
 		panGeneral.add(tfInvoiceNumber, "cell 2 3,growx");
 

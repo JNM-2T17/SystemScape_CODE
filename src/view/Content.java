@@ -48,7 +48,7 @@ public class Content extends JPanel {
 		panTop.add(panOption, BorderLayout.EAST);
 
 		JLabel lblDelete = new JLabel("Delete");
-		lblDelete.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		lblDelete.setFont(new Font("Arial", Font.PLAIN, 14));
 		lblDelete.setForeground(new Color(139, 0, 0));
 		lblDelete.setVisible(cb.delete);
 		panOption.add(lblDelete);

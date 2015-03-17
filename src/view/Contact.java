@@ -25,13 +25,13 @@ public class Contact extends JPanel {
 		String opt[]={"FAX", "Telephone", "Cellphone"};
 		
 		value=new JTextField();
-		value.setFont(new Font("Tahoma", Font.PLAIN, 21));
+		value.setFont(new Font("Arial", Font.PLAIN, 21));
 		
 		value.setPreferredSize(new Dimension(200, 35));
 		
 		type=new JComboBox(opt);
 		type.setBackground(Color.white);
-		type.setFont(new Font("Tahoma", Font.PLAIN, 21));
+		type.setFont(new Font("Arial", Font.PLAIN, 21));
 		type.setPreferredSize(new Dimension(134, 35));
 		
 		btn= new Button.ButtonBuilder().img("src/assets/Round/Add.png", 30,

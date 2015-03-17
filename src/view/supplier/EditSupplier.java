@@ -61,33 +61,33 @@ public class EditSupplier extends JPanel implements ActionListener {
 		JLabel lblSupp = new JLabel("Supplier: ");
 		lblSupp.setBounds(157, 90, 93, 27);
 		panContent.add(lblSupp);
-		lblSupp.setFont(new Font("Tahoma", Font.PLAIN, 22));
+		lblSupp.setFont(new Font("Arial", Font.PLAIN, 22));
 
 		txtSupp = new JTextField(supp.getName());
 		txtSupp.setBounds(289, 89, 372, 32);
 		panContent.add(txtSupp);
-		txtSupp.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		txtSupp.setFont(new Font("Arial", Font.PLAIN, 20));
 		txtSupp.setColumns(10);
 
 		JLabel lblAddress = new JLabel("Address:");
 		lblAddress.setBounds(158, 138, 92, 26);
 		panContent.add(lblAddress);
-		lblAddress.setFont(new Font("Tahoma", Font.PLAIN, 22));
+		lblAddress.setFont(new Font("Arial", Font.PLAIN, 22));
 
 		JLabel lblCountry = new JLabel("Country:");
 		lblCountry.setBounds(182, 185, 92, 26);
 		panContent.add(lblCountry);
-		lblCountry.setFont(new Font("Tahoma", Font.PLAIN, 22));
+		lblCountry.setFont(new Font("Arial", Font.PLAIN, 22));
 
 		JLabel lblState = new JLabel("State:");
 		lblState.setBounds(182, 232, 92, 26);
 		panContent.add(lblState);
-		lblState.setFont(new Font("Tahoma", Font.PLAIN, 22));
+		lblState.setFont(new Font("Arial", Font.PLAIN, 22));
 
 		JLabel lblCity = new JLabel("City:");
 		lblCity.setBounds(182, 279, 92, 26);
 		panContent.add(lblCity);
-		lblCity.setFont(new Font("Tahoma", Font.PLAIN, 22));
+		lblCity.setFont(new Font("Arial", Font.PLAIN, 22));
 
 		cmbCountry = new JTextField(supp.getCountry());
 		cmbCountry.setBounds(289, 185, 372, 32);
@@ -107,7 +107,7 @@ public class EditSupplier extends JPanel implements ActionListener {
 		JLabel lblContact = new JLabel("Contact #:");
 		lblContact.setBounds(157, 334, 139, 26);
 		panContent.add(lblContact);
-		lblContact.setFont(new Font("Tahoma", Font.PLAIN, 22));
+		lblContact.setFont(new Font("Arial", Font.PLAIN, 22));
 
 		panContact = new JPanel();
 		panContact.setBackground(Color.WHITE);
@@ -141,7 +141,7 @@ public class EditSupplier extends JPanel implements ActionListener {
 		panFooter.add(btnSubmit);
 		btnSubmit.setForeground(Color.WHITE);
 		btnSubmit.setBackground(new Color(32, 130, 213));
-		btnSubmit.setFont(new Font("Tahoma", Font.PLAIN, 24));
+		btnSubmit.setFont(new Font("Arial", Font.PLAIN, 24));
 		btnSubmit.addActionListener(this);
 
 		supplierController = SupplierController.getInstance();
