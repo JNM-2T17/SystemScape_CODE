@@ -21,7 +21,7 @@ import javax.swing.JComboBox;
 
 import view.PopUp;
 
-public class FilterEmployee extends JFrame implements ActionListener {
+public class FilterEmployee extends PopUp implements ActionListener {
 
 	private JButton btnFilter;
 	private JComboBox cmbName;
@@ -29,13 +29,13 @@ public class FilterEmployee extends JFrame implements ActionListener {
         private EmployeeController employeeController;
 
 	public FilterEmployee(JFrame parent) {
-//		super(parent);
+		super(parent);
 
 		JPanel panMain = new JPanel();
 		panMain.setBackground(Color.WHITE);
-		panMain.setPreferredSize(new Dimension(750, 350));
-		panMain.setSize(new Dimension(750, 350));
-		add(panMain);
+		panMain.setPreferredSize(new Dimension(450, 250));
+		panMain.setSize(new Dimension(450, 250));
+		getContentPane().add(panMain);
 		panMain.setLayout(new BorderLayout(0, 0));
 
 		JPanel panFooter = new JPanel();
@@ -56,9 +56,9 @@ public class FilterEmployee extends JFrame implements ActionListener {
 		panContent.setLayout(sl_panContent);
 
 		JLabel lblName = new JLabel("Name:");
-		sl_panContent.putConstraint(SpringLayout.NORTH, lblName, 45,
+		sl_panContent.putConstraint(SpringLayout.NORTH, lblName, 50,
 				SpringLayout.NORTH, panContent);
-		sl_panContent.putConstraint(SpringLayout.WEST, lblName, 68,
+		sl_panContent.putConstraint(SpringLayout.WEST, lblName, 50,
 				SpringLayout.WEST, panContent);
 		panContent.add(lblName);
 
@@ -70,14 +70,12 @@ public class FilterEmployee extends JFrame implements ActionListener {
 		panContent.add(lblStatus);
 
 		cmbName = new JComboBox();
-		cmbName.setBackground(Color.white);
-		cmbName.setFont(new Font("Arial", Font.PLAIN, 24));
-		sl_panContent.putConstraint(SpringLayout.NORTH, cmbName, 39,
-				SpringLayout.NORTH, panContent);
-		sl_panContent.putConstraint(SpringLayout.WEST, cmbName, 106,
+		sl_panContent.putConstraint(SpringLayout.WEST, cmbName, 30,
 				SpringLayout.EAST, lblName);
-		sl_panContent.putConstraint(SpringLayout.EAST, cmbName, -75,
+		sl_panContent.putConstraint(SpringLayout.SOUTH, cmbName, 0, SpringLayout.SOUTH, lblName);
+		sl_panContent.putConstraint(SpringLayout.EAST, cmbName, -50,
 				SpringLayout.EAST, panContent);
+		cmbName.setBackground(Color.white);
 		panContent.add(cmbName);
 
 		cmbStatus = new JComboBox();
@@ -99,15 +97,14 @@ public class FilterEmployee extends JFrame implements ActionListener {
 		sl_panContent.putConstraint(SpringLayout.WEST, cmbProject, 0, SpringLayout.WEST, cmbName);
 		sl_panContent.putConstraint(SpringLayout.SOUTH, cmbProject, 0, SpringLayout.SOUTH, lblProject);
 		sl_panContent.putConstraint(SpringLayout.EAST, cmbProject, 0, SpringLayout.EAST, cmbName);
-		cmbProject.setFont(new Font("Arial", Font.PLAIN, 24));
 		cmbProject.setBackground(Color.WHITE);
 		panContent.add(cmbProject);
 
-//		getClose().addActionListener(this);
+		getClose().addActionListener(this);
                 
                 employeeController = EmployeeController.getInstance();
                 
-//		setContent(panMain);
+		setContent(panMain);
 		this.setVisible(true);
 		this.repaint();
 		this.revalidate();
@@ -116,10 +113,10 @@ public class FilterEmployee extends JFrame implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
-//		if (e.getSource() == btnFilter) {
-//			this.dispose();
-//		} else if (e.getSource() == getClose()) {
-//			this.dispose();
-//		}
+		if (e.getSource() == btnFilter) {
+			this.dispose();
+		} else if (e.getSource() == getClose()) {
+			this.dispose();
+		}
 	}
 }

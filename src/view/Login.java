@@ -50,9 +50,7 @@ public class Login extends JPanel implements ActionListener {
     public Login(Gui parent) {
     	
     
-    	
-    	UIManager.put("TextField.font",new Font("Arial",Font.PLAIN,12));
-    	
+
     	UIManager.put("Button.font", new Font("Arial",Font.PLAIN,12)/* font of your liking */);
     	UIManager.put("ToggleButton.font", new Font("Arial",Font.PLAIN,12)/* font of your liking */);
     	UIManager.put("RadioButton.font", new Font("Arial",Font.PLAIN,12)/* font of your liking */);
@@ -149,7 +147,7 @@ public class Login extends JPanel implements ActionListener {
 
         lblLogIn = new JLabel("Log In");
         lblLogIn.setForeground(Color.WHITE);
-        lblLogIn.setFont(new Font("Tahoma", Font.PLAIN, 24));
+        lblLogIn.setFont(new Font("Arial", Font.PLAIN, 20));
         GridBagConstraints gbc_lblLogIn = new GridBagConstraints();
         gbc_lblLogIn.insets = new Insets(0, 0, 5, 0);
         gbc_lblLogIn.gridx = 0;
@@ -174,7 +172,7 @@ public class Login extends JPanel implements ActionListener {
 
         btnLogin = new JButton("Login");
         btnLogin.setForeground(Color.WHITE);
-        btnLogin.setFont(new Font("Tahoma", Font.PLAIN, 18));
+        btnLogin.setFont(new Font("Arial", Font.PLAIN, 16));
         btnLogin.setBackground(new Color(32, 130, 213));
         btnLogin.setBorder(null);
         btnLogin.setBounds(21, 112, 320, 30);
