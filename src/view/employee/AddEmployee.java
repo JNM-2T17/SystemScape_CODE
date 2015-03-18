@@ -41,23 +41,19 @@ public class AddEmployee extends JPanel implements ActionListener {
 		JLabel lblSupp = new JLabel("Name:");
 		lblSupp.setBounds(157, 90, 93, 27);
 		panContent.add(lblSupp);
-		lblSupp.setFont(new Font("Arial", Font.PLAIN, 22));
 
 		txtName = new JTextField();
-		txtName.setBounds(251, 89, 372, 32);
+		txtName.setBounds(251, 89, 372, 25);
 		panContent.add(txtName);
-		txtName.setFont(new Font("Arial", Font.PLAIN, 20));
 		txtName.setColumns(10);
 
 		JLabel lblStatus = new JLabel("Status:");
-		lblStatus.setBounds(158, 138, 92, 26);
+		lblStatus.setBounds(158, 130, 92, 26);
 		panContent.add(lblStatus);
-		lblStatus.setFont(new Font("Arial", Font.PLAIN, 22));
 
 		cmbStatus = new JComboBox();
-		cmbStatus.setFont(new Font("Arial", Font.PLAIN, 20));
 		cmbStatus.setBackground(Color.WHITE);
-		cmbStatus.setBounds(251, 136, 372, 32);
+		cmbStatus.setBounds(251, 130, 372, 25);
 		panContent.add(cmbStatus);
 
 		JPanel panFooter = new JPanel();
@@ -69,7 +65,7 @@ public class AddEmployee extends JPanel implements ActionListener {
 		panFooter.add(btnSubmit);
 		btnSubmit.setForeground(Color.WHITE);
 		btnSubmit.setBackground(new Color(32, 130, 213));
-		btnSubmit.setFont(new Font("Arial", Font.PLAIN, 24));
+		btnSubmit.setFont(new Font("Arial", Font.PLAIN, 18));
 		btnSubmit.addActionListener(this);
 	}
 

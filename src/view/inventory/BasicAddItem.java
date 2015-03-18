@@ -61,7 +61,7 @@ public class BasicAddItem extends JPanel implements ActionListener, ItemPanelTem
 		panSubmit.add(btnSubmit);
 		btnSubmit.setForeground(Color.white);
 		btnSubmit.setBackground(new Color(32, 130, 213));
-		btnSubmit.setFont(new Font("Arial", Font.PLAIN, 32));
+		btnSubmit.setFont(new Font("Arial", Font.PLAIN, 18));
 		
 		add(panSubmit, "cell 0 2 2 1,alignx center");
 		

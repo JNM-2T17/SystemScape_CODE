@@ -1,8 +1,10 @@
 package view.supplier;
 
 import controller.SupplierController;
+
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -19,16 +21,21 @@ import net.miginfocom.swing.MigLayout;
 
 import java.awt.BorderLayout;
 import java.util.Iterator;
+
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JFrame;
-
 import javax.swing.border.EmptyBorder;
-import model.Supplier;
 
+import model.Supplier;
 import view.Button;
 import view.Contact;
 import view.Button.ButtonBuilder;
 import view.Message;
+
+import java.awt.FlowLayout;
+
+import javax.swing.BoxLayout;
+import javax.swing.ScrollPaneConstants;
 
 public class AddSupplier extends JPanel implements ActionListener {
 
@@ -52,83 +59,69 @@ public class AddSupplier extends JPanel implements ActionListener {
 		setLayout(new BorderLayout(0, 0));
 
 		JPanel panContent = new JPanel();
+		panContent.setBorder(new EmptyBorder(50, 50, 0, 0));
 		panContent.setBackground(Color.WHITE);
 		add(panContent);
-		panContent.setLayout(null);
+		panContent.setLayout(new MigLayout("", "[100px][15px][400px]", "[27px][26px][26px][28px][28px][200px]"));
 
 		JLabel lblSupp = new JLabel("Supplier: ");
-		lblSupp.setBounds(157, 90, 93, 27);
-		panContent.add(lblSupp);
-		lblSupp.setFont(new Font("Arial", Font.PLAIN, 22));
+		panContent.add(lblSupp, "cell 0 0,alignx left,growy");
 
 		txtSupp = new JTextField();
-		txtSupp.setBounds(289, 89, 372, 32);
-		panContent.add(txtSupp);
-		txtSupp.setFont(new Font("Arial", Font.PLAIN, 20));
+		panContent.add(txtSupp, "cell 2 0,grow");
 		txtSupp.setColumns(10);
 
 		JLabel lblAddress = new JLabel("Address:");
-		lblAddress.setBounds(158, 138, 92, 26);
-		panContent.add(lblAddress);
-		lblAddress.setFont(new Font("Arial", Font.PLAIN, 22));
+		panContent.add(lblAddress, "cell 0 1,alignx left,growy");
 
 		JLabel lblCountry = new JLabel("Country:");
-		lblCountry.setBounds(182, 185, 92, 26);
-		panContent.add(lblCountry);
-		lblCountry.setFont(new Font("Arial", Font.PLAIN, 22));
+		panContent.add(lblCountry, "cell 0 2,alignx right,growy");
 
 		JLabel lblState = new JLabel("State:");
-		lblState.setBounds(182, 232, 92, 26);
-		panContent.add(lblState);
-		lblState.setFont(new Font("Arial", Font.PLAIN, 22));
+		panContent.add(lblState, "cell 0 3,alignx right,growy");
 
 		JLabel lblCity = new JLabel("City:");
-		lblCity.setBounds(182, 279, 92, 26);
-		panContent.add(lblCity);
-		lblCity.setFont(new Font("Arial", Font.PLAIN, 22));
+		panContent.add(lblCity, "cell 0 4,alignx right,growy");
 
 		cmbCountry = new JTextField();
-		cmbCountry.setBounds(289, 185, 372, 32);
-		panContent.add(cmbCountry);
+		panContent.add(cmbCountry, "cell 2 2,grow");
 		cmbCountry.setBackground(Color.white);
 
 		cmbState = new JTextField();
-		cmbState.setBounds(289, 230, 372, 32);
-		panContent.add(cmbState);
+		panContent.add(cmbState, "cell 2 3,grow");
 		cmbState.setBackground(Color.white);
 
 		cmbCity = new JTextField();
-		cmbCity.setBounds(289, 277, 372, 32);
-		panContent.add(cmbCity);
+		panContent.add(cmbCity, "cell 2 4,grow");
 		cmbCity.setBackground(Color.white);
 
 		JLabel lblContact = new JLabel("Contact #:");
-		lblContact.setBounds(157, 334, 139, 26);
-		panContent.add(lblContact);
-		lblContact.setFont(new Font("Arial", Font.PLAIN, 22));
+		panContent.add(lblContact, "cell 0 5 3 1,alignx left,aligny top");
 
 		panContact = new JPanel();
 		panContact.setBackground(Color.WHITE);
 		panContact.setBounds(51, 478, 457, 200);
 		panContact.setLayout(new MigLayout());
+		
 
 		panClose = new JPanel();
-		panClose.setBackground(Color.WHITE);
-		panClose.setAlignmentX(Component.LEFT_ALIGNMENT);
-		panContact.add(panClose);
-
-		panClose.setLayout(new MigLayout("", "[]", "[]"));
+	
+		panClose.setBackground(Color.ORANGE);
+//		panClose.setAlignmentX(Component.LEFT_ALIGNMENT);
+		panContact.add(panClose, "");
+		panClose.setLayout(new BoxLayout(panClose, BoxLayout.PAGE_AXIS));
 
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(289, 334, 500, 200);
-		panContent.add(scrollPane);
+		panContent.add(scrollPane, "cell 2 5,grow");
 		scrollPane.setBorder(null);
 		scrollPane.setViewportView(panContact);
 		panClose.setVisible(false);
+		
 
 		temp = new Contact();
+		FlowLayout flowLayout = (FlowLayout) temp.getLayout();
 		temp.getBtn().addActionListener(this);
-		panContact.add(temp, "newline");
+		panContact.add(temp, "newline,alignx left,aligny top");
 
 		JPanel panFooter = new JPanel();
 		panFooter.setBackground(Color.WHITE);
@@ -139,12 +132,15 @@ public class AddSupplier extends JPanel implements ActionListener {
 		panFooter.add(btnSubmit);
 		btnSubmit.setForeground(Color.WHITE);
 		btnSubmit.setBackground(new Color(32, 130, 213));
-		btnSubmit.setFont(new Font("Arial", Font.PLAIN, 24));
+		btnSubmit.setFont(new Font("Arial", Font.PLAIN, 18));
 		btnSubmit.addActionListener(this);
 
 		supplierController = SupplierController.getInstance();
 		// populate();
 		System.out.println("STUPID");
+		
+		this.repaint();
+		this.revalidate();
 	}
 
 	public boolean contactError(String val) {
@@ -185,11 +181,15 @@ public class AddSupplier extends JPanel implements ActionListener {
 			pan.setValue("");
 			pan.setType("FAX");
 
-			panClose.add(temp, "newline");
+			panClose.add(temp);
 			list.add(temp);
+			
 			if (!panClose.isVisible()) {
 				panClose.setVisible(true);
 			}
+			
+			panClose.setMaximumSize(new Dimension(360,
+					panClose.getComponentCount() * 37));
 			this.repaint();
 			this.revalidate();
 		}
@@ -295,6 +295,8 @@ public class AddSupplier extends JPanel implements ActionListener {
 			panClose.remove(index);
 			list.remove(index);
 			System.out.println(list.size());
+			panClose.setMaximumSize(new Dimension(360,
+					panClose.getComponentCount() * 37));
 			this.repaint();
 			this.revalidate();
 		}

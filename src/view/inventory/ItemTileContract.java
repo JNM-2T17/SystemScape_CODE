@@ -49,46 +49,40 @@ public class ItemTileContract extends ItemPanelDecorator implements ItemPanelPar
 		panContract.setBorder(new LineBorder(new Color(30, 144, 255), 3, true));
 		panContract.setBackground(Color.WHITE);
 		
-		panContract.setLayout(new MigLayout("", "[46.00][38.00][100,grow][100,grow][100.00,grow][51.00]", "[][][17][grow][17][][]"));
+		panContract.setLayout(new MigLayout("", "[46.00][38.00][100,grow][100,grow][100.00,grow][51.00]", "[30][25][25][35][17][grow][]"));
 		
 //		itemTileContractRepresentation = new JPanel();
 		/* Labels */
 		
 		lblContract = new JLabel("Contract:");
-		lblContract.setFont(new Font("Arial", Font.BOLD, 20));
 		panContract.add(lblContract, "cell 0 0,alignx left");
 		
 		lblStart = new JLabel("Start:");
-		lblStart.setFont(new Font("Arial", Font.BOLD, 20));
 		panContract.add(lblStart, "flowx,cell 1 1");
 		
 		startDateChooser = new JDateChooser();
 		startDateChooser.setOpaque(false);
 		startDateChooser.setDate(new Date());
 		startDateChooser.setBorder(null);
-		startDateChooser.setFont(new Font("Arial", Font.BOLD, 20));
 		startDateChooser.setDateFormatString("yyyy-MM-dd");
 		startDateChooser.setBackground(Color.WHITE);
 		startDateChooser.setPreferredSize(new Dimension(150, 30));
 		panContract.add(startDateChooser, "cell 2 1 3 1,growx,aligny center");
 		
 		lblEnd = new JLabel("End:");
-		lblEnd.setFont(new Font("Arial", Font.BOLD, 20));
-		panContract.add(lblEnd, "cell 1 3,alignx left");
+		panContract.add(lblEnd, "cell 1 2,alignx left");
 		
 		endDateChooser = new JDateChooser();
 		endDateChooser.setOpaque(false);
 		endDateChooser.setDate(new Date());
 		endDateChooser.setBorder(null);
-		endDateChooser.setFont(new Font("Arial", Font.BOLD, 20));
 		endDateChooser.setDateFormatString("yyyy-MM-dd");
 		endDateChooser.setBackground(Color.WHITE);
 		endDateChooser.setPreferredSize(new Dimension(150, 30));
-		panContract.add(endDateChooser, "cell 2 3 3 1,growx,aligny center");
+		panContract.add(endDateChooser, "cell 2 2 3 1,growx,aligny center");
 		
 		lblMaintenanceCost = new JLabel("Maintenance Cost:");
-		lblMaintenanceCost.setFont(new Font("Arial", Font.BOLD, 20));
-		panContract.add(lblMaintenanceCost, "flowx,cell 0 5 2 1");
+		panContract.add(lblMaintenanceCost, "flowx,cell 0 3 2 1");
 		
 		
 		/* Maintenance Cost */
@@ -96,8 +90,7 @@ public class ItemTileContract extends ItemPanelDecorator implements ItemPanelPar
 
 		
 		tfMainCost = new JTextField();
-		tfMainCost.setFont(new Font("Arial", Font.BOLD, 20));
-		panContract.add(tfMainCost, "cell 2 5 3 1,growx");
+		panContract.add(tfMainCost, "cell 2 3 3 1,growx");
 		tfMainCost.setColumns(10);
 		
 		addItemPanelReference.assignToQuad(panContract, 4);
@@ -117,45 +110,39 @@ public class ItemTileContract extends ItemPanelDecorator implements ItemPanelPar
 		panContract.setBorder(new LineBorder(new Color(30, 144, 255), 3, true));
 		panContract.setBackground(Color.WHITE);
 		
-		panContract.setLayout(new MigLayout("", "[46.00][38.00][100,grow][100,grow][100.00,grow][51.00]", "[][][17][grow][17][][]"));
+		panContract.setLayout(new MigLayout("", "[46.00][38.00][100,grow][100,grow][100.00,grow][51.00]", "[][][17][][17][][]"));
 		
 //		itemTileContractRepresentation = new JPanel();
 		/* Labels */
 		
 		lblContract = new JLabel("Contract:");
-		lblContract.setFont(new Font("Arial", Font.BOLD, 20));
 		panContract.add(lblContract, "cell 0 0,alignx left");
 		
 		lblStart = new JLabel("Start:");
-		lblStart.setFont(new Font("Arial", Font.BOLD, 20));
 		panContract.add(lblStart, "flowx,cell 1 1");
 		
 		startDateChooser = new JDateChooser();
 		startDateChooser.setOpaque(false);
 		startDateChooser.setDate(new Date());
 		startDateChooser.setBorder(null);
-		startDateChooser.setFont(new Font("Arial", Font.BOLD, 20));
 		startDateChooser.setDateFormatString("yyyy-MM-dd");
 		startDateChooser.setBackground(Color.WHITE);
 		startDateChooser.setPreferredSize(new Dimension(150, 30));
 		panContract.add(startDateChooser, "cell 2 1 3 1,growx,aligny center");
 		
 		lblEnd = new JLabel("End:");
-		lblEnd.setFont(new Font("Arial", Font.BOLD, 20));
 		panContract.add(lblEnd, "cell 1 3,alignx left");
 		
 		endDateChooser = new JDateChooser();
 		endDateChooser.setOpaque(false);
 		endDateChooser.setDate(new Date());
 		endDateChooser.setBorder(null);
-		endDateChooser.setFont(new Font("Arial", Font.BOLD, 20));
 		endDateChooser.setDateFormatString("yyyy-MM-dd");
 		endDateChooser.setBackground(Color.WHITE);
 		endDateChooser.setPreferredSize(new Dimension(150, 30));
 		panContract.add(endDateChooser, "cell 2 3 3 1,growx,aligny center");
 		
 		lblMaintenanceCost = new JLabel("Maintenance Cost:");
-		lblMaintenanceCost.setFont(new Font("Arial", Font.BOLD, 20));
 		panContract.add(lblMaintenanceCost, "flowx,cell 0 5 2 1");
 		
 		
@@ -164,11 +151,11 @@ public class ItemTileContract extends ItemPanelDecorator implements ItemPanelPar
 		addItemPanelReference.assignToQuad(panContract, 4);
 		
 		tfMainCost = new JTextField();
-		tfMainCost.setFont(new Font("Arial", Font.BOLD, 20));
 		panContract.add(tfMainCost, "cell 2 5 3 1,growx");
 		tfMainCost.setColumns(10);
 
-		
+		this.repaint();
+		this.revalidate();
 	}
 
 	@Override

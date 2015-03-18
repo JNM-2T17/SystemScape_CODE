@@ -27,6 +27,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JComboBox;
 
 import view.Message;
+import javax.swing.SwingConstants;
 
 public class ItemTileGenInfo extends ItemPanelDecorator implements
 		ItemPanelParticipant {
@@ -60,17 +61,14 @@ public class ItemTileGenInfo extends ItemPanelDecorator implements
 		panGeneral.setBackground(Color.WHITE);
 		/* Layout */
 
-		panGeneral.setLayout(new MigLayout("", "[][][grow]",
-				"[][98.00,grow][37.00][22.00,grow][grow][]"));
+		panGeneral.setLayout(new MigLayout("", "[][][grow]", "[30][98.00,grow][30][30][30][30]"));
 
 		/* Labels */
 
 		lblName = new JLabel("Name:");
-		lblName.setFont(new Font("Arial", Font.BOLD, 20));
 		panGeneral.add(lblName, "cell 0 0,alignx right");
 
 		tfName = new JTextField();
-		tfName.setFont(new Font("Arial", Font.PLAIN, 20));
 		panGeneral.add(tfName, "cell 2 0,growx");
 		tfName.setColumns(10);
 
@@ -80,7 +78,7 @@ public class ItemTileGenInfo extends ItemPanelDecorator implements
 		Border border = BorderFactory.createLineBorder(Color.BLACK);
 
 		lblDescription = new JLabel("Description:");
-		lblDescription.setFont(new Font("Arial", Font.BOLD, 20));
+		lblDescription.setVerticalAlignment(SwingConstants.TOP);
 		panGeneral.add(lblDescription, "cell 0 1,alignx right");
 
 		scrollPane = new JScrollPane();
@@ -88,47 +86,38 @@ public class ItemTileGenInfo extends ItemPanelDecorator implements
 
 		taDescription = new JTextArea();
 		scrollPane.setViewportView(taDescription);
-		taDescription.setFont(new Font("Arial", Font.PLAIN, 20));
 		taDescription.setBorder(new LineBorder(Color.LIGHT_GRAY));
 
 		lblUnitPrice = new JLabel("Unit Price:");
-		lblUnitPrice.setFont(new Font("Arial", Font.BOLD, 20));
 		panGeneral.add(lblUnitPrice, "cell 0 2,alignx right");
 
 		tfUnitPrice = new JTextField();
-		tfUnitPrice.setFont(new Font("Arial", Font.PLAIN, 20));
 		tfUnitPrice.setColumns(10);
 		panGeneral.add(tfUnitPrice, "cell 2 2,growx");
 
 		lblInvoiceNumber = new JLabel("Invoice Number:");
-		lblInvoiceNumber.setFont(new Font("Arial", Font.BOLD, 20));
 		panGeneral.add(lblInvoiceNumber, "cell 0 3");
 
 		tfInvoiceNumber = new JTextField();
-		tfInvoiceNumber.setFont(new Font("Arial", Font.PLAIN, 20));
 		tfInvoiceNumber.setColumns(10);
 		panGeneral.add(tfInvoiceNumber, "cell 2 3,growx");
 
 		lblLocation = new JLabel("Location:");
-		lblLocation.setFont(new Font("Arial", Font.BOLD, 20));
 		panGeneral.add(lblLocation, "cell 0 4,alignx right");
 
 		cbLocation = new JComboBox();
 		cbLocation.setBackground(Color.white);
 		cbLocation.setModel(new DefaultComboBoxModel(new String[] { "1WS",
 				"Somewhere Else" }));
-		cbLocation.setFont(new Font("Arial", Font.BOLD, 20));
 		panGeneral.add(cbLocation, "cell 2 4,growx");
 
 		lblStatus = new JLabel("Status:");
-		lblStatus.setFont(new Font("Arial", Font.BOLD, 20));
 		panGeneral.add(lblStatus, "cell 0 5,alignx right");
 
 		cbStatus = new JComboBox();
 		cbStatus.setBackground(Color.white);
 		cbStatus.setModel(new DefaultComboBoxModel(new String[] { "Assigned",
 				"Unassigned" }));
-		cbStatus.setFont(new Font("Arial", Font.BOLD, 20));
 		panGeneral.add(cbStatus, "cell 2 5,growx");
 	}
 

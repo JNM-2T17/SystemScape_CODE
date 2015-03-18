@@ -58,21 +58,18 @@ public class ItemTileWarranty extends ItemPanelDecorator implements ItemPanelPar
 		panWarranty.setBorder(new LineBorder(new Color(30, 144, 255), 3, true));
 		panWarranty.setBackground(Color.WHITE);
 		
-		panWarranty.setLayout(new MigLayout("", "[46.00][38.00][100,grow][100,grow][100,grow][31.00]", "[][][17][][17][][]"));
+		panWarranty.setLayout(new MigLayout("", "[46.00][38.00][100,grow][100,grow][100,grow][31.00]", "[25][35][35][5][17][][]"));
 		
 		lblWarranty = new JLabel("Warranty:");
-		lblWarranty.setFont(new Font("Arial", Font.BOLD, 20));
 		panWarranty.add(lblWarranty, "cell 0 0,alignx left");
 		
 		lblDeliveryDate = new JLabel("Start:");
-		lblDeliveryDate.setFont(new Font("Arial", Font.BOLD, 20));
 		panWarranty.add(lblDeliveryDate, "flowx,cell 1 1");
 		
 		startWarrantyDate = new JDateChooser();
 		startWarrantyDate.setOpaque(false);
 		startWarrantyDate.setDate(new Date());
 		startWarrantyDate.setBorder(null);
-		startWarrantyDate.setFont(new Font("Arial", Font.BOLD, 20));
 		startWarrantyDate.setDateFormatString("yyyy-MM-dd");
 		startWarrantyDate.setBackground(Color.WHITE);
 		startWarrantyDate.setPreferredSize(new Dimension(150, 30));
@@ -80,18 +77,16 @@ public class ItemTileWarranty extends ItemPanelDecorator implements ItemPanelPar
 		
 		
 		lblEnd = new JLabel("End:");
-		lblEnd.setFont(new Font("Arial", Font.BOLD, 20));
-		panWarranty.add(lblEnd, "cell 1 3,alignx left");
+		panWarranty.add(lblEnd, "cell 1 2,alignx left");
 		
 		endWarrantyDate = new JDateChooser();
 		endWarrantyDate.setOpaque(false);
 		endWarrantyDate.setDate(new Date());
 		endWarrantyDate.setBorder(null);
-		endWarrantyDate.setFont(new Font("Arial", Font.BOLD, 20));
 		endWarrantyDate.setDateFormatString("yyyy-MM-dd");
 		endWarrantyDate.setBackground(Color.WHITE);
 		endWarrantyDate.setPreferredSize(new Dimension(150, 30));
-		panWarranty.add(endWarrantyDate, "cell 2 3 2 1,growx,aligny center");
+		panWarranty.add(endWarrantyDate, "cell 2 2 2 1,growx,aligny center");
 		
 		
 		addItemPanelReference.assignToQuad(panWarranty, 3);

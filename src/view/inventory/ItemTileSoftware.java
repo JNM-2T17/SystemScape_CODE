@@ -66,59 +66,51 @@ public class ItemTileSoftware extends ItemPanelDecorator implements ItemPanelPar
 		panSoftware.setBackground(Color.WHITE);
 		String typeStrings[] = {"IT Assets","Non-IT Assets","Software","General"};
 		
-		panSoftware.setLayout(new MigLayout("", "[46.00][38.00][38.00][38.00][38.00,grow][100,grow][100][100][31.00]", "[][][17.00][][17][grow][17][][]"));
+		panSoftware.setLayout(new MigLayout("", "[46.00][38.00][38.00][38.00][38.00,grow][100,grow][100][100][31.00]", "[][35][35][35][45][][17][][]"));
 		
 	
 		
 		lblType = new JLabel("Type:");
-		lblType.setFont(new Font("Arial", Font.BOLD, 20));
 		panSoftware.add(lblType, "cell 1 1");
 		
 	
 		
 		lblLicenseKey = new JLabel("License Key:");
-		lblLicenseKey.setFont(new Font("Arial", Font.BOLD, 20));
-		panSoftware.add(lblLicenseKey, "cell 2 3 3 1,alignx right");
+		panSoftware.add(lblLicenseKey, "cell 2 2 3 1,alignx right");
 		
 		lblDeliveryDate = new JLabel("Delivery Date:");
-		lblDeliveryDate.setFont(new Font("Arial", Font.BOLD, 20));
-		panSoftware.add(lblDeliveryDate, "flowx,cell 1 5 4 1,alignx right");
+		panSoftware.add(lblDeliveryDate, "flowx,cell 1 3 4 1,alignx right");
 		
 		deliveryDateChooser = new JDateChooser();
 		deliveryDateChooser.setOpaque(false);
 		deliveryDateChooser.setDate(new Date());
 		deliveryDateChooser.setBorder(null);
-		deliveryDateChooser.setFont(new Font("Arial", Font.BOLD, 20));
 		deliveryDateChooser.setDateFormatString("yyyy-MM-dd");
 		deliveryDateChooser.setBackground(Color.WHITE);
 		deliveryDateChooser.setPreferredSize(new Dimension(150, 30));
-		panSoftware.add(deliveryDateChooser, "cell 5 5 3 1,growx,aligny center");
+		panSoftware.add(deliveryDateChooser, "cell 5 3 3 1,growx,aligny center");
 		
 		lblAssignee = new JLabel("Assignee:");
-		lblAssignee.setFont(new Font("Arial", Font.BOLD, 20));
-		panSoftware.add(lblAssignee, "flowx,cell 1 7 3 1");
+		panSoftware.add(lblAssignee, "flowx,cell 1 4 3 1");
 		
 		
 		cbType = new JComboBox(typeStrings);
 		cbType.setSelectedItem("Software");
 		cbType.addItemListener(this);
 		cbType.setBackground(Color.white);
-		cbType.setFont(new Font("Arial", Font.BOLD, 20));
 		panSoftware.add(cbType, "cell 3 1 5 1,growx");
 		
 		
 		tfLicenseKey = new JTextField();
-		tfLicenseKey.setFont(new Font("Arial", Font.BOLD, 20));
 		tfLicenseKey.setColumns(10);
-		panSoftware.add(tfLicenseKey, "cell 5 3 3 1,growx");
+		panSoftware.add(tfLicenseKey, "cell 5 2 3 1,growx");
 		
 		
 		cbAssignee = new JComboBox();
 		cbAssignee.setBackground(Color.white);
 		cbAssignee.setModel(new DefaultComboBoxModel(new String[] { "Shayane Tan",
 				"Rissa Quindoza", "Gio Velez" }));
-		cbAssignee.setFont(new Font("Arial", Font.BOLD, 20));
-		panSoftware.add(cbAssignee, "cell 4 7 4 1,growx");
+		panSoftware.add(cbAssignee, "cell 4 4 4 1,growx");
 		
 		addItemPanelReference.assignToQuad(panSoftware, 1);
 	}

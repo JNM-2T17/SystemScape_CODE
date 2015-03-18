@@ -42,7 +42,6 @@ public class ItemTileNonIT extends ItemPanelDecorator implements ItemPanelPartic
 	public ItemTileNonIT(JFrame parent, ItemPanelTemplate addItemPanelReference) {
 		super(addItemPanelReference);
 		// TODO Auto-generated constructor stub
-
 	}
 	
 	@Override
@@ -61,25 +60,22 @@ public class ItemTileNonIT extends ItemPanelDecorator implements ItemPanelPartic
 		/* Layout */
 		String typeStrings[] = {"IT Assets","Non-IT Assets","Software","General"};
 		
-		panNonIT.setLayout(new MigLayout("", "[46.00][38.00][38.00][38.00,grow][38.00,grow][100,grow][100][100][31.00]", "[][][17][grow][17][][]"));
+		panNonIT.setLayout(new MigLayout("", "[46.00][38.00][38.00][38.00,grow][38.00,grow][100,grow][100][100][31.00]", "[][35][35][35][17][][]"));
 		
 		
 		/* Label */
 		
 		lblType = new JLabel("Type:");
-		lblType.setFont(new Font("Arial", Font.BOLD, 20));
 		panNonIT.add(lblType, "cell 1 1 2 1,alignx left");
 		
 		lblDeliveryDate = new JLabel("Delivery Date:");
-		lblDeliveryDate.setFont(new Font("Arial", Font.BOLD, 20));
-		panNonIT.add(lblDeliveryDate, "flowx,cell 1 3 4 1");
+		panNonIT.add(lblDeliveryDate, "flowx,cell 1 2 4 1");
 		
 		/* Type Combo Box */
 		
 		cbType = new JComboBox(typeStrings);
 		cbType.setSelectedItem("Non-IT Assets");
 		cbType.setBackground(Color.white);
-		cbType.setFont(new Font("Arial", Font.BOLD, 20));
 		cbType.addActionListener(this);
 		panNonIT.add(cbType, "cell 3 1 5 1,growx");
 		
@@ -89,22 +85,19 @@ public class ItemTileNonIT extends ItemPanelDecorator implements ItemPanelPartic
 		deliveryDateChooser.setOpaque(false);
 		deliveryDateChooser.setDate(new Date());
 		deliveryDateChooser.setBorder(null);
-		deliveryDateChooser.setFont(new Font("Arial", Font.BOLD, 20));
 		deliveryDateChooser.setDateFormatString("yyyy-MM-dd");
 		deliveryDateChooser.setBackground(Color.WHITE);
 		deliveryDateChooser.setPreferredSize(new Dimension(150, 30));
-		panNonIT.add(deliveryDateChooser, "cell 5 3 3 1,growx,aligny center");
+		panNonIT.add(deliveryDateChooser, "cell 5 2 3 1,growx,aligny center");
 		
 		lblAssignee = new JLabel("Assignee: ");
-		lblAssignee.setFont(new Font("Arial", Font.BOLD, 20));
-		panNonIT.add(lblAssignee, "cell 1 5 2 1");
+		panNonIT.add(lblAssignee, "cell 1 3 2 1");
 		
 		cbAssignee = new JComboBox();
-		cbAssignee.setFont(new Font("Arial", Font.BOLD, 20));
 		cbAssignee.setModel(new DefaultComboBoxModel(new String[] { "Shayane Tan",
 				"Rissa Quindoza", "Gio Velez" }));
 		cbAssignee.setBackground(Color.WHITE);
-		panNonIT.add(cbAssignee, "cell 3 5 5 1,growx");
+		panNonIT.add(cbAssignee, "cell 3 3 5 1,growx");
 		addItemPanelReference.assignToQuad(panNonIT, 1);
 		
 	}
