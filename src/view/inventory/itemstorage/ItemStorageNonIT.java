@@ -18,7 +18,7 @@ public class ItemStorageNonIT implements ItemStorage{
 	private ItemStorageNonIT()
 	{
 		assignee = "";
-		deliveryDate =  Calendar.getInstance().getTime();
+		deliveryDate =  new Date();
 	}
 	
 	public ItemStorageNonIT saveAssignee(String assignee)

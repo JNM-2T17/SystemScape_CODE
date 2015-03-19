@@ -19,9 +19,7 @@ public class ItemStorageGeneral implements ItemStorage, TypeItemStorage{
 	private ItemStorageGeneral()
 	{
 		assignee = "";
-		Date date = Calendar.getInstance().getTime();
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-dd-mm");
-		deliveryDate =  date;
+		deliveryDate =  new Date();
 		assigneeList = new ArrayList<String>();
 		saveAssigneeList();
 	}

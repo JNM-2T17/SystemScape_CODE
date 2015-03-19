@@ -146,7 +146,8 @@ public class ItemTileIT extends ItemPanelDecorator implements ItemPanelParticipa
 	@Override
 	public Iterator retrieveInformation() {
 		// TODO Auto-generated method stub
-		ArrayList infoList = new ArrayList(); 
+		ArrayList infoList = new ArrayList();
+		System.out.println("Date: " + (deliveryDateChooser.getDate() instanceof java.util.Date));
 		infoList.add(deliveryDateChooser.getDate());
 		infoList.add(cbAssignee.getSelectedItem().toString());
 		infoList.add(tfAssetTag.getText());
@@ -197,6 +198,12 @@ public class ItemTileIT extends ItemPanelDecorator implements ItemPanelParticipa
 	    	 assigneeList.add(iter.next().toString());
 	     }
 	     cbAssignee.setModel(new DefaultComboBoxModel(assigneeList.toArray()));
+	}
+
+	@Override
+	public void setType(String type) {
+		// TODO Auto-generated method stub
+		cbType.setSelectedItem(type);
 	}
 	
 	

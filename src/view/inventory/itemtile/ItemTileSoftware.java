@@ -160,6 +160,7 @@ public class ItemTileSoftware extends ItemPanelDecorator implements ItemPanelPar
 	public void loadPresets(Iterator iter) {
 		// TODO Auto-generated method stub
 		deliveryDateChooser.setDate((Date) iter.next());
+		
 		cbAssignee.setSelectedItem(iter.next().toString());
 		tfLicenseKey.setText(iter.next().toString());
 	}
@@ -173,4 +174,9 @@ public class ItemTileSoftware extends ItemPanelDecorator implements ItemPanelPar
 	     cbAssignee.setModel(new DefaultComboBoxModel(assigneeList.toArray()));
 		
 	}
+	@Override
+	public void setType(String type) {
+		cbType.setSelectedItem(type);
+	}
+	
 }

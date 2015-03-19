@@ -153,4 +153,9 @@ public class ItemTileNonIT extends ItemPanelDecorator implements ItemPanelPartic
 		cbAssignee.setSelectedItem(iter.next().toString());
 		deliveryDateChooser.setDate((Date) iter.next());
 	}
+	@Override
+	public void setType(String type) {
+		cbType.setSelectedItem(type);
+	}
+	
 }

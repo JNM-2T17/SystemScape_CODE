@@ -28,7 +28,7 @@ import view.inventory.ItemPanelTemplate;
 
 import com.toedter.calendar.JDateChooser;
 
-public class ItemTileWarranty extends ItemPanelDecorator implements ItemPanelParticipant, TypeItemTile{
+public class ItemTileWarranty extends ItemPanelDecorator implements ItemPanelParticipant{
 
 	private JPanel panWarranty;
 	
@@ -123,16 +123,11 @@ public class ItemTileWarranty extends ItemPanelDecorator implements ItemPanelPar
 	}
 
 	@Override
-	public void loadAssigneeList(Iterator iter) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
 	public void loadPresets(Iterator iter) {
 		// TODO Auto-generated method stub
 		startWarrantyDate.setDate((Date) iter.next());
 		endWarrantyDate.setDate((Date) iter.next());
 	}
+	
 	
 }

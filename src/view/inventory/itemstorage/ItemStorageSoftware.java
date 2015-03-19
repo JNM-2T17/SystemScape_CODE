@@ -20,9 +20,7 @@ public class ItemStorageSoftware implements ItemStorage, TypeItemStorage{
 	private ItemStorageSoftware()
 	{
 		assignee = "";
-		Date date = Calendar.getInstance().getTime();
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-dd-mm");
-		deliveryDate = date;
+		deliveryDate = new Date();
 		licenseKey = "";
 	}
 	

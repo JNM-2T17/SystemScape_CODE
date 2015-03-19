@@ -154,6 +154,11 @@ public class ItemTileGeneral extends ItemPanelDecorator implements ItemPanelPart
 		deliveryDateChooser.setDate((Date) iter.next());
 	}
 	
+	@Override
+	public void setType(String type) {
+		cbType.setSelectedItem(type);
+	}
+	
 
 	
 	

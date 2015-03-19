@@ -10,6 +10,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import model.Employee;
 import model.HardwareItem;
 import model.ITAsset;
 import model.ITAsset.ITAssetBuilder;
@@ -233,6 +234,13 @@ public class PanelRegistry implements PanelRegistration {
 		Object object = (Object)ii;
 		setCurrentType(((InventoryItem) object).getClassification());
 		System.out.println("TYPE: " + ((InventoryItem) object).getClassification());
+		Iterator<Employee> employeeIter = EmployeeController.getInstance().getAll();
+		ArrayList<String> employees = new ArrayList<String>();
+		
+		while(employeeIter.hasNext())
+		{
+			employees.add(employeeIter.next().getName());
+		}
 		
 		if(((InventoryItem) object).getClassification().equals("IT"))
 		{
@@ -251,7 +259,8 @@ public class PanelRegistry implements PanelRegistration {
 					.loadList()
 			);
 			
-			((TypeItemTile) participantList.get(1)).loadAssigneeList(EmployeeController.getInstance().getAll());
+			((TypeItemTile) participantList.get(1)).loadAssigneeList(employees.iterator());
+			((TypeItemTile) participantList.get(1)).setType("IT Assets");
 			
 			participantList.get(1).loadPresets(
 					ItemStorageIT.getInstance()
@@ -281,8 +290,8 @@ public class PanelRegistry implements PanelRegistration {
 		else if(((InventoryItem) object).getClassification().equals("Non-IT"))
 		{
 			type = "Non-IT";
-			/*** 															***/
-			InventoryItem inventoryItem = (NonITAsset) object;
+			/*** 						TEMPORARY FIX									***/
+			InventoryItem inventoryItem = (InventoryItem) object;
 			
 			participantList.get(0).loadPresets(
 					ItemStorageGenInfo.getInstance()
@@ -294,7 +303,8 @@ public class PanelRegistry implements PanelRegistration {
 					.saveStatus(inventoryItem.getStatus())
 					.loadList()
 			);
-			((TypeItemTile) participantList.get(1)).loadAssigneeList(EmployeeController.getInstance().getAll());
+			((TypeItemTile) participantList.get(1)).loadAssigneeList(employees.iterator());
+			((TypeItemTile) participantList.get(1)).setType("Non-IT Assets");
 			
 			resetAllStorage();
 			tabInventory.showPanel();
@@ -314,12 +324,14 @@ public class PanelRegistry implements PanelRegistration {
 					.loadList()
 			);
 			
-			((TypeItemTile) participantList.get(1)).loadAssigneeList(EmployeeController.getInstance().getAll());
+			((TypeItemTile) participantList.get(1)).loadAssigneeList(employees.iterator());
+			((TypeItemTile) participantList.get(1)).setType("Software");
 			participantList.get(1).loadPresets(
 					ItemStorageSoftware.getInstance()
 					.saveLicenseKey(((SoftwareItem) inventoryItem).getLicenseKey())
 					.loadList()
 			);
+		
 			
 			System.out.println(((SoftwareItem) inventoryItem).getLicenseKey());
 			resetAllStorage();
@@ -340,7 +352,8 @@ public class PanelRegistry implements PanelRegistration {
 					.loadList()
 			);
 
-			((TypeItemTile) participantList.get(1)).loadAssigneeList(EmployeeController.getInstance().getAll());
+			((TypeItemTile) participantList.get(1)).loadAssigneeList(employees.iterator());
+			((TypeItemTile) participantList.get(1)).setType("Others");
 			resetAllStorage();
 			tabInventory.showPanel();
 		}
@@ -362,7 +375,7 @@ public class PanelRegistry implements PanelRegistration {
 	{
 		for(int i = 0; i < participantList.size(); i++)
 		{
-			
+			participantList.clear();
 		}
 	}
 
