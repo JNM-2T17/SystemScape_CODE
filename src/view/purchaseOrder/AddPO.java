@@ -36,7 +36,6 @@ import controller.SupplierController;
 import java.util.ArrayList;
 import java.util.Iterator;
 import view.Message;
-import javax.swing.border.EmptyBorder;
 
 public class AddPO extends JPanel implements ActionListener, Observer {
 	private JPanel panDefinition, panLeft, panCenter, panRight, panSupplier,
@@ -64,8 +63,6 @@ public class AddPO extends JPanel implements ActionListener, Observer {
 	private JLabel lblGrandValue;
 
 	public AddPO(JFrame parent) {
-		setBackground(Color.WHITE);
-		setBorder(new EmptyBorder(20, 20, 20, 20));
 		
 		this.parent=parent;
 		poController = PurchaseOrderController.getInstance();
@@ -92,29 +89,31 @@ public class AddPO extends JPanel implements ActionListener, Observer {
 
 		lblSupplier = new JLabel("Supplier :");
 		panSupplier.add(lblSupplier);
+		lblSupplier.setFont(new Font("Arial", Font.PLAIN, 22));
 
 		cmbSupplier = new JComboBox();
 		populateSupplierNames();
                 
 		panSupplier.add(cmbSupplier);
+		cmbSupplier.setFont(new Font("Arial", Font.PLAIN, 22));
 		cmbSupplier.setBackground(Color.white);
 		cmbSupplier.setPreferredSize(new Dimension(200, 30));
 
 		panClass = new JPanel();
-		FlowLayout flowLayout = (FlowLayout) panClass.getLayout();
-		flowLayout.setAlignment(FlowLayout.LEFT);
 		panClass.setBackground(Color.white);
-		panLeft.add(panClass, BorderLayout.SOUTH);
+		panLeft.add(panClass, BorderLayout.WEST);
 
 		lblClass = new JLabel("Item Classification :");
 		lblClass.setHorizontalTextPosition(SwingConstants.LEFT);
 		lblClass.setHorizontalAlignment(SwingConstants.LEFT);
+		lblClass.setFont(new Font("Arial", Font.PLAIN, 22));
 		panClass.add(lblClass);
 
 		cmbClass = new JComboBox();
 		cmbClass.setPreferredSize(new Dimension(100, 30));
 		cmbClass.setModel(new DefaultComboBoxModel(new String[] { "Hardware",
 				"Software", "Gen" }));
+		cmbClass.setFont(new Font("Arial", Font.PLAIN, 22));
 		cmbClass.setBackground(Color.white);
 		panClass.add(cmbClass);
 
@@ -129,11 +128,13 @@ public class AddPO extends JPanel implements ActionListener, Observer {
 
 		lblDate = new JLabel("Date :");
 		panDate.add(lblDate);
+		lblDate.setFont(new Font("Arial", Font.PLAIN, 22));
 
 		dateChooser = new JDateChooser();
 		dateChooser.setOpaque(false);
 		dateChooser.setDate(new Date());
 		dateChooser.setBorder(null);
+		dateChooser.setFont(new Font("Arial", Font.PLAIN, 15));
 		dateChooser.setDateFormatString("yyyy-MM-dd");
 		dateChooser.setBackground(Color.WHITE);
 		dateChooser.setPreferredSize(new Dimension(150, 30));
@@ -142,9 +143,10 @@ public class AddPO extends JPanel implements ActionListener, Observer {
 
 		panCurrency = new JPanel();
 		panLeft.setBackground(Color.white);
-		panRight.add(panCurrency, BorderLayout.SOUTH);
+		panRight.add(panCurrency, BorderLayout.WEST);
 
 		lblCurrency = new JLabel("Currency :");
+		lblCurrency.setFont(new Font("Arial", Font.PLAIN, 22));
 		panCurrency.add(lblCurrency);
 
 		cmbCurrency = new JComboBox();
@@ -157,7 +159,7 @@ public class AddPO extends JPanel implements ActionListener, Observer {
 		panCenter.setLayout(new BorderLayout(0, 0));
 
 		btnAddItem = new Button.ButtonBuilder().img("src/assets/Round/Add.png",
-				30,30).build();
+				40, 40).build();
 		btnAddItem.setActionCommand("add");
 		btnAddItem.addActionListener(this);
 
@@ -170,10 +172,11 @@ public class AddPO extends JPanel implements ActionListener, Observer {
 		panAddItem.setBackground(Color.white);
 		panHeader.add(panAddItem, BorderLayout.WEST);
 		panAddItem.setSize(new Dimension(100, 80));
-		panAddItem.setPreferredSize(new Dimension(125, 35));
-		panAddItem.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
+		panAddItem.setPreferredSize(new Dimension(125, 60));
+		panAddItem.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 
 		lblItem = new JLabel("Item/s");
+		lblItem.setFont(new Font("Arial", Font.PLAIN, 22));
 		panAddItem.add(lblItem);
 		panAddItem.add(btnAddItem);
 
@@ -189,7 +192,7 @@ public class AddPO extends JPanel implements ActionListener, Observer {
 		btnSubmit = new JButton("Submit");
 		btnSubmit.setForeground(Color.WHITE);
 		btnSubmit.setBackground(new Color(32, 130, 213));
-		btnSubmit.setFont(new Font("Arial", Font.PLAIN, 18));
+		btnSubmit.setFont(new Font("Arial", Font.PLAIN, 24));
 		btnSubmit.addActionListener(this);
 		panSubmit.add(btnSubmit);
 
@@ -198,9 +201,11 @@ public class AddPO extends JPanel implements ActionListener, Observer {
 		panFooter.add(panGrandTotal, BorderLayout.EAST);
 
 		lblGrandTotal = new JLabel("Grand Total :");
+		lblGrandTotal.setFont(new Font("Arial", Font.PLAIN, 22));
 		panGrandTotal.add(lblGrandTotal);
 		
 		lblGrandValue = new JLabel("0.00");
+		lblGrandValue.setFont(new Font("Arial", Font.PLAIN, 22));
 		panGrandTotal.add(lblGrandValue);
 
 		panItemTable = new JPanel();
@@ -208,7 +213,6 @@ public class AddPO extends JPanel implements ActionListener, Observer {
 		panCenter.add(panItemTable, BorderLayout.CENTER);
 
 		scrollPane = new JScrollPane();
-		scrollPane.setBorder(new EmptyBorder(10, 10, 10, 10));
 		scrollPane.getViewport().setBackground(Color.white);
 		scrollPane.setBackground(Color.WHITE);
 		panCenter.add(scrollPane);
@@ -218,6 +222,7 @@ public class AddPO extends JPanel implements ActionListener, Observer {
 		table.setCellSelectionEnabled(false);
 		table.getTableHeader().setReorderingAllowed(false);
 		table.setFont(new Font("Arial", Font.PLAIN, 18));
+		table.getTableHeader().setFont(new Font("Arial", Font.PLAIN, 20));
 		table.setRowHeight(55);
 		table.getColumnModel().getColumn(2).setPreferredWidth(20);
 
