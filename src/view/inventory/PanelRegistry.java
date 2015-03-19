@@ -1,37 +1,22 @@
 package view.inventory;
 
 import com.toedter.calendar.JDateChooser;
-
 import controller.ContractController;
-
-import java.awt.Component;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import model.Employee;
-import model.HardwareItem;
 import model.ITAsset;
 import model.ITAsset.ITAssetBuilder;
 import model.InventoryItem;
 import model.NonITAsset;
 import model.SoftwareItem;
-import controller.EmployeeController;
 import controller.ITAssetController;
 import controller.InventoryItemController;
 import controller.WarrantyController;
 
 import java.util.Date;
-
-import view.inventory.itemstorage.ItemStorageContract;
-import view.inventory.itemstorage.ItemStorageGenInfo;
-import view.inventory.itemstorage.ItemStorageGeneral;
-import view.inventory.itemstorage.ItemStorageIT;
-import view.inventory.itemstorage.ItemStorageNonIT;
-import view.inventory.itemstorage.ItemStorageSoftware;
-import view.inventory.itemstorage.ItemStorageWarranty;
-import view.inventory.itemtile.TypeItemTile;
 import model.Contract;
 import model.Warranty;
 
@@ -188,7 +173,7 @@ public class PanelRegistry implements PanelRegistration {
 						.addLicenseKey(typeInfo.get(2).toString()).build();
 				InventoryItemController.getInstance()
 						.addInventoryItem(software);
-			} else if (type.equals("Others")) {
+			} else if (type.equals("General")) {
 
 				InventoryItem general = new InventoryItem.InventoryItemBuilder()
 						.addName(generalInfo.get(0).toString())
@@ -197,7 +182,7 @@ public class PanelRegistry implements PanelRegistration {
 						.addInvoiveNo(generalInfo.get(3).toString())
 						.addLocation(generalInfo.get(4).toString())
 						.addStatus(generalInfo.get(5).toString())
-						.addClassification("Others").build();
+						.addClassification("General").build();
 				InventoryItemController.getInstance().addInventoryItem(general);
 			}
 
@@ -220,162 +205,12 @@ public class PanelRegistry implements PanelRegistration {
 			System.out.println("Pass");
 			tabInventory.displayNonIT();
 			System.out.println("Passes NON");
-		} else if (type.equals("Software") || type.equals("others")) {
+		} else if (type.equals("Software")) {
 			this.type = "Software";
 			tabInventory.displaySoftware();
-		} else if (type.equals("Others")) {
-			this.type = "Others";
+		} else if (type.equals("General")) {
+			this.type = "General";
 			tabInventory.displayGeneral();
-		}
-	}
-	
-	public void setEditToCurrentSet(InventoryItem ii)
-	{
-		Object object = (Object)ii;
-		setCurrentType(((InventoryItem) object).getClassification());
-		System.out.println("TYPE: " + ((InventoryItem) object).getClassification());
-		Iterator<Employee> employeeIter = EmployeeController.getInstance().getAll();
-		ArrayList<String> employees = new ArrayList<String>();
-		
-		while(employeeIter.hasNext())
-		{
-			employees.add(employeeIter.next().getName());
-		}
-		
-		if(((InventoryItem) object).getClassification().equals("IT"))
-		{
-			type = "IT";
-			/*** 															***/
-			InventoryItem inventoryItem = (ITAsset) object;
-			
-			participantList.get(0).loadPresets(
-					ItemStorageGenInfo.getInstance()
-					.saveName(inventoryItem.getName())
-					.saveDescription(inventoryItem.getDescription())
-					.saveUnitPrice(inventoryItem.getUnitPrice())
-					.saveInvoiceNumber(inventoryItem.getInvoiceNo())
-					.saveLocation(inventoryItem.getLocation())
-					.saveStatus(inventoryItem.getStatus())
-					.loadList()
-			);
-			
-			((TypeItemTile) participantList.get(1)).loadAssigneeList(employees.iterator());
-			((TypeItemTile) participantList.get(1)).setType("IT Assets");
-			
-			participantList.get(1).loadPresets(
-					ItemStorageIT.getInstance()
-					.saveAssetTag(((ITAsset) inventoryItem).getAssetTag())
-					.saveServiceTag(((ITAsset) inventoryItem).getServiceTag())
-					.loadList()
-			);
-					
-			participantList.get(2).loadPresets(
-					ItemStorageWarranty.getInstance()
-					.saveStartDate(((ITAsset) inventoryItem).getWarrantyStartDate())
-					.saveEndDate(((ITAsset) inventoryItem).getWarrantyEndDate())
-					.loadList()
-			);
-			
-			participantList.get(3).loadPresets(
-					ItemStorageContract.getInstance()
-					.saveMainCost(((ITAsset) inventoryItem).getContractMaintenanceCost())
-					.saveStartDate(((ITAsset) inventoryItem).getContractStartDate())
-					.saveEndDate(((ITAsset) inventoryItem).getContractEndDate())
-					.loadList()
-			);
-			
-			resetAllStorage();
-			tabInventory.showPanel();
-		}
-		else if(((InventoryItem) object).getClassification().equals("Non-IT"))
-		{
-			type = "Non-IT";
-			/*** 						TEMPORARY FIX									***/
-			InventoryItem inventoryItem = (NonITAsset) object;
-			participantList.get(0).loadPresets(
-					ItemStorageGenInfo.getInstance()
-					.saveName(inventoryItem.getName())
-					.saveDescription(inventoryItem.getDescription())
-					.saveUnitPrice(inventoryItem.getUnitPrice())
-					.saveInvoiceNumber(inventoryItem.getInvoiceNo())
-					.saveLocation(inventoryItem.getLocation())
-					.saveStatus(inventoryItem.getStatus())
-					.loadList()
-			);
-			((TypeItemTile) participantList.get(1)).loadAssigneeList(employees.iterator());
-			((TypeItemTile) participantList.get(1)).setType("Non-IT Assets");
-			
-			resetAllStorage();
-			tabInventory.showPanel();
-		}
-		else if(((InventoryItem) object).getClassification().equals("Software"))
-		{
-			type = "Software";
-			InventoryItem inventoryItem = (SoftwareItem) object;
-			participantList.get(0).loadPresets(
-					ItemStorageGenInfo.getInstance()
-					.saveName(inventoryItem.getName())
-					.saveDescription(inventoryItem.getDescription())
-					.saveUnitPrice(inventoryItem.getUnitPrice())
-					.saveInvoiceNumber(inventoryItem.getInvoiceNo())
-					.saveLocation(inventoryItem.getLocation())
-					.saveStatus(inventoryItem.getStatus())
-					.loadList()
-			);
-			
-			
-			((TypeItemTile) participantList.get(1)).loadAssigneeList(employees.iterator());
-			((TypeItemTile) participantList.get(1)).setType("Software");
-			participantList.get(1).loadPresets(
-					ItemStorageSoftware.getInstance()
-					.saveLicenseKey(((SoftwareItem) inventoryItem).getLicenseKey())
-					.loadList()
-			);
-		
-			
-			System.out.println(((SoftwareItem) inventoryItem).getLicenseKey());
-			resetAllStorage();
-			tabInventory.showPanel();
-		}
-		else if(((InventoryItem) object).getClassification().equals("Others"))
-		{
-			type = "Others";
-			InventoryItem inventoryItem = (InventoryItem) object;
-			participantList.get(0).loadPresets(
-					ItemStorageGenInfo.getInstance()
-					.saveName(inventoryItem.getName())
-					.saveDescription(inventoryItem.getDescription())
-					.saveUnitPrice(inventoryItem.getUnitPrice())
-					.saveInvoiceNumber(inventoryItem.getInvoiceNo())
-					.saveLocation(inventoryItem.getLocation())
-					.saveStatus(inventoryItem.getStatus())
-					.loadList()
-			);
-
-			((TypeItemTile) participantList.get(1)).loadAssigneeList(employees.iterator());
-			((TypeItemTile) participantList.get(1)).setType("Others");
-			resetAllStorage();
-			tabInventory.showPanel();
-		}
-		
-	}
-	
-	public void resetAllStorage()
-	{
-		ItemStorageContract.getInstance().resetStorage();
-		ItemStorageGeneral.getInstance().resetStorage();
-		ItemStorageGenInfo.getInstance().resetStorage();
-		ItemStorageIT.getInstance().resetStorage();
-		ItemStorageNonIT.getInstance().resetStorage();
-		ItemStorageSoftware.getInstance().resetStorage();
-		ItemStorageWarranty.getInstance().resetStorage();
-	}
-	
-	public void resetParticipantPanels()
-	{
-		for(int i = 0; i < participantList.size(); i++)
-		{
-			participantList.clear();
 		}
 	}
 

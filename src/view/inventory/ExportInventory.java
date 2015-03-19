@@ -44,7 +44,7 @@ public class ExportInventory extends PopUp implements ActionListener{
 		panFooter.add(btnExport);
 		btnExport.setForeground(Color.white);
 		btnExport.setBackground(new Color(32, 130, 213));
-		btnExport.setFont(new Font("Arial", Font.PLAIN, 16));
+		btnExport.setFont(new Font("Arial", Font.PLAIN, 18));
 		panFooter.add(btnExport);
 
 		JPanel panContent = new JPanel();

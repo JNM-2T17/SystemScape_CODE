@@ -9,13 +9,6 @@ import model.InventoryItem;
 import view.Content;
 import view.Gui;
 import view.Content.ContentBuilder;
-import view.inventory.itemtile.ItemTileContract;
-import view.inventory.itemtile.ItemTileGenInfo;
-import view.inventory.itemtile.ItemTileGeneral;
-import view.inventory.itemtile.ItemTileIT;
-import view.inventory.itemtile.ItemTileNonIT;
-import view.inventory.itemtile.ItemTileSoftware;
-import view.inventory.itemtile.ItemTileWarranty;
 
 import java.awt.CardLayout;
 import java.awt.Color;
@@ -58,6 +51,9 @@ public class TabInventory extends JPanel implements ActionListener{
 		cl.show(this, "view");
 	}
 	
+	public void setEdit(InventoryItem ii){
+		
+	}
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -112,8 +108,6 @@ public class TabInventory extends JPanel implements ActionListener{
                 
 	}
         
-
-	
 	public void displayIT()
 	{
 		if(temp != null)
@@ -142,13 +136,6 @@ public class TabInventory extends JPanel implements ActionListener{
 		temp.getBtnBack().addActionListener(this);
 		
 		this.add(temp, "add");
-		cl.show(this, "add");
-		revalidate();
-		repaint();
-	}
-	
-	public void showPanel()
-	{
 		cl.show(this, "add");
 		revalidate();
 		repaint();
@@ -242,14 +229,5 @@ public class TabInventory extends JPanel implements ActionListener{
 		
 		
 	}
-
-
-	public void setEdit(InventoryItem ii) {
-		// TODO Auto-generated method stub
-		PanelRegistry.getInstance().setEditToCurrentSet(ii);
-		revalidate();
-		repaint();
-	}
-	
 
 }
