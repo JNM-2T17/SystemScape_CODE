@@ -9,7 +9,6 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Cursor;
 import java.awt.FlowLayout;
-import javax.swing.border.EmptyBorder;
 
 
 public class Contact extends JPanel {
@@ -18,23 +17,22 @@ public class Contact extends JPanel {
 	private JButton btn;
 	
 	public Contact(){
-		setMaximumSize(new Dimension(400, 37));
-		setPreferredSize(new Dimension(365, 37));
-		this.setBackground(Color.WHITE);
+		this.setBackground(Color.white);
 		
 		FlowLayout flowLayout = (FlowLayout) getLayout();
 		flowLayout.setAlignment(FlowLayout.LEFT);
 		setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 		String opt[]={"FAX", "Telephone", "Cellphone"};
 		
-		
 		value=new JTextField();
-		value.setPreferredSize(new Dimension(175, 25));
+		value.setFont(new Font("Arial", Font.PLAIN, 21));
+		
+		value.setPreferredSize(new Dimension(200, 35));
 		
 		type=new JComboBox(opt);
-		type.setBorder(new EmptyBorder(0, 0, 0, 0));
 		type.setBackground(Color.white);
-		type.setPreferredSize(new Dimension(120, 25));
+		type.setFont(new Font("Arial", Font.PLAIN, 21));
+		type.setPreferredSize(new Dimension(134, 35));
 		
 		btn= new Button.ButtonBuilder().img("src/assets/Round/Add.png", 30,
 				30).build();

@@ -149,7 +149,7 @@ public class FilterSupplier extends PopUp implements ActionListener {
 		panFooter.add(btnFilter);
 		btnFilter.setForeground(Color.white);
 		btnFilter.setBackground(new Color(32, 130, 213));
-		btnFilter.setFont(new Font("Arial", Font.PLAIN, 18));
+		btnFilter.setFont(new Font("Arial", Font.PLAIN, 16));
 
 		getClose().addActionListener(this);
 		btnFilter.addActionListener(this);

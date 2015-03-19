@@ -4,7 +4,6 @@ import controller.SupplierController;
 
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -33,11 +32,6 @@ import view.Contact;
 import view.Button.ButtonBuilder;
 import view.Message;
 
-import java.awt.FlowLayout;
-
-import javax.swing.BoxLayout;
-import javax.swing.ScrollPaneConstants;
-
 public class EditSupplier extends JPanel implements ActionListener {
 
 	private JTextField txtSupp;
@@ -50,12 +44,9 @@ public class EditSupplier extends JPanel implements ActionListener {
 	private JButton btnSubmit;
 	private SupplierController supplierController;
 	private JFrame parent;
-	
-	private Supplier supp;
 
 	public EditSupplier(JFrame parent, Supplier supp) {
 		this.parent = parent;
-		this.supp=supp;
 		this.setBackground(Color.WHITE);
 
 		list = new ArrayList<Contact>();
@@ -63,69 +54,83 @@ public class EditSupplier extends JPanel implements ActionListener {
 		setLayout(new BorderLayout(0, 0));
 
 		JPanel panContent = new JPanel();
-		panContent.setBorder(new EmptyBorder(50, 50, 0, 0));
 		panContent.setBackground(Color.WHITE);
 		add(panContent);
-		panContent.setLayout(new MigLayout("", "[100px][15px][400px]", "[27px][26px][26px][28px][28px][200px]"));
+		panContent.setLayout(null);
 
 		JLabel lblSupp = new JLabel("Supplier: ");
-		panContent.add(lblSupp, "cell 0 0,alignx left,growy");
+		lblSupp.setBounds(157, 90, 93, 27);
+		panContent.add(lblSupp);
+		lblSupp.setFont(new Font("Arial", Font.PLAIN, 22));
 
 		txtSupp = new JTextField(supp.getName());
-		panContent.add(txtSupp, "cell 2 0,grow");
+		txtSupp.setBounds(289, 89, 372, 32);
+		panContent.add(txtSupp);
+		txtSupp.setFont(new Font("Arial", Font.PLAIN, 20));
 		txtSupp.setColumns(10);
 
 		JLabel lblAddress = new JLabel("Address:");
-		panContent.add(lblAddress, "cell 0 1,alignx left,growy");
+		lblAddress.setBounds(158, 138, 92, 26);
+		panContent.add(lblAddress);
+		lblAddress.setFont(new Font("Arial", Font.PLAIN, 22));
 
 		JLabel lblCountry = new JLabel("Country:");
-		panContent.add(lblCountry, "cell 0 2,alignx right,growy");
+		lblCountry.setBounds(182, 185, 92, 26);
+		panContent.add(lblCountry);
+		lblCountry.setFont(new Font("Arial", Font.PLAIN, 22));
 
 		JLabel lblState = new JLabel("State:");
-		panContent.add(lblState, "cell 0 3,alignx right,growy");
+		lblState.setBounds(182, 232, 92, 26);
+		panContent.add(lblState);
+		lblState.setFont(new Font("Arial", Font.PLAIN, 22));
 
 		JLabel lblCity = new JLabel("City:");
-		panContent.add(lblCity, "cell 0 4,alignx right,growy");
+		lblCity.setBounds(182, 279, 92, 26);
+		panContent.add(lblCity);
+		lblCity.setFont(new Font("Arial", Font.PLAIN, 22));
 
 		cmbCountry = new JTextField(supp.getCountry());
-		panContent.add(cmbCountry, "cell 2 2,grow");
+		cmbCountry.setBounds(289, 185, 372, 32);
+		panContent.add(cmbCountry);
 		cmbCountry.setBackground(Color.white);
 
 		cmbState = new JTextField(supp.getState());
-		panContent.add(cmbState, "cell 2 3,grow");
+		cmbState.setBounds(289, 230, 372, 32);
+		panContent.add(cmbState);
 		cmbState.setBackground(Color.white);
 
 		cmbCity = new JTextField(supp.getCity());
-		panContent.add(cmbCity, "cell 2 4,grow");
+		cmbCity.setBounds(289, 277, 372, 32);
+		panContent.add(cmbCity);
 		cmbCity.setBackground(Color.white);
 
 		JLabel lblContact = new JLabel("Contact #:");
-		panContent.add(lblContact, "cell 0 5 3 1,alignx left,aligny top");
+		lblContact.setBounds(157, 334, 139, 26);
+		panContent.add(lblContact);
+		lblContact.setFont(new Font("Arial", Font.PLAIN, 22));
 
 		panContact = new JPanel();
 		panContact.setBackground(Color.WHITE);
 		panContact.setBounds(51, 478, 457, 200);
 		panContact.setLayout(new MigLayout());
-		
 
 		panClose = new JPanel();
-	
-		panClose.setBackground(Color.ORANGE);
-//		panClose.setAlignmentX(Component.LEFT_ALIGNMENT);
-		panContact.add(panClose, "");
-		panClose.setLayout(new BoxLayout(panClose, BoxLayout.PAGE_AXIS));
+		panClose.setBackground(Color.WHITE);
+		panClose.setAlignmentX(Component.LEFT_ALIGNMENT);
+		panContact.add(panClose);
+
+		panClose.setLayout(new MigLayout("", "[]", "[]"));
 
 		JScrollPane scrollPane = new JScrollPane();
-		panContent.add(scrollPane, "cell 2 5,grow");
+		scrollPane.setBounds(289, 334, 500, 200);
+		panContent.add(scrollPane);
 		scrollPane.setBorder(null);
 		scrollPane.setViewportView(panContact);
 		panClose.setVisible(false);
-		
 
 		temp = new Contact();
-		FlowLayout flowLayout = (FlowLayout) temp.getLayout();
 		temp.getBtn().addActionListener(this);
-		panContact.add(temp, "newline,alignx left,aligny top");
+		panContact.add(temp, "newline");
 
 		JPanel panFooter = new JPanel();
 		panFooter.setBackground(Color.WHITE);
@@ -136,18 +141,17 @@ public class EditSupplier extends JPanel implements ActionListener {
 		panFooter.add(btnSubmit);
 		btnSubmit.setForeground(Color.WHITE);
 		btnSubmit.setBackground(new Color(32, 130, 213));
-		btnSubmit.setFont(new Font("Arial", Font.PLAIN, 18));
+		btnSubmit.setFont(new Font("Arial", Font.PLAIN, 24));
 		btnSubmit.addActionListener(this);
 
 		supplierController = SupplierController.getInstance();
 		// populate();
 		System.out.println("STUPID");
 		
-		init();
+		init(supp.getSupplierContactList());
 	}
 	
-	private void init(){
-		Iterator it=supp.getSupplierContactList();
+	private void init(Iterator it){
 		while(it.hasNext()){
 			SupplierContact sc=(SupplierContact) it.next();
 			JButton close = new Button.ButtonBuilder().img(
@@ -171,10 +175,6 @@ public class EditSupplier extends JPanel implements ActionListener {
 			}
 			
 		}
-		
-		panClose.setMaximumSize(new Dimension(360,
-				panClose.getComponentCount() * 37));
-		
 		this.repaint();
 		this.revalidate();
 	}
@@ -217,15 +217,11 @@ public class EditSupplier extends JPanel implements ActionListener {
 			pan.setValue("");
 			pan.setType("FAX");
 
-			panClose.add(temp);
+			panClose.add(temp, "newline");
 			list.add(temp);
-			
 			if (!panClose.isVisible()) {
 				panClose.setVisible(true);
 			}
-			
-			panClose.setMaximumSize(new Dimension(360,
-					panClose.getComponentCount() * 37));
 			this.repaint();
 			this.revalidate();
 		}
@@ -331,8 +327,6 @@ public class EditSupplier extends JPanel implements ActionListener {
 			panClose.remove(index);
 			list.remove(index);
 			System.out.println(list.size());
-			panClose.setMaximumSize(new Dimension(360,
-					panClose.getComponentCount() * 37));
 			this.repaint();
 			this.revalidate();
 		}

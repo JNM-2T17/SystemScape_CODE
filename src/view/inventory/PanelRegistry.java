@@ -291,8 +291,7 @@ public class PanelRegistry implements PanelRegistration {
 		{
 			type = "Non-IT";
 			/*** 						TEMPORARY FIX									***/
-			InventoryItem inventoryItem = (InventoryItem) object;
-			
+			InventoryItem inventoryItem = (NonITAsset) object;
 			participantList.get(0).loadPresets(
 					ItemStorageGenInfo.getInstance()
 					.saveName(inventoryItem.getName())
@@ -323,6 +322,7 @@ public class PanelRegistry implements PanelRegistration {
 					.saveStatus(inventoryItem.getStatus())
 					.loadList()
 			);
+			
 			
 			((TypeItemTile) participantList.get(1)).loadAssigneeList(employees.iterator());
 			((TypeItemTile) participantList.get(1)).setType("Software");
