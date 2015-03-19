@@ -85,6 +85,7 @@ public class AddPOItem extends PopUp implements ActionListener, FocusListener{
 		panContent.setLayout(new MigLayout("", "[grow][188.00,grow][][][]", "[][][][grow][][][][][][]"));
 		
 		lblItem = new JLabel("Item :");
+		lblItem.setFont(new Font("Arial", Font.PLAIN, 18));
 		panContent.add(lblItem, "cell 0 1,alignx left");
 		
 		txtItem = new JTextField("");
@@ -102,10 +103,12 @@ public class AddPOItem extends PopUp implements ActionListener, FocusListener{
 				txtItem.setBorder(border);
 			}
 		});
+		txtItem.setFont(new Font("Arial", Font.PLAIN, 18));
 		panContent.add(txtItem, "cell 1 1,growx");
 		txtItem.setColumns(10);
 		
 		lblDescription = new JLabel("Item Description :");
+		lblDescription.setFont(new Font("Arial", Font.PLAIN, 18));
 		panContent.add(lblDescription, "cell 0 2,alignx left");
 		
 		scrollPane = new JScrollPane();
@@ -132,15 +135,18 @@ public class AddPOItem extends PopUp implements ActionListener, FocusListener{
 		scrollPane.setViewportView(txtDescription);
 		
 		lblType = new JLabel("Type:");
+		lblType.setFont(new Font("Arial", Font.PLAIN, 18));
 		panContent.add(lblType, "cell 0 5,alignx left");
 		
 		String[] types={"IT Asset", "Non-IT Asset"};
 		cmbType = new JComboBox(types);
-		cmbType.setPreferredSize(new Dimension(185, 25));
+		cmbType.setFont(new Font("Arial", Font.PLAIN, 18));
+		cmbType.setPreferredSize(new Dimension(185, 32));
 		cmbType.setBackground(Color.WHITE);
 		panContent.add(cmbType, "cell 1 5,alignx left");
 		
 		lblQuantity = new JLabel("Quantity :");
+		lblQuantity.setFont(new Font("Arial", Font.PLAIN, 18));
 		panContent.add(lblQuantity, "cell 0 6,alignx left");
 		
 		txtQuantity = new JTextField();
@@ -164,6 +170,7 @@ public class AddPOItem extends PopUp implements ActionListener, FocusListener{
 		txtQuantity.setColumns(10);
 		
 		lblPrice = new JLabel("Unit Price :");
+		lblPrice.setFont(new Font("Arial", Font.PLAIN, 18));
 		panContent.add(lblPrice, "cell 0 7");
 	
 		txtPrice = new JTextField("");
@@ -188,9 +195,11 @@ public class AddPOItem extends PopUp implements ActionListener, FocusListener{
 		txtPrice.setColumns(10);
 		
 		lblAmount = new JLabel("Amount :");
+		lblAmount.setFont(new Font("Arial", Font.PLAIN, 18));
 		panContent.add(lblAmount, "cell 0 8");
 		
 		lblAmountValue = new JLabel("0.00");
+		lblAmountValue.setFont(new Font("Arial", Font.PLAIN, 18));
 		panContent.add(lblAmountValue, "cell 1 8");
 		
 		panSubmit = new JPanel();
@@ -198,7 +207,7 @@ public class AddPOItem extends PopUp implements ActionListener, FocusListener{
 		panCenter.add(panSubmit, BorderLayout.SOUTH);
 		
 		btnSubmit = new JButton("Submit");
-		btnSubmit.setFont(new Font("Arial", Font.PLAIN, 16));
+		btnSubmit.setFont(new Font("Arial", Font.PLAIN, 18));
 		btnSubmit.addActionListener(this);
 		btnSubmit.setForeground(Color.WHITE);
 		btnSubmit.setBackground(new Color(32, 130, 213));
