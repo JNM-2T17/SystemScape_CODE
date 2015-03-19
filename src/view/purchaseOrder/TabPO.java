@@ -10,9 +10,11 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import model.PurchaseOrder;
+import model.Supplier;
 import view.Content;
 import view.Gui;
 import view.Content.ContentBuilder;
+import view.supplier.EditSupplier;
 
 
 public class TabPO extends JPanel implements ActionListener{
@@ -50,11 +52,18 @@ public class TabPO extends JPanel implements ActionListener{
 	
 	public void setEdit(PurchaseOrder po){
 		
+		Content temp=new Content.ContentBuilder().caption("Edit Purchase Order").back(true).content(new EditPO(gui, po)).build();
+		temp.getBtnBack().addActionListener(this);
+		this.add(temp, "edit");
+		list.add(temp);
+		
+		cl.show(this, "edit");
 	}
-        
-        public void updateSupplierBox(){
-            ((AddPO)list.get(1).getContent()).populateSupplierNames();
-        }
+     
+	
+    public void updateSupplierBox(){
+        ((AddPO)list.get(1).getContent()).populateSupplierNames();
+    }
 
 	@Override
 	public void actionPerformed(ActionEvent e) {

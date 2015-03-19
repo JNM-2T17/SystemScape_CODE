@@ -12,6 +12,7 @@ import java.util.Date;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -20,12 +21,15 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
+import model.ItemData;
 import model.PurchaseOrder;
 import model.Supplier;
 import view.Button;
 import view.Observer;
+import view.PanelCell;
 import view.Button.ButtonBuilder;
 
 import com.toedter.calendar.JDateChooser;
@@ -35,9 +39,10 @@ import controller.SupplierController;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+
 import view.Message;
 
-public class AddPO extends JPanel implements ActionListener, Observer {
+public class EditPO extends JPanel implements ActionListener, Observer {
 	private JPanel panDefinition, panLeft, panCenter, panRight, panSupplier,
 			panDate, panAddItem, panItemTable, panClass, panHeader, panFooter;
 	private JLabel lblSupplier, lblClass, lblDate, lblItem;
@@ -61,21 +66,23 @@ public class AddPO extends JPanel implements ActionListener, Observer {
 	
 	private JFrame parent;
 	private JLabel lblGrandValue;
+	private PurchaseOrder po;
 
-	public AddPO(JFrame parent) {
+	public EditPO(JFrame parent, PurchaseOrder po) {
 		
-		this.parent=parent;
+		this.parent = parent;
+		this.po = po;
 		poController = PurchaseOrderController.getInstance();
-		poTableModel = new POTableModel(poController);
-
 		supplierController = SupplierController.getInstance();
-
+		
 		setLayout(new BorderLayout(0, 0));
+		
 		panDefinition = new JPanel();
 		panDefinition.setPreferredSize(new Dimension(10, 80));
-		add(panDefinition, BorderLayout.NORTH);
 		panDefinition.setBackground(Color.white);
 		panDefinition.setLayout(new BorderLayout(0, 0));
+		add(panDefinition, BorderLayout.NORTH);
+	
 
 		panLeft = new JPanel();
 		panLeft.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
@@ -89,13 +96,14 @@ public class AddPO extends JPanel implements ActionListener, Observer {
 
 		lblSupplier = new JLabel("Supplier :");
 		panSupplier.add(lblSupplier);
-		lblSupplier.setFont(new Font("Arial", Font.PLAIN, 22));
+		lblSupplier.setFont(new Font("Arial", Font.PLAIN, 18));
 
 		cmbSupplier = new JComboBox();
 		populateSupplierNames();
+		setSupplier(po);
                 
 		panSupplier.add(cmbSupplier);
-		cmbSupplier.setFont(new Font("Arial", Font.PLAIN, 22));
+		cmbSupplier.setFont(new Font("Arial", Font.PLAIN, 18));
 		cmbSupplier.setBackground(Color.white);
 		cmbSupplier.setPreferredSize(new Dimension(200, 30));
 
@@ -106,16 +114,16 @@ public class AddPO extends JPanel implements ActionListener, Observer {
 		lblClass = new JLabel("Item Classification :");
 		lblClass.setHorizontalTextPosition(SwingConstants.LEFT);
 		lblClass.setHorizontalAlignment(SwingConstants.LEFT);
-		lblClass.setFont(new Font("Arial", Font.PLAIN, 22));
+		lblClass.setFont(new Font("Arial", Font.PLAIN, 18));
 		panClass.add(lblClass);
 
 		cmbClass = new JComboBox();
 		cmbClass.setPreferredSize(new Dimension(100, 30));
-		cmbClass.setModel(new DefaultComboBoxModel(new String[] { "Hard",
-				"Soft", "Gen" }));
-		cmbClass.setFont(new Font("Arial", Font.PLAIN, 22));
+		cmbClass.setModel(new DefaultComboBoxModel(new String[] { "Hard","Soft", "Gen" }));
+		cmbClass.setFont(new Font("Arial", Font.PLAIN, 18));
 		cmbClass.setBackground(Color.white);
 		panClass.add(cmbClass);
+		setPOClassification(po);
 
 		panRight = new JPanel();
 		panRight.setBackground(Color.white);
@@ -128,17 +136,16 @@ public class AddPO extends JPanel implements ActionListener, Observer {
 
 		lblDate = new JLabel("Date :");
 		panDate.add(lblDate);
-		lblDate.setFont(new Font("Arial", Font.PLAIN, 22));
+		lblDate.setFont(new Font("Arial", Font.PLAIN, 18));
 
 		dateChooser = new JDateChooser();
 		dateChooser.setOpaque(false);
-		dateChooser.setDate(new Date());
+		dateChooser.setDate(po.getDate());
 		dateChooser.setBorder(null);
-		dateChooser.setFont(new Font("Arial", Font.PLAIN, 15));
+		dateChooser.setFont(new Font("Arial", Font.PLAIN, 18));
 		dateChooser.setDateFormatString("yyyy-MM-dd");
 		dateChooser.setBackground(Color.WHITE);
 		dateChooser.setPreferredSize(new Dimension(150, 30));
-
 		panDate.add(dateChooser);
 
 		panCurrency = new JPanel();
@@ -146,10 +153,11 @@ public class AddPO extends JPanel implements ActionListener, Observer {
 		panRight.add(panCurrency, BorderLayout.WEST);
 
 		lblCurrency = new JLabel("Currency :");
-		lblCurrency.setFont(new Font("Arial", Font.PLAIN, 22));
+		lblCurrency.setFont(new Font("Arial", Font.PLAIN, 18));
 		panCurrency.add(lblCurrency);
 
 		cmbCurrency = new JComboBox();
+		cmbCurrency.setFont(new Font("Arial", Font.PLAIN, 18));
 		cmbCurrency.setPreferredSize(new Dimension(110, 30));
 		panCurrency.add(cmbCurrency);
 
@@ -158,8 +166,7 @@ public class AddPO extends JPanel implements ActionListener, Observer {
 		add(panCenter, BorderLayout.CENTER);
 		panCenter.setLayout(new BorderLayout(0, 0));
 
-		btnAddItem = new Button.ButtonBuilder().img("src/assets/Round/Add.png",
-				40, 40).build();
+		btnAddItem = new Button.ButtonBuilder().img("src/assets/Round/Add.png",40, 40).build();
 		btnAddItem.setActionCommand("add");
 		btnAddItem.addActionListener(this);
 
@@ -176,7 +183,7 @@ public class AddPO extends JPanel implements ActionListener, Observer {
 		panAddItem.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 
 		lblItem = new JLabel("Item/s");
-		lblItem.setFont(new Font("Arial", Font.PLAIN, 22));
+		lblItem.setFont(new Font("Arial", Font.PLAIN, 18));
 		panAddItem.add(lblItem);
 		panAddItem.add(btnAddItem);
 
@@ -192,7 +199,7 @@ public class AddPO extends JPanel implements ActionListener, Observer {
 		btnSubmit = new JButton("Submit");
 		btnSubmit.setForeground(Color.WHITE);
 		btnSubmit.setBackground(new Color(32, 130, 213));
-		btnSubmit.setFont(new Font("Arial", Font.PLAIN, 24));
+		btnSubmit.setFont(new Font("Arial", Font.PLAIN, 20));
 		btnSubmit.addActionListener(this);
 		panSubmit.add(btnSubmit);
 
@@ -201,11 +208,11 @@ public class AddPO extends JPanel implements ActionListener, Observer {
 		panFooter.add(panGrandTotal, BorderLayout.EAST);
 
 		lblGrandTotal = new JLabel("Grand Total :");
-		lblGrandTotal.setFont(new Font("Arial", Font.PLAIN, 22));
+		lblGrandTotal.setFont(new Font("Arial", Font.PLAIN, 20));
 		panGrandTotal.add(lblGrandTotal);
 		
 		lblGrandValue = new JLabel("0.00");
-		lblGrandValue.setFont(new Font("Arial", Font.PLAIN, 22));
+		lblGrandValue.setFont(new Font("Arial", Font.PLAIN, 20));
 		panGrandTotal.add(lblGrandValue);
 
 		panItemTable = new JPanel();
@@ -217,34 +224,76 @@ public class AddPO extends JPanel implements ActionListener, Observer {
 		scrollPane.setBackground(Color.WHITE);
 		panCenter.add(scrollPane);
 
-		table = new JTable(poTableModel);
+		model = new DefaultTableModel() {
+			public boolean isCellEditable(int rowIndex, int mColIndex) {
+				if(mColIndex==model.getColumnCount()-1 || mColIndex == model.getColumnCount()-2) return true;
+				return false;
+			}
+
+			public boolean isFocusable(int rowIndex, int mColIndex) {
+				return false;
+			}
+
+			public boolean isCellSelectable(int rowIndex, int mColIndex) {
+				if(mColIndex == 5)
+				{
+					System.out.println("CHECKBOX");
+					return true ;
+				}
+				return false;
+			}
+		};
+		
+		
+		table = new JTable(model);
 		scrollPane.setViewportView(table);
 		table.setCellSelectionEnabled(false);
 		table.getTableHeader().setReorderingAllowed(false);
-		table.setFont(new Font("Arial", Font.PLAIN, 18));
-		table.getTableHeader().setFont(new Font("Arial", Font.PLAIN, 20));
+		table.setFont(new Font("Arial", Font.PLAIN, 15));
+		table.getTableHeader().setFont(new Font("Arial", Font.PLAIN, 18));
 		table.setRowHeight(55);
-		table.getColumnModel().getColumn(2).setPreferredWidth(20);
 
+		initializeModel();
 		supplierController.registerObserver(this);// dev
 		poController.registerObserver(this);
 
 	}
 
+	public void setPOClassification(PurchaseOrder po)
+	{
+		for(int i = 0; i<cmbClass.getItemCount(); i++)
+		{
+			if(cmbClass.getItemAt(i).equals(po.getSupplier().getName()))
+			{
+				cmbClass.setSelectedIndex(i);
+			}
+		}
+	}
+	
+	public void setSupplier(PurchaseOrder po)
+	{
+		for(int i = 0; i<cmbSupplier.getItemCount(); i++)
+		{
+			if(cmbSupplier.getItemAt(i).equals(po.getSupplier().getName()))
+			{
+				cmbSupplier.setSelectedIndex(i);
+			}
+		}
+	}
 	@Override
 	public void actionPerformed(ActionEvent event) {
-		// TODO Auto-generated method stub
-
+		
 		if (event.getSource() == btnAddItem) {
-			AddPOItem i = new AddPOItem(parent, (String)cmbClass.getSelectedItem(), poController);
+			
+		/***add the code statements here to add an additional item to the purchase order***/
+			
 		} else if (event.getSource() == btnSubmit) {
 
 			if (checkFields() == false) {
-				selectedDate = dateChooser.getDate();
-				Supplier supplier = (Supplier) supplierController.getObject((String) cmbSupplier.getSelectedItem());// dev
-				poController.addPurchaseOrder(new PurchaseOrder(selectedDate, 0,cmbClass.getSelectedItem().toString(),supplier, ""));// dev
-                                Message msg = new Message(parent, Message.SUCCESS, "Purchase Order added successfully.");
-                        } else {
+
+				/****add the code statements here to edit the po when all fields of the form are not empty***/
+				
+            } else {
 				JOptionPane.showMessageDialog(null, "No date");
 
 			}
@@ -254,7 +303,9 @@ public class AddPO extends JPanel implements ActionListener, Observer {
 
 	}
 	
-	public void clear(){
+	/***reset the purchase order form***/
+	public void clear()
+	{
 		cmbSupplier.setSelectedIndex(0);
 		cmbClass.setSelectedIndex(0);
 		lblGrandValue.setText("");
@@ -270,7 +321,9 @@ public class AddPO extends JPanel implements ActionListener, Observer {
 		
 	}
 
-	public boolean checkFields() {
+	/***check for empty fields***/
+	public boolean checkFields() 
+	{
 		boolean isEmpty = false;
 
 		if (dateChooser.getDate() == null) {
@@ -280,20 +333,80 @@ public class AddPO extends JPanel implements ActionListener, Observer {
 		return isEmpty;
 	}
         
-        public void populateSupplierNames(){
-            Iterator<Supplier> iterator = supplierController.getAll();
-            ArrayList<String> supplierNames = new ArrayList();
-            while(iterator.hasNext()){
-                supplierNames.add(iterator.next().getName());
-            }
-            cmbSupplier.setModel(new DefaultComboBoxModel(supplierNames.toArray()));
+	/***populate the combobox with the supplier names from the db***/
+    public void populateSupplierNames()
+    {
+        Iterator<Supplier> iterator = supplierController.getAll();
+        ArrayList<String> supplierNames = new ArrayList();
+        while(iterator.hasNext()){
+            supplierNames.add(iterator.next().getName());
         }
+        cmbSupplier.setModel(new DefaultComboBoxModel(supplierNames.toArray()));
+    }
 
+    /**initialize the table model**/
+    public void initializeModel()
+    {
+    	model.setColumnCount(7);
+    	DefaultTableCellRenderer rightRenderer = new DefaultTableCellRenderer();
+    	rightRenderer.setHorizontalAlignment( JLabel.RIGHT );
+    
+		String headers[]={"Item", "Description","Quantity", "Unit Price", "Amount", "Delivered", "Edit"};
+		model.setColumnIdentifiers(headers);
+    	table.getColumnModel().getColumn(0).setPreferredWidth(100);
+    	table.getColumnModel().getColumn(1).setPreferredWidth(100);
+    	table.getColumnModel().getColumn(2).setPreferredWidth(100);
+    	table.getColumnModel().getColumn(2).setCellRenderer( rightRenderer );
+    	
+    	table.getColumnModel().getColumn(3).setPreferredWidth(100);
+    	table.getColumnModel().getColumn(3).setCellRenderer( rightRenderer );
+    	
+    	table.getColumnModel().getColumn(4).setPreferredWidth(100);
+    	table.getColumnModel().getColumn(4).setCellRenderer( rightRenderer );
+    	
+    	table.getColumnModel().getColumn(5).setPreferredWidth(100);
+    	table.getColumnModel().getColumn(6).setPreferredWidth(100);
+
+    }
+    
+    public void clearTable()
+    {
+    	for (int i = 0; i < model.getRowCount(); i++) {
+			for (int j = 0; j < model.getColumnCount(); j++) {
+				model.setValueAt(null, i, j);
+			}
+    	}
+		
+		model.setRowCount(0);
+    }
+    
 	@Override
-	public void update() {
-		// TODO Auto-generated method stub
-		poTableModel = new POTableModel(poController);
-		table.setModel(poTableModel);
-		lblGrandValue.setText(String.valueOf(poController.computeGrandTotal()));
+	public void update() 
+	{
+		   clearTable();
+    
+           Iterator data = po.getItems();
+           ItemData item;
+           while(data.hasNext())
+           {
+              item = (ItemData) data.next();
+              
+              /***set table renderers and editors***/
+              table.getColumnModel().getColumn(table.getColumnCount()-1).setCellRenderer(new POItemCellEdit(new JCheckBox(), parent, item,po, poController));
+        	  table.getColumnModel().getColumn(table.getColumnCount()-1).setCellEditor(new POItemCellEdit(new JCheckBox(), parent, item,po, poController));
+        	  table.getColumnModel().getColumn(table.getColumnCount()-2).setCellRenderer(new POItemCheckBoxCell(new JCheckBox(), parent, po, poController));
+        	  table.getColumnModel().getColumn(table.getColumnCount()-2).setCellEditor(new POItemCheckBoxCell(new JCheckBox(), parent, po, poController));
+        		
+        	  /***populate the table***/
+              model.setRowCount(model.getRowCount() + 1);
+              model.setValueAt(item.getName(),model.getRowCount() - 1, 0);
+              model.setValueAt(item.getDescription(), model.getRowCount() - 1, 1);
+              model.setValueAt(po.getQuantity(item), model.getRowCount() - 1, 2);
+              model.setValueAt(item.getUnitPrice(), model.getRowCount() - 1, 3);
+              model.setValueAt(po.computeTotal(item), model.getRowCount() - 1, 4);
+              model.setValueAt(new POItemCheckBoxCell(new JCheckBox(), parent, po, poController), model.getRowCount() - 1, 5);
+              model.setValueAt(new POItemCellEdit(new JCheckBox(), parent, item,po, poController), model.getRowCount() - 1, 6);
+           }
+		lblGrandValue.setText(String.valueOf(po.computeGrandTotal()));
 	}
 }

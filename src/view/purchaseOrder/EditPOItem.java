@@ -36,6 +36,7 @@ import javax.swing.text.DefaultFormatter;
 import javax.swing.text.NumberFormatter;
 
 import model.ItemData;
+import model.PurchaseOrder;
 import net.miginfocom.swing.MigLayout;
 
 import javax.swing.JScrollBar;
@@ -49,7 +50,7 @@ import controller.PurchaseOrderController;
 
 import javax.swing.JComboBox;
 
-public class AddPOItem extends PopUp implements ActionListener, FocusListener{
+public class EditPOItem extends PopUp implements ActionListener, FocusListener{
 	private JPanel panHeader, panCenter, panClose, panContent,panFooter,panWest,panEast, panSubmit;
 	private JLabel lblItem,lblAmount,lblAmountValue,lblQuantity,lblDescription,lblPrice;
 	private JTextArea txtDescription;
@@ -61,19 +62,20 @@ public class AddPOItem extends PopUp implements ActionListener, FocusListener{
 	private JLabel lblType;
 	private JComboBox cmbType;
 	private JFrame parent;
+	private String type;
 	
-	public AddPOItem(JFrame parent, String type, PurchaseOrderController poController) 
+	public EditPOItem(JFrame parent,ItemData i, PurchaseOrder po,  PurchaseOrderController poController) 
 	{
 	
 		super(parent);
 		this.parent = parent;
 		this.poController = poController;
+		this.type = po.getType();
+		
 		this.addFocusListener(this);
 		this.setUndecorated(true);
 		
 		panCenter = new JPanel();
-		getContentPane().add(panCenter, BorderLayout.CENTER);
-
 		panCenter.setBackground(Color.white);
 		panCenter.setLayout(new BorderLayout(0, 0));
 		panCenter.setSize(new Dimension(600,400));
@@ -88,24 +90,26 @@ public class AddPOItem extends PopUp implements ActionListener, FocusListener{
 		lblItem.setFont(new Font("Arial", Font.PLAIN, 18));
 		panContent.add(lblItem, "cell 0 1,alignx left");
 		
-		txtItem = new JTextField("");
+		/***set selected item name to edit****/
+		txtItem = new JTextField(i.getName());
+		txtItem.setFont(new Font("Arial", Font.PLAIN, 18));
+		txtItem.setColumns(10);
+		panContent.add(txtItem, "cell 1 1,growx");
 		txtItem.addFocusListener( new FocusListener() {
 			Border border = BorderFactory.createLineBorder(Color.BLACK, 1);
 			@Override
 			public void focusLost(FocusEvent e) {
-				// TODO Auto-generated method stub
-				//txtItem.setBorder(border);
+			
 			}
 			
 			@Override
 			public void focusGained(FocusEvent e) {
-				// TODO Auto-generated method stub
+				
+				/***set the border of the textfield to black***/
 				txtItem.setBorder(border);
 			}
 		});
-		txtItem.setFont(new Font("Arial", Font.PLAIN, 18));
-		panContent.add(txtItem, "cell 1 1,growx");
-		txtItem.setColumns(10);
+
 		
 		lblDescription = new JLabel("Item Description :");
 		lblDescription.setFont(new Font("Arial", Font.PLAIN, 18));
@@ -116,28 +120,30 @@ public class AddPOItem extends PopUp implements ActionListener, FocusListener{
 		scrollPane.setPreferredSize(new Dimension(300, 150));
 		panContent.add(scrollPane, "cell 1 3,growy");
 		
-		txtDescription = new JTextArea("");
+		/***set selected item description to edit****/
+		txtDescription = new JTextArea(i.getDescription());
+		txtDescription.setLineWrap(true);
+		scrollPane.setViewportView(txtDescription);
 		txtDescription.addFocusListener( new FocusListener() {
 			Border border = BorderFactory.createLineBorder(Color.BLACK, 1);
 			@Override
 			public void focusLost(FocusEvent e) {
-				// TODO Auto-generated method stub
-				//txtItem.setBorder(border);
+				
 			}
 			
 			@Override
 			public void focusGained(FocusEvent e) {
-				// TODO Auto-generated method stub
 				txtDescription.setBorder(border);
 			}
 		});
-		txtDescription.setLineWrap(true);
-		scrollPane.setViewportView(txtDescription);
+
 		
 		lblType = new JLabel("Type:");
 		lblType.setFont(new Font("Arial", Font.PLAIN, 18));
 		panContent.add(lblType, "cell 0 5,alignx left");
 		
+		/**have a query to set the classification of an item given the item data and the purchase order
+		  the  item belongs to**/
 		String[] types={"IT Asset", "Non-IT Asset"};
 		cmbType = new JComboBox(types);
 		cmbType.setFont(new Font("Arial", Font.PLAIN, 18));
@@ -149,54 +155,61 @@ public class AddPOItem extends PopUp implements ActionListener, FocusListener{
 		lblQuantity.setFont(new Font("Arial", Font.PLAIN, 18));
 		panContent.add(lblQuantity, "cell 0 6,alignx left");
 		
-		txtQuantity = new JTextField();
+		/***set the item quantity***/
+		txtQuantity = new JTextField(String.valueOf(po.getQuantity(i)));
+		txtQuantity.setPreferredSize(new Dimension(10, 25));
+		panContent.add(txtQuantity, "cell 1 6");
+		txtQuantity.setColumns(10);
 		txtQuantity.addFocusListener( new FocusListener() {
 			Border border = BorderFactory.createLineBorder(Color.BLACK, 1);
 			@Override
 			public void focusLost(FocusEvent e) {
+				// TODO Auto-generated method stub
+				
 			}
 			
 			@Override
 			public void focusGained(FocusEvent e) {
 				// TODO Auto-generated method stub
+				txtQuantity.setDocument(new JTextFieldFilter(JTextFieldFilter.NUMERIC));
 				txtQuantity.setBorder(border);
 			}
 		});
-		txtQuantity.setDocument(new JTextFieldFilter(JTextFieldFilter.NUMERIC));
-		txtQuantity.setPreferredSize(new Dimension(10, 25));
-		panContent.add(txtQuantity, "cell 1 6");
-		txtQuantity.setColumns(10);
+		
 		
 		lblPrice = new JLabel("Unit Price :");
 		lblPrice.setFont(new Font("Arial", Font.PLAIN, 18));
 		panContent.add(lblPrice, "cell 0 7");
 	
-		txtPrice = new JTextField("");
+		/***set the unit price of the item****/
+		txtPrice = new JTextField(String.valueOf(i.getUnitPrice()));
+		
+		txtPrice.setPreferredSize(new Dimension(10, 25));
+		txtPrice.addActionListener(new TextAmountActionListener());
+		txtPrice.setColumns(10);
+		panContent.add(txtPrice, "cell 1 7");
 		txtPrice.addFocusListener( new FocusListener() {
 			Border border = BorderFactory.createLineBorder(Color.BLACK, 1);
 			@Override
 			public void focusLost(FocusEvent e) {
-				// TODO Auto-generated method stub
-				//txtItem.setBorder(border);
+				
 			}
 			
 			@Override
 			public void focusGained(FocusEvent e) {
 				// TODO Auto-generated method stub
+				txtPrice.setDocument(new JTextFieldFilter(JTextFieldFilter.FLOAT));
 				txtPrice.setBorder(border);
 			}
 		});
-		txtPrice.setDocument(new JTextFieldFilter(JTextFieldFilter.FLOAT));
-		txtPrice.setPreferredSize(new Dimension(10, 25));
-		panContent.add(txtPrice, "cell 1 7");
-		txtPrice.addActionListener(new TextAmountActionListener());
-		txtPrice.setColumns(10);
+
 		
 		lblAmount = new JLabel("Amount :");
 		lblAmount.setFont(new Font("Arial", Font.PLAIN, 18));
 		panContent.add(lblAmount, "cell 0 8");
 		
-		lblAmountValue = new JLabel("0.00");
+		/***set the total amount of the item****/
+		lblAmountValue = new JLabel(String.valueOf(po.computeTotal(i)));
 		lblAmountValue.setFont(new Font("Arial", Font.PLAIN, 18));
 		panContent.add(lblAmountValue, "cell 1 8");
 		
@@ -221,8 +234,6 @@ public class AddPOItem extends PopUp implements ActionListener, FocusListener{
 		
 		this.setVisible(true);
 	}
-	
-	
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -230,12 +241,11 @@ public class AddPOItem extends PopUp implements ActionListener, FocusListener{
 		
 		if(e.getSource() == getClose())
 		{
-			this.setVisible(false); //you can't see me! - LOL
+			this.setVisible(false); 
 			this.dispose();
 		}
 		else if(e.getSource() == btnSubmit)
 		{
-			
 			String error = checkFields();
 			if(error.equals("") == true)
 			{
@@ -244,10 +254,10 @@ public class AddPOItem extends PopUp implements ActionListener, FocusListener{
 				int quantity = parseStringInt(txtQuantity.getText());
 				float price = (float) parseStringFloat(txtPrice.getText());
 				
-				poController.addItem(new ItemData(item, description, price), quantity);
-				this.setVisible(false); //you can't see me!
-				this.dispose();
+				/***insert code statements here to edit the PO item***/
 				
+				this.setVisible(false); 
+				this.dispose();	
 			}
 			else if(error.equals("") == false)
 			{
@@ -263,6 +273,7 @@ public class AddPOItem extends PopUp implements ActionListener, FocusListener{
 		
 	}
 	
+	/***clear the fields*****/
 	public void clearFields()
 	{
 		txtDescription.setText("");
@@ -287,6 +298,7 @@ public class AddPOItem extends PopUp implements ActionListener, FocusListener{
 		return 0.0;
 	}
 	
+	/****check the for blank fields and return the error message to display****/
 	public String checkFields()
 	{
 		String error = "";
@@ -311,10 +323,11 @@ public class AddPOItem extends PopUp implements ActionListener, FocusListener{
 
 		return error;
 	}
-
+	
+	
+	/***use to auto compute the amount of an item once the user press the enter key.***/
 	class TextAmountActionListener implements ActionListener
 	{
-
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			// TODO Auto-generated method stub
