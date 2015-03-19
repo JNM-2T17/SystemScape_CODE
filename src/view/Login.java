@@ -51,37 +51,37 @@ public class Login extends JPanel implements ActionListener {
     	
     
 
-    	UIManager.put("Button.font", new Font("Arial",Font.PLAIN,12)/* font of your liking */);
-    	UIManager.put("ToggleButton.font", new Font("Arial",Font.PLAIN,12)/* font of your liking */);
-    	UIManager.put("RadioButton.font", new Font("Arial",Font.PLAIN,12)/* font of your liking */);
-    	UIManager.put("CheckBox.font", new Font("Arial",Font.PLAIN,12)/* font of your liking */);
-    	UIManager.put("ColorChooser.font", new Font("Arial",Font.PLAIN,12)/* font of your liking */);
-    	UIManager.put("ComboBox.font", new Font("Arial",Font.PLAIN,12)/* font of your liking */);
-    	UIManager.put("Label.font", new Font("Arial",Font.PLAIN,12)/* font of your liking */);
-    	UIManager.put("List.font", new Font("Arial",Font.PLAIN,12)/* font of your liking */);
-    	UIManager.put("MenuBar.font", new Font("Arial",Font.PLAIN,12)/* font of your liking */);
-    	UIManager.put("MenuItem.font", new Font("Arial",Font.PLAIN,12)/* font of your liking */);
-    	UIManager.put("RadioButtonMenuItem.font", new Font("Arial",Font.PLAIN,12)/* font of your liking */);
-    	UIManager.put("CheckBoxMenuItem.font", new Font("Arial",Font.PLAIN,12)/* font of your liking */);
-    	UIManager.put("Menu.font", new Font("Arial",Font.PLAIN,12)/* font of your liking */);
-    	UIManager.put("PopupMenu.font", new Font("Arial",Font.PLAIN,12)/* font of your liking */);
-    	UIManager.put("OptionPane.font", new Font("Arial",Font.PLAIN,12)/* font of your liking */);
-    	UIManager.put("Panel.font", new Font("Arial",Font.PLAIN,12)/* font of your liking */);
-    	UIManager.put("ProgressBar.font", new Font("Arial",Font.PLAIN,12)/* font of your liking */);
-    	UIManager.put("ScrollPane.font", new Font("Arial",Font.PLAIN,12)/* font of your liking */);
-    	UIManager.put("Viewport.font", new Font("Arial",Font.PLAIN,12)/* font of your liking */);
-    	UIManager.put("TabbedPane.font", new Font("Arial",Font.PLAIN,12)/* font of your liking */);
-    	UIManager.put("Table.font", new Font("Arial",Font.PLAIN,12)/* font of your liking */);
-    	UIManager.put("TableHeader.font", new Font("Arial",Font.PLAIN,12)/* font of your liking */);
-    	UIManager.put("TextField.font", new Font("Arial",Font.PLAIN,12)/* font of your liking */);
-    	UIManager.put("PasswordField.font", new Font("Arial",Font.PLAIN,12)/* font of your liking */);
-    	UIManager.put("TextArea.font", new Font("Arial",Font.PLAIN,12)/* font of your liking */);
-    	UIManager.put("TextPane.font", new Font("Arial",Font.PLAIN,12)/* font of your liking */);
-    	UIManager.put("EditorPane.font", new Font("Arial",Font.PLAIN,12)/* font of your liking */);
-    	UIManager.put("TitledBorder.font", new Font("Arial",Font.PLAIN,12)/* font of your liking */);
-    	UIManager.put("ToolBar.font", new Font("Arial",Font.PLAIN,12)/* font of your liking */);
-    	UIManager.put("ToolTip.font", new Font("Arial",Font.PLAIN,12)/* font of your liking */);
-    	UIManager.put("Tree.font", new Font("Arial",Font.PLAIN,12)/* font of your liking */);
+    	UIManager.put("Button.font", new Font("Arial",Font.PLAIN,14)/* font of your liking */);
+    	UIManager.put("ToggleButton.font", new Font("Arial",Font.PLAIN,14)/* font of your liking */);
+    	UIManager.put("RadioButton.font", new Font("Arial",Font.PLAIN,14)/* font of your liking */);
+    	UIManager.put("CheckBox.font", new Font("Arial",Font.PLAIN,14)/* font of your liking */);
+    	UIManager.put("ColorChooser.font", new Font("Arial",Font.PLAIN,14)/* font of your liking */);
+    	UIManager.put("ComboBox.font", new Font("Arial",Font.PLAIN,14)/* font of your liking */);
+    	UIManager.put("Label.font", new Font("Arial",Font.PLAIN,14)/* font of your liking */);
+    	UIManager.put("List.font", new Font("Arial",Font.PLAIN,14)/* font of your liking */);
+    	UIManager.put("MenuBar.font", new Font("Arial",Font.PLAIN,14)/* font of your liking */);
+    	UIManager.put("MenuItem.font", new Font("Arial",Font.PLAIN,14)/* font of your liking */);
+    	UIManager.put("RadioButtonMenuItem.font", new Font("Arial",Font.PLAIN,14)/* font of your liking */);
+    	UIManager.put("CheckBoxMenuItem.font", new Font("Arial",Font.PLAIN,14)/* font of your liking */);
+    	UIManager.put("Menu.font", new Font("Arial",Font.PLAIN,14)/* font of your liking */);
+    	UIManager.put("PopupMenu.font", new Font("Arial",Font.PLAIN,14)/* font of your liking */);
+    	UIManager.put("OptionPane.font", new Font("Arial",Font.PLAIN,14)/* font of your liking */);
+    	UIManager.put("Panel.font", new Font("Arial",Font.PLAIN,14)/* font of your liking */);
+    	UIManager.put("ProgressBar.font", new Font("Arial",Font.PLAIN,14)/* font of your liking */);
+    	UIManager.put("ScrollPane.font", new Font("Arial",Font.PLAIN,14)/* font of your liking */);
+    	UIManager.put("Viewport.font", new Font("Arial",Font.PLAIN,14)/* font of your liking */);
+    	UIManager.put("TabbedPane.font", new Font("Arial",Font.PLAIN,14)/* font of your liking */);
+    	UIManager.put("Table.font", new Font("Arial",Font.PLAIN,14)/* font of your liking */);
+    	UIManager.put("TableHeader.font", new Font("Arial",Font.PLAIN,14)/* font of your liking */);
+    	UIManager.put("TextField.font", new Font("Arial",Font.PLAIN,14)/* font of your liking */);
+    	UIManager.put("PasswordField.font", new Font("Arial",Font.PLAIN,14)/* font of your liking */);
+    	UIManager.put("TextArea.font", new Font("Arial",Font.PLAIN,14)/* font of your liking */);
+    	UIManager.put("TextPane.font", new Font("Arial",Font.PLAIN,14)/* font of your liking */);
+    	UIManager.put("EditorPane.font", new Font("Arial",Font.PLAIN,14)/* font of your liking */);
+    	UIManager.put("TitledBorder.font", new Font("Arial",Font.PLAIN,14)/* font of your liking */);
+    	UIManager.put("ToolBar.font", new Font("Arial",Font.PLAIN,14)/* font of your liking */);
+    	UIManager.put("ToolTip.font", new Font("Arial",Font.PLAIN,14)/* font of your liking */);
+    	UIManager.put("Tree.font", new Font("Arial",Font.PLAIN,14)/* font of your liking */);
     	
     	
         setPreferredSize(new Dimension(1500, 1000));
