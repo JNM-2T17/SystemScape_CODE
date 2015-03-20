@@ -139,54 +139,44 @@ CREATE TABLE IF NOT EXISTS Employee (
 	name VARCHAR(255) NOT NULL
 ) engine = innoDB;
 
-CREATE TABLE IF NOT EXISTS SoftwareAssignment (
-	ID INT,
-	employee INT,
-	project VARCHAR(255),
-	PRIMARY KEY( ID, employee, project ),
-	CONSTRAINT SoftwareAssignmentfk_1
-		FOREIGN KEY (ID) 
-		REFERENCES SoftwareItem(ID)
-		ON UPDATE CASCADE
-		ON DELETE CASCADE,
-	CONSTRAINT SoftwareAssignmentfk_2
-		FOREIGN KEY (employee) 
-		REFERENCES Employee(ID)
-		ON UPDATE CASCADE
-		ON DELETE CASCADE,
-	CONSTRAINT SoftwareAssignmentfk_3
-		FOREIGN KEY (project)
-		REFERENCES Project(name)
-		ON UPDATE CASCADE
-		ON DELETE CASCADE
-) engine = innoDB;
-
-CREATE TABLE IF NOT EXISTS AssetAssignment (
-	ID INT,
-	employee INT,
-	project VARCHAR(255),
-	PRIMARY KEY (ID, employee,project),
-	CONSTRAINT AssetAssignmentfk_1
-		FOREIGN KEY (ID)
-		REFERENCES ITAsset(ID)
-		ON UPDATE CASCADE
-		ON DELETE CASCADE,
-	CONSTRAINT AssetAssignmentfk_2
-		FOREIGN KEY (employee) 
-		REFERENCES Employee(ID)
-		ON UPDATE CASCADE
-		ON DELETE CASCADE,
-	CONSTRAINT AssetAssignmentfk_3
-		FOREIGN KEY (project)
-		REFERENCES Project(name)
-		ON UPDATE CASCADE
-		ON DELETE CASCADE
-) engine = innoDB;
-
 CREATE TABLE IF NOT EXISTS Project (
 	name VARCHAR(255) PRIMARY KEY,
 	startDate DATE NOT NULL,
 	endDate DATE NOT NULL	
+) engine = innoDB;
+
+CREATE TABLE IF NOT EXISTS ItemAssignment (
+	itemID INT,
+    employeeID INT,
+    startDate DATE NOT NULL,
+	endDate DATE NOT NULL,
+    PRIMARY KEY( itemID, employeeID ),
+    CONSTRAINT ItemAssignmentfk_1
+		FOREIGN KEY (itemID)
+        REFERENCES InventoryItem(ID)
+        ON UPDATE CASCADE
+        ON DELETE CASCADE,
+	CONSTRAINT ItemAssignmentfk_2
+		FOREIGN KEY (employeeID)
+        REFERENCES Employee(ID)
+        ON UPDATE CASCADE
+        ON DELETE CASCADE
+) engine = innoDB;
+
+CREATE TABLE IF NOT EXISTS ProjectAssignment (
+	project VARCHAR(255),
+    employeeID INT,
+    PRIMARY KEY( project, employeeID ),
+    CONSTRAINT ProjectAssignmentfk_1
+		FOREIGN KEY (project)
+        REFERENCES Project(name)
+        ON UPDATE CASCADE
+        ON DELETE CASCADE,
+	CONSTRAINT ProjectAssignmentfk_2
+		FOREIGN KEY (employeeID)
+        REFERENCES Employee(ID)
+        ON UPDATE CASCADE
+        ON DELETE CASCADE
 ) engine = innoDB;
 
 CREATE TABLE IF NOT EXISTS User (
