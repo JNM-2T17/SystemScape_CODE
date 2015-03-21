@@ -236,5 +236,9 @@ public class TabInventory extends JPanel implements ActionListener{
 		
 		
 	}
-
+	
+	public void showPanel()
+	{
+		cl.show(this, "add");
+	}
 }
