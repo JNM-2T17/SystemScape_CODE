@@ -142,6 +142,7 @@ public class AddPO extends JPanel implements ActionListener, Observer {
 		panDate.add(dateChooser);
 
 		panCurrency = new JPanel();
+		panCurrency.setBackground(Color.white);
 		panLeft.setBackground(Color.white);
 		panRight.add(panCurrency, BorderLayout.WEST);
 
@@ -150,6 +151,7 @@ public class AddPO extends JPanel implements ActionListener, Observer {
 		panCurrency.add(lblCurrency);
 
 		cmbCurrency = new JComboBox();
+		cmbCurrency.setBackground(Color.white);
 		cmbCurrency.setPreferredSize(new Dimension(110, 30));
 		panCurrency.add(cmbCurrency);
 

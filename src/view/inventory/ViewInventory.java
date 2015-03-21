@@ -20,6 +20,7 @@ import model.InventoryItem;
 import model.Warranty;
 import view.CellEdit;
 import view.Observer;
+import view.PanelCell;
 import view.ViewTemplate;
 
 public class ViewInventory extends ViewTemplate implements Observer,
@@ -59,7 +60,7 @@ public class ViewInventory extends ViewTemplate implements Observer,
 		// "Location", "Asset Tag", "Service Tag", "Assignee", "Invoice#",
 		// "Delivery Date", "End of Contract", "End of Warranty", "" };
 		getModel().setColumnIdentifiers(headers);
-		setColRendEdit();
+		setColRendEdit(new PanelCell(), new PanelCell());
 
 		String headers2[] = { "Item", "Description", "Type", "Quantity" };
 		tglModel = new DefaultTableModel(headers2, 4) {
@@ -181,6 +182,6 @@ public class ViewInventory extends ViewTemplate implements Observer,
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		// TODO Auto-generated method stub
-		toggle();
+		toggle(new PanelCell(), new PanelCell());
 	}
 }

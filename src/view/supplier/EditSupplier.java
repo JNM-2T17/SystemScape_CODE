@@ -29,7 +29,6 @@ import javax.swing.border.EmptyBorder;
 import model.Supplier;
 import model.SupplierContact;
 import view.Button;
-import view.Contact;
 import view.Button.ButtonBuilder;
 import view.Message;
 

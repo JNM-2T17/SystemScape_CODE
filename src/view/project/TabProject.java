@@ -1,0 +1,42 @@
+package view.project;
+import javax.swing.JButton;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+
+import model.Supplier;
+import view.Content;
+import view.Gui;
+import view.Content.ContentBuilder;
+
+import java.awt.CardLayout;
+import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+
+
+public class TabProject extends JPanel {
+	private CardLayout cl;
+	private ArrayList<Content> list;
+	private Gui gui;
+	
+	public TabProject(Gui gui) {
+		cl=new CardLayout();
+		list=new ArrayList<Content>();
+		this.gui=gui;
+		
+		this.setBackground(Color.WHITE);
+		setLayout(cl);
+		
+		Content temp=new Content.ContentBuilder().caption("View Projects").content(new ViewProjects(gui)).build();
+		this.add(temp, "view");
+		list.add(temp);
+		
+		cl.show(this, "view");
+	}
+	
+
+
+}

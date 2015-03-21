@@ -6,6 +6,7 @@ import model.PurchaseOrder;
 import controller.PurchaseOrderController;
 import view.CellEdit;
 import view.Observer;
+import view.PanelCell;
 import view.ViewTemplate;
 
 public class ViewPOItemTable extends ViewTemplate implements Observer{
@@ -32,7 +33,7 @@ public class ViewPOItemTable extends ViewTemplate implements Observer{
 		setColWidth(4, 80);
 		setColWidth(5, 80);
 		setColWidth(6, 15);
-		setColRendEdit();
+		setColRendEdit(new PanelCell(), new PanelCell());
 //		getModel().setValueAt(new CellEdit(), 0, 6);
 //		packTable();
 	}

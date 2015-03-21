@@ -73,39 +73,33 @@ public class ItemTileIT extends ItemPanelDecorator implements ItemPanelParticipa
 		panIT.setBackground(Color.WHITE);
 		/* Layout */
 		
-		panIT.setLayout(new MigLayout("", "[46.00][38.00][38.00][38.00][38.00,grow][100,grow][100][100][31.00]", "[][][17.00][][9.00][39.00][11.00][grow][17][][]"));
+		panIT.setLayout(new MigLayout("", "[46.00][38.00][38.00][38.00][38.00,grow][100,grow][100][100][31.00]", "[][][17.00][][9.00][39.00][11.00][][17][][]"));
 		
 		String typeStrings[] = {"IT Assets","Non-IT Assets","Software","Others"};
 		
 		/* Labels */
 		lblType = new JLabel("Type:");
-		lblType.setFont(new Font("Arial", Font.BOLD, 20));
 		panIT.add(lblType, "cell 1 1 2 1,alignx left");
 		
 		lblAssetTag = new JLabel("Asset Tag:");
-		lblAssetTag.setFont(new Font("Arial", Font.BOLD, 20));
 		panIT.add(lblAssetTag, "cell 2 3 3 1,alignx left");
 		
 		lblServiceTag = new JLabel("Service Tag:");
-		lblServiceTag.setFont(new Font("Arial", Font.BOLD, 20));
 		panIT.add(lblServiceTag, "cell 2 5 3 1");
 		
 		lblDeliveryDate = new JLabel("Delivery Date:");
-		lblDeliveryDate.setFont(new Font("Arial", Font.BOLD, 20));
 		panIT.add(lblDeliveryDate, "flowx,cell 1 7 4 1");
 		
 		deliveryDateChooser = new JDateChooser();
 		deliveryDateChooser.setOpaque(false);
 		deliveryDateChooser.setDate(new Date());
 		deliveryDateChooser.setBorder(null);
-		deliveryDateChooser.setFont(new Font("Arial", Font.BOLD, 20));
 		deliveryDateChooser.setDateFormatString("yyyy-MM-dd");
 		deliveryDateChooser.setBackground(Color.WHITE);
 		deliveryDateChooser.setPreferredSize(new Dimension(150, 30));
 		panIT.add(deliveryDateChooser, "cell 5 7 3 1,grow");
 		
 		lblAssignee = new JLabel("Assignee:");
-		lblAssignee.setFont(new Font("Arial", Font.BOLD, 20));
 		panIT.add(lblAssignee, "flowx,cell 1 9 3 1");
 		
 		/* Type Combo Box */
@@ -114,19 +108,16 @@ public class ItemTileIT extends ItemPanelDecorator implements ItemPanelParticipa
 		cbType.setSelectedItem("IT Assets");
 		cbType.setBackground(Color.white);
 		cbType.addItemListener(this);
-		cbType.setFont(new Font("Arial", Font.BOLD, 20));
 		panIT.add(cbType, "cell 3 1 5 1,growx");
 		
 		/* Asset and Service Fields */
 		
 		tfAssetTag = new JTextField();
-		tfAssetTag.setFont(new Font("Arial", Font.BOLD, 20));
 		tfAssetTag.setColumns(10);
 		panIT.add(tfAssetTag, "cell 5 3 3 1,growx");
 		
 		
 		tfServiceTag = new JTextField();
-		tfServiceTag.setFont(new Font("Arial", Font.BOLD, 20));
 		tfServiceTag.setColumns(10);
 		panIT.add(tfServiceTag, "cell 5 5 3 1,growx");
 		
@@ -136,7 +127,6 @@ public class ItemTileIT extends ItemPanelDecorator implements ItemPanelParticipa
 		cbAssignee.setBackground(Color.white);
 		cbAssignee.setModel(new DefaultComboBoxModel(new String[] { "Shayane Tan",
 				"Rissa Quindoza", "Gio Velez" }));
-		cbAssignee.setFont(new Font("Arial", Font.BOLD, 20));
 		panIT.add(cbAssignee, "cell 4 9 4 1,growx");
 		
 		addItemPanelReference.assignToQuad(panIT, 1);

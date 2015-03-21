@@ -9,6 +9,8 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JToggleButton;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellEditor;
+import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 
 import org.jdesktop.swingx.JXTable;
@@ -86,6 +88,8 @@ public abstract class ViewTemplate extends JPanel{
 		add(panTop, BorderLayout.NORTH);
 		
 		tglButton = new JToggleButton("Toggle View");
+		tglButton.setBackground(new Color(32, 130, 213));
+		tglButton.setForeground(Color.WHITE);
 		tglButton.setVisible(false);
 		panTop.add(tglButton);
 		model.setRowCount(0);
@@ -108,13 +112,13 @@ public abstract class ViewTemplate extends JPanel{
 		return tglButton;
 	}
 	
-	public void toggle(){
+	public void toggle(TableCellRenderer rend, TableCellEditor edit){
 		if(table.getModel()==model) {
 			table.setModel(tglModel);
 		}
 		else {
 			table.setModel(model);
-			setColRendEdit();
+			setColRendEdit(rend, edit);
 		}
 		
 		packTable();
@@ -132,9 +136,9 @@ public abstract class ViewTemplate extends JPanel{
 		table.getColumnModel().getColumn(index).setPreferredWidth(width);
 	}
 	
-	public void setColRendEdit(){
-		table.getColumnModel().getColumn(table.getColumnCount()-1).setCellRenderer(new PanelCell());
-		table.getColumnModel().getColumn(table.getColumnCount()-1).setCellEditor(new PanelCell());
+	public void setColRendEdit(TableCellRenderer rend, TableCellEditor edit){
+		table.getColumnModel().getColumn(table.getColumnCount()-1).setCellRenderer(rend);
+		table.getColumnModel().getColumn(table.getColumnCount()-1).setCellEditor(edit);
 		table.getColumnExt(table.getColumnCount()-1).setHideable(false);
 	}
 	

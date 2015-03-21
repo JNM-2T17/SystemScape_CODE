@@ -42,9 +42,14 @@ public class MainPanel extends JPanel implements ActionListener {
 			btnSuppliers, btnCont, btnWarr, btnLogOut, btnClose;
 	private JLabel lblUser;
 	private CardLayout cl;
+	private JButton btnSettings;
+	
+	private Gui gui;
 
 	public MainPanel(Gui parent) {
 		super();
+		
+		gui=parent;
 
 		cl = new CardLayout();
 		this.parent = parent;
@@ -58,7 +63,7 @@ public class MainPanel extends JPanel implements ActionListener {
 		panTop.setLayout(new BorderLayout(0, 0));
 
 		panTabs = new JPanel();
-		panTabs.setPreferredSize(new Dimension(600, 10));
+		panTabs.setPreferredSize(new Dimension(775, 10));
 //		panTabs.setBackground(Color.red);
 		panTabs.setBackground(new Color(32, 130, 213));
 		panTop.add(panTabs, BorderLayout.WEST);
@@ -76,16 +81,16 @@ public class MainPanel extends JPanel implements ActionListener {
 		lblUser.setFont(new Font("Arial", Font.PLAIN, 16));
 		panUser.add(lblUser);
 
-		JLabel lblFollow = new JLabel("");
-		lblFollow.setBorder(new EmptyBorder(0, 5, 0, 0));
-		ImageIcon ii = new ImageIcon(MainPanel.class
-				.getResource("/assets/FollowersLogo.png"));
-        Image img = ii.getImage();
-        Image newimg = img.getScaledInstance((int) (ii.getIconWidth() * 0.5),
-                (int) (ii.getIconHeight() * 0.5), java.awt.Image.SCALE_SMOOTH);
-        ii = new ImageIcon(newimg);
-        lblFollow.setIcon(ii);
-		panUser.add(lblFollow);
+//		JLabel lblFollow = new JLabel("");
+//		lblFollow.setBorder(new EmptyBorder(0, 5, 0, 0));
+//		ImageIcon ii = new ImageIcon(MainPanel.class
+//				.getResource("/assets/FollowersLogo.png"));
+//        Image img = ii.getImage();
+//        Image newimg = img.getScaledInstance((int) (ii.getIconWidth() * 0.5),
+//                (int) (ii.getIconHeight() * 0.5), java.awt.Image.SCALE_SMOOTH);
+//        ii = new ImageIcon(newimg);
+//        lblFollow.setIcon(ii);
+//		panUser.add(lblFollow);
 
 		btnLogOut = new JButton("Log out");
 		btnLogOut.setBorder(new EmptyBorder(0, 100, 0, 0));
@@ -94,6 +99,11 @@ public class MainPanel extends JPanel implements ActionListener {
 		btnLogOut.setBorderPainted(false);
 		btnLogOut.setContentAreaFilled(false);
 		btnLogOut.addActionListener(this);
+		
+		btnSettings = new Button.ButtonBuilder().img(
+				"src/assets/Settings.png", 25, 25).build();
+		btnSettings.addActionListener(this);
+		panUser.add(btnSettings);
 		panUser.add(btnLogOut);
 
 		btnClose = new Button.ButtonBuilder().img(
@@ -183,8 +193,10 @@ public class MainPanel extends JPanel implements ActionListener {
 			parent.setPanel("login");
 		} else if (e.getSource() == btnClose) {
 			System.exit(0);
-		} else {
-
+		} else if(e.getSource()==btnSettings){
+			new Settings(gui);
+		}
+		else {
 			try {
 				JButton btn = (JButton) e.getSource();
 				setTab(btn);

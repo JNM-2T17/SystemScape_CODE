@@ -9,6 +9,13 @@ import model.InventoryItem;
 import view.Content;
 import view.Gui;
 import view.Content.ContentBuilder;
+import view.inventory.itemtile.ItemTileContract;
+import view.inventory.itemtile.ItemTileGenInfo;
+import view.inventory.itemtile.ItemTileGeneral;
+import view.inventory.itemtile.ItemTileIT;
+import view.inventory.itemtile.ItemTileNonIT;
+import view.inventory.itemtile.ItemTileSoftware;
+import view.inventory.itemtile.ItemTileWarranty;
 
 import java.awt.CardLayout;
 import java.awt.Color;

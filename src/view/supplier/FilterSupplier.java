@@ -26,7 +26,7 @@ import java.util.ArrayList;
 
 public class FilterSupplier extends PopUp implements ActionListener {
 	private SpringLayout spring;
-	private JComboBox cmbCountry, cmbCity, cmbState;
+	private JTextField cmbCountry, cmbCity, cmbState;
 	private JTextField txtSupplier, txtContact;
 	private JButton btnFilter;
 	
@@ -100,7 +100,7 @@ public class FilterSupplier extends PopUp implements ActionListener {
 				SpringLayout.WEST, lblSupplier);
 		panContent.add(lblContact);
 
-		cmbState = new JComboBox();
+		cmbState = new JTextField();
 		cmbState.setBackground(Color.WHITE);
 		spring.putConstraint(SpringLayout.NORTH, cmbState, 0,
 				SpringLayout.NORTH, lblState);
@@ -110,7 +110,7 @@ public class FilterSupplier extends PopUp implements ActionListener {
 				txtSupplier);
 		panContent.add(cmbState);
 
-		cmbCountry = new JComboBox();
+		cmbCountry = new JTextField();
 		cmbCountry.setBackground(Color.WHITE);
 		spring.putConstraint(SpringLayout.NORTH, cmbCountry, 0,
 				SpringLayout.NORTH, lblCountry);
@@ -120,7 +120,7 @@ public class FilterSupplier extends PopUp implements ActionListener {
 				SpringLayout.EAST, txtSupplier);
 		panContent.add(cmbCountry);
 
-		cmbCity = new JComboBox();
+		cmbCity = new JTextField();
 		cmbCity.setBackground(Color.WHITE);
 		spring.putConstraint(SpringLayout.NORTH, cmbCity, 0,
 				SpringLayout.NORTH, lblCity);
@@ -167,9 +167,9 @@ public class FilterSupplier extends PopUp implements ActionListener {
 		ArrayList list=new ArrayList();
 		
 		list.add(txtSupplier.getText());
-		list.add(cmbCountry.getSelectedItem());
-		list.add(cmbState.getSelectedItem());
-		list.add(cmbCity.getSelectedItem());
+		list.add(cmbCountry.getText());
+		list.add(cmbState.getText());
+		list.add(cmbCity.getText());
 		
 		return list;
 	}

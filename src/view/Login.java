@@ -25,6 +25,7 @@ import javax.swing.border.LineBorder;
 import model.User;
 import view.employee.TabEmployees;
 import view.inventory.TabInventory;
+import view.project.TabProject;
 import view.purchaseOrder.TabPO;
 import view.supplier.TabSupplier;
 
@@ -209,6 +210,7 @@ public class Login extends JPanel implements ActionListener {
                         mp.addTab(new TabSupplier(parent), "Suppliers");
                         mp.addTab(new TabInventory(parent), "Inventory");
                         mp.addTab(new TabEmployees(parent), "Employees");
+                        mp.addTab(new TabProject(parent), "Projects");
                     } else {
                         mp.addTab(new TabInventory(parent), "Inventory");
                         mp.enableNotif(false);

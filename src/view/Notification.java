@@ -171,6 +171,8 @@ public class Notification extends JPanel implements ActionListener, Observer{
                 warrantyController.registerObserver(this);
                 contractController.registerObserver(this);
                 
+                addContract("Sample", 3);
+                
 		
 	}
         @Override

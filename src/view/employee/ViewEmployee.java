@@ -1,5 +1,6 @@
 package view.employee;
 
+import view.PanelCell;
 import view.ViewTemplate;
 
 public class ViewEmployee extends ViewTemplate{
@@ -13,7 +14,7 @@ public class ViewEmployee extends ViewTemplate{
 		setColWidth(0, 500);
 		setColWidth(1, 220);
 		setColWidth(2, 15);
-		setColRendEdit();
+		setColRendEdit(new PanelCell(), new PanelCell());
 	}
 
 	@Override

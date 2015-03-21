@@ -21,8 +21,8 @@ import java.awt.BorderLayout;
 import javax.swing.border.EmptyBorder;
 
 import view.Button;
-import view.Contact;
 import view.Button.ButtonBuilder;
+import view.supplier.Contact;
 
 public class AddEmployee extends JPanel implements ActionListener {
 	private JTextField txtName;

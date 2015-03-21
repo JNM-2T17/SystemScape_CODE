@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Iterator;
 
 import javax.swing.DefaultCellEditor;
 import javax.swing.JButton;
@@ -20,7 +21,7 @@ import model.PurchaseOrder;
 import controller.PurchaseOrderController;
 import view.Button;
 
-public class POItemCellEdit extends DefaultCellEditor implements TableCellRenderer
+public class POItemCellEdit extends DefaultCellEditor implements TableCellRenderer, ActionListener
   {
     private JButton button;
     private boolean clicked;
@@ -39,18 +40,11 @@ public class POItemCellEdit extends DefaultCellEditor implements TableCellRender
       this.poController = poController;
       this.i = i;
       this.parent = parent;
-      
+      this.po = po;
       button = new Button.ButtonBuilder().img("src/assets/Round/Note2.png", 30,30).build();
       button.setOpaque(true);
       button.setHorizontalAlignment(JLabel.CENTER);
-      button.addActionListener(new ActionListener() 
-      {
-        public void actionPerformed(ActionEvent e)
-        {
-        	new EditPOItem(parent,i,po, poController);
-        	fireEditingStopped();
-        }
-      });
+      button.addActionListener(this);
     }
     
     public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column)
@@ -61,8 +55,12 @@ public class POItemCellEdit extends DefaultCellEditor implements TableCellRender
 
       button.setForeground(Color.black);
       button.setBackground(Color.white);
-      
-      clicked = true;
+     
+		this.row = row ;
+		String tableClick =  (table.getModel().getValueAt(this.row,0).toString());
+		searchItem(tableClick);
+
+		
       return button;
     }
     
@@ -84,14 +82,37 @@ public class POItemCellEdit extends DefaultCellEditor implements TableCellRender
 	   
 	  public Component getTableCellRendererComponent(JTable table, Object value,
 	                   boolean isSelected, boolean hasFocus, int row, int column) {
-	    if (isSelected) {
-	      button.setForeground(table.getSelectionForeground());
-	      button.setBackground(table.getSelectionBackground());
-	    } else{
-	      button.setForeground(table.getForeground());
-	      button.setBackground(Color.WHITE);
-	    }
+	    //
+//	      button.setForeground(table.getSelectionForeground());
+//	      button.setBackground(table.getSelectionBackground());
+	      this.row = row;
+
+		  String tableClick =  (table.getModel().getValueAt(this.row,0).toString());
+		  searchItem(tableClick);
+		  this.row = 0;
 	    return button;
 	  }
+
+	  public void searchItem(String name)
+	  {
+		  Iterator it = po.getItems();
+		  while(it.hasNext())
+		  {
+			  ItemData d = (ItemData)it.next();
+			  if(d.getName().equals(name))
+				  i = d;
+		  }
+		  
+	  }
+	@Override
+	public void actionPerformed(ActionEvent a) {
+		// TODO Auto-generated method stub
+		
+		if(a.getSource() == button)
+		{
+			new EditPOItem(parent,i,po, poController);
+		}
+		
+	}
   }
 

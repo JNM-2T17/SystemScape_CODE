@@ -21,6 +21,7 @@ public class ItemStorageContract implements ItemStorage{
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-dd-mm");
 		startDate = date;
 		endDate = date;
+		
 	}
 	
 	

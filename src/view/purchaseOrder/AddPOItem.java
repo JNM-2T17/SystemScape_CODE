@@ -29,6 +29,7 @@ import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
+import javax.swing.UIManager;
 import javax.swing.border.Border;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.text.AbstractDocument;
@@ -42,9 +43,11 @@ import javax.swing.JScrollBar;
 
 import view.Button;
 import view.Button.ButtonBuilder;
+import view.ErrorListenerFactory;
 import view.Message;
 import view.PopUp;
 import view.JTextFieldFilter;
+import view.TextFieldError;
 import controller.PurchaseOrderController;
 
 import javax.swing.JComboBox;
@@ -89,20 +92,7 @@ public class AddPOItem extends PopUp implements ActionListener, FocusListener{
 		panContent.add(lblItem, "cell 0 1,alignx left");
 		
 		txtItem = new JTextField("");
-		txtItem.addFocusListener( new FocusListener() {
-			Border border = BorderFactory.createLineBorder(Color.BLACK, 1);
-			@Override
-			public void focusLost(FocusEvent e) {
-				// TODO Auto-generated method stub
-				//txtItem.setBorder(border);
-			}
-			
-			@Override
-			public void focusGained(FocusEvent e) {
-				// TODO Auto-generated method stub
-				txtItem.setBorder(border);
-			}
-		});
+		txtItem.addFocusListener(ErrorListenerFactory.getListener(txtItem));
 		txtItem.setFont(new Font("Arial", Font.PLAIN, 18));
 		panContent.add(txtItem, "cell 1 1,growx");
 		txtItem.setColumns(10);
@@ -117,20 +107,7 @@ public class AddPOItem extends PopUp implements ActionListener, FocusListener{
 		panContent.add(scrollPane, "cell 1 3,growy");
 		
 		txtDescription = new JTextArea("");
-		txtDescription.addFocusListener( new FocusListener() {
-			Border border = BorderFactory.createLineBorder(Color.BLACK, 1);
-			@Override
-			public void focusLost(FocusEvent e) {
-				// TODO Auto-generated method stub
-				//txtItem.setBorder(border);
-			}
-			
-			@Override
-			public void focusGained(FocusEvent e) {
-				// TODO Auto-generated method stub
-				txtDescription.setBorder(border);
-			}
-		});
+		txtDescription.addFocusListener(ErrorListenerFactory.getListener(txtDescription));
 		txtDescription.setLineWrap(true);
 		scrollPane.setViewportView(txtDescription);
 		
@@ -150,18 +127,7 @@ public class AddPOItem extends PopUp implements ActionListener, FocusListener{
 		panContent.add(lblQuantity, "cell 0 6,alignx left");
 		
 		txtQuantity = new JTextField();
-		txtQuantity.addFocusListener( new FocusListener() {
-			Border border = BorderFactory.createLineBorder(Color.BLACK, 1);
-			@Override
-			public void focusLost(FocusEvent e) {
-			}
-			
-			@Override
-			public void focusGained(FocusEvent e) {
-				// TODO Auto-generated method stub
-				txtQuantity.setBorder(border);
-			}
-		});
+		txtQuantity.addFocusListener(ErrorListenerFactory.getListener(txtQuantity));
 		txtQuantity.setDocument(new JTextFieldFilter(JTextFieldFilter.NUMERIC));
 		txtQuantity.setPreferredSize(new Dimension(10, 25));
 		panContent.add(txtQuantity, "cell 1 6");
@@ -172,20 +138,7 @@ public class AddPOItem extends PopUp implements ActionListener, FocusListener{
 		panContent.add(lblPrice, "cell 0 7");
 	
 		txtPrice = new JTextField("");
-		txtPrice.addFocusListener( new FocusListener() {
-			Border border = BorderFactory.createLineBorder(Color.BLACK, 1);
-			@Override
-			public void focusLost(FocusEvent e) {
-				// TODO Auto-generated method stub
-				//txtItem.setBorder(border);
-			}
-			
-			@Override
-			public void focusGained(FocusEvent e) {
-				// TODO Auto-generated method stub
-				txtPrice.setBorder(border);
-			}
-		});
+		txtPrice.addFocusListener(ErrorListenerFactory.getListener(txtPrice));
 		txtPrice.setDocument(new JTextFieldFilter(JTextFieldFilter.FLOAT));
 		txtPrice.setPreferredSize(new Dimension(10, 25));
 		panContent.add(txtPrice, "cell 1 7");
@@ -290,7 +243,7 @@ public class AddPOItem extends PopUp implements ActionListener, FocusListener{
 	public String checkFields()
 	{
 		String error = "";
-		Border border = BorderFactory.createLineBorder(Color.RED, 2);
+		Border border = BorderFactory.createLineBorder(Color.RED, 1);
 	
 		if(txtItem.getText().equals("")){
 			error+= "Item Name Field is empty \n";

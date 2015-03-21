@@ -1,4 +1,4 @@
-package view.inventory;
+package view.purchaseOrder;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -20,12 +20,12 @@ import javax.swing.JComboBox;
 
 import view.PopUp;
 
-public class ExportInventory extends PopUp implements ActionListener{
+public class ExportPO extends PopUp implements ActionListener{
 	private JButton btnExport, btnBrowse;
 	private JTextField txtName;
 	private JTextField txtDest;
 
-	public ExportInventory(JFrame parent) {
+	public ExportPO(JFrame parent) {
 		super(parent);
 
 		JPanel panMain = new JPanel();
@@ -58,7 +58,6 @@ public class ExportInventory extends PopUp implements ActionListener{
 		sl_panContent.putConstraint(SpringLayout.WEST, lblName, 50,
 				SpringLayout.WEST, panContent);
 		panContent.add(lblName);
-
 
 		JLabel lblDestination = new JLabel("Destination:");
 		sl_panContent.putConstraint(SpringLayout.NORTH, lblDestination, 20,

@@ -1,6 +1,7 @@
 package view.supplier;
 
 import controller.SupplierController;
+
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -16,11 +17,12 @@ import java.util.Iterator;
 import javax.swing.JScrollPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.border.LineBorder;
+
 import model.Supplier;
 import model.SupplierContact;
-
 import view.CellEdit;
 import view.Observer;
+import view.PanelCell;
 import view.ViewTemplate;
 
 public class ViewSuppliers extends ViewTemplate implements Observer {
@@ -49,7 +51,7 @@ public class ViewSuppliers extends ViewTemplate implements Observer {
 		setColWidth(1, 400);
 		setColWidth(2, 30);
 		setColWidth(3, 15);
-		setColRendEdit();
+		setColRendEdit(new PanelCell(), new PanelCell());
 
 	}
 

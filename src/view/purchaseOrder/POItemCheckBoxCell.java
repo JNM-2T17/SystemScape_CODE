@@ -6,12 +6,15 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.AbstractButton;
+import javax.swing.ButtonModel;
 import javax.swing.DefaultCellEditor;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.swing.table.TableCellRenderer;
 
 import model.PurchaseOrder;
@@ -28,10 +31,6 @@ public class POItemCheckBoxCell extends DefaultCellEditor implements TableCellRe
     private PurchaseOrderController poController;
     private PurchaseOrder po;
     
-    public POItemCheckBoxCell(JCheckBox checkBox)
-    {
-    	super(checkBox);
-    }
     public POItemCheckBoxCell(JCheckBox checkBox, JFrame parent, PurchaseOrder po, PurchaseOrderController poController)
     {
       super(checkBox);
@@ -45,19 +44,40 @@ public class POItemCheckBoxCell extends DefaultCellEditor implements TableCellRe
       checkBoxDelivered.setOpaque(true);
       checkBoxDelivered.setSelected(false);
       checkBoxDelivered.setBackground(Color.WHITE);
-      checkBoxDelivered.addActionListener(new ActionListener() 
-      {
-        public void actionPerformed(ActionEvent e)
-        {
-        	if(type.equals("Hard"))
-      		  new EditPOItemHard(parent, poController);
-      	  else if(type.equals("Soft"))
-      		  new EditPOItemSoft(parent, poController);
-      	  else if(type.equals("Gen"))
-      		  new EditPOItemGen(parent, poController);
-        	fireEditingStopped();
-        }
-      });
+      checkBoxDelivered.addChangeListener(new ChangeListener() {
+		
+		@Override
+		public void stateChanged(ChangeEvent e) 
+		{
+			// TODO Auto-generated method stub
+			AbstractButton abstractButton = (AbstractButton)e.getSource();
+            ButtonModel buttonModel = abstractButton.getModel();
+            boolean armed = buttonModel.isArmed();
+            boolean pressed = buttonModel.isPressed();
+            boolean selected = buttonModel.isSelected();
+            
+           if(pressed == true && selected == true)
+           {
+        	   checkBoxDelivered.setSelected(true);
+        	   checkBoxDelivered.setEnabled(false);
+        	   if(type.equals("Hard"))
+        	   {
+         		  EditPOItemHard eHard = new EditPOItemHard(parent, poController);
+        	   }
+         	  else if(type.equals("Soft"))
+         	  {
+         		 EditPOItemSoft eSoft = new EditPOItemSoft(parent, poController);
+         	  }
+         	  else if(type.equals("Gen"))
+         	  {
+         		  EditPOItemGen eGen = new EditPOItemGen(parent, poController);
+         	  }
+           }
+         
+          }
+
+        });
+    
     }
     
     public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column)
@@ -65,9 +85,8 @@ public class POItemCheckBoxCell extends DefaultCellEditor implements TableCellRe
       this.table = table;
       this.row = row;
       this.col = column;
-      
-      checkBoxDelivered.setSelected(true);
-      clicked = true;
+    
+		 fireEditingStopped();
       return checkBoxDelivered;
     }
     
@@ -90,7 +109,10 @@ public class POItemCheckBoxCell extends DefaultCellEditor implements TableCellRe
 	  public Component getTableCellRendererComponent(JTable table, Object value,
 	                   boolean isSelected, boolean hasFocus, int row, int column)
 	  {
+		 fireEditingStopped();
 	    return checkBoxDelivered;
 	  }
+
+
   }
 
