@@ -47,6 +47,8 @@ public class Login extends JPanel implements ActionListener {
     private JPanel panLeft;
     private JPanel panRight;
     private UserController userController;
+    private JLabel lblUsername;
+    private JLabel lblPassword;
 
     public Login(Gui parent) {
     	
@@ -161,14 +163,12 @@ public class Login extends JPanel implements ActionListener {
         panContent.setLayout(null);
 
         txtUsername = new JTextField();
-        txtUsername.setText("Username");
-        txtUsername.setBounds(21, 25, 320, 30);
+        txtUsername.setBounds(110, 25, 237, 30);
         panContent.add(txtUsername);
         txtUsername.setColumns(10);
 
         pwdPassword = new JPasswordField();
-        pwdPassword.setText("Password");
-        pwdPassword.setBounds(21, 66, 320, 30);
+        pwdPassword.setBounds(110, 66, 237, 30);
         panContent.add(pwdPassword);
 
         btnLogin = new JButton("Login");
@@ -176,9 +176,17 @@ public class Login extends JPanel implements ActionListener {
         btnLogin.setFont(new Font("Arial", Font.PLAIN, 16));
         btnLogin.setBackground(new Color(32, 130, 213));
         btnLogin.setBorder(null);
-        btnLogin.setBounds(21, 112, 320, 30);
+        btnLogin.setBounds(21, 112, 326, 30);
         btnLogin.addActionListener(this);
         panContent.add(btnLogin);
+        
+        lblUsername = new JLabel("Username:");
+        lblUsername.setBounds(21, 33, 79, 14);
+        panContent.add(lblUsername);
+        
+        lblPassword = new JLabel("Password:");
+        lblPassword.setBounds(21, 74, 79, 14);
+        panContent.add(lblPassword);
 
         panBottom = new JPanel();
         panBottom.setBackground(new Color(32, 130, 213));

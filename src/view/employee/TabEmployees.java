@@ -38,7 +38,7 @@ public class TabEmployees extends JPanel implements ActionListener{
 		this.add(temp, "add");
 		list.add(temp);
 		
-		temp=new Content.ContentBuilder().caption("Edit Employee").back(true).content(new EditEmployee(gui)).build();
+		temp=new Content.ContentBuilder().caption("Edit Employee").back(true).delete(true).content(new EditEmployee(gui)).build();
 		temp.getBtnBack().addActionListener(this);
 		this.add(temp, "edit");
 		list.add(temp);

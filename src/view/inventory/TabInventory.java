@@ -116,7 +116,7 @@ public class TabInventory extends JPanel implements ActionListener{
 		dec.renderPanel();
 		dec.repaint();
 		dec.revalidate();
-		temp=new Content.ContentBuilder().caption("View Inventory").back(true).content(template).build();
+		temp=new Content.ContentBuilder().caption("Add Inventory").back(true).content(template).build();
 		temp.getBtnBack().addActionListener(this);
 		
 		this.add(temp, "add");
@@ -219,7 +219,7 @@ public class TabInventory extends JPanel implements ActionListener{
 		dec.renderPanel();
 		dec.repaint();
 		dec.revalidate();
-		temp=new Content.ContentBuilder().caption("View Inventory").back(true).content(template).build();
+		temp=new Content.ContentBuilder().caption("Add Inventory").back(true).content(template).build();
 		temp.getBtnBack().addActionListener(this);
 		
 		this.add(temp, "add");
@@ -250,7 +250,7 @@ public class TabInventory extends JPanel implements ActionListener{
 		dec.renderPanel();
 		dec.repaint();
 		dec.revalidate();
-		temp=new Content.ContentBuilder().caption("View Inventory").back(true).content(template).build();
+		temp=new Content.ContentBuilder().caption("Add Inventory").back(true).content(template).build();
 		temp.getBtnBack().addActionListener(this);
 		
 		this.add(temp, "add");

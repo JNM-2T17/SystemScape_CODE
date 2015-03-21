@@ -11,6 +11,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
@@ -28,6 +29,9 @@ public class AddEmployee extends JPanel implements ActionListener {
 	private JTextField txtName;
 	private JButton btnSubmit;
 	private JComboBox cmbStatus;
+	private JTextField txtUsername;
+	private JPasswordField txtPassword;
+	private JPasswordField txtConfirm;
 
 	public AddEmployee() {
 		this.setBackground(Color.WHITE);
@@ -43,7 +47,7 @@ public class AddEmployee extends JPanel implements ActionListener {
 		panContent.add(lblSupp);
 
 		txtName = new JTextField();
-		txtName.setBounds(251, 89, 372, 25);
+		txtName.setBounds(288, 90, 372, 25);
 		panContent.add(txtName);
 		txtName.setColumns(10);
 
@@ -53,8 +57,35 @@ public class AddEmployee extends JPanel implements ActionListener {
 
 		cmbStatus = new JComboBox();
 		cmbStatus.setBackground(Color.WHITE);
-		cmbStatus.setBounds(251, 130, 372, 25);
+		cmbStatus.setBounds(288, 130, 372, 25);
 		panContent.add(cmbStatus);
+		
+		JLabel lblUsername = new JLabel("Username:");
+		lblUsername.setBounds(157, 206, 78, 14);
+		panContent.add(lblUsername);
+		
+		JLabel lblPassword = new JLabel("Password:");
+		lblPassword.setBounds(157, 242, 65, 14);
+		panContent.add(lblPassword);
+		
+		JLabel lblConfirmPassword = new JLabel("Confirm Password:");
+		lblConfirmPassword.setBounds(157, 281, 133, 14);
+		panContent.add(lblConfirmPassword);
+		
+		txtUsername = new JTextField();
+		txtUsername.setColumns(10);
+		txtUsername.setBounds(288, 202, 372, 25);
+		panContent.add(txtUsername);
+		
+		txtPassword = new JPasswordField();
+		txtPassword.setColumns(10);
+		txtPassword.setBounds(288, 238, 372, 25);
+		panContent.add(txtPassword);
+		
+		txtConfirm = new JPasswordField();
+		txtConfirm.setColumns(10);
+		txtConfirm.setBounds(288, 275, 372, 25);
+		panContent.add(txtConfirm);
 
 		JPanel panFooter = new JPanel();
 		panFooter.setBackground(Color.WHITE);

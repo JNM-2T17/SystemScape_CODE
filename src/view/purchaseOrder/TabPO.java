@@ -54,7 +54,7 @@ public class TabPO extends JPanel implements ActionListener{
 	
 	public void setEdit(PurchaseOrder po){
 		
-		Content temp=new Content.ContentBuilder().caption("Edit Purchase Order").back(true).content(new EditPO(gui, po)).build();
+		Content temp=new Content.ContentBuilder().caption("Edit Purchase Order").delete(true).back(true).content(new EditPO(gui, po)).build();
 		temp.getBtnBack().addActionListener(this);
 		this.add(temp, "edit");
 		list.add(temp);

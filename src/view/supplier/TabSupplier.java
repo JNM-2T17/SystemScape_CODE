@@ -45,7 +45,7 @@ public class TabSupplier extends JPanel implements ActionListener{
 	}
 	
 	public void setEdit(Supplier supp){
-		Content temp=new Content.ContentBuilder().caption("Edit Supplier").back(true).content(new EditSupplier(gui, supp)).build();
+		Content temp=new Content.ContentBuilder().caption("Edit Supplier").back(true).delete(true).content(new EditSupplier(gui, supp)).build();
 		temp.getBtnBack().addActionListener(this);
 		this.add(temp, "edit");
 		list.add(temp);
