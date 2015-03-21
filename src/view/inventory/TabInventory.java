@@ -59,7 +59,7 @@ public class TabInventory extends JPanel implements ActionListener{
 	}
 	
 	public void setEdit(InventoryItem ii){
-		
+		PanelRegistry.getInstance().setEditToCurrentSet(ii);
 	}
 	
 	@Override
@@ -236,5 +236,9 @@ public class TabInventory extends JPanel implements ActionListener{
 		
 		
 	}
-
+	
+	public void showPanel()
+	{
+		cl.show(this, "add");
+	}
 }
