@@ -31,6 +31,8 @@ import view.inventory.itemstorage.ItemStorageIT;
 import view.inventory.itemstorage.ItemStorageNonIT;
 import view.inventory.itemstorage.ItemStorageSoftware;
 import view.inventory.itemstorage.ItemStorageWarranty;
+import view.inventory.itemtile.ItemTileContract;
+import view.inventory.itemtile.ItemTileWarranty;
 import view.inventory.itemtile.TypeItemTile;
 import model.Contract;
 import model.Warranty;
@@ -38,6 +40,7 @@ import model.Warranty;
 public class PanelRegistry implements PanelRegistration {
 
 	private String type;
+	private boolean isAdd;
 	private static PanelRegistry instance = null;
 	private ArrayList<ItemPanelParticipant> participantList;
 	private TabInventory tabInventory;
@@ -45,6 +48,7 @@ public class PanelRegistry implements PanelRegistration {
 	private PanelRegistry() {
 		participantList = new ArrayList<ItemPanelParticipant>();
 		type = "IT";
+		isAdd = true;
 	}
 
 	public void clearParticipants() {
@@ -109,103 +113,112 @@ public class PanelRegistry implements PanelRegistration {
 				}
 			}
 
-			float unitPrice = Float.parseFloat(generalInfo.get(2).toString());
-			System.out.println(typeInfo.get(0).toString());
-			Date deliveryDate;
-
-			deliveryDate = (Date) typeInfo.get(0);
-
-			for (int j = 0; j < generalInfo.size(); j++) {
-				System.out.println(generalInfo.get(j));
-
-			}
-
-			for (int k = 0; k < typeInfo.size(); k++) {
-				System.out.println(typeInfo.get(k));
-			}
-
-			System.out.println(type);
-
-			if (type.equals("IT")) {
-
-				int assetTag = Integer.parseInt(typeInfo.get(2).toString());
-
-				if (!warrantyInfo.isEmpty()) {
-					Warranty warranty = new Warranty(0,
-							(Date) warrantyInfo.get(0),
-							(Date) warrantyInfo.get(1));
-				}
-				if (!contractInfo.isEmpty()) {
-					Contract contract = new Contract(0,
-							(Date) contractInfo.get(1),
-							(Date) contractInfo.get(2),
-							Float.parseFloat((String) contractInfo.get(0)));
-				}
-
-				ITAsset itAsset = new ITAsset.ITAssetBuilder()
-						.addName(generalInfo.get(0).toString())
-						.addDescription(generalInfo.get(1).toString())
-						.addUnitPrice(unitPrice)
-						.addInvoiveNo(generalInfo.get(3).toString())
-						.addLocation(generalInfo.get(4).toString())
-						.addStatus(generalInfo.get(5).toString())
-						.addClassification("IT")
-						.addAssetTag(assetTag)
-						.addServiceTag(typeInfo.get(3).toString())
-						.addDeliveryDate(deliveryDate)
-						.addContract(
-								new Contract(0, (Date) contractInfo.get(1),
-										(Date) contractInfo.get(2),
-										Float.parseFloat((String) contractInfo
-												.get(0))))
-						.addWarranty(
-								new Warranty(0, (Date) warrantyInfo.get(0),
-										(Date) warrantyInfo.get(1))).build();
-				InventoryItemController.getInstance().addInventoryItem(itAsset);
-
-			} else if (type.equals("Non-IT")) {
-
-				NonITAsset nonItAsset = new NonITAsset.NonITAssetBuilder()
-						.addName(generalInfo.get(0).toString())
-						.addDescription(generalInfo.get(1).toString())
-						.addUnitPrice(unitPrice)
-						.addInvoiveNo(generalInfo.get(3).toString())
-						.addLocation(generalInfo.get(4).toString())
-						.addStatus(generalInfo.get(5).toString())
-						.addClassification("Non-IT").build();
-				InventoryItemController.getInstance().addInventoryItem(
-						nonItAsset);
-			} else if (type.equals("Software")) {
-
-				SoftwareItem software = new SoftwareItem.SoftwareBuilder()
-						.addName(generalInfo.get(0).toString())
-						.addDescription(generalInfo.get(1).toString())
-						.addUnitPrice(unitPrice)
-						.addInvoiveNo(generalInfo.get(3).toString())
-						.addLocation(generalInfo.get(4).toString())
-						.addStatus(generalInfo.get(5).toString())
-						.addClassification("Software")
-						.addLicenseKey(typeInfo.get(2).toString()).build();
-				InventoryItemController.getInstance()
-						.addInventoryItem(software);
-			} else if (type.equals("Others")) {
-
-				InventoryItem general = new InventoryItem.InventoryItemBuilder()
-						.addName(generalInfo.get(0).toString())
-						.addDescription(generalInfo.get(1).toString())
-						.addUnitPrice(unitPrice)
-						.addInvoiveNo(generalInfo.get(3).toString())
-						.addLocation(generalInfo.get(4).toString())
-						.addStatus(generalInfo.get(5).toString())
-						.addClassification("Others").build();
-				InventoryItemController.getInstance().addInventoryItem(general);
-			}
-
-			tabInventory.revertToMain();
-
 		}
+		buildInventoryItem(type, generalInfo, typeInfo, warrantyInfo, contractInfo);
+	}
+	
+	/**
+	 * This method creates the InventoryItem then passes it to <b>ItemInventoryController</b> to either add or edit an <b>InventoryItem</b>
+	 * @param type The current <b>InventoryItem</b> type
+	 * @param generalInfo <b>Compilation of all the attributes retrieved from <b>ItemTileGenInfo</b>
+	 * @param typeInfo <b>Compilation of all the attributes retrieved from <b>TypeItemTile</b>
+	 * @param warrantyInfo <b>
+	 * @param contractInfo
+	 */
+	private void buildInventoryItem(String type, ArrayList generalInfo, ArrayList typeInfo, ArrayList warrantyInfo, ArrayList contractInfo)
+	{
+		InventoryItem inventoryItem = null;
+		float unitPrice = Float.parseFloat(generalInfo.get(2).toString());
+		System.out.println(typeInfo.get(0).toString());
+		Date deliveryDate;
+
+		deliveryDate = (Date) typeInfo.get(0);
+		
+		if (type.equals("IT")) {
+
+			int assetTag = Integer.parseInt(typeInfo.get(2).toString());
+
+			if (!warrantyInfo.isEmpty()) {
+				Warranty warranty = new Warranty(0,
+						(Date) warrantyInfo.get(0),
+						(Date) warrantyInfo.get(1));
+			}
+			if (!contractInfo.isEmpty()) {
+				Contract contract = new Contract(0,
+						(Date) contractInfo.get(1),
+						(Date) contractInfo.get(2),
+						Float.parseFloat((String) contractInfo.get(0)));
+			}
+
+			ITAsset itAsset = new ITAsset.ITAssetBuilder()
+					.addName(generalInfo.get(0).toString())
+					.addDescription(generalInfo.get(1).toString())
+					.addUnitPrice(unitPrice)
+					.addInvoiveNo(generalInfo.get(3).toString())
+					.addLocation(generalInfo.get(4).toString())
+					.addStatus(generalInfo.get(5).toString())
+					.addClassification("IT")
+					.addAssetTag(assetTag)
+					.addServiceTag(typeInfo.get(3).toString())
+					.addDeliveryDate(deliveryDate)
+					.addContract(
+							new Contract(0, (Date) contractInfo.get(1),
+									(Date) contractInfo.get(2),
+									Float.parseFloat((String) contractInfo
+											.get(0))))
+					.addWarranty(
+							new Warranty(0, (Date) warrantyInfo.get(0),
+									(Date) warrantyInfo.get(1))).build();
+			inventoryItem = itAsset;
+
+		} else if (type.equals("Non-IT")) {
+
+			NonITAsset nonItAsset = new NonITAsset.NonITAssetBuilder()
+					.addName(generalInfo.get(0).toString())
+					.addDescription(generalInfo.get(1).toString())
+					.addUnitPrice(unitPrice)
+					.addInvoiveNo(generalInfo.get(3).toString())
+					.addLocation(generalInfo.get(4).toString())
+					.addStatus(generalInfo.get(5).toString()) 
+					.addClassification("Non-IT").build();
+			inventoryItem = nonItAsset;
+		} else if (type.equals("Software")) {
+
+			SoftwareItem software = new SoftwareItem.SoftwareBuilder()
+					.addName(generalInfo.get(0).toString())
+					.addDescription(generalInfo.get(1).toString())
+					.addUnitPrice(unitPrice)
+					.addInvoiveNo(generalInfo.get(3).toString())
+					.addLocation(generalInfo.get(4).toString())
+					.addStatus(generalInfo.get(5).toString())
+					.addClassification("Software")
+					.addLicenseKey(typeInfo.get(2).toString()).build();
+			
+			inventoryItem = software;
+		} else if (type.equals("Others")) {
+
+			InventoryItem general = new InventoryItem.InventoryItemBuilder()
+					.addName(generalInfo.get(0).toString())
+					.addDescription(generalInfo.get(1).toString())
+					.addUnitPrice(unitPrice)
+					.addInvoiveNo(generalInfo.get(3).toString())
+					.addLocation(generalInfo.get(4).toString())
+					.addStatus(generalInfo.get(5).toString())
+					.addClassification("Others").build();
+			inventoryItem = general;
+		}
+		if(isAdd)
+			InventoryItemController.getInstance().addInventoryItem(inventoryItem);
+		else
+			InventoryItemController.getInstance().editInventoryItem(inventoryItem, inventoryItem.getName());
+		tabInventory.revertToMain();
+
 	}
 
+	/**
+	 * Connects the <b>Tab Inventory</b> to the <b>PanelRegistry</b>
+	 * @param tabInventory
+	 */
 	public void setTabInventory(TabInventory tabInventory) {
 		this.tabInventory = tabInventory;
 	}
@@ -229,6 +242,10 @@ public class PanelRegistry implements PanelRegistration {
 		}
 	}
 	
+	/**
+	 * This method places the attributes of <b> InventoryItem </b> to their respective <b>ItemPanelParticipants</b> and set for editing
+	 * @param ii <b>InventoryItem</b> passed from the <b>InventoryItemController</b> through the <b>TabInventory</b>
+	 */
 	public void setEditToCurrentSet(InventoryItem ii)
 	{
 		Object object = (Object)ii;
@@ -268,24 +285,35 @@ public class PanelRegistry implements PanelRegistration {
 					.saveServiceTag(((ITAsset) inventoryItem).getServiceTag())
 					.loadList()
 			);
+			
+			/** TEMPORARILY DISABLED **/
 					
-			participantList.get(2).loadPresets(
-					ItemStorageWarranty.getInstance()
-					.saveStartDate(((ITAsset) inventoryItem).getWarrantyStartDate())
-					.saveEndDate(((ITAsset) inventoryItem).getWarrantyEndDate())
-					.loadList()
-			);
+//			participantList.get(2).loadPresets(
+//					ItemStorageWarranty.getInstance()
+//					.saveStartDate(((ITAsset) inventoryItem).getWarrantyStartDate())
+//					.saveEndDate(((ITAsset) inventoryItem).getWarrantyEndDate())
+//					.loadList()
+//			);
+			
+			
+			/** TEMPORARY FIX **/
+			((ItemTileWarranty)participantList.get(2)).setWarrantyStartDate(((ITAsset) inventoryItem).getWarrantyStartDate());
+			((ItemTileWarranty)participantList.get(2)).setWarrantyEndDate(((ITAsset) inventoryItem).getWarrantyEndDate());
+			
 			
 			participantList.get(3).loadPresets(
 					ItemStorageContract.getInstance()
 					.saveMainCost(((ITAsset) inventoryItem).getContractMaintenanceCost())
-					.saveStartDate(((ITAsset) inventoryItem).getContractStartDate())
-					.saveEndDate(((ITAsset) inventoryItem).getContractEndDate())
+//					.saveStartDate(((ITAsset) inventoryItem).getContractStartDate())
+//					.saveEndDate(((ITAsset) inventoryItem).getContractEndDate())
 					.loadList()
 			);
 			
+			((ItemTileContract)participantList.get(3)).setContractStartDate(((ITAsset) inventoryItem).getWarrantyStartDate());
+			((ItemTileContract)participantList.get(3)).setContractEndDate(((ITAsset) inventoryItem).getWarrantyEndDate());
+			
 			resetAllStorage();
-			tabInventory.showPanel();
+			tabInventory.showAddPanel();
 		}
 		else if(((InventoryItem) object).getClassification().equals("Non-IT"))
 		{
@@ -306,7 +334,7 @@ public class PanelRegistry implements PanelRegistration {
 			((TypeItemTile) participantList.get(1)).setType("Non-IT Assets");
 			
 			resetAllStorage();
-			tabInventory.showPanel();
+			tabInventory.showAddPanel();
 		}
 		else if(((InventoryItem) object).getClassification().equals("Software"))
 		{
@@ -335,7 +363,7 @@ public class PanelRegistry implements PanelRegistration {
 			
 			System.out.println(((SoftwareItem) inventoryItem).getLicenseKey());
 			resetAllStorage();
-			tabInventory.showPanel();
+			tabInventory.showAddPanel();
 		}
 		else if(((InventoryItem) object).getClassification().equals("Others"))
 		{
@@ -355,11 +383,14 @@ public class PanelRegistry implements PanelRegistration {
 			((TypeItemTile) participantList.get(1)).loadAssigneeList(employees.iterator());
 			((TypeItemTile) participantList.get(1)).setType("Others");
 			resetAllStorage();
-			tabInventory.showPanel();
+			tabInventory.showAddPanel();
 		}
 		
 	}
 	
+	/**
+	 * Resets all the data stored inside the storage of each <b>ItemPanelParticipant</b>
+	 */
 	public void resetAllStorage()
 	{
 		ItemStorageContract.getInstance().resetStorage();
@@ -371,6 +402,9 @@ public class PanelRegistry implements PanelRegistration {
 		ItemStorageWarranty.getInstance().resetStorage();
 	}
 	
+	/**
+	 * Unregisters all the <b>ItemPanelParticipants</b>
+	 */
 	public void resetParticipantPanels()
 	{
 		for(int i = 0; i < participantList.size(); i++)

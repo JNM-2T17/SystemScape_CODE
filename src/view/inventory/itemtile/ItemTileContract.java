@@ -170,6 +170,14 @@ public class ItemTileContract extends ItemPanelDecorator implements ItemPanelPar
 		infoList.add(endDateChooser.getDate());
 		return infoList.iterator();
 	}
+	
+	public void setContractStartDate(Date date) {
+		startDateChooser.setDate(date);
+	}
+	
+	public void setContractEndDate(Date date) {
+		endDateChooser.setDate(date);
+	}
 
 	@Override
 	public boolean checkInput() {
@@ -197,8 +205,9 @@ public class ItemTileContract extends ItemPanelDecorator implements ItemPanelPar
 	public void loadPresets(Iterator iter) {
 		// TODO Auto-generated method stub
 		tfMainCost.setText(iter.next().toString());
-		startDateChooser.setDate((Date) iter.next());
-		endDateChooser.setDate((Date) iter.next());
+		/** TEMPORARILY DISABLED**/
+//		startDateChooser.setDate((Date) iter.next());
+//		endDateChooser.setDate((Date) iter.next());
 	}
 	
 	

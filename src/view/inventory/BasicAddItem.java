@@ -15,7 +15,6 @@ import java.awt.Font;
 import javax.swing.BoxLayout;
 
 import net.miginfocom.swing.MigLayout;
-import view.inventory.AddInventoryContent.AddInventoryContentBuilder;
 
 import java.awt.Color;
 

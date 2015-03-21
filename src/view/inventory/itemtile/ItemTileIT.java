@@ -145,6 +145,11 @@ public class ItemTileIT extends ItemPanelDecorator implements ItemPanelParticipa
 		return infoList.iterator();
 	}
 
+	@Override
+	public void setDeliveryDate(Date date)
+	{
+		deliveryDateChooser.setDate(date);
+	}
 
 	@Override
 	public void itemStateChanged(ItemEvent e) {

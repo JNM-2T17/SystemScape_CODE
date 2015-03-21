@@ -111,7 +111,6 @@ public class ItemTileNonIT extends ItemPanelDecorator implements ItemPanelPartic
 	public Iterator retrieveInformation() {
 		// TODO Auto-generated method stub
 		ArrayList infoList = new ArrayList(); 
-		infoList.add(deliveryDateChooser.getDate());
 		infoList.add(cbAssignee.getSelectedItem().toString());
 		return infoList.iterator();
 	}
@@ -149,6 +148,11 @@ public class ItemTileNonIT extends ItemPanelDecorator implements ItemPanelPartic
 	@Override
 	public void setType(String type) {
 		cbType.setSelectedItem(type);
+	}
+
+	@Override
+	public void setDeliveryDate(Date date) {
+		deliveryDateChooser.setDate(date);
 	}
 	
 }

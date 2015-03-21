@@ -47,8 +47,8 @@ public class ItemStorageContract implements ItemStorage{
 	{
 		ArrayList compiledList = new ArrayList();
 		compiledList.add(mainCost);
-		compiledList.add(startDate);
-		compiledList.add(endDate);
+//		compiledList.add(startDate);
+//		compiledList.add(endDate);
 		
 		return compiledList.iterator();
 	}
@@ -60,7 +60,17 @@ public class ItemStorageContract implements ItemStorage{
 		return instance;
 	}
 
-
+	/** TEMPORARY FIX **/
+	public Date getStartDate()
+	{
+		return startDate;
+	}
+	
+	public Date getEndDate()
+	{
+		return endDate;
+	}
+	
 	@Override
 	public void resetStorage() {
 		// TODO Auto-generated method stub

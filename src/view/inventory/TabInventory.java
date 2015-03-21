@@ -24,6 +24,10 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 
+/**
+ * @author dovahkiin5
+ *
+ */
 public class TabInventory extends JPanel implements ActionListener{
 	private CardLayout cl;
 	private ArrayList<Content> list;
@@ -58,6 +62,11 @@ public class TabInventory extends JPanel implements ActionListener{
 		cl.show(this, "view");
 	}
 	
+	
+	/**
+	 * This methods activates the editing of an <b>InventoryItem</b>
+	 * @param ii
+	 */
 	public void setEdit(InventoryItem ii){
 		PanelRegistry.getInstance().setEditToCurrentSet(ii);
 	}
@@ -79,6 +88,10 @@ public class TabInventory extends JPanel implements ActionListener{
 		}
 	}
 	
+	
+	/**
+	 * Reverts the display back to the <b>ViewInventory</b> panel
+	 */
 	public void revertToMain()
 	{
 	if(temp != null)
@@ -114,7 +127,9 @@ public class TabInventory extends JPanel implements ActionListener{
             
                 
 	}
-        
+	/**
+	 * Displays the Template for an ITAsset <b>InventoryItem</b>
+	 */
 	public void displayIT()
 	{
 		if(temp != null)
@@ -147,7 +162,9 @@ public class TabInventory extends JPanel implements ActionListener{
 		revalidate();
 		repaint();
 	}
-	
+	/**
+	 * Displays the Template for a NonITAsset <b>InventoryItem</b>
+	 */
 	public void displayNonIT()
 	{
 		if(temp != null)
@@ -181,6 +198,10 @@ public class TabInventory extends JPanel implements ActionListener{
 		repaint();
 	}
 	
+	/**
+	 * /**
+	 * Displays the template for a Software <b>InventoryItem</b>
+	 */
 	public void displaySoftware()
 	{
 		if(temp != null) {
@@ -207,6 +228,9 @@ public class TabInventory extends JPanel implements ActionListener{
 		repaint();
 	}
 	
+	/**
+	 * Displays the template for a General <b>InventoryItem</b>
+	 */
 	public void displayGeneral()
 	{
 		if(temp != null)
@@ -237,7 +261,10 @@ public class TabInventory extends JPanel implements ActionListener{
 		
 	}
 	
-	public void showPanel()
+	/**
+	 * Displays the panel in adding or editing the <b>InventoryItem</b>
+	 */
+	public void showAddPanel()
 	{
 		cl.show(this, "add");
 	}

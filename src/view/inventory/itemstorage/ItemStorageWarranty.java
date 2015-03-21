@@ -36,10 +36,21 @@ public class ItemStorageWarranty implements ItemStorage{
 	public Iterator loadList()
 	{
 		ArrayList compiledList = new ArrayList();
-		compiledList.add(startDate);
-		compiledList.add(endDate);
-		
+//		compiledList.add(startDate);
+//		compiledList.add(endDate);
+//		
 		return compiledList.iterator();
+	}
+	
+	/** TEMPORARY FIX **/
+	public Date getStartDate()
+	{
+		return startDate;
+	}
+	
+	public Date getEndDate()
+	{
+		return endDate;
 	}
 	
 	public static ItemStorageWarranty getInstance() {

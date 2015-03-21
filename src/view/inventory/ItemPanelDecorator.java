@@ -4,6 +4,23 @@ import java.awt.Component;
 
 import javax.swing.JPanel;
 
+import view.inventory.itemtile.ItemTileContract;
+import view.inventory.itemtile.ItemTileGenInfo;
+import view.inventory.itemtile.ItemTileIT;
+import view.inventory.itemtile.ItemTileWarranty;
+
+/**
+ * A <b>Decorator</b> is created by first setting a <b>BasicAddItem</b> panel as the base case then instantiating <b>ItemPanelTemplate</b> as another parameter of another <b>ItemPanelTemplate</b>
+ * ending with assigning the whole set into a <b>ItemPanelDecorator</b>
+ * <br><br>
+ * (e.g)  <b>ItemPanelDecorator</b> = new <b>ItemTileGenInfo</b>(new <b>ItemTileIT</b>(new <b>ItemTileWarranty</b>(new <b>ItemTileContract</b>(new <b>BasicAddItem</b>()))));
+ * <br>
+ * <br>
+ * \*recursive in nature
+ * @author dovahkiin5
+ *
+ */
+@SuppressWarnings("serial")
 public abstract class ItemPanelDecorator extends JPanel implements ItemPanelTemplate{
 
 	protected ItemPanelTemplate addItemPanelReference;

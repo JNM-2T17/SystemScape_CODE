@@ -151,10 +151,15 @@ public class ItemTileSoftware extends ItemPanelDecorator implements ItemPanelPar
 	@Override
 	public void loadPresets(Iterator iter) {
 		// TODO Auto-generated method stub
-		deliveryDateChooser.setDate((Date) iter.next());
 		
 		cbAssignee.setSelectedItem(iter.next().toString());
 		tfLicenseKey.setText(iter.next().toString());
+	}
+	
+	@Override
+	public void setDeliveryDate(Date date)
+	{
+		deliveryDateChooser.setDate(date);
 	}
 
 	@Override

@@ -104,6 +104,24 @@ public class ItemTileWarranty extends ItemPanelDecorator implements ItemPanelPar
 		infoList.add(endWarrantyDate.getDate());
 		return infoList.iterator();
 	}
+	
+	/**
+	 * Sets the start date of the warranty in the JDateChooser
+	 * @param date
+	 */
+	public void setWarrantyStartDate(Date date)
+	{
+		startWarrantyDate.setDate(date);
+	}
+	
+	/**
+	 * Sets the end date of the warranty in the JDateChooser
+	 * @param date
+	 */
+	public void setWarrantyEndDate(Date date)
+	{
+		endWarrantyDate.setDate(date);
+	}
 
 	@Override
 	public boolean checkInput() {

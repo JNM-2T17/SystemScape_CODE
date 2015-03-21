@@ -31,6 +31,10 @@ import view.inventory.ItemPanelDecorator;
 import view.inventory.ItemPanelParticipant;
 import view.inventory.ItemPanelTemplate;
 
+/**
+ * @author dovahkiin5
+ *
+ */
 public class ItemTileGenInfo extends ItemPanelDecorator implements ItemPanelParticipant {
 
 	private JPanel panGeneral;
@@ -189,11 +193,27 @@ public class ItemTileGenInfo extends ItemPanelDecorator implements ItemPanelPart
 		cbStatus.setSelectedItem(iter.next().toString());
 	}
 	
-	public void loadLocationList() {
-		//cbLocation
+	/**
+	 * Sets the content to be loaded into the model of the location combo box
+	 * @param iter
+	 */
+	public void loadLocationList(Iterator iter) {
+		 ArrayList<String> locationList = new ArrayList();
+	     while(iter.hasNext()){
+	    	 locationList.add(iter.next().toString());
+	     }
+	     cbLocation.setModel(new DefaultComboBoxModel(locationList.toArray()));
 	}
 	
-	public void loadStatusList() {
-		//cbStatus
+	/**
+	 * Sets the content to be loaded into the model of the status combo box
+	 * @param iter
+	 */
+	public void loadStatusList(Iterator iter) {
+		 ArrayList<String> statusList = new ArrayList();
+	     while(iter.hasNext()){
+	    	 statusList.add(iter.next().toString());
+	     }
+	     cbStatus.setModel(new DefaultComboBoxModel(statusList.toArray()));
 	}
 }
