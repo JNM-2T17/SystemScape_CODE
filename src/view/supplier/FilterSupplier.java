@@ -36,11 +36,19 @@ public class FilterSupplier extends PopUp implements ActionListener {
 		super(parent);
 
 		JPanel panel = new JPanel();
-		panel.setPreferredSize(new Dimension(600, 300));
-		panel.setSize(new Dimension(600, 300));
+		panel.setPreferredSize(new Dimension(500, 350));
+		panel.setSize(new Dimension(500, 350));
 		getContentPane().add(panel);
 		panel.setLayout(new BorderLayout(0, 0));
 		setContent(panel);
+		
+		JPanel panHeader = new JPanel();
+		panHeader.setBackground(Color.WHITE);
+		panel.add(panHeader, BorderLayout.NORTH);
+
+		JLabel lblFilterSupp = new JLabel("Filter Suppliers");
+		lblFilterSupp.setFont(new Font("Arial", Font.PLAIN, 16));
+		panHeader.add(lblFilterSupp);
 
 		JPanel panContent = new JPanel();
 		panel.add(panContent, BorderLayout.CENTER);
@@ -135,10 +143,17 @@ public class FilterSupplier extends PopUp implements ActionListener {
 				SpringLayout.NORTH, lblContact);
 		spring.putConstraint(SpringLayout.WEST, txtContact, 0,
 				SpringLayout.WEST, txtSupplier);
-		spring.putConstraint(SpringLayout.EAST, txtContact, 0,
+		spring.putConstraint(SpringLayout.EAST, txtContact, -169,
 				SpringLayout.EAST, txtSupplier);
 		panContent.add(txtContact);
 		txtContact.setColumns(10);
+		
+		JComboBox cmbContact = new JComboBox();
+		cmbContact.setForeground(Color.WHITE);
+		spring.putConstraint(SpringLayout.WEST, cmbContact, 6, SpringLayout.EAST, txtContact);
+		spring.putConstraint(SpringLayout.SOUTH, cmbContact, 0, SpringLayout.SOUTH, txtContact);
+		spring.putConstraint(SpringLayout.EAST, cmbContact, 170, SpringLayout.EAST, txtContact);
+		panContent.add(cmbContact);
 
 		JPanel panFooter = new JPanel();
 		panel.add(panFooter, BorderLayout.SOUTH);

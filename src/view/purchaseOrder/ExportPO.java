@@ -29,16 +29,25 @@ public class ExportPO extends PopUp implements ActionListener{
 		super(parent);
 
 		JPanel panMain = new JPanel();
-		panMain.setSize(new Dimension(500, 200));
-		panMain.setPreferredSize(new Dimension(500, 200));
+		panMain.setSize(new Dimension(500, 220));
+		panMain.setPreferredSize(new Dimension(500, 220));
 		getContentPane().add(panMain);
 		panMain.setLayout(new BorderLayout(0, 0));
 		
 
+		JPanel panHeader = new JPanel();
+		panHeader.setBackground(Color.WHITE);
+		panMain.add(panHeader, BorderLayout.NORTH);
+
+		JLabel lblExportPO = new JLabel("Export Purchase Order");
+		lblExportPO.setFont(new Font("Arial", Font.PLAIN, 16));
+		panHeader.add(lblExportPO);
+		
 		JPanel panFooter = new JPanel();
 		panFooter.setBackground(Color.WHITE);
 		panMain.add(panFooter, BorderLayout.SOUTH);
 
+	
 		btnExport = new JButton("Export");
 		panFooter.add(btnExport);
 		btnExport.setForeground(Color.white);

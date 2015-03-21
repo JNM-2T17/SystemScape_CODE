@@ -35,11 +35,19 @@ public class FilterInventory extends PopUp implements ActionListener {
 
 		JPanel panMain = new JPanel();
 		panMain.setBackground(Color.WHITE);
-		panMain.setPreferredSize(new Dimension(450, 380));
-		panMain.setSize(new Dimension(500, 380));
+		panMain.setPreferredSize(new Dimension(450, 400));
+		panMain.setSize(new Dimension(500, 400));
 		add(panMain);
 		panMain.setLayout(new BorderLayout(0, 0));
 
+		JPanel panHeader = new JPanel();
+		panHeader.setBackground(Color.WHITE);
+		panMain.add(panHeader, BorderLayout.NORTH);
+
+		JLabel lblFilterInv = new JLabel("Filter Inventory");
+		lblFilterInv.setFont(new Font("Arial", Font.PLAIN, 16));
+		panHeader.add(lblFilterInv);
+		
 		JPanel panFooter = new JPanel();
 		panFooter.setBackground(Color.WHITE);
 		panMain.add(panFooter, BorderLayout.SOUTH);

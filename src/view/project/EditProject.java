@@ -72,7 +72,6 @@ public class EditProject extends JPanel implements ActionListener {
 		panContent.add(lblAll);
 
 		btnRight = new JButton(">");
-		sl_panContent.putConstraint(SpringLayout.EAST, btnRight, -520, SpringLayout.EAST, panContent);
 		btnRight.setForeground(Color.white);
 		btnRight.setBackground(new Color(32, 130, 213));
 		panContent.add(btnRight);
@@ -115,13 +114,13 @@ public class EditProject extends JPanel implements ActionListener {
 		panContent.add(btnDblLeft);
 
 		listAll = new List();
+		sl_panContent.putConstraint(SpringLayout.EAST, listAll, 350, SpringLayout.WEST, panContent);
 		sl_panContent.putConstraint(SpringLayout.WEST, btnRight, 20, SpringLayout.EAST, listAll);
+		sl_panContent.putConstraint(SpringLayout.EAST, btnRight, 70, SpringLayout.EAST, listAll);
 		sl_panContent.putConstraint(SpringLayout.WEST, listAll, 110,
 				SpringLayout.WEST, panContent);
 		sl_panContent.putConstraint(SpringLayout.SOUTH, listAll, 325,
 				SpringLayout.SOUTH, lblAll);
-		sl_panContent.putConstraint(SpringLayout.EAST, listAll, 350,
-				SpringLayout.WEST, panContent);
 		sl_panContent.putConstraint(SpringLayout.NORTH, listAll, 6,
 				SpringLayout.SOUTH, lblAll);
 		panContent.add(listAll);
@@ -134,10 +133,10 @@ public class EditProject extends JPanel implements ActionListener {
 		panContent.add(lblEmp);
 
 		listEmp = new List();
-		sl_panContent.putConstraint(SpringLayout.NORTH, listEmp, 6, SpringLayout.SOUTH, lblEmp);
-		sl_panContent.putConstraint(SpringLayout.WEST, listEmp, 445,
-				SpringLayout.WEST, panContent);
-		sl_panContent.putConstraint(SpringLayout.SOUTH, listEmp, -57, SpringLayout.SOUTH, panContent);
+		sl_panContent.putConstraint(SpringLayout.NORTH, listEmp, 0, SpringLayout.NORTH, listAll);
+		sl_panContent.putConstraint(SpringLayout.WEST, listEmp, 20,
+				SpringLayout.EAST, btnRight);
+		sl_panContent.putConstraint(SpringLayout.SOUTH, listEmp, 0, SpringLayout.SOUTH, listAll);
 		sl_panContent.putConstraint(SpringLayout.EAST, listEmp, 260,
 				SpringLayout.EAST, btnRight);
 		panContent.add(listEmp);

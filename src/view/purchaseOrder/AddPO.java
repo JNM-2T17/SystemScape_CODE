@@ -189,6 +189,7 @@ public class AddPO extends JPanel implements ActionListener, Observer {
 
 		btnSubmit = new JButton("Submit");
 		btnSubmit.setForeground(Color.WHITE);
+		btnSubmit.setFont(new Font("Arial", Font.PLAIN, 18));
 		btnSubmit.setBackground(new Color(32, 130, 213));
 		btnSubmit.addActionListener(this);
 		panSubmit.add(btnSubmit);

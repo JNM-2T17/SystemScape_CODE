@@ -11,9 +11,6 @@ public class ViewEmployee extends ViewTemplate{
 		setColCount(5);
 		String headers[]={"Name", "Status", "Projects", "Project Date", ""};
 		getModel().setColumnIdentifiers(headers);
-		setColWidth(0, 500);
-		setColWidth(1, 220);
-		setColWidth(2, 15);
 		setColRendEdit(new PanelCell(), new PanelCell());
 	}
 

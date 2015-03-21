@@ -28,7 +28,7 @@ public class FilterProject extends PopUp implements ActionListener {
 	private JTextField txtName;
 	private JDateChooser dateStart;
 	private JDateChooser dateEnd;
-	private JButton btnSubmit;
+	private JButton btnFilter;
 
 	public FilterProject(JFrame parent) {
 		super(parent);
@@ -39,9 +39,9 @@ public class FilterProject extends PopUp implements ActionListener {
 		panHeader.setBackground(Color.WHITE);
 		panMain.add(panHeader, BorderLayout.NORTH);
 
-		JLabel lblAddProject = new JLabel("Filter Project");
-		lblAddProject.setFont(new Font("Arial", Font.PLAIN, 16));
-		panHeader.add(lblAddProject);
+		JLabel lblFilterProj = new JLabel("Filter Projects");
+		lblFilterProj.setFont(new Font("Arial", Font.PLAIN, 16));
+		panHeader.add(lblFilterProj);
 
 		JPanel panCenter = new JPanel();
 		panCenter.setBackground(Color.WHITE);
@@ -99,15 +99,18 @@ public class FilterProject extends PopUp implements ActionListener {
 		panCenter.add(dateEnd);
 
 		JPanel panFooter = new JPanel();
-		panFooter.setBackground(Color.WHITE);
+		panFooter.setBackground(Color.white);
 		panMain.add(panFooter, BorderLayout.SOUTH);
 
-		btnSubmit = new JButton("Submit");
-		btnSubmit.setFont(new Font("Arial", Font.PLAIN, 16));
-		panFooter.add(btnSubmit);
-		
-		panMain.setPreferredSize(new Dimension(480,250));
-		panMain.setSize(new Dimension(480,250));
+		btnFilter = new JButton("Filter");
+		btnFilter.setFont(new Font("Arial", Font.PLAIN, 18));
+		panFooter.add(btnFilter);
+		btnFilter.setForeground(Color.white);
+		btnFilter.setBackground(new Color(32, 130, 213));
+		panFooter.add(btnFilter);
+
+		panMain.setPreferredSize(new Dimension(480, 250));
+		panMain.setSize(new Dimension(480, 250));
 		setContent(panMain);
 		getClose().addActionListener(this);
 		setVisible(true);

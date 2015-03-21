@@ -34,6 +34,13 @@ public class ExportInventory extends PopUp implements ActionListener{
 		getContentPane().add(panMain);
 		panMain.setLayout(new BorderLayout(0, 0));
 		
+		JPanel panHeader = new JPanel();
+		panHeader.setBackground(Color.WHITE);
+		panMain.add(panHeader, BorderLayout.NORTH);
+
+		JLabel lblExportInv = new JLabel("Export Purchase Order");
+		lblExportInv.setFont(new Font("Arial", Font.PLAIN, 16));
+		panHeader.add(lblExportInv);
 
 		JPanel panFooter = new JPanel();
 		panFooter.setBackground(Color.WHITE);

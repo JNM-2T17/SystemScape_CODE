@@ -34,9 +34,9 @@ public class FilterPO extends PopUp implements ActionListener {
 	private JDateChooser dateChooser;
 	private JComboBox cmbItem, cmbSupplier, cmbTotal, cmbUnit;
 	private JTextField txtInvoice;
-        
-        SupplierController supplierController;
-        PurchaseOrderController purchaseOrderController;
+
+	SupplierController supplierController;
+	PurchaseOrderController purchaseOrderController;
 
 	public FilterPO(JFrame parent) {
 
@@ -44,8 +44,8 @@ public class FilterPO extends PopUp implements ActionListener {
 
 		JPanel panMain = new JPanel();
 		panMain.setBackground(Color.white);
-		panMain.setSize(new Dimension(500, 300));
-		panMain.setPreferredSize(new Dimension(500, 300));
+		panMain.setSize(new Dimension(500, 350));
+		panMain.setPreferredSize(new Dimension(500, 350));
 		getContentPane().add(panMain);
 		panMain.setLayout(new BorderLayout(0, 0));
 
@@ -104,7 +104,8 @@ public class FilterPO extends PopUp implements ActionListener {
 		panContent.add(cmbSupplier);
 
 		cmbTotal = new JComboBox();
-		sl_panContent.putConstraint(SpringLayout.NORTH, cmbTotal, 0, SpringLayout.NORTH, lblGrandTotal);
+		sl_panContent.putConstraint(SpringLayout.NORTH, cmbTotal, 0,
+				SpringLayout.NORTH, lblGrandTotal);
 		cmbTotal.setBackground(Color.white);
 		panContent.add(cmbTotal);
 
@@ -114,7 +115,7 @@ public class FilterPO extends PopUp implements ActionListener {
 		dateChooser.setBorder(null);
 		dateChooser.setDateFormatString("yyyy-MM-dd");
 		dateChooser.setBackground(Color.WHITE);
-//		dateChooser.setPreferredSize(new Dimension(150, 30));
+		// dateChooser.setPreferredSize(new Dimension(150, 30));
 		sl_panContent.putConstraint(SpringLayout.NORTH, dateChooser, 0,
 				SpringLayout.NORTH, lblDate);
 		sl_panContent.putConstraint(SpringLayout.WEST, dateChooser, 0,
@@ -124,30 +125,43 @@ public class FilterPO extends PopUp implements ActionListener {
 		panContent.add(dateChooser);
 
 		txtTotal = new JTextField();
-		sl_panContent.putConstraint(SpringLayout.NORTH, txtTotal, 0, SpringLayout.NORTH, cmbTotal);
-		sl_panContent.putConstraint(SpringLayout.WEST, txtTotal, 6, SpringLayout.EAST, cmbTotal);
-		sl_panContent.putConstraint(SpringLayout.EAST, txtTotal, 0, SpringLayout.EAST, cmbItem);
+		sl_panContent.putConstraint(SpringLayout.NORTH, txtTotal, 0,
+				SpringLayout.NORTH, cmbTotal);
+		sl_panContent.putConstraint(SpringLayout.WEST, txtTotal, 6,
+				SpringLayout.EAST, cmbTotal);
+		sl_panContent.putConstraint(SpringLayout.EAST, txtTotal, 0,
+				SpringLayout.EAST, cmbItem);
 		panContent.add(txtTotal);
 		txtTotal.setColumns(10);
-		
+
 		JLabel lblInvoice = new JLabel("Invoice #:");
-		sl_panContent.putConstraint(SpringLayout.WEST, lblInvoice, 0, SpringLayout.WEST, lblItem);
+		sl_panContent.putConstraint(SpringLayout.WEST, lblInvoice, 0,
+				SpringLayout.WEST, lblItem);
 		panContent.add(lblInvoice);
-		
+
 		txtInvoice = new JTextField();
-		sl_panContent.putConstraint(SpringLayout.NORTH, lblInvoice, 0, SpringLayout.NORTH, txtInvoice);
-		sl_panContent.putConstraint(SpringLayout.NORTH, txtInvoice, 14, SpringLayout.SOUTH, cmbTotal);
-		sl_panContent.putConstraint(SpringLayout.WEST, txtInvoice, 0, SpringLayout.WEST, cmbItem);
-		sl_panContent.putConstraint(SpringLayout.EAST, txtInvoice, 0, SpringLayout.EAST, cmbItem);
+		sl_panContent.putConstraint(SpringLayout.NORTH, lblInvoice, 0,
+				SpringLayout.NORTH, txtInvoice);
+		sl_panContent.putConstraint(SpringLayout.NORTH, txtInvoice, 14,
+				SpringLayout.SOUTH, cmbTotal);
+		sl_panContent.putConstraint(SpringLayout.WEST, txtInvoice, 0,
+				SpringLayout.WEST, cmbItem);
+		sl_panContent.putConstraint(SpringLayout.EAST, txtInvoice, 0,
+				SpringLayout.EAST, cmbItem);
 		txtInvoice.setColumns(10);
 		panContent.add(txtInvoice);
-		
+
 		cmbUnit = new JComboBox();
-		sl_panContent.putConstraint(SpringLayout.EAST, cmbTotal, 75, SpringLayout.EAST, cmbUnit);
-		sl_panContent.putConstraint(SpringLayout.EAST, cmbUnit, 50, SpringLayout.WEST, dateChooser);
-		sl_panContent.putConstraint(SpringLayout.WEST, cmbUnit, 0, SpringLayout.WEST, dateChooser);
-		sl_panContent.putConstraint(SpringLayout.WEST, cmbTotal, 6, SpringLayout.EAST, cmbUnit);
-		sl_panContent.putConstraint(SpringLayout.NORTH, cmbUnit, 0, SpringLayout.NORTH, lblGrandTotal);
+		sl_panContent.putConstraint(SpringLayout.EAST, cmbTotal, 75,
+				SpringLayout.EAST, cmbUnit);
+		sl_panContent.putConstraint(SpringLayout.EAST, cmbUnit, 50,
+				SpringLayout.WEST, dateChooser);
+		sl_panContent.putConstraint(SpringLayout.WEST, cmbUnit, 0,
+				SpringLayout.WEST, dateChooser);
+		sl_panContent.putConstraint(SpringLayout.WEST, cmbTotal, 6,
+				SpringLayout.EAST, cmbUnit);
+		sl_panContent.putConstraint(SpringLayout.NORTH, cmbUnit, 0,
+				SpringLayout.NORTH, lblGrandTotal);
 		cmbUnit.setBackground(Color.WHITE);
 		panContent.add(cmbUnit);
 
@@ -156,43 +170,52 @@ public class FilterPO extends PopUp implements ActionListener {
 		panMain.add(panFooter, BorderLayout.SOUTH);
 
 		btnFilter = new JButton("Filter");
+		btnFilter.setFont(new Font("Arial", Font.PLAIN, 18));
 		panFooter.add(btnFilter);
 		btnFilter.setForeground(Color.white);
 		btnFilter.setBackground(new Color(32, 130, 213));
-		btnFilter.setFont(new Font("Arial", Font.PLAIN, 16));
 		panFooter.add(btnFilter);
+
+		JPanel panHeader = new JPanel();
+		panHeader.setBackground(Color.WHITE);
+		panMain.add(panHeader, BorderLayout.NORTH);
+
+		JLabel lblFilterPO = new JLabel("Filter Purchase Orders");
+		lblFilterPO.setFont(new Font("Arial", Font.PLAIN, 16));
+		panHeader.add(lblFilterPO);
 
 		this.getClose().addActionListener(this);
 		btnFilter.addActionListener(this);
-                
-                
-                supplierController = SupplierController.getInstance();
-                purchaseOrderController = PurchaseOrderController.getInstance();
-                populate();
-                
+
+		supplierController = SupplierController.getInstance();
+		purchaseOrderController = PurchaseOrderController.getInstance();
+		populate();
+
 		setContent(panMain);
 		this.repaint();
 		this.revalidate();
 		this.setVisible(true);
 
 	}
-        
-        public void populate(){
-            Iterator iterator = supplierController.getAll();
-            ArrayList<String> data = new ArrayList();
-            while(iterator.hasNext()){
-                data.add( ((Supplier)iterator.next()) .getName());
-            }
-            cmbSupplier.setModel(new DefaultComboBoxModel(data.toArray()));
-            data.removeAll(data);
-            
-            cmbItem.setModel(new DefaultComboBoxModel(new String[] { "Hardware","Software", "Gen" }));
-            cmbUnit.setModel(new DefaultComboBoxModel(new String[] { ">",">=", "<=", "<" }));
-        }
+
+	public void populate() {
+		Iterator iterator = supplierController.getAll();
+		ArrayList<String> data = new ArrayList();
+		while (iterator.hasNext()) {
+			data.add(((Supplier) iterator.next()).getName());
+		}
+		cmbSupplier.setModel(new DefaultComboBoxModel(data.toArray()));
+		data.removeAll(data);
+
+		cmbItem.setModel(new DefaultComboBoxModel(new String[] { "Hardware",
+				"Software", "Gen" }));
+		cmbUnit.setModel(new DefaultComboBoxModel(new String[] { ">", ">=",
+				"<=", "<" }));
+	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-//		 TODO Auto-generated method stub
+		// TODO Auto-generated method stub
 		if (e.getSource() == btnFilter) {
 			this.dispose();
 		} else if (e.getSource() == getClose()) {

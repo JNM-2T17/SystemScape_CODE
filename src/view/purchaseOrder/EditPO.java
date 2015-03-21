@@ -194,6 +194,7 @@ public class EditPO extends JPanel implements ActionListener, Observer {
 		panFooter.add(panSubmit, BorderLayout.SOUTH);
 
 		btnSubmit = new JButton("Submit");
+		btnSubmit.setFont(new Font("Arial", Font.PLAIN, 18));
 		btnSubmit.setForeground(Color.WHITE);
 		btnSubmit.setBackground(new Color(32, 130, 213));
 		btnSubmit.addActionListener(this);
