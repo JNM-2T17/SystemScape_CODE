@@ -1,4 +1,5 @@
 package view.supplier;
+import controller.SupplierController;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -15,12 +16,14 @@ import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 
 public class TabSupplier extends JPanel implements ActionListener{
 	private CardLayout cl;
 	private ArrayList<Content> list;
 	private Gui gui;
+        private SupplierController supplierController;
 	
 	public TabSupplier(Gui gui) {
 		cl=new CardLayout();
@@ -42,6 +45,7 @@ public class TabSupplier extends JPanel implements ActionListener{
 		list.add(temp);
 		
 		cl.show(this, "view");
+                supplierController = SupplierController.getInstance();
 	}
 	
 	public void setEdit(Supplier supp){
@@ -53,14 +57,6 @@ public class TabSupplier extends JPanel implements ActionListener{
 		cl.show(this, "edit");
 	}
 	
-	public void setView(Supplier supp){
-		Content temp=new Content.ContentBuilder().caption("View Specific Supplier").back(true).content(new ViewSpecificSupplier(gui, supp)).build();
-		temp.getBtnBack().addActionListener(this);
-		this.add(temp, "preview");
-		list.add(temp);
-		
-		cl.show(this, "preview");
-	}
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -71,7 +67,9 @@ public class TabSupplier extends JPanel implements ActionListener{
 		else if(((JButton) e.getSource()).getActionCommand().equals("filter")){
 			FilterSupplier fs=new FilterSupplier(gui);
 			if(!fs.isClosed()){
-				System.out.println(fs.getValues());
+                                Iterator values = supplierController.filter(fs.getValues());
+                                ((ViewSuppliers)list.get(0).getContent()).filterPopulate(values);
+                                
 			}
 		}
 		else if(((JButton) e.getSource()).getActionCommand().equals("back")){
@@ -79,7 +77,7 @@ public class TabSupplier extends JPanel implements ActionListener{
 		}
 		else if(((JButton) e.getSource()).getActionCommand().equals("suppFilter")){
 			System.out.println("filtered");
+			
 		}
 	}
-
 }

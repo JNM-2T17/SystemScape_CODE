@@ -132,6 +132,7 @@ public class SupplierDAO implements IDBCUD {
 
     public Iterator filter(Iterator conditions) {
         Connection con = DBConnection.getConnection();
+        ArrayList<Supplier> suppliers = new ArrayList<Supplier>();
         QueryFilterDirector director = new QueryFilterDirector(new SupplierFilterQueryBuilder());
         ArrayList<String> results = new ArrayList<String>();
         try {
@@ -139,11 +140,16 @@ public class SupplierDAO implements IDBCUD {
             PreparedStatement preparedStatement = con.prepareStatement(query);
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
-                results.add(resultSet.getString("name"));
-                results.add(resultSet.getString("country") + " " + resultSet.getString("state") + " " + resultSet.getString("city"));
-                results.add(resultSet.getString("value"));
+                Supplier supplier = new Supplier(resultSet.getString("name"), resultSet.getString("country"), resultSet.getString("state"), resultSet.getString("city"));
+
+                String query2 = "SELECT * FROM suppliercontact WHERE supplier=\"" + resultSet.getString("name") + "\"";
+                PreparedStatement preparedStatement2 = con.prepareStatement(query2);
+                ResultSet resultSet2 = preparedStatement2.executeQuery();
+                while (resultSet2.next()) {
+                    supplier.addSupplierContact(resultSet2.getString("supplier"), resultSet2.getString("type"), resultSet2.getInt("value"));
+                }
+                suppliers.add(supplier);
             }
-            return results.iterator();
         } catch (Exception Exception) {
             Exception.printStackTrace();
         } finally {
@@ -155,7 +161,7 @@ public class SupplierDAO implements IDBCUD {
                 sqlee.printStackTrace();
             }
         }
-        return null;
+        return suppliers.iterator();
     }
 
     public Iterator getDistinct(String string) {

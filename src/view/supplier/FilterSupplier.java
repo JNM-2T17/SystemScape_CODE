@@ -23,6 +23,7 @@ import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class FilterSupplier extends PopUp implements ActionListener {
 	private SpringLayout spring;
@@ -149,7 +150,7 @@ public class FilterSupplier extends PopUp implements ActionListener {
 		panFooter.add(btnFilter);
 		btnFilter.setForeground(Color.white);
 		btnFilter.setBackground(new Color(32, 130, 213));
-		btnFilter.setFont(new Font("Arial", Font.PLAIN, 18));
+		btnFilter.setFont(new Font("Arial", Font.PLAIN, 16));
 
 		getClose().addActionListener(this);
 		btnFilter.addActionListener(this);
@@ -163,15 +164,16 @@ public class FilterSupplier extends PopUp implements ActionListener {
 		return closed;
 	}
 	
-	public ArrayList getValues(){
+	public Iterator getValues(){
 		ArrayList list=new ArrayList();
 		
 		list.add(txtSupplier.getText());
 		list.add(cmbCountry.getText());
 		list.add(cmbState.getText());
 		list.add(cmbCity.getText());
+                list.add(txtContact.getText());
 		
-		return list;
+		return list.iterator();
 	}
 
 	@Override
