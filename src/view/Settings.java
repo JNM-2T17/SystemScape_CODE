@@ -227,6 +227,8 @@ public class Settings extends PopUp implements ActionListener {
 		getClose().addActionListener(this);
 		setContent(panMain);
 		//
+		
+		btnNotificationSettings.setBackground(Color.LIGHT_GRAY);
 		cl.show(panCenter, "pass");
 		this.setVisible(true);
 		this.repaint();
@@ -238,8 +240,13 @@ public class Settings extends PopUp implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == btnChangePassword) {
 			cl.show(panCenter, "pass");
+			btnChangePassword.setBackground(Color.white);
+			btnNotificationSettings.setBackground(Color.LIGHT_GRAY);
 		} else if (e.getSource() == btnNotificationSettings) {
 			cl.show(panCenter, "notif");
+			btnNotificationSettings.setBackground(Color.white);
+			btnChangePassword.setBackground(Color.LIGHT_GRAY);
+			
 		} else {
 			this.dispose();
 		}

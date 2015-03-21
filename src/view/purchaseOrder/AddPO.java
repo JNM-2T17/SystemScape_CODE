@@ -89,13 +89,11 @@ public class AddPO extends JPanel implements ActionListener, Observer {
 
 		lblSupplier = new JLabel("Supplier :");
 		panSupplier.add(lblSupplier);
-		lblSupplier.setFont(new Font("Arial", Font.PLAIN, 22));
 
 		cmbSupplier = new JComboBox();
 		populateSupplierNames();
                 
 		panSupplier.add(cmbSupplier);
-		cmbSupplier.setFont(new Font("Arial", Font.PLAIN, 22));
 		cmbSupplier.setBackground(Color.white);
 		cmbSupplier.setPreferredSize(new Dimension(200, 30));
 
@@ -106,14 +104,12 @@ public class AddPO extends JPanel implements ActionListener, Observer {
 		lblClass = new JLabel("Item Classification :");
 		lblClass.setHorizontalTextPosition(SwingConstants.LEFT);
 		lblClass.setHorizontalAlignment(SwingConstants.LEFT);
-		lblClass.setFont(new Font("Arial", Font.PLAIN, 22));
 		panClass.add(lblClass);
 
 		cmbClass = new JComboBox();
 		cmbClass.setPreferredSize(new Dimension(100, 30));
 		cmbClass.setModel(new DefaultComboBoxModel(new String[] { "Hard",
 				"Soft", "Gen" }));
-		cmbClass.setFont(new Font("Arial", Font.PLAIN, 22));
 		cmbClass.setBackground(Color.white);
 		panClass.add(cmbClass);
 
@@ -128,13 +124,11 @@ public class AddPO extends JPanel implements ActionListener, Observer {
 
 		lblDate = new JLabel("Date :");
 		panDate.add(lblDate);
-		lblDate.setFont(new Font("Arial", Font.PLAIN, 22));
 
 		dateChooser = new JDateChooser();
 		dateChooser.setOpaque(false);
 		dateChooser.setDate(new Date());
 		dateChooser.setBorder(null);
-		dateChooser.setFont(new Font("Arial", Font.PLAIN, 15));
 		dateChooser.setDateFormatString("yyyy-MM-dd");
 		dateChooser.setBackground(Color.WHITE);
 		dateChooser.setPreferredSize(new Dimension(150, 30));
@@ -147,7 +141,6 @@ public class AddPO extends JPanel implements ActionListener, Observer {
 		panRight.add(panCurrency, BorderLayout.WEST);
 
 		lblCurrency = new JLabel("Currency :");
-		lblCurrency.setFont(new Font("Arial", Font.PLAIN, 22));
 		panCurrency.add(lblCurrency);
 
 		cmbCurrency = new JComboBox();
@@ -161,7 +154,7 @@ public class AddPO extends JPanel implements ActionListener, Observer {
 		panCenter.setLayout(new BorderLayout(0, 0));
 
 		btnAddItem = new Button.ButtonBuilder().img("src/assets/Round/Add.png",
-				40, 40).build();
+				30, 30).build();
 		btnAddItem.setActionCommand("add");
 		btnAddItem.addActionListener(this);
 
@@ -175,10 +168,9 @@ public class AddPO extends JPanel implements ActionListener, Observer {
 		panHeader.add(panAddItem, BorderLayout.WEST);
 		panAddItem.setSize(new Dimension(100, 80));
 		panAddItem.setPreferredSize(new Dimension(125, 60));
-		panAddItem.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		panAddItem.setLayout(new FlowLayout(FlowLayout.LEADING, 5, 5));
 
 		lblItem = new JLabel("Item/s");
-		lblItem.setFont(new Font("Arial", Font.PLAIN, 22));
 		panAddItem.add(lblItem);
 		panAddItem.add(btnAddItem);
 
@@ -194,7 +186,6 @@ public class AddPO extends JPanel implements ActionListener, Observer {
 		btnSubmit = new JButton("Submit");
 		btnSubmit.setForeground(Color.WHITE);
 		btnSubmit.setBackground(new Color(32, 130, 213));
-		btnSubmit.setFont(new Font("Arial", Font.PLAIN, 24));
 		btnSubmit.addActionListener(this);
 		panSubmit.add(btnSubmit);
 
@@ -203,11 +194,9 @@ public class AddPO extends JPanel implements ActionListener, Observer {
 		panFooter.add(panGrandTotal, BorderLayout.EAST);
 
 		lblGrandTotal = new JLabel("Grand Total :");
-		lblGrandTotal.setFont(new Font("Arial", Font.PLAIN, 22));
 		panGrandTotal.add(lblGrandTotal);
 		
 		lblGrandValue = new JLabel("0.00");
-		lblGrandValue.setFont(new Font("Arial", Font.PLAIN, 22));
 		panGrandTotal.add(lblGrandValue);
 
 		panItemTable = new JPanel();
@@ -223,8 +212,6 @@ public class AddPO extends JPanel implements ActionListener, Observer {
 		scrollPane.setViewportView(table);
 		table.setCellSelectionEnabled(false);
 		table.getTableHeader().setReorderingAllowed(false);
-		table.setFont(new Font("Arial", Font.PLAIN, 18));
-		table.getTableHeader().setFont(new Font("Arial", Font.PLAIN, 20));
 		table.setRowHeight(55);
 		table.getColumnModel().getColumn(2).setPreferredWidth(20);
 
