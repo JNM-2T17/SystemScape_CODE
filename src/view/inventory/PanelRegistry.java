@@ -208,7 +208,8 @@ public class PanelRegistry implements PanelRegistration {
 			inventoryItem = general;
 		}
 		 	
-
+		if(isAdd) InventoryItemController.getInstance().addInventoryItem(inventoryItem);
+		else InventoryItemController.getInstance().editInventoryItem(inventoryItem, inventoryItem.getName());
 	}
 
 	/**
