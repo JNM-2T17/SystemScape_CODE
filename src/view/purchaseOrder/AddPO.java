@@ -58,13 +58,17 @@ public class AddPO extends JPanel implements ActionListener, Observer {
 	private JPanel panCurrency;
 	private JLabel lblCurrency;
 	private JComboBox cmbCurrency;
-	
+
 	private JFrame parent;
 	private JLabel lblGrandValue;
+	private JPanel panDetails;
+	private JPanel panVAT;
+	private JLabel lblVat;
+	private JLabel lblVatValue;
 
 	public AddPO(JFrame parent) {
-		
-		this.parent=parent;
+
+		this.parent = parent;
 		poController = PurchaseOrderController.getInstance();
 		poTableModel = new POTableModel(poController);
 
@@ -92,7 +96,7 @@ public class AddPO extends JPanel implements ActionListener, Observer {
 
 		cmbSupplier = new JComboBox();
 		populateSupplierNames();
-                
+
 		panSupplier.add(cmbSupplier);
 		cmbSupplier.setBackground(Color.white);
 		cmbSupplier.setPreferredSize(new Dimension(200, 30));
@@ -189,15 +193,33 @@ public class AddPO extends JPanel implements ActionListener, Observer {
 		btnSubmit.addActionListener(this);
 		panSubmit.add(btnSubmit);
 
+		panDetails = new JPanel();
+		panFooter.add(panDetails, BorderLayout.EAST);
+		panDetails.setLayout(new BorderLayout(0, 0));
+
 		panGrandTotal = new JPanel();
+		FlowLayout flowLayout_1 = (FlowLayout) panGrandTotal.getLayout();
+		flowLayout_1.setAlignment(FlowLayout.LEADING);
+		panDetails.add(panGrandTotal, BorderLayout.SOUTH);
 		panGrandTotal.setBackground(Color.white);
-		panFooter.add(panGrandTotal, BorderLayout.EAST);
 
 		lblGrandTotal = new JLabel("Grand Total :");
 		panGrandTotal.add(lblGrandTotal);
-		
+
 		lblGrandValue = new JLabel("0.00");
 		panGrandTotal.add(lblGrandValue);
+
+		panVAT = new JPanel();
+		FlowLayout flowLayout = (FlowLayout) panVAT.getLayout();
+		flowLayout.setAlignment(FlowLayout.LEADING);
+		panVAT.setBackground(Color.WHITE);
+		panDetails.add(panVAT, BorderLayout.NORTH);
+
+		lblVat = new JLabel("VAT:");
+		panVAT.add(lblVat);
+
+		lblVatValue = new JLabel("Inclusive");
+		panVAT.add(lblVatValue);
 
 		panItemTable = new JPanel();
 		panItemTable.setBackground(Color.white);
@@ -225,25 +247,31 @@ public class AddPO extends JPanel implements ActionListener, Observer {
 		// TODO Auto-generated method stub
 
 		if (event.getSource() == btnAddItem) {
-			AddPOItem i = new AddPOItem(parent, (String)cmbClass.getSelectedItem(), poController);
+			AddPOItem i = new AddPOItem(parent,
+					(String) cmbClass.getSelectedItem(), poController);
 		} else if (event.getSource() == btnSubmit) {
 
 			if (checkFields() == false) {
 				selectedDate = dateChooser.getDate();
-				Supplier supplier = (Supplier) supplierController.getObject((String) cmbSupplier.getSelectedItem());// dev
-				poController.addPurchaseOrder(new PurchaseOrder(selectedDate, 0,cmbClass.getSelectedItem().toString(),supplier, ""));// dev
-                                Message msg = new Message(parent, Message.SUCCESS, "Purchase Order added successfully.");
-                        } else {
+				Supplier supplier = (Supplier) supplierController
+						.getObject((String) cmbSupplier.getSelectedItem());// dev
+				poController
+						.addPurchaseOrder(new PurchaseOrder(selectedDate, 0,
+								cmbClass.getSelectedItem().toString(),
+								supplier, ""));// dev
+				Message msg = new Message(parent, Message.SUCCESS,
+						"Purchase Order added successfully.");
+			} else {
 				JOptionPane.showMessageDialog(null, "No date");
 
 			}
-			
+
 			clear();
 		}
 
 	}
-	
-	public void clear(){
+
+	public void clear() {
 		cmbSupplier.setSelectedIndex(0);
 		cmbClass.setSelectedIndex(0);
 		lblGrandValue.setText("");
@@ -253,10 +281,10 @@ public class AddPO extends JPanel implements ActionListener, Observer {
 				table.getModel().setValueAt(null, i, j);
 			}
 		}
-		
+
 		poTableModel.setRowCount(0);
 		poController.init();
-		
+
 	}
 
 	public boolean checkFields() {
@@ -268,15 +296,15 @@ public class AddPO extends JPanel implements ActionListener, Observer {
 
 		return isEmpty;
 	}
-        
-        public void populateSupplierNames(){
-            Iterator<Supplier> iterator = supplierController.getAll();
-            ArrayList<String> supplierNames = new ArrayList();
-            while(iterator.hasNext()){
-                supplierNames.add(iterator.next().getName());
-            }
-            cmbSupplier.setModel(new DefaultComboBoxModel(supplierNames.toArray()));
-        }
+
+	public void populateSupplierNames() {
+		Iterator<Supplier> iterator = supplierController.getAll();
+		ArrayList<String> supplierNames = new ArrayList();
+		while (iterator.hasNext()) {
+			supplierNames.add(iterator.next().getName());
+		}
+		cmbSupplier.setModel(new DefaultComboBoxModel(supplierNames.toArray()));
+	}
 
 	@Override
 	public void update() {

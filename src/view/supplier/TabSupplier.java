@@ -53,6 +53,14 @@ public class TabSupplier extends JPanel implements ActionListener{
 		cl.show(this, "edit");
 	}
 	
+	public void setView(Supplier supp){
+		Content temp=new Content.ContentBuilder().caption("View Specific Supplier").back(true).content(new ViewSpecificSupplier(gui, supp)).build();
+		temp.getBtnBack().addActionListener(this);
+		this.add(temp, "preview");
+		list.add(temp);
+		
+		cl.show(this, "preview");
+	}
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {

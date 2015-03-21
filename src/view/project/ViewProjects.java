@@ -15,6 +15,8 @@ import javax.swing.JLabel;
 import javax.swing.JComboBox;
 import javax.swing.JButton;
 
+import com.toedter.calendar.JDateChooser;
+
 import view.Button;
 
 import java.awt.Color;
@@ -28,6 +30,7 @@ public class ViewProjects extends JPanel implements ActionListener{
 	private JComboBox cmbProjects;
 	private List listAll, listEmp;
 	private JFrame parent;
+	private JDateChooser dateStart, dateEnd;
 
 	public ViewProjects(JFrame  parent) {
 		this.parent=parent;
@@ -41,33 +44,27 @@ public class ViewProjects extends JPanel implements ActionListener{
 		panContent.setLayout(sl_panContent);
 
 		JLabel lblProject = new JLabel("Project:");
+		sl_panContent.putConstraint(SpringLayout.NORTH, lblProject, 45, SpringLayout.NORTH, panContent);
 		panContent.add(lblProject);
 
 		cmbProjects = new JComboBox();
-		sl_panContent.putConstraint(SpringLayout.NORTH, cmbProjects, -3,
-				SpringLayout.NORTH, lblProject);
-		sl_panContent.putConstraint(SpringLayout.WEST, cmbProjects, 17,
-				SpringLayout.EAST, lblProject);
-		sl_panContent.putConstraint(SpringLayout.EAST, cmbProjects, -475,
-				SpringLayout.EAST, panContent);
+		sl_panContent.putConstraint(SpringLayout.SOUTH, cmbProjects, 0, SpringLayout.SOUTH, lblProject);
+		sl_panContent.putConstraint(SpringLayout.EAST, cmbProjects, -464, SpringLayout.EAST, panContent);
 		panContent.add(cmbProjects);
 		cmbProjects.setBackground(Color.WHITE);
 
 		btnAdd = new Button.ButtonBuilder().img(
 				"src/assets/mETRO/Add.png", 27, 27).build();
-		sl_panContent.putConstraint(SpringLayout.NORTH, btnAdd, -4,
-				SpringLayout.NORTH, lblProject);
+		sl_panContent.putConstraint(SpringLayout.SOUTH, btnAdd, 0,
+				SpringLayout.SOUTH, lblProject);
 		sl_panContent.putConstraint(SpringLayout.WEST, btnAdd, 6,
 				SpringLayout.EAST, cmbProjects);
 		btnAdd.addActionListener(this);
 		panContent.add(btnAdd);
 
 		JLabel lblAll = new JLabel("List of Employees:");
-		sl_panContent.putConstraint(SpringLayout.WEST, lblProject, 0,
-				SpringLayout.WEST, lblAll);
-		sl_panContent.putConstraint(SpringLayout.SOUTH, lblProject, -19,
-				SpringLayout.NORTH, lblAll);
-		sl_panContent.putConstraint(SpringLayout.NORTH, lblAll, 119,
+		sl_panContent.putConstraint(SpringLayout.WEST, lblProject, 0, SpringLayout.WEST, lblAll);
+		sl_panContent.putConstraint(SpringLayout.NORTH, lblAll, 140,
 				SpringLayout.NORTH, panContent);
 		sl_panContent.putConstraint(SpringLayout.WEST, lblAll, 109,
 				SpringLayout.WEST, panContent);
@@ -140,6 +137,8 @@ public class ViewProjects extends JPanel implements ActionListener{
 		panContent.add(lblEmp);
 
 		listEmp = new List();
+		sl_panContent.putConstraint(SpringLayout.EAST, listEmp, -249,
+				SpringLayout.EAST, panContent);
 		sl_panContent.putConstraint(SpringLayout.WEST, lblEmp, 0,
 				SpringLayout.WEST, listEmp);
 		sl_panContent.putConstraint(SpringLayout.NORTH, listEmp, 0,
@@ -148,9 +147,33 @@ public class ViewProjects extends JPanel implements ActionListener{
 				SpringLayout.EAST, btnRight);
 		sl_panContent.putConstraint(SpringLayout.SOUTH, listEmp, 350,
 				SpringLayout.NORTH, listAll);
-		sl_panContent.putConstraint(SpringLayout.EAST, listEmp, 250,
-				SpringLayout.WEST, lblEmp);
 		panContent.add(listEmp);
+		
+		JLabel lblStartDate = new JLabel("Start Date:");
+		sl_panContent.putConstraint(SpringLayout.NORTH, lblStartDate, 77, SpringLayout.NORTH, panContent);
+		sl_panContent.putConstraint(SpringLayout.SOUTH, lblProject, -15, SpringLayout.NORTH, lblStartDate);
+		sl_panContent.putConstraint(SpringLayout.WEST, lblStartDate, 0, SpringLayout.WEST, lblProject);
+		panContent.add(lblStartDate);
+		
+		JLabel lblEndDate = new JLabel("End Date:");
+		sl_panContent.putConstraint(SpringLayout.NORTH, lblEndDate, 15, SpringLayout.SOUTH, lblStartDate);
+		sl_panContent.putConstraint(SpringLayout.WEST, lblEndDate, 0, SpringLayout.WEST, lblProject);
+		panContent.add(lblEndDate);
+		
+		dateStart= new JDateChooser();
+		sl_panContent.putConstraint(SpringLayout.WEST, dateStart, 14, SpringLayout.EAST, lblStartDate);
+		sl_panContent.putConstraint(SpringLayout.EAST, dateStart, -464, SpringLayout.EAST, panContent);
+		sl_panContent.putConstraint(SpringLayout.WEST, cmbProjects, 0, SpringLayout.WEST, dateStart);
+		sl_panContent.putConstraint(SpringLayout.SOUTH, dateStart, 0, SpringLayout.SOUTH, lblStartDate);
+		dateStart.setBackground(Color.WHITE);
+		panContent.add(dateStart);
+		
+		dateEnd = new JDateChooser();
+		sl_panContent.putConstraint(SpringLayout.WEST, dateEnd, 20, SpringLayout.EAST, lblEndDate);
+		sl_panContent.putConstraint(SpringLayout.SOUTH, dateEnd, 0, SpringLayout.SOUTH, lblEndDate);
+		sl_panContent.putConstraint(SpringLayout.EAST, dateEnd, -464, SpringLayout.EAST, panContent);
+		dateEnd.setBackground(Color.WHITE);
+		panContent.add(dateEnd);
 	}
 
 	@Override

@@ -37,8 +37,10 @@ public class SupplierCellEdit extends CellEdit implements ActionListener {
 			tab.setEdit(supp);
 		}
 		else if(e.getSource()==getBtnView()){
-			System.out.println("view");
+			if(tab==null) System.out.println("ACT TAB NUUUUL");
+			tab.setView(supp);
 		}
+		
 	}
 	
 }

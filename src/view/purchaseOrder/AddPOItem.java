@@ -51,6 +51,7 @@ import view.TextFieldError;
 import controller.PurchaseOrderController;
 
 import javax.swing.JComboBox;
+import javax.swing.JCheckBox;
 
 public class AddPOItem extends PopUp implements ActionListener, FocusListener{
 	private JPanel panHeader, panCenter, panClose, panContent,panFooter,panWest,panEast, panSubmit;
@@ -64,6 +65,8 @@ public class AddPOItem extends PopUp implements ActionListener, FocusListener{
 	private JLabel lblType;
 	private JComboBox cmbType;
 	private JFrame parent;
+	private JLabel lblVat;
+	private JCheckBox checkBox;
 	
 	public AddPOItem(JFrame parent, String type, PurchaseOrderController poController) 
 	{
@@ -79,13 +82,13 @@ public class AddPOItem extends PopUp implements ActionListener, FocusListener{
 
 		panCenter.setBackground(Color.white);
 		panCenter.setLayout(new BorderLayout(0, 0));
-		panCenter.setSize(new Dimension(600,400));
-		panCenter.setPreferredSize(new Dimension(500,500));
+		panCenter.setSize(new Dimension(500,400));
+		panCenter.setPreferredSize(new Dimension(500,400));
 		
 		panContent = new JPanel();
 		panContent.setBackground(Color.white);
 		panCenter.add(panContent, BorderLayout.CENTER);
-		panContent.setLayout(new MigLayout("", "[grow][188.00,grow][][][]", "[][][][grow][][][][][][]"));
+		panContent.setLayout(new MigLayout("", "[grow][188.00,grow][][][]", "[][][][grow][][][][][][][][]"));
 		
 		lblItem = new JLabel("Item :");
 		panContent.add(lblItem, "cell 0 1,alignx left");
@@ -144,6 +147,13 @@ public class AddPOItem extends PopUp implements ActionListener, FocusListener{
 		lblAmountValue = new JLabel("0.00");
 		panContent.add(lblAmountValue, "cell 1 8");
 		
+		lblVat = new JLabel("VAT:");
+		panContent.add(lblVat, "cell 0 9");
+		
+		checkBox = new JCheckBox("");
+		checkBox.setBackground(Color.WHITE);
+		panContent.add(checkBox, "cell 1 9");
+		
 		panSubmit = new JPanel();
 		panSubmit.setBackground(Color.white);
 		panCenter.add(panSubmit, BorderLayout.SOUTH);
@@ -163,6 +173,9 @@ public class AddPOItem extends PopUp implements ActionListener, FocusListener{
 		}
 		
 		this.setVisible(true);
+		
+		this.repaint();
+		this.revalidate();
 	}
 	
 	
@@ -203,7 +216,7 @@ public class AddPOItem extends PopUp implements ActionListener, FocusListener{
 			
 
 		}
-		
+//		
 	}
 	
 	public void clearFields()

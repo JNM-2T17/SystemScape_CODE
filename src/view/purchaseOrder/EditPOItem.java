@@ -49,6 +49,7 @@ import view.JTextFieldFilter;
 import controller.PurchaseOrderController;
 
 import javax.swing.JComboBox;
+import javax.swing.JCheckBox;
 
 public class EditPOItem extends PopUp implements ActionListener, FocusListener{
 	private JPanel panHeader, panCenter, panClose, panContent,panFooter,panWest,panEast, panSubmit;
@@ -63,6 +64,8 @@ public class EditPOItem extends PopUp implements ActionListener, FocusListener{
 	private JComboBox cmbType;
 	private JFrame parent;
 	private String type;
+	private JLabel lblVat;
+	private JCheckBox checkBox;
 	
 	public EditPOItem(JFrame parent,ItemData i, PurchaseOrder po,  PurchaseOrderController poController) 
 	{
@@ -73,7 +76,7 @@ public class EditPOItem extends PopUp implements ActionListener, FocusListener{
 		this.type = po.getType();
 		
 		this.addFocusListener(this);
-		this.setUndecorated(true);
+//		this.setUndecorated(true);
 		
 		panCenter = new JPanel();
 		panCenter.setBackground(Color.white);
@@ -87,12 +90,10 @@ public class EditPOItem extends PopUp implements ActionListener, FocusListener{
 		panContent.setLayout(new MigLayout("", "[grow][188.00,grow][][][]", "[][][][grow][][][][][][]"));
 		
 		lblItem = new JLabel("Item :");
-		lblItem.setFont(new Font("Arial", Font.PLAIN, 18));
 		panContent.add(lblItem, "cell 0 1,alignx left");
 		
 		/***set selected item name to edit****/
 		txtItem = new JTextField(i.getName());
-		txtItem.setFont(new Font("Arial", Font.PLAIN, 18));
 		txtItem.setColumns(10);
 		panContent.add(txtItem, "cell 1 1,growx");
 		txtItem.addFocusListener( new FocusListener() {
@@ -112,7 +113,6 @@ public class EditPOItem extends PopUp implements ActionListener, FocusListener{
 
 		
 		lblDescription = new JLabel("Item Description :");
-		lblDescription.setFont(new Font("Arial", Font.PLAIN, 18));
 		panContent.add(lblDescription, "cell 0 2,alignx left");
 		
 		scrollPane = new JScrollPane();
@@ -139,20 +139,17 @@ public class EditPOItem extends PopUp implements ActionListener, FocusListener{
 
 		
 		lblType = new JLabel("Type:");
-		lblType.setFont(new Font("Arial", Font.PLAIN, 18));
 		panContent.add(lblType, "cell 0 5,alignx left");
 		
 		/**have a query to set the classification of an item given the item data and the purchase order
 		  the  item belongs to**/
 		String[] types={"IT Asset", "Non-IT Asset"};
 		cmbType = new JComboBox(types);
-		cmbType.setFont(new Font("Arial", Font.PLAIN, 18));
 		cmbType.setPreferredSize(new Dimension(185, 32));
 		cmbType.setBackground(Color.WHITE);
 		panContent.add(cmbType, "cell 1 5,alignx left");
 		
 		lblQuantity = new JLabel("Quantity :");
-		lblQuantity.setFont(new Font("Arial", Font.PLAIN, 18));
 		panContent.add(lblQuantity, "cell 0 6,alignx left");
 		
 		/***set the item quantity***/
@@ -178,7 +175,6 @@ public class EditPOItem extends PopUp implements ActionListener, FocusListener{
 		
 		
 		lblPrice = new JLabel("Unit Price :");
-		lblPrice.setFont(new Font("Arial", Font.PLAIN, 18));
 		panContent.add(lblPrice, "cell 0 7");
 	
 		/***set the unit price of the item****/
@@ -205,13 +201,18 @@ public class EditPOItem extends PopUp implements ActionListener, FocusListener{
 
 		
 		lblAmount = new JLabel("Amount :");
-		lblAmount.setFont(new Font("Arial", Font.PLAIN, 18));
 		panContent.add(lblAmount, "cell 0 8");
 		
 		/***set the total amount of the item****/
 		lblAmountValue = new JLabel(String.valueOf(po.computeTotal(i)));
-		lblAmountValue.setFont(new Font("Arial", Font.PLAIN, 18));
 		panContent.add(lblAmountValue, "cell 1 8");
+		
+		lblVat = new JLabel("VAT:");
+		panContent.add(lblVat, "cell 0 9");
+		
+		checkBox = new JCheckBox("");
+		checkBox.setBackground(Color.WHITE);
+		panContent.add(checkBox, "cell 1 9");
 		
 		panSubmit = new JPanel();
 		panSubmit.setBackground(Color.white);

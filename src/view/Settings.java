@@ -55,16 +55,18 @@ public class Settings extends PopUp implements ActionListener {
 		btnChangePassword = new JButton("Change Password");
 		btnChangePassword.setFont(new Font("Arial", Font.PLAIN, 16));
 		btnChangePassword.addActionListener(this);
-		btnChangePassword.setPreferredSize(new Dimension(150,30));
-		btnChangePassword.setBorder(BorderFactory.createLineBorder(new Color(32, 130, 213), 1));
+		btnChangePassword.setPreferredSize(new Dimension(150, 30));
+		btnChangePassword.setBorder(BorderFactory.createLineBorder(new Color(
+				32, 130, 213), 1));
 		btnChangePassword.setBackground(Color.white);
 		panTabs.add(btnChangePassword);
 
 		btnNotificationSettings = new JButton("Notification Settings");
 		btnNotificationSettings.setFont(new Font("Arial", Font.PLAIN, 16));
-		btnNotificationSettings.setPreferredSize(new Dimension(150,30));
+		btnNotificationSettings.setPreferredSize(new Dimension(150, 30));
 		btnNotificationSettings.addActionListener(this);
-		btnNotificationSettings.setBorder(BorderFactory.createLineBorder(new Color(32, 130, 213), 1));
+		btnNotificationSettings.setBorder(BorderFactory.createLineBorder(
+				new Color(32, 130, 213), 1));
 		btnNotificationSettings.setBackground(Color.white);
 		panTabs.add(btnNotificationSettings);
 
@@ -184,7 +186,7 @@ public class Settings extends PopUp implements ActionListener {
 		panel.add(spnWarranty);
 
 		spnContract = new JSpinner();
-		spnWarranty.setValue(2);
+		spnContract.setValue(2);
 		sl_panel.putConstraint(SpringLayout.NORTH, spnContract, -3,
 				SpringLayout.NORTH, lblContractDuration);
 		sl_panel.putConstraint(SpringLayout.WEST, spnContract, 22,
@@ -195,6 +197,7 @@ public class Settings extends PopUp implements ActionListener {
 
 		String[] opt = { "Days", "Weeks", "Months" };
 		cmbWarranty = new JComboBox(opt);
+		cmbWarranty.setSelectedIndex(1);
 		cmbWarranty.setBackground(Color.white);
 		sl_panel.putConstraint(SpringLayout.NORTH, cmbWarranty, -3,
 				SpringLayout.NORTH, lblWarrantyDuration);
@@ -205,6 +208,7 @@ public class Settings extends PopUp implements ActionListener {
 		panel.add(cmbWarranty);
 
 		cmbContract = new JComboBox(opt);
+		cmbContract.setSelectedIndex(1);
 		cmbContract.setBackground(Color.white);
 		sl_panel.putConstraint(SpringLayout.NORTH, cmbContract, -3,
 				SpringLayout.NORTH, lblContractDuration);
@@ -227,7 +231,7 @@ public class Settings extends PopUp implements ActionListener {
 		getClose().addActionListener(this);
 		setContent(panMain);
 		//
-		
+
 		btnNotificationSettings.setBackground(Color.LIGHT_GRAY);
 		cl.show(panCenter, "pass");
 		this.setVisible(true);
@@ -246,7 +250,7 @@ public class Settings extends PopUp implements ActionListener {
 			cl.show(panCenter, "notif");
 			btnNotificationSettings.setBackground(Color.white);
 			btnChangePassword.setBackground(Color.LIGHT_GRAY);
-			
+
 		} else {
 			this.dispose();
 		}

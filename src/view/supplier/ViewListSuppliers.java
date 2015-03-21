@@ -1,5 +1,8 @@
 package view.supplier;
 
+import javax.swing.JFrame;
+
+import model.Supplier;
 import view.Observer;
 import view.ViewSpecificTemplate;
 import view.purchaseOrder.ViewSpecificPO;
@@ -7,10 +10,13 @@ import view.purchaseOrder.ViewSpecificPO;
 public class ViewListSuppliers extends ViewSpecificTemplate implements Observer{
 	
 	private ViewSpecificSupplier viewSpecific;
-	public ViewListSuppliers()
+	private JFrame frame;
+	private Supplier supp;
+	public ViewListSuppliers(JFrame frame, Supplier supp)
 	{
 		super();
-		viewSpecific = new ViewSpecificSupplier();
+		
+		viewSpecific = new ViewSpecificSupplier(frame, supp);
 		setContentPanel(viewSpecific);
 	}
 	
