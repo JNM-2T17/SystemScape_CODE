@@ -50,6 +50,11 @@ public class InventoryItemController implements InventoryItemInterface, Subject 
         notifyObserver();
     }
 
+    public void editInventoryItem(InventoryItem inventoryItem, String origKey){
+	dao.update("InventoryItem", inventoryItem, origKey);
+	notifyObserver();
+    }
+
     public Iterator getAll() {
         return dao.get("InventoryItem");
     }
