@@ -207,11 +207,7 @@ public class PanelRegistry implements PanelRegistration {
 					.addClassification("Others").build();
 			inventoryItem = general;
 		}
-		if(isAdd)
-			InventoryItemController.getInstance().addInventoryItem(inventoryItem);
-		else
-			InventoryItemController.getInstance().editInventoryItem(inventoryItem, inventoryItem.getName());
-		tabInventory.revertToMain();
+		 	
 
 	}
 
@@ -411,6 +407,16 @@ public class PanelRegistry implements PanelRegistration {
 		{
 			participantList.clear();
 		}
+	}
+	
+	public void setToAddMode()
+	{
+		isAdd = true;
+	}
+	
+	public void setToEditMode()
+	{
+		isAdd = false;
 	}
 
 	public static PanelRegistry getInstance() {

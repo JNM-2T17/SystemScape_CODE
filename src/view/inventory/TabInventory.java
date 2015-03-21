@@ -68,6 +68,7 @@ public class TabInventory extends JPanel implements ActionListener{
 	 * @param ii
 	 */
 	public void setEdit(InventoryItem ii){
+		PanelRegistry.getInstance().setToEditMode();
 		PanelRegistry.getInstance().setEditToCurrentSet(ii);
 	}
 	
@@ -75,6 +76,7 @@ public class TabInventory extends JPanel implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		if(((JButton) e.getSource()).getActionCommand().equals("add")){
+			PanelRegistry.getInstance().setToAddMode();
 			cl.show(this, "add");
 		}
 		else if(((JButton) e.getSource()).getActionCommand().equals("filter")){
