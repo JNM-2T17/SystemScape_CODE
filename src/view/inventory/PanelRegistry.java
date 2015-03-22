@@ -181,6 +181,7 @@ public class PanelRegistry implements PanelRegistration {
 					.addLocation(generalInfo.get(4).toString())
 					.addStatus(generalInfo.get(5).toString()) 
 					.addClassification("Non-IT").build();
+					
 			inventoryItem = nonItAsset;
 		} else if (type.equals("Software")) {
 
@@ -208,8 +209,20 @@ public class PanelRegistry implements PanelRegistration {
 			inventoryItem = general;
 		}
 		 	
+		System.out.println(inventoryItem.getID());
+		System.out.println(inventoryItem.getName());
+		System.out.println(inventoryItem.getDescription());
+		System.out.println(inventoryItem.getUnitPrice());
+		System.out.println(inventoryItem.getStatus());
+		System.out.println(inventoryItem.getLocation());
+		System.out.println(inventoryItem.getInvoiceNo());
+		
+		
 		if(isAdd) InventoryItemController.getInstance().addInventoryItem(inventoryItem);
 		else InventoryItemController.getInstance().editInventoryItem(inventoryItem, inventoryItem.getName());
+		
+		tabInventory.revertToMain();
+		tabInventory.updateUI();
 	}
 
 	/**
@@ -264,6 +277,7 @@ public class PanelRegistry implements PanelRegistration {
 			
 			participantList.get(0).loadPresets(
 					ItemStorageGenInfo.getInstance()
+					.saveID(inventoryItem.getID())
 					.saveName(inventoryItem.getName())
 					.saveDescription(inventoryItem.getDescription())
 					.saveUnitPrice(inventoryItem.getUnitPrice())
@@ -294,6 +308,7 @@ public class PanelRegistry implements PanelRegistration {
 			
 			
 			/** TEMPORARY FIX **/
+			System.out.println("ASDASD" + ((ITAsset) inventoryItem).getWarrantyStartDate());
 			((ItemTileWarranty)participantList.get(2)).setWarrantyStartDate(((ITAsset) inventoryItem).getWarrantyStartDate());
 			((ItemTileWarranty)participantList.get(2)).setWarrantyEndDate(((ITAsset) inventoryItem).getWarrantyEndDate());
 			
@@ -319,6 +334,7 @@ public class PanelRegistry implements PanelRegistration {
 			InventoryItem inventoryItem = (NonITAsset) object;
 			participantList.get(0).loadPresets(
 					ItemStorageGenInfo.getInstance()
+					.saveID(inventoryItem.getID())
 					.saveName(inventoryItem.getName())
 					.saveDescription(inventoryItem.getDescription())
 					.saveUnitPrice(inventoryItem.getUnitPrice())
@@ -339,6 +355,7 @@ public class PanelRegistry implements PanelRegistration {
 			InventoryItem inventoryItem = (SoftwareItem) object;
 			participantList.get(0).loadPresets(
 					ItemStorageGenInfo.getInstance()
+					.saveID(inventoryItem.getID())
 					.saveName(inventoryItem.getName())
 					.saveDescription(inventoryItem.getDescription())
 					.saveUnitPrice(inventoryItem.getUnitPrice())
@@ -368,6 +385,7 @@ public class PanelRegistry implements PanelRegistration {
 			InventoryItem inventoryItem = (InventoryItem) object;
 			participantList.get(0).loadPresets(
 					ItemStorageGenInfo.getInstance()
+					.saveID(inventoryItem.getID())
 					.saveName(inventoryItem.getName())
 					.saveDescription(inventoryItem.getDescription())
 					.saveUnitPrice(inventoryItem.getUnitPrice())

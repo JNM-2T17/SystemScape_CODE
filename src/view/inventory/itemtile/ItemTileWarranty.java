@@ -112,6 +112,7 @@ public class ItemTileWarranty extends ItemPanelDecorator implements ItemPanelPar
 	public void setWarrantyStartDate(Date date)
 	{
 		startWarrantyDate.setDate(date);
+		System.out.println("Date Retrieved");
 	}
 	
 	/**

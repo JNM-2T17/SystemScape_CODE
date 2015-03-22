@@ -40,14 +40,18 @@ public class TabInventory extends JPanel implements ActionListener{
 	private ItemTileWarranty itemTileWarranty;
 	private ItemTileContract itemTileContract;
 	private ItemTileSoftware itemTileSoftware;
+	private PanelRegistry panelRegistry;
+	private ViewInventory viewInventory;
 	
 	public TabInventory(Gui gui) {
+		panelRegistry = PanelRegistry.getInstance();
 		cl=new CardLayout();
 		list=new ArrayList<Content>();
 		this.gui=gui;
-		PanelRegistry.getInstance().setTabInventory(this);
+		panelRegistry.setTabInventory(this);
 		this.setBackground(Color.WHITE);
 		setLayout(cl);
+		
 		Content temp=new Content.ContentBuilder().caption("View Inventory").add(true).filter(true).export(true).content(new ViewInventory(this)).build();
 		temp.getBtnAdd().addActionListener(this);
 		temp.getBtnFilter().addActionListener(this);
@@ -68,15 +72,19 @@ public class TabInventory extends JPanel implements ActionListener{
 	 * @param ii
 	 */
 	public void setEdit(InventoryItem ii){
-		PanelRegistry.getInstance().setToEditMode();
-		PanelRegistry.getInstance().setEditToCurrentSet(ii);
+		panelRegistry.setToEditMode();
+		panelRegistry.setEditToCurrentSet(ii);
 	}
 	
+	public void updateView()
+	{
+		
+	}
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		if(((JButton) e.getSource()).getActionCommand().equals("add")){
-			PanelRegistry.getInstance().setToAddMode();
+			panelRegistry.setToAddMode();
 			cl.show(this, "add");
 		}
 		else if(((JButton) e.getSource()).getActionCommand().equals("filter")){
@@ -100,7 +108,7 @@ public class TabInventory extends JPanel implements ActionListener{
 		{
 			remove(temp);
 		}
-		PanelRegistry.getInstance().clearParticipants();
+		panelRegistry.clearParticipants();
 		BasicAddItem template = new BasicAddItem();
 		itemTileContract = new ItemTileContract(gui, template);
 		itemTileWarranty = new ItemTileWarranty(gui, itemTileContract);
@@ -109,10 +117,10 @@ public class TabInventory extends JPanel implements ActionListener{
 		ItemPanelDecorator dec = itemTileGenInfo;
 		
 
-		PanelRegistry.getInstance().registerParticipant(itemTileGenInfo);
-		PanelRegistry.getInstance().registerParticipant(itemTileIT);
-		PanelRegistry.getInstance().registerParticipant(itemTileWarranty);
-		PanelRegistry.getInstance().registerParticipant(itemTileContract);
+		panelRegistry.registerParticipant(itemTileGenInfo);
+		panelRegistry.registerParticipant(itemTileIT);
+		panelRegistry.registerParticipant(itemTileWarranty);
+		panelRegistry.registerParticipant(itemTileContract);
 		
 		
 		dec.renderPanel();
@@ -138,7 +146,7 @@ public class TabInventory extends JPanel implements ActionListener{
 		{
 			remove(temp);
 		}
-		PanelRegistry.getInstance().clearParticipants();
+		panelRegistry.clearParticipants();
 		BasicAddItem template = new BasicAddItem();
 		itemTileContract = new ItemTileContract(gui, template);
 		itemTileWarranty = new ItemTileWarranty(gui, itemTileContract);
@@ -147,10 +155,10 @@ public class TabInventory extends JPanel implements ActionListener{
 		ItemPanelDecorator dec = itemTileGenInfo;
 		
 
-		PanelRegistry.getInstance().registerParticipant(itemTileGenInfo);
-		PanelRegistry.getInstance().registerParticipant(itemTileIT);
-		PanelRegistry.getInstance().registerParticipant(itemTileWarranty);
-		PanelRegistry.getInstance().registerParticipant(itemTileContract);
+		panelRegistry.registerParticipant(itemTileGenInfo);
+		panelRegistry.registerParticipant(itemTileIT);
+		panelRegistry.registerParticipant(itemTileWarranty);
+		panelRegistry.registerParticipant(itemTileContract);
 		
 		
 		dec.renderPanel();
@@ -173,7 +181,7 @@ public class TabInventory extends JPanel implements ActionListener{
 		{
 			remove(temp);
 		}
-		PanelRegistry.getInstance().clearParticipants();
+		panelRegistry.clearParticipants();
 		BasicAddItem template = new BasicAddItem();
 		itemTileContract = new ItemTileContract(gui, template);
 		itemTileWarranty = new ItemTileWarranty(gui, itemTileContract);
@@ -182,10 +190,10 @@ public class TabInventory extends JPanel implements ActionListener{
 		ItemPanelDecorator dec = itemTileGenInfo;
 		
 
-		PanelRegistry.getInstance().registerParticipant(itemTileGenInfo);
-		PanelRegistry.getInstance().registerParticipant(itemTileNonIT);
-		PanelRegistry.getInstance().registerParticipant(itemTileWarranty);
-		PanelRegistry.getInstance().registerParticipant(itemTileContract);
+		panelRegistry.registerParticipant(itemTileGenInfo);
+		panelRegistry.registerParticipant(itemTileNonIT);
+		panelRegistry.registerParticipant(itemTileWarranty);
+		panelRegistry.registerParticipant(itemTileContract);
 		
 		
 		dec.renderPanel();
@@ -209,14 +217,14 @@ public class TabInventory extends JPanel implements ActionListener{
 		if(temp != null) {
 			remove(temp);
 		}
-		PanelRegistry.getInstance().clearParticipants();
+		panelRegistry.clearParticipants();
 		BasicAddItem template = new BasicAddItem();
 		itemTileSoftware = new ItemTileSoftware(gui, template);
 		itemTileGenInfo = new ItemTileGenInfo(gui, itemTileSoftware);
 		ItemPanelDecorator dec = itemTileGenInfo;		
 
-		PanelRegistry.getInstance().registerParticipant(itemTileGenInfo);
-		PanelRegistry.getInstance().registerParticipant(itemTileSoftware);
+		panelRegistry.registerParticipant(itemTileGenInfo);
+		panelRegistry.registerParticipant(itemTileSoftware);
 		
 		dec.renderPanel();
 		dec.repaint();
@@ -239,7 +247,7 @@ public class TabInventory extends JPanel implements ActionListener{
 		{
 			remove(temp);
 		}
-		PanelRegistry.getInstance().clearParticipants();
+		panelRegistry.clearParticipants();
 		BasicAddItem template = new BasicAddItem();
 		itemTileWarranty = new ItemTileWarranty(gui, template);
 		itemTileGeneral = new ItemTileGeneral(gui, template);
@@ -247,8 +255,8 @@ public class TabInventory extends JPanel implements ActionListener{
 		ItemPanelDecorator dec = itemTileGenInfo;
 		
 
-		PanelRegistry.getInstance().registerParticipant(itemTileGenInfo);
-		PanelRegistry.getInstance().registerParticipant(itemTileGeneral);
+		panelRegistry.registerParticipant(itemTileGenInfo);
+		panelRegistry.registerParticipant(itemTileGeneral);
 		dec.renderPanel();
 		dec.repaint();
 		dec.revalidate();

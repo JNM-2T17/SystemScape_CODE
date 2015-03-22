@@ -8,6 +8,7 @@ public class ItemStorageGenInfo implements ItemStorage{
 	
 	private static ItemStorageGenInfo instance = null;
 	
+	private int ID;
 	private String name;
 	private String description;
 	private float unitPrice;
@@ -17,6 +18,7 @@ public class ItemStorageGenInfo implements ItemStorage{
 	
 	private ItemStorageGenInfo()
 	{
+		ID = 0;
 		name = "";
 		description = "";
 		unitPrice = 0;
@@ -36,6 +38,11 @@ public class ItemStorageGenInfo implements ItemStorage{
 	}
 	
 	
+	public ItemStorageGenInfo saveID(int ID)
+	{
+		this.ID = ID;
+		return this;
+	}
 	public ItemStorageGenInfo saveName(String name)
 	{
 		this.name = name;
@@ -70,6 +77,7 @@ public class ItemStorageGenInfo implements ItemStorage{
 	public Iterator loadList()
 	{
 		ArrayList compiledList = new ArrayList();
+		compiledList.add(ID);
 		compiledList.add(name);
 		compiledList.add(description);
 		compiledList.add(unitPrice);

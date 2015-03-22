@@ -54,6 +54,8 @@ public class ItemTileGenInfo extends ItemPanelDecorator implements ItemPanelPart
 	private JComboBox cbStatus;
 
 	private JFrame parent;
+	
+	private int currentID;
 
 	public ItemTileGenInfo(JFrame parent,
 			ItemPanelTemplate addItemPanelReference) {
@@ -185,6 +187,7 @@ public class ItemTileGenInfo extends ItemPanelDecorator implements ItemPanelPart
 	public void loadPresets(Iterator iter) {
 		// TODO Auto-generated method stub
 		
+		currentID = Integer.parseInt(iter.next().toString());
 		tfName.setText(iter.next().toString());
 		taDescription.setText(iter.next().toString());
 		tfUnitPrice.setText(iter.next().toString());
