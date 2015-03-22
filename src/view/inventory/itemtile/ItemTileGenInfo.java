@@ -55,12 +55,11 @@ public class ItemTileGenInfo extends ItemPanelDecorator implements ItemPanelPart
 
 	private JFrame parent;
 	
-	private int currentID;
+	private String currentID;
 
 	public ItemTileGenInfo(JFrame parent,
 			ItemPanelTemplate addItemPanelReference) {
 		super(addItemPanelReference);
-		currentID = 0;
 		this.parent = parent;
 		// TODO Auto-generated constructor stub
 		panGeneral = new JPanel();
@@ -143,6 +142,9 @@ public class ItemTileGenInfo extends ItemPanelDecorator implements ItemPanelPart
 	@Override
 	public Iterator retrieveInformation() {
 		// TODO Auto-generated method stub
+		
+		System.out.println("PASS" + currentID);
+		
 		ArrayList infoList = new ArrayList();
 		infoList.add(tfName.getText());
 		infoList.add(taDescription.getText());
@@ -188,7 +190,7 @@ public class ItemTileGenInfo extends ItemPanelDecorator implements ItemPanelPart
 	public void loadPresets(Iterator iter) {
 		// TODO Auto-generated method stub
 		
-		currentID = Integer.parseInt(iter.next().toString());
+		currentID = iter.next().toString();
 		tfName.setText(iter.next().toString());
 		taDescription.setText(iter.next().toString());
 		tfUnitPrice.setText(iter.next().toString());

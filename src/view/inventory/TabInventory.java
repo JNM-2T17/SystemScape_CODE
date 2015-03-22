@@ -73,6 +73,13 @@ public class TabInventory extends JPanel implements ActionListener{
 	 */
 	public void setEdit(InventoryItem ii){
 		panelRegistry.setToEditMode();
+		System.out.println(ii.getID());
+		System.out.println(ii.getName());
+		System.out.println(ii.getDescription());
+		System.out.println(ii.getUnitPrice());
+		System.out.println(ii.getStatus());
+		System.out.println(ii.getLocation());
+		System.out.println(ii.getInvoiceNo());
 		panelRegistry.setEditToCurrentSet(ii);
 	}
 	
