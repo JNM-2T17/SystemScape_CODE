@@ -256,20 +256,6 @@ public class ViewSpecificPO extends JPanel {
 		while (data.hasNext()) {
 			item = (ItemData) data.next();
 
-			/*** set table renderers and editors ***/
-			table.getColumnModel()
-					.getColumn(table.getColumnCount() - 1)
-					.setCellRenderer(new POItemCellEdit(new JCheckBox(), parent, item,po, poController));
-			table.getColumnModel()
-					.getColumn(table.getColumnCount() - 1)
-					.setCellEditor(new POItemCellEdit(new JCheckBox(), parent, item,po, poController));
-			table.getColumnModel()
-					.getColumn(table.getColumnCount() - 2)
-					.setCellRenderer(new POItemCellDelivered(new JCheckBox(), parent, item, po,poController));
-			table.getColumnModel()
-					.getColumn(table.getColumnCount() - 2)
-					.setCellEditor(new POItemCellDelivered(new JCheckBox(), parent, item, po,poController));
-
 			/*** populate the table ***/
 			model.setRowCount(model.getRowCount() + 1);
 			model.setValueAt(item.getName(), model.getRowCount() - 1, 0);
@@ -286,12 +272,12 @@ public class ViewSpecificPO extends JPanel {
 
 	/** initialize the table model **/
 	public void initializeModel() {
-		model.setColumnCount(8);
+		model.setColumnCount(6);
 		DefaultTableCellRenderer rightRenderer = new DefaultTableCellRenderer();
 		rightRenderer.setHorizontalAlignment(JLabel.RIGHT);
 
 		String headers[] = { "Item", "Description", "Quantity", "Unit Price",
-							 "Amount","Quantity Received",};
+							 "Amount","Quantity Received"};
 		model.setColumnIdentifiers(headers);
 //		table.getColumnModel().getColumn(0).setPreferredWidth(100);
 //		table.getColumnModel().getColumn(1).setPreferredWidth(100);
