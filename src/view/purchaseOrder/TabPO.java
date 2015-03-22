@@ -10,12 +10,15 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import controller.PurchaseOrderController;
+import controller.SupplierController;
 import model.PurchaseOrder;
 import model.Supplier;
 import view.Content;
 import view.Gui;
 import view.Content.ContentBuilder;
 import view.supplier.EditSupplier;
+import view.supplier.ViewListSuppliers;
 
 
 public class TabPO extends JPanel implements ActionListener{
@@ -76,6 +79,21 @@ public class TabPO extends JPanel implements ActionListener{
 		else if(((JButton) e.getSource()).getActionCommand().equals("back")){
 			cl.show(this, "view");
 		}
+	}
+
+	public void setReturn() {
+		// TODO Auto-generated method stub
+		cl.show(this, "view");
+	}
+
+	public void setView(PurchaseOrder po) {
+		// TODO Auto-generated method stub
+		Content temp=new Content.ContentBuilder().caption("View Specific Supplier").back(true).content(new ViewListPO(this, gui, PurchaseOrderController.getInstance().getAll(), po)).build();
+		temp.getBtnBack().addActionListener(this);
+		this.add(temp, "preview");
+		list.add(temp);
+		
+		cl.show(this, "preview");
 	}
 	
 }

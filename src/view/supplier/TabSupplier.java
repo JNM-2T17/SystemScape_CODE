@@ -5,6 +5,7 @@ import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
+import controller.SupplierController;
 import model.Supplier;
 import view.Content;
 import view.Gui;
@@ -54,12 +55,17 @@ public class TabSupplier extends JPanel implements ActionListener{
 	}
 	
 	public void setView(Supplier supp){
-		Content temp=new Content.ContentBuilder().caption("View Specific Supplier").back(true).content(new ViewSpecificSupplier(gui, supp)).build();
+		
+		Content temp=new Content.ContentBuilder().caption("View Specific Supplier").back(true).content(new ViewListSuppliers(this, gui, SupplierController.getInstance().getAll(), supp)).build();
 		temp.getBtnBack().addActionListener(this);
 		this.add(temp, "preview");
 		list.add(temp);
 		
 		cl.show(this, "preview");
+	}
+	
+	public void setReturn(){
+		cl.show(this, "view");
 	}
 	
 	@Override

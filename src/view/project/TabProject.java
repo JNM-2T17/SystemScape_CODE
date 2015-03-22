@@ -73,6 +73,10 @@ public class TabProject extends JPanel implements ActionListener{
 			cl.show(this, "view");
 		}
 	}
+
+	public void setReturn() {
+		cl.show(this, "view");
+	}
 	
 
 
