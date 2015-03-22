@@ -10,7 +10,7 @@ import model.PurchaseOrder;
 import view.Button;
 
 
-public class POCellRendEdit extends JPanel implements ActionListener {
+public class POCellEdit extends JPanel implements ActionListener {
 	private JButton edit;
 	private JButton view;
 	private JButton export;
@@ -20,7 +20,7 @@ public class POCellRendEdit extends JPanel implements ActionListener {
 	
 	private JFrame parent;
 	
-	public POCellRendEdit(JFrame parent, PurchaseOrder po, TabPO tab){
+	public POCellEdit(JFrame parent, PurchaseOrder po, TabPO tab){
 		this.parent=parent;
 		edit=new Button.ButtonBuilder().img("src/assets/Round/Note2.png", 30,
 				30).build();
@@ -59,7 +59,7 @@ public class POCellRendEdit extends JPanel implements ActionListener {
 			tab.setEdit(po);
 		}
 		else if(e.getSource()==getBtnView()){
-			System.out.println("view");
+			tab.setView(po);
 		}
 		else if(e.getSource()==getBtnExport()){
 			new ExportPO(parent);

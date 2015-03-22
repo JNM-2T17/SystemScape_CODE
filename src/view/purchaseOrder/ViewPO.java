@@ -70,7 +70,7 @@ public class ViewPO extends ViewTemplate implements Observer {
 					getModel().getRowCount() - 1, 3);
 			getModel().setValueAt(purchaseOrder.computeGrandTotal(),
 					getModel().getRowCount() - 1, 4);
-			getModel().setValueAt(new POCellRendEdit(parent, purchaseOrder, tab),
+			getModel().setValueAt(new POCellEdit(parent, purchaseOrder, tab),
 					getModel().getRowCount() - 1, 5);
 		}
 		packTable();

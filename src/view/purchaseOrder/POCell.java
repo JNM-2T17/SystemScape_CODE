@@ -14,13 +14,13 @@ import javax.swing.table.TableCellRenderer;
 
 public class POCell extends AbstractCellEditor implements TableCellEditor,
 	TableCellRenderer {
-	POCellRendEdit panel;
+	POCellEdit panel;
 
 	public POCell() {
 //		panel = new CellEdit();
 	}
 
-	private void updateData(POCellRendEdit pan, boolean isSelected, JTable table) {
+	private void updateData(POCellEdit pan, boolean isSelected, JTable table) {
 		panel = pan;
 		if (isSelected) {
 			panel.setBackground(table.getSelectionBackground());
@@ -31,7 +31,7 @@ public class POCell extends AbstractCellEditor implements TableCellEditor,
 
 	public Component getTableCellEditorComponent(JTable table, Object value,
 			boolean isSelected, int row, int column) {
-		POCellRendEdit pan = (POCellRendEdit) value;
+		POCellEdit pan = (POCellEdit) value;
 		updateData(pan, true, table);
 		return panel;
 	}
@@ -42,7 +42,7 @@ public class POCell extends AbstractCellEditor implements TableCellEditor,
 
 	public Component getTableCellRendererComponent(JTable table, Object value,
 			boolean isSelected, boolean hasFocus, int row, int column) {
-		POCellRendEdit panel = (POCellRendEdit) value;
+		POCellEdit panel = (POCellEdit) value;
 		updateData(panel, isSelected, table);
 		return this.panel;
 	}
