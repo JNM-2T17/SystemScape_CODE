@@ -12,13 +12,17 @@ import java.awt.Image;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
+import javax.swing.JRootPane;
 import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.border.LineBorder;
 
@@ -200,7 +204,9 @@ public class Login extends JPanel implements ActionListener {
         panRight.setBackground(new Color(32, 130, 213));
         add(panRight, BorderLayout.EAST);
 
-        userController = UserController.getInstance();
+        userController = userController.getInstance();
+        parent.getRootPane().setDefaultButton(btnLogin);
+
 
     }
 
