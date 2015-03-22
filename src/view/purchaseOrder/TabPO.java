@@ -43,12 +43,6 @@ public class TabPO extends JPanel implements ActionListener{
 		this.add(temp, "add");
 		list.add(temp);
 		
-		temp=new Content.ContentBuilder().caption("List of Purchase Order").add(true).filter(true).content(new ViewListPO()).build();
-		temp.getBtnAdd().addActionListener(this);
-		temp.getBtnFilter().addActionListener(this);
-		this.add(temp, "listPO");
-		list.add(temp);
-		
 		cl.show(this, "view");
 	}
 	

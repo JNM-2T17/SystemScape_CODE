@@ -12,6 +12,7 @@ import java.util.Date;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -20,8 +21,10 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
+import model.ItemData;
 import model.PurchaseOrder;
 import model.Supplier;
 import view.Button;
@@ -35,6 +38,7 @@ import controller.SupplierController;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+
 import view.Message;
 
 public class AddPO extends JPanel implements ActionListener, Observer {
@@ -44,7 +48,7 @@ public class AddPO extends JPanel implements ActionListener, Observer {
 	private JButton btnAddItem, btnSubmit;
 	private JComboBox cmbSupplier, cmbClass;
 	private DefaultTableModel model;
-	private POTableModel poTableModel;
+	//private POTableModel poTableModel;
 	private JTable table;
 	private JScrollPane scrollPane;
 	private JPanel panSubmit;
@@ -70,7 +74,7 @@ public class AddPO extends JPanel implements ActionListener, Observer {
 
 		this.parent = parent;
 		poController = PurchaseOrderController.getInstance();
-		poTableModel = new POTableModel(poController);
+		//poTableModel = new POTableModel(poController);
 
 		supplierController = SupplierController.getInstance();
 
@@ -230,17 +234,57 @@ public class AddPO extends JPanel implements ActionListener, Observer {
 		scrollPane.getViewport().setBackground(Color.white);
 		scrollPane.setBackground(Color.WHITE);
 		panCenter.add(scrollPane);
+		
+		model = new DefaultTableModel() {
+			public boolean isCellEditable(int rowIndex, int mColIndex) {
+				if (mColIndex == model.getColumnCount() - 1
+						|| mColIndex == model.getColumnCount() - 2)
+					return true;
+				return false;
+			}
 
-		table = new JTable(poTableModel);
+			public boolean isFocusable(int rowIndex, int mColIndex) {
+				return false;
+			}
+
+			public boolean isCellSelectable(int rowIndex, int mColIndex) {
+				if (mColIndex == 5) {
+					System.out.println("CHECKBOX");
+					return true;
+				}
+				return false;
+			}
+		};
+		table = new JTable(model);
 		scrollPane.setViewportView(table);
 		table.setCellSelectionEnabled(false);
 		table.getTableHeader().setReorderingAllowed(false);
 		table.setRowHeight(55);
-		table.getColumnModel().getColumn(2).setPreferredWidth(20);
-
+		initializeModel();
+		
 		supplierController.registerObserver(this);// dev
 		poController.registerObserver(this);
 
+	}
+	
+	/** initialize the table model **/
+	public void initializeModel() {
+		model.setColumnCount(5);
+		DefaultTableCellRenderer rightRenderer = new DefaultTableCellRenderer();
+		rightRenderer.setHorizontalAlignment(JLabel.RIGHT);
+
+		String headers[] = { "Item", "Description", "Quantity", "Unit Price","Amount" };
+		model.setColumnIdentifiers(headers);
+		table.getColumnModel().getColumn(0).setPreferredWidth(100);
+		table.getColumnModel().getColumn(1).setPreferredWidth(100);
+		table.getColumnModel().getColumn(2).setPreferredWidth(100);
+		table.getColumnModel().getColumn(2).setCellRenderer(rightRenderer);
+
+		table.getColumnModel().getColumn(3).setPreferredWidth(100);
+		table.getColumnModel().getColumn(3).setCellRenderer(rightRenderer);
+
+		table.getColumnModel().getColumn(4).setPreferredWidth(100);
+		table.getColumnModel().getColumn(4).setCellRenderer(rightRenderer);
 	}
 
 	@Override
@@ -254,14 +298,10 @@ public class AddPO extends JPanel implements ActionListener, Observer {
 
 			if (checkFields() == false) {
 				selectedDate = dateChooser.getDate();
-				Supplier supplier = (Supplier) supplierController
-						.getObject((String) cmbSupplier.getSelectedItem());// dev
-				poController
-						.addPurchaseOrder(new PurchaseOrder(selectedDate, 0,
-								cmbClass.getSelectedItem().toString(),
-								supplier, ""));// dev
-				Message msg = new Message(parent, Message.SUCCESS,
-						"Purchase Order added successfully.");
+				Supplier supplier = (Supplier) supplierController.getObject((String) cmbSupplier.getSelectedItem());// dev
+				poController.addPurchaseOrder(new PurchaseOrder(selectedDate, 0,
+								cmbClass.getSelectedItem().toString(),supplier, ""));// dev
+				Message msg = new Message(parent, Message.SUCCESS,"Purchase Order added successfully.");
 			} else {
 				JOptionPane.showMessageDialog(null, "No date");
 
@@ -277,17 +317,21 @@ public class AddPO extends JPanel implements ActionListener, Observer {
 		cmbClass.setSelectedIndex(0);
 		lblGrandValue.setText("");
 		dateChooser.setDate(new Date());
+		clearTable();
+		poController.init();
+
+	}
+	public void clearTable()
+	{
 		for (int i = 0; i < table.getModel().getRowCount(); i++) {
 			for (int j = 0; j < table.getModel().getRowCount(); j++) {
 				table.getModel().setValueAt(null, i, j);
 			}
 		}
 
-		poTableModel.setRowCount(0);
-		poController.init();
-
+		//poTableModel.setRowCount(0);
+		model.setRowCount(0);
 	}
-
 	public boolean checkFields() {
 		boolean isEmpty = false;
 
@@ -310,8 +354,22 @@ public class AddPO extends JPanel implements ActionListener, Observer {
 	@Override
 	public void update() {
 		// TODO Auto-generated method stub
-		poTableModel = new POTableModel(poController);
-		table.setModel(poTableModel);
-		lblGrandValue.setText(String.valueOf(poController.computeGrandTotal()));
+		//clear();
+		clearTable();
+		PurchaseOrder po = poController.getPurchaseOrder();
+		Iterator data = poController.getPurchaseOrder().getItems();
+		ItemData item;
+		while (data.hasNext()) {
+			item = (ItemData) data.next();
+
+			/*** populate the table ***/
+			model.setRowCount(model.getRowCount() + 1);
+			model.setValueAt(item.getName(), model.getRowCount() - 1, 0);
+			model.setValueAt(item.getDescription(), model.getRowCount() - 1, 1);
+			model.setValueAt(po.getQuantity(item), model.getRowCount() - 1, 2);
+			model.setValueAt(item.getUnitPrice(), model.getRowCount() - 1, 3);
+			model.setValueAt(po.computeTotal(item), model.getRowCount() - 1, 4);
+		}
+		lblGrandValue.setText(String.valueOf(po.computeGrandTotal()));
 	}
 }

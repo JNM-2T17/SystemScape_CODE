@@ -49,7 +49,7 @@ public class EditPO extends JPanel implements ActionListener, Observer {
 	private JButton btnAddItem, btnSubmit;
 	private JComboBox cmbSupplier, cmbClass;
 	private DefaultTableModel model;
-	private POTableModel poTableModel;
+	//private POTableModel poTableModel;
 	private JTable table;
 	private JScrollPane scrollPane;
 	private JPanel panSubmit;
@@ -248,7 +248,7 @@ public class EditPO extends JPanel implements ActionListener, Observer {
 
 			public boolean isCellSelectable(int rowIndex, int mColIndex) {
 				if (mColIndex == 5) {
-					System.out.println("CHECKBOX");
+					//System.out.println("CHECKBOX");
 					return true;
 				}
 				return false;
@@ -325,7 +325,7 @@ public class EditPO extends JPanel implements ActionListener, Observer {
 			}
 		}
 
-		poTableModel.setRowCount(0);
+		//poTableModel.setRowCount(0);
 		poController.init();
 
 	}
@@ -353,26 +353,30 @@ public class EditPO extends JPanel implements ActionListener, Observer {
 
 	/** initialize the table model **/
 	public void initializeModel() {
-		model.setColumnCount(7);
+		model.setColumnCount(8);
 		DefaultTableCellRenderer rightRenderer = new DefaultTableCellRenderer();
 		rightRenderer.setHorizontalAlignment(JLabel.RIGHT);
 
 		String headers[] = { "Item", "Description", "Quantity", "Unit Price",
-				"Amount", "Delivered", "Edit" };
+							 "Amount","Quantity Received","Delivered", "Edit" };
 		model.setColumnIdentifiers(headers);
 		table.getColumnModel().getColumn(0).setPreferredWidth(100);
 		table.getColumnModel().getColumn(1).setPreferredWidth(100);
-		table.getColumnModel().getColumn(2).setPreferredWidth(100);
+		
+		table.getColumnModel().getColumn(2).setPreferredWidth(90);
 		table.getColumnModel().getColumn(2).setCellRenderer(rightRenderer);
 
-		table.getColumnModel().getColumn(3).setPreferredWidth(100);
+		table.getColumnModel().getColumn(3).setPreferredWidth(90);
 		table.getColumnModel().getColumn(3).setCellRenderer(rightRenderer);
 
-		table.getColumnModel().getColumn(4).setPreferredWidth(100);
+		table.getColumnModel().getColumn(4).setPreferredWidth(90);
 		table.getColumnModel().getColumn(4).setCellRenderer(rightRenderer);
+		
+		table.getColumnModel().getColumn(5).setPreferredWidth(90);
+		table.getColumnModel().getColumn(5).setCellRenderer(rightRenderer);
 
-		table.getColumnModel().getColumn(5).setPreferredWidth(100);
-		table.getColumnModel().getColumn(6).setPreferredWidth(100);
+		table.getColumnModel().getColumn(6).setPreferredWidth(90);
+		table.getColumnModel().getColumn(7).setPreferredWidth(90);
 
 	}
 
@@ -398,24 +402,16 @@ public class EditPO extends JPanel implements ActionListener, Observer {
 			/*** set table renderers and editors ***/
 			table.getColumnModel()
 					.getColumn(table.getColumnCount() - 1)
-					.setCellRenderer(
-							new POItemCellEdit(new JCheckBox(), parent, item,
-									po, poController));
+					.setCellRenderer(new POItemCellEdit(new JCheckBox(), parent, item,po, poController));
 			table.getColumnModel()
 					.getColumn(table.getColumnCount() - 1)
-					.setCellEditor(
-							new POItemCellEdit(new JCheckBox(), parent, item,
-									po, poController));
+					.setCellEditor(new POItemCellEdit(new JCheckBox(), parent, item,po, poController));
 			table.getColumnModel()
 					.getColumn(table.getColumnCount() - 2)
-					.setCellRenderer(
-							new POItemCheckBoxCell(new JCheckBox(), parent, po,
-									poController));
+					.setCellRenderer(new POItemCellDelivered(new JCheckBox(), parent, item, po,poController));
 			table.getColumnModel()
 					.getColumn(table.getColumnCount() - 2)
-					.setCellEditor(
-							new POItemCheckBoxCell(new JCheckBox(), parent, po,
-									poController));
+					.setCellEditor(new POItemCellDelivered(new JCheckBox(), parent, item, po,poController));
 
 			/*** populate the table ***/
 			model.setRowCount(model.getRowCount() + 1);
@@ -424,10 +420,12 @@ public class EditPO extends JPanel implements ActionListener, Observer {
 			model.setValueAt(po.getQuantity(item), model.getRowCount() - 1, 2);
 			model.setValueAt(item.getUnitPrice(), model.getRowCount() - 1, 3);
 			model.setValueAt(po.computeTotal(item), model.getRowCount() - 1, 4);
-			model.setValueAt(new POItemCheckBoxCell(new JCheckBox(), parent,
-					po, poController), model.getRowCount() - 1, 5);
+			/********DEV INSERT QUANTITY RECEIVED HERE**********/
+			model.setValueAt("QUANTITY RECEIVED", model.getRowCount() - 1, 5);
+			model.setValueAt(new POItemCellDelivered(new JCheckBox(), parent,item,
+							 po, poController), model.getRowCount() - 1, 6);
 			model.setValueAt(new POItemCellEdit(new JCheckBox(), parent, item,
-					po, poController), model.getRowCount() - 1, 6);
+							 po, poController), model.getRowCount() - 1, 7);
 		}
 		lblGrandValue.setText(String.valueOf(po.computeGrandTotal()));
 	}

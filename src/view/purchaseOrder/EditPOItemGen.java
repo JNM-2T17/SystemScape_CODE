@@ -4,65 +4,48 @@ package view.purchaseOrder;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
-import java.util.Locale;
+import java.util.Date;
 
 import javax.swing.BorderFactory;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
-import javax.swing.JFormattedTextField;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import javax.swing.ScrollPaneConstants;
 import javax.swing.border.Border;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.text.AbstractDocument;
-import javax.swing.text.DefaultFormatter;
-import javax.swing.text.NumberFormatter;
 
 import model.ItemData;
 import net.miginfocom.swing.MigLayout;
-
-import javax.swing.JScrollBar;
-
-import view.Button;
-import view.Button.ButtonBuilder;
+import view.JTextFieldFilter;
 import view.Message;
 import view.PopUp;
-import view.JTextFieldFilter;
+
+import com.toedter.calendar.JDateChooser;
+
 import controller.PurchaseOrderController;
 
-import javax.swing.JComboBox;
-
-import java.awt.FlowLayout;
-
 public class EditPOItemGen extends PopUp implements ActionListener, FocusListener{
-	private JPanel panHeader, panCenter, panClose, panContent,panFooter,panWest,panEast, panSubmit;
-	private JLabel lblQuantity;
-	private JTextField txtQuantity;
+	private JPanel panCenter,panContent,panSubmit;
+	private JLabel lblInvoice,lblDeliveryDate;
+	private JTextField txtInvoice;
 	private JButton btnSubmit;
 
 	private PurchaseOrderController poController;
+	private JLabel lblAssiginee;
+	private JComboBox cmbAssignee;
+	private JDateChooser dateChooserDelivery;
 	private JFrame parent;
 	
-	public EditPOItemGen(JFrame parent, PurchaseOrderController poController) 
+	public EditPOItemGen(JFrame parent,  PurchaseOrderController poController) 
 	{
-	
 		super(parent);
 		this.parent = parent;
 		this.poController = poController;
@@ -75,23 +58,23 @@ public class EditPOItemGen extends PopUp implements ActionListener, FocusListene
 		panCenter.setBackground(Color.white);
 		panCenter.setLayout(new BorderLayout(0, 0));
 		panCenter.setSize(new Dimension(600,400));
-		panCenter.setPreferredSize(new Dimension(500, 100));
+		panCenter.setPreferredSize(new Dimension(500, 235));
 		
 		panContent = new JPanel();
 		panContent.setBackground(Color.white);
 		panCenter.add(panContent, BorderLayout.CENTER);
-		panContent.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		panContent.setLayout(new MigLayout("", "[grow][188.00,grow][][][]", "[][][45.00][37.00][][][-44.00]"));
 		
-		lblQuantity = new JLabel("Quantity :");
-		panContent.add(lblQuantity);
-		lblQuantity.setFont(new Font("Arial", Font.PLAIN, 18));
+		lblInvoice = new JLabel("Invoice #:");
+		lblInvoice.setFont(new Font("Arial", Font.PLAIN, 18));
+		panContent.add(lblInvoice, "cell 0 1,alignx left");
 		
-		txtQuantity = new JTextField();
-		txtQuantity.setPreferredSize(new Dimension(10, 25));
-		txtQuantity.setColumns(10);
-		panContent.add(txtQuantity);
-		txtQuantity.setDocument(new JTextFieldFilter(JTextFieldFilter.NUMERIC));
-		txtQuantity.addFocusListener( new FocusListener() {
+		txtInvoice = new JTextField();
+		txtInvoice.setFont(new Font("Arial", Font.PLAIN, 18));
+		panContent.add(txtInvoice, "cell 1 1,growx");
+		txtInvoice.setColumns(10);
+		txtInvoice.setDocument(new JTextFieldFilter(JTextFieldFilter.NUMERIC));
+		txtInvoice.addFocusListener( new FocusListener() {
 			Border border = BorderFactory.createLineBorder(Color.BLACK, 1);
 			@Override
 			public void focusLost(FocusEvent e) {
@@ -100,12 +83,33 @@ public class EditPOItemGen extends PopUp implements ActionListener, FocusListene
 			
 			@Override
 			public void focusGained(FocusEvent e) {
-				txtQuantity.setBorder(border);
+				txtInvoice.setBorder(border);
 			}
 		});
 		
 		
+		lblDeliveryDate = new JLabel("Delivery Date :");
+		lblDeliveryDate.setFont(new Font("Arial", Font.PLAIN, 18));
+		panContent.add(lblDeliveryDate, "cell 0 2,alignx left");
+		
+		dateChooserDelivery = new JDateChooser();
+		dateChooserDelivery.setDate(new Date());
+		dateChooserDelivery.setDateFormatString("yyyy-MM-dd");
+		dateChooserDelivery.setFont(new Font("Arial", Font.PLAIN, 18));
+		panContent.add(dateChooserDelivery, "cell 1 2,growx");
+		
+		
 		String[] types={"IT Asset", "Non-IT Asset"};
+		
+		lblAssiginee = new JLabel("Assginee :");
+		lblAssiginee.setFont(new Font("Arial", Font.PLAIN, 18));
+		panContent.add(lblAssiginee, "cell 0 3,alignx left");
+		cmbAssignee = new JComboBox(types);
+		cmbAssignee.setModel(new DefaultComboBoxModel(new String[] {"none"}));
+		cmbAssignee.setFont(new Font("Arial", Font.PLAIN, 18));
+		cmbAssignee.setPreferredSize(new Dimension(185, 32));
+		cmbAssignee.setBackground(Color.WHITE);
+		panContent.add(cmbAssignee, "cell 1 3,alignx left");
 		
 		panSubmit = new JPanel();
 		panSubmit.setBackground(Color.white);
@@ -117,12 +121,25 @@ public class EditPOItemGen extends PopUp implements ActionListener, FocusListene
 		btnSubmit.setForeground(Color.WHITE);
 		btnSubmit.setBackground(new Color(32, 130, 213));
 		panSubmit.add(btnSubmit);
-	
+		
+		setContent(panCenter);
+		getClose().addActionListener(this);
+		
 		this.setVisible(true);
 	}
-	
-	
 
+	public String checkFields()
+	{
+		String error = "";
+		Border border = BorderFactory.createLineBorder(Color.RED, 2);
+	
+		if(txtInvoice.getText().equals("")){
+			error+= "Invoice Number Field is empty \n";
+			txtInvoice.setBorder(border);
+		}
+
+		return error;
+	}
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
@@ -136,13 +153,13 @@ public class EditPOItemGen extends PopUp implements ActionListener, FocusListene
 		{
 			
 			String error = checkFields();
+				
 			if(error.equals("") == true)
 			{
-				/***insert code statements here to add the information of a general item***/
-				
+
+				/***insert code statements here to add the information of a software item***/
 				this.setVisible(false); 
 				this.dispose();
-				
 			}
 			else if(error.equals("") == false)
 			{
@@ -152,15 +169,16 @@ public class EditPOItemGen extends PopUp implements ActionListener, FocusListene
 			{
 				clearFields();
 			}
-			
-
 		}
-		
+
 	}
+		
+	
 	
 	public void clearFields()
 	{
-		txtQuantity.setText("");
+		txtInvoice.setText("");
+		cmbAssignee.setSelectedIndex(0);
 	}
 
 	/****parse string to integer******/
@@ -178,32 +196,17 @@ public class EditPOItemGen extends PopUp implements ActionListener, FocusListene
 			return  Float.parseFloat(price);
 		return 0.0;
 	}
-	public String checkFields()
-	{
-		String error = "";
-		Border border = BorderFactory.createLineBorder(Color.RED, 2);
-		if(txtQuantity.getText().equals("")){
-			error+= "Quantity Field is empty \n";
-			txtQuantity.setBorder(border);
-		}
-		
-		return error;
-	}
-
-
-
-	@Override
-	public void focusGained(FocusEvent arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-
-
-
-	@Override
-	public void focusLost(FocusEvent arg0) {
-		// TODO Auto-generated method stub
-		
-	}
 	
+	@Override
+	public void focusGained(FocusEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void focusLost(FocusEvent e) {
+		// TODO Auto-generated method stub
+		JFrame f=(JFrame) e.getSource();
+		f.toFront();
+	}
 }

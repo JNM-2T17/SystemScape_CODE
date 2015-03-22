@@ -82,9 +82,9 @@ public class POItemCellEdit extends DefaultCellEditor implements TableCellRender
 	   
 	  public Component getTableCellRendererComponent(JTable table, Object value,
 	                   boolean isSelected, boolean hasFocus, int row, int column) {
-	    //
-//	      button.setForeground(table.getSelectionForeground());
-//	      button.setBackground(table.getSelectionBackground());
+		  
+		  button.setForeground(Color.black);
+		  button.setBackground(Color.white);
 	      this.row = row;
 
 		  String tableClick =  (table.getModel().getValueAt(this.row,0).toString());
