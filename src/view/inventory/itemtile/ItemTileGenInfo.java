@@ -60,7 +60,7 @@ public class ItemTileGenInfo extends ItemPanelDecorator implements ItemPanelPart
 	public ItemTileGenInfo(JFrame parent,
 			ItemPanelTemplate addItemPanelReference) {
 		super(addItemPanelReference);
-
+		currentID = 0;
 		this.parent = parent;
 		// TODO Auto-generated constructor stub
 		panGeneral = new JPanel();
@@ -150,6 +150,7 @@ public class ItemTileGenInfo extends ItemPanelDecorator implements ItemPanelPart
 		infoList.add(tfInvoiceNumber.getText());
 		infoList.add(cbLocation.getSelectedItem().toString());
 		infoList.add(cbStatus.getSelectedItem().toString());
+		infoList.add(currentID);
 		return infoList.iterator();
 	}
 

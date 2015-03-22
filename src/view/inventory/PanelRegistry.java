@@ -170,6 +170,10 @@ public class PanelRegistry implements PanelRegistration {
 							new Warranty(0, (Date) warrantyInfo.get(0),
 									(Date) warrantyInfo.get(1))).build();
 			inventoryItem = itAsset;
+			if(!isAdd)
+			{
+				inventoryItem.setId(Integer.parseInt(generalInfo.get(6).toString()));
+			}
 
 		} else if (type.equals("Non-IT")) {
 
@@ -183,6 +187,10 @@ public class PanelRegistry implements PanelRegistration {
 					.addClassification("Non-IT").build();
 					
 			inventoryItem = nonItAsset;
+			if(!isAdd)
+			{
+				inventoryItem.setId(Integer.parseInt(generalInfo.get(6).toString()));
+			}
 		} else if (type.equals("Software")) {
 
 			SoftwareItem software = new SoftwareItem.SoftwareBuilder()
@@ -196,8 +204,11 @@ public class PanelRegistry implements PanelRegistration {
 					.addLicenseKey(typeInfo.get(2).toString()).build();
 			
 			inventoryItem = software;
+			if(!isAdd)
+			{
+				inventoryItem.setId(Integer.parseInt(generalInfo.get(6).toString()));
+			}
 		} else if (type.equals("Others")) {
-
 			InventoryItem general = new InventoryItem.InventoryItemBuilder()
 					.addName(generalInfo.get(0).toString())
 					.addDescription(generalInfo.get(1).toString())
@@ -206,7 +217,12 @@ public class PanelRegistry implements PanelRegistration {
 					.addLocation(generalInfo.get(4).toString())
 					.addStatus(generalInfo.get(5).toString())
 					.addClassification("Others").build();
+			
 			inventoryItem = general;
+			if(!isAdd)
+			{
+				inventoryItem.setId(Integer.parseInt(generalInfo.get(6).toString()));
+			}
 		}
 		 	
 		System.out.println(inventoryItem.getID());
