@@ -23,12 +23,14 @@ import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class FilterSupplier extends PopUp implements ActionListener {
 	private SpringLayout spring;
 	private JTextField cmbCountry, cmbCity, cmbState;
 	private JTextField txtSupplier, txtContact;
 	private JButton btnFilter;
+        private JComboBox cmbContact;
 	
 	private boolean closed=true;
 
@@ -148,8 +150,9 @@ public class FilterSupplier extends PopUp implements ActionListener {
 		panContent.add(txtContact);
 		txtContact.setColumns(10);
 		
-		JComboBox cmbContact = new JComboBox();
-		cmbContact.setForeground(Color.WHITE);
+                String opt[]={"FAX", "Telephone", "Cellphone"};
+		cmbContact = new JComboBox(opt);
+		cmbContact.setForeground(Color.BLACK);
 		spring.putConstraint(SpringLayout.WEST, cmbContact, 6, SpringLayout.EAST, txtContact);
 		spring.putConstraint(SpringLayout.SOUTH, cmbContact, 0, SpringLayout.SOUTH, txtContact);
 		spring.putConstraint(SpringLayout.EAST, cmbContact, 170, SpringLayout.EAST, txtContact);
@@ -178,15 +181,17 @@ public class FilterSupplier extends PopUp implements ActionListener {
 		return closed;
 	}
 	
-	public ArrayList getValues(){
+	public Iterator getValues(){
 		ArrayList list=new ArrayList();
 		
 		list.add(txtSupplier.getText());
 		list.add(cmbCountry.getText());
 		list.add(cmbState.getText());
 		list.add(cmbCity.getText());
+                list.add(txtContact.getText());
+                list.add((String)cmbContact.getSelectedItem());
 		
-		return list;
+		return list.iterator();
 	}
 
 	@Override

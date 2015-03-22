@@ -5,7 +5,6 @@ import javax.swing.JFrame;
 import model.Supplier;
 import view.Observer;
 import view.ViewSpecificTemplate;
-import view.purchaseOrder.ViewSpecificPO;
 
 public class ViewListSuppliers extends ViewSpecificTemplate implements Observer{
 	

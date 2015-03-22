@@ -21,27 +21,27 @@ public class SupplierFilterQueryBuilder implements FilterQueryBuilder{
     private String orderBy;
 
     public SupplierFilterQueryBuilder() {
-        select = "SELECT ";
-        from = "FROM ";
+        select = "";
+        from = "";
         where = "WHERE ";
-        groupBy = "GROUP BY name";
+        groupBy = "";
         having = "";
         orderBy = "";
     }
 
     public void addColumn(String column) {
         if (select.length() == 0) {
-            select = "SELECT \"" + column + "\", ";
+            select = "SELECT " + column + ", ";
         } else {
-            select = select + "\"" + column + "\",";
+            select = select + " " + column + ",";
         }
     }
 
     public void addTable(String table) {
         if (from.length() == 0) {
-            from = "FROM \"" + table + "\", ";
+            from = "FROM " + table + ", ";
         } else {
-            from = from + "\"" + table + "\",";
+            from = from + " " + table + ",";
         }
     }
 
@@ -65,15 +65,17 @@ public class SupplierFilterQueryBuilder implements FilterQueryBuilder{
         }
         temp = (String) conditions.next();
         if (!temp.equals("")) {
-            where = where + "sc.supplier IN (SELECT supplier FROM suppliercontact WHERE value = \"" + temp + "\"&&";
+            String temp2 = (String) conditions.next();
+            where = where + "sc.supplier IN (SELECT supplier FROM suppliercontact WHERE value = \"" + temp + "\" && type = \""+temp2+"\")&&";   
         }
+        where = where + "s.name=sc.supplier &&";
     }
 
     public void addGrouping(String group) {
         if (groupBy.length() == 0) {
-            groupBy = "GROUP BY \"" + group + "\", ";
+            groupBy = "GROUP BY " + group + ", ";
         } else {
-            groupBy = groupBy + "\"" + group + "\",";
+            groupBy = groupBy + " " + group + ",";
         }
     }
 
@@ -87,9 +89,9 @@ public class SupplierFilterQueryBuilder implements FilterQueryBuilder{
 
     public void addOrderCriteria(String orderCriteria) {
         if (orderBy.length() == 0) {
-            orderBy = "ORDER BY \"" + orderCriteria + "\", ";
+            orderBy = "ORDER BY " + orderCriteria + ", ";
         } else {
-            orderBy = orderBy + "\"" + orderCriteria + "\",";
+            orderBy = orderBy + " " + orderCriteria + ",";
         }
     }
 
@@ -98,12 +100,17 @@ public class SupplierFilterQueryBuilder implements FilterQueryBuilder{
         addColumn("s.country");
         addColumn("s.state");
         addColumn("s.city");
+        addColumn("sc.type");
         addColumn("sc.value");
         addTable("supplier s");
         addTable("suppliercontact sc");
         addCondition(conditions);
         addGrouping("s.name");
-
-        return select.substring(0, from.length() - 1) + " " + from.substring(0, from.length() - 1) + " " + where.substring(0, where.length() - 2) + " " + groupBy;
+        
+        if(groupBy.length()>0)
+            groupBy = groupBy.substring(0, groupBy.length() - 1);
+        
+        System.out.println(select.substring(0, select.length() - 1) + " " + from.substring(0, from.length() - 1) + " " + where.substring(0, where.length() - 2) + " " + groupBy.substring(0, groupBy.length() - 1));
+        return select.substring(0, select.length() - 1) + " " + from.substring(0, from.length() - 1) + " " + where.substring(0, where.length() - 2) + " " + groupBy.substring(0, groupBy.length() - 1);
     }
 }

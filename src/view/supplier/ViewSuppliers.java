@@ -27,90 +27,108 @@ import view.ViewTemplate;
 
 public class ViewSuppliers extends ViewTemplate implements Observer {
 
-	SupplierController supplierController;
-	private TabSupplier tab;
+    SupplierController supplierController;
+    private TabSupplier tab;
 
-	public ViewSuppliers(TabSupplier tab) {
-		super();this.tab = tab;
-		if (this.tab == null)
-			System.out.println("VIEW CONST TAB NULL");
-		else
-			System.out.println("Gio");
-		supplierController = SupplierController.getInstance();
-		supplierController.registerObserver(this);
-		
-	}
+    public ViewSuppliers(TabSupplier tab) {
+        super();
+        this.tab = tab;
+        if (this.tab == null) {
+            System.out.println("VIEW CONST TAB NULL");
+        } else {
+            System.out.println("Gio");
+        }
+        supplierController = SupplierController.getInstance();
+        supplierController.registerObserver(this);
 
-	@Override
-	public void initialize() {
-		// TODO Auto-generated method stub
-		setColCount(4);
-		String headers[] = { "Supplier", "Address", "Contact #", "" };
-		getModel().setColumnIdentifiers(headers);
-		setColWidth(0, 150);
-		setColWidth(1, 400);
-		setColWidth(2, 30);
-		setColWidth(3, 15);
-		setColRendEdit(new PanelCell(), new PanelCell());
+    }
 
-	}
+    @Override
+    public void initialize() {
+        // TODO Auto-generated method stub
+        setColCount(4);
+        String headers[] = {"Supplier", "Address", "Contact #", ""};
+        getModel().setColumnIdentifiers(headers);
+        setColWidth(0, 150);
+        setColWidth(1, 400);
+        setColWidth(2, 30);
+        setColWidth(3, 15);
+        setColRendEdit(new PanelCell(), new PanelCell());
 
-	@Override
-	public void refresh() {
-		// TODO Auto-generated method stub
-	}
+    }
 
-	@Override
-	public void update() {
-		clearTable();
-		Supplier supplier;
-		Iterator data = supplierController.getAll();
-		while (data.hasNext()) {
+    @Override
+    public void refresh() {
+        // TODO Auto-generated method stub
+    }
 
-			supplier = (Supplier) data.next();
+    @Override
+    public void update() {
+        clearTable();
+        Supplier supplier;
+        Iterator data = supplierController.getAll();
+        while (data.hasNext()) {
 
-			System.out.println("SUPPLIER THINGY" + supplier.getName());
+            supplier = (Supplier) data.next();
 
-			Iterator contactsIterator = supplier.getSupplierContactList();
+            System.out.println("SUPPLIER THINGY" + supplier.getName());
 
-			String contactsString = "";
-			while (contactsIterator.hasNext()) {
+            Iterator contactsIterator = supplier.getSupplierContactList();
 
-				contactsString = contactsString
-						+ ((SupplierContact) contactsIterator.next())
-								.toString() + ", ";
-				System.out.println(contactsString);
+            String contactsString = "";
+            while (contactsIterator.hasNext()) {
 
-			}
+                contactsString = contactsString
+                        + ((SupplierContact) contactsIterator.next())
+                        .toString() + ", ";
+                System.out.println(contactsString);
 
-			getModel().setRowCount(getModel().getRowCount() + 1);
-			getModel().setValueAt(supplier.getName(),
-					getModel().getRowCount() - 1, 0);
-			getModel().setValueAt(
-					supplier.getCountry() + ", " + supplier.getState() + ", "
-							+ supplier.getCity(), getModel().getRowCount() - 1,
-					1);
-			getModel().setValueAt(contactsString, getModel().getRowCount() - 1,
-					2);
-			getModel().setValueAt(new SupplierCellEdit(supplier, tab),
-					getModel().getRowCount() - 1, 3);
-		}
-		if (this.tab == null)
-			System.out.println("VIEW TAB NULL");
-		else
-			System.out.println("Gio");
-		packTable();
-	}
+            }
 
-	public void filterPopulate(Iterator data) {
-		clearTable();
-		while (data.hasNext()) {
-			getModel().setRowCount(getModel().getRowCount() + 1);
-			getModel().setValueAt(data.next(), getModel().getRowCount() - 1, 0);
-			getModel().setValueAt(data.next(), getModel().getRowCount() - 1, 1);
-			getModel().setValueAt(data.next(), getModel().getRowCount() - 1, 2);
-			// getModel().setValueAt(new SupplierCellEdit(data),
-			// getModel().getRowCount() - 1, 3);
-		}
-	}
+            getModel().setRowCount(getModel().getRowCount() + 1);
+            getModel().setValueAt(supplier.getName(),
+                    getModel().getRowCount() - 1, 0);
+            getModel().setValueAt(
+                    supplier.getCountry() + ", " + supplier.getState() + ", "
+                    + supplier.getCity(), getModel().getRowCount() - 1,
+                    1);
+            getModel().setValueAt(contactsString, getModel().getRowCount() - 1,
+                    2);
+            getModel().setValueAt(new SupplierCellEdit(supplier, tab),
+                    getModel().getRowCount() - 1, 3);
+        }
+        if (this.tab == null) {
+            System.out.println("VIEW TAB NULL");
+        } else {
+            System.out.println("Gio");
+        }
+        packTable();
+    }
+
+    public void filterPopulate(Iterator data) {
+        clearTable();
+        Supplier supplier;
+        while (data.hasNext()) {
+            supplier = (Supplier) data.next();
+            System.out.println("SUPPLIER THINGY" + supplier.getName());
+            Iterator contactsIterator = supplier.getSupplierContactList();
+            String contactsString = "";
+            while (contactsIterator.hasNext()) {
+                contactsString = contactsString + ((SupplierContact) contactsIterator.next()).toString() + ", ";
+                System.out.println(contactsString);
+            }
+            getModel().setRowCount(getModel().getRowCount() + 1);
+            getModel().setValueAt(supplier.getName(), getModel().getRowCount() - 1, 0);
+            getModel().setValueAt(supplier.getCountry() + ", " + supplier.getState() + ", "
+                    + supplier.getCity(), getModel().getRowCount() - 1, 1);
+            getModel().setValueAt(contactsString, getModel().getRowCount() - 1, 2);
+            getModel().setValueAt(new SupplierCellEdit(supplier, tab), getModel().getRowCount() - 1, 3);
+        }
+        if (this.tab == null) {
+            System.out.println("VIEW TAB NULL");
+        } else {
+            System.out.println("Gio");
+        }
+        packTable();
+    }
 }
