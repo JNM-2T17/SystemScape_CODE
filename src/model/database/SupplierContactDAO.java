@@ -174,14 +174,15 @@ public class SupplierContactDAO implements IDBCUD {
 
     public void delete(Object object) {
         Connection con = DBConnection.getConnection();
-        SupplierContact supplierContact = (SupplierContact) object;
-
+        //SupplierContact supplierContact = (SupplierContact) object;
+        String supplier = (String)object;
         try {
-            String query = "DELETE FROM SupplierContact WHERE type= ? AND value = ?;";
+            String query = "DELETE FROM SupplierContact WHERE supplier = ?;";
             PreparedStatement preparedStatement = con
                     .prepareStatement(query);
-            preparedStatement.setString(1, supplierContact.getType());
-            preparedStatement.setInt(2, supplierContact.getValue());
+            //preparedStatement.setString(1, supplierContact.getType());
+            //preparedStatement.setInt(2, supplierContact.getValue());
+            preparedStatement.setString(1, supplier);
             preparedStatement.execute();
         } catch (SQLException sqlException) {
             sqlException.printStackTrace();

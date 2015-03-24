@@ -40,7 +40,31 @@ public class SupplierController implements SupplierInterface, Subject {
     public void init() {
         supplier = new Supplier();
     }
-
+    
+    public void editSupplier(Supplier supp){
+        supplier.setName(supp.getName());
+        supplier.setCountry(supp.getCountry());
+        supplier.setState(supp.getState());
+        supplier.setCity(supp.getCity());
+        dao.update("Supplier", supplier, supp.getName());
+        dao.delete("suppliercontact" ,supp.getName());
+        
+        
+       
+//        dao.add("SupplierContact", sc);
+//        Iterator<SupplierContact> i = supplier.getSupplierContactList(); 
+//        System.out.println("SUPPLIER CONTACT "+ sc);
+        Iterator i = supp.getSupplierContactList();
+        while (i.hasNext()) {
+            dao.add("SupplierContact", (SupplierContact) i.next());
+//            System.out.println("HI PUMASOK NA: "+i.next().toString());
+            System.out.println("WILL NOTIFY OBSERVER oh yeah");
+        }
+        System.out.println("WILL NOTIFY OBSERVER");
+        
+        notifyObserver();
+    }
+    
     public Iterator filter(Iterator conditions) {
         return dao.filter("Supplier", conditions);
     }
