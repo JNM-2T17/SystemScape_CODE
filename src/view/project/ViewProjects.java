@@ -1,6 +1,6 @@
 package view.project;
 
-import controller.SupplierController;
+import controller.ProjectController;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -19,16 +19,19 @@ import javax.swing.JScrollPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.border.LineBorder;
 
+import model.Project;
 import model.Supplier;
 import model.SupplierContact;
 import view.CellEdit;
 import view.Observer;
 import view.PanelCell;
 import view.ViewTemplate;
+import view.supplier.SupplierCellEdit;
 
 public class ViewProjects extends ViewTemplate implements Observer {
 
-	SupplierController supplierController;
+//	SupplierController supplierController;
+	ProjectController projectController;
 	private TabProject tab;
 	private JFrame parent;
 
@@ -40,8 +43,8 @@ public class ViewProjects extends ViewTemplate implements Observer {
 			System.out.println("VIEW CONST TAB NULL");
 		else
 			System.out.println("Gio");
-		supplierController = SupplierController.getInstance();
-		supplierController.registerObserver(this);
+		projectController = ProjectController.getInstance();
+		projectController.registerObserver(this);
 		
 	}
 
@@ -61,11 +64,34 @@ public class ViewProjects extends ViewTemplate implements Observer {
 
 	@Override
 	public void update() {
-		getModel().setRowCount(getModel().getRowCount() + 1);
-		getModel().setValueAt("Wee",
-				getModel().getRowCount() - 1, 0);
-		getModel().setValueAt(new ProjectCellEdit("Wee", tab),
-				getModel().getRowCount() - 1, 3);
+
+		clearTable();
+		Project project;
+		Iterator data = projectController.getAll();
+		while (data.hasNext()) {
+
+            project = (Project) data.next();
+
+            System.out.println("Project THINGY" + project.getName());
+
+
+            getModel().setRowCount(getModel().getRowCount() + 1);
+            getModel().setValueAt(project.getName(),
+            getModel().getRowCount() - 1, 0);
+            
+            getModel().setValueAt(project.getStartDate().toString(), getModel().getRowCount() - 1, 1);
+            
+            getModel().setValueAt(project.getEndDate().toString(), getModel().getRowCount() - 1, 2);
+            getModel().setValueAt(new ProjectCellEdit(project, tab),
+    				getModel().getRowCount() - 1, 3);
+
+        }
+        if (this.tab == null) {
+            System.out.println("VIEW TAB NULL");
+        } else {
+            System.out.println("Gio");
+        }
+        
 	}
 
 	public void filterPopulate(Iterator data) {

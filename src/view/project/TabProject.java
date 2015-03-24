@@ -5,11 +5,15 @@ import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
+import controller.ProjectController;
+import controller.SupplierController;
+import model.Project;
 import model.Supplier;
 import view.Content;
 import view.Gui;
 import view.Content.ContentBuilder;
 import view.supplier.FilterSupplier;
+import view.supplier.ViewListSuppliers;
 
 import java.awt.CardLayout;
 import java.awt.Color;
@@ -22,6 +26,7 @@ public class TabProject extends JPanel implements ActionListener{
 	private CardLayout cl;
 	private ArrayList<Content> list;
 	private Gui gui;
+	private ProjectController projectController;
 	
 	public TabProject(Gui gui) {
 		cl=new CardLayout();
@@ -43,10 +48,11 @@ public class TabProject extends JPanel implements ActionListener{
 		list.add(temp);
 		
 		cl.show(this, "view");
+		projectController = ProjectController.getInstance();
 		
 	}
 	
-	public void setEdit(String txt){
+	public void setEdit(Project txt){
 		Content temp=new Content.ContentBuilder().caption("Edit Project").back(true).delete(true).content(new EditProject(gui, txt)).build();
 		temp.getBtnBack().addActionListener(this);
 		
@@ -56,7 +62,14 @@ public class TabProject extends JPanel implements ActionListener{
 		cl.show(this, "edit");
 	}
 	
-	public void setView(String txt){
+	public void setView(Project project){
+		
+//		Content temp=new Content.ContentBuilder().caption("View Specific Project").back(true).content(new ViewListProjects(this, gui, ProjectController.getInstance().getAll(), project)).build();
+//		temp.getBtnBack().addActionListener(this);
+//		this.add(temp, "preview");
+//		list.add(temp);
+//		
+//		cl.show(this, "preview");
 		
 	}
 

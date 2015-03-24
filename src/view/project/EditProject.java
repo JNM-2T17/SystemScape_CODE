@@ -17,6 +17,8 @@ import javax.swing.JButton;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
+import model.Project;
+
 import com.toedter.calendar.JDateChooser;
 
 import view.Button;
@@ -34,7 +36,7 @@ public class EditProject extends JPanel implements ActionListener {
 	private JFrame parent;
 	private JDateChooser dateStart, dateEnd;
 
-	public EditProject(JFrame parent, String project) {
+	public EditProject(JFrame parent, Project project) {
 		this.parent = parent;
 		setBackground(Color.WHITE);
 		setLayout(new BorderLayout(0, 0));
@@ -54,7 +56,7 @@ public class EditProject extends JPanel implements ActionListener {
 				SpringLayout.NORTH, panContent);
 		panContent.add(lblProject);
 
-		txtProjects = new JTextField(project);
+		txtProjects = new JTextField(project.getName());
 		sl_panContent.putConstraint(SpringLayout.SOUTH, txtProjects, 0,
 				SpringLayout.SOUTH, lblProject);
 		sl_panContent.putConstraint(SpringLayout.EAST, txtProjects, -464,

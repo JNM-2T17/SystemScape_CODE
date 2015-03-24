@@ -5,15 +5,16 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
+import model.Project;
 import model.Supplier;
 import view.Button;
 import view.CellEdit;
 
 
 public class ProjectCellEdit extends CellEdit implements ActionListener {
-	private String proj;
+	private Project proj;
 	private TabProject tab;
-	public ProjectCellEdit(String proj, TabProject tab){
+	public ProjectCellEdit(Project proj, TabProject tab){
 		super();
 		this.tab=tab;
 		this.proj=proj;

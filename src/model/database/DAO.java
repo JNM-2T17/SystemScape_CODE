@@ -46,8 +46,6 @@ public class DAO {
 		data = new ArrayList<IDBGet>();
 		data.add(new PurchaseOrderDAO());
 		data.add(new SupplierDAO());
-		// data.add(new WarrantyDAO());
-		// data.add(new ContractDAO());
 		data.add(new InventoryItemDAO());
 		data.add(new ItemDataDAO());
 		data.add(new SupplierContactDAO());
@@ -55,8 +53,10 @@ public class DAO {
 		data.add(new WarrantyDAO());
 		data.add(new ContractDAO());
 		data.add(new UserDAO());
+		
 		data.add(new AssignmentDAO());
 		data.add(new InventoryQuantityDAO());
+		data.add(new ProjectDAO());
 	}
 
 	public static DAO getInstance() {
@@ -111,6 +111,8 @@ public class DAO {
 			return data.get(9).get();
 		else if (table.equalsIgnoreCase("InventoryItemQuantity"))
 			return data.get(10).get();
+		else if (table.equalsIgnoreCase("Project"))
+			return data.get(11).get();
 		return null;
 	}
 
@@ -126,20 +128,7 @@ public class DAO {
 	 * @param arg1
 	 *            index 1 of result set (column no)
 	 * @return all items in this table
-	 */
-	// public ResultSet get( String table, String key, int arg0, int arg1 )
-	// {
-	// CinemaDAO cdao = (CinemaDAO)data.get(0);
-	//
-	// if( table.equalsIgnoreCase(FLOOR) )
-	// return cdao.getFloors( key );
-	// else if( table.equalsIgnoreCase(COLUMN) )
-	// return cdao.getColumns( key, arg0 );
-	// else if( table.equalsIgnoreCase(SEAT))
-	// return cdao.getSeats( key, arg0, arg1 );
-	//
-	// return null;
-	// }
+
 
 	/**
 	 * returns the specific object in the given table with key as a primary key
@@ -171,7 +160,8 @@ public class DAO {
 			return data.get(8).get(key);
 		else if (table.equalsIgnoreCase("assignment"))
 			return data.get(9).get(key);
-		
+		else if (table.equalsIgnoreCase("project"))
+			return data.get(11).get(key);
 		return null;
 	}
 
@@ -202,6 +192,8 @@ public class DAO {
 		else if (table.equalsIgnoreCase("contract"))
 			return data.get(7).search(searchStr);
 		else if (table.equalsIgnoreCase("assignment"))
+			return data.get(9).search(searchStr);
+		else if (table.equalsIgnoreCase("project"))
 			return data.get(9).search(searchStr);
 		return null;
 	}
@@ -248,6 +240,8 @@ public class DAO {
 			((IDBCUD) data.get(7)).add(obj);
 		else if (table.equalsIgnoreCase("assignment"))
 			((IDBCUD) data.get(9)).add(obj);
+		else if (table.equalsIgnoreCase("project"))
+			((IDBCUD) data.get(11)).add(obj);
 	}
 
 	/**
@@ -279,7 +273,8 @@ public class DAO {
 			((IDBCUD) data.get(7)).update(obj, origKey);
 		else if (table.equalsIgnoreCase("assignment"))
 			((IDBCUD) data.get(9)).update(obj, origKey);
-
+		else if (table.equalsIgnoreCase("project"))
+			((IDBCUD) data.get(11)).update(obj, origKey);
 	}
 
 	/**
@@ -309,7 +304,8 @@ public class DAO {
 			((IDBCUD) data.get(7)).delete(obj);
 		else if (table.equalsIgnoreCase("assignment"))
 			((IDBCUD) data.get(9)).delete(obj);
-
+		else if (table.equalsIgnoreCase("project"))
+			((IDBCUD) data.get(11)).delete(obj);
 	}
 
 }

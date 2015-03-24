@@ -16,9 +16,14 @@ import javax.swing.SpringLayout;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
+import model.Project;
+import view.Message;
 import view.PopUp;
+import view.supplier.Contact;
 
 import com.toedter.calendar.JDateChooser;
+
+import controller.ProjectController;
 
 import java.awt.Color;
 import java.awt.event.ActionEvent;
@@ -30,6 +35,7 @@ public class AddProject extends JPanel implements ActionListener {
 	private JDateChooser dateStart;
 	private JDateChooser dateEnd;
 	private JButton btnSubmit;
+	private ProjectController projectController;
 
 	public AddProject() {
 //		super(parent);
@@ -96,20 +102,30 @@ public class AddProject extends JPanel implements ActionListener {
 		btnSubmit.setFont(new Font("Arial", Font.PLAIN, 18));
 		btnSubmit.addActionListener(this);
 		
-//		panMain.setPreferredSize(new Dimension(480,250));
-//		panMain.setSize(new Dimension(480,250));
-//		setContent(panMain);
-//		getClose().addActionListener(this);
+		projectController = ProjectController.getInstance();
+
 		setVisible(true);
 		this.repaint();
 		this.revalidate();
 	}
 
+	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
-//		if (e.getSource() == getClose()) {
-//			this.dispose();
-//		}
+		if(e.getSource()==btnSubmit){
+			Project checkProject;
+			Project project = new Project(txtName.getText(), dateStart.getDate(), dateEnd.getDate());
+			
+			projectController.addProject(project);
+			projectController.init();
+			System.out.println("Yey project: "+project.getName());
+			
+		}
+		
+		else {
+			this.repaint();
+			this.revalidate();
+		}
 	}
 }
