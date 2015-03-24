@@ -41,51 +41,48 @@ public class InventoryItemDAO implements IDBCUD {
             while (resultSet.next()) {
                 InventoryItem inventoryItem = null;
                 String itemClass = resultSet.getString("classification");
-                
-                if( itemClass.equalsIgnoreCase( "hardware" ) ) {
-                    inventoryItem = new HardwareItem(resultSet.getInt("ID"),resultSet.getString("name"), 
-                    								 resultSet.getString("description"), 
-                    								 resultSet.getFloat("unitPrice"), 
-                    								 resultSet.getString("invoiceNo"), 
-                    								 resultSet.getString("location"), 
-                    								 resultSet.getString("status"), 
-                    								 resultSet.getString("classification"));
-                }
-                else if( itemClass.equalsIgnoreCase( "software" ) ) {
-                	inventoryItem = new SoftwareItem(resultSet.getInt("ID"),resultSet.getString("name"), 
-							 resultSet.getString("description"), 
-							 resultSet.getFloat("unitPrice"), 
-							 resultSet.getString("invoiceNo"), 
-							 resultSet.getString("location"), 
-							 resultSet.getString("status"), 
-							 resultSet.getString("classification"),
-							 resultSet.getString("licenseKey"));
-                }
-                else if( itemClass.equalsIgnoreCase( "IT" ) ) {
-                	inventoryItem = new ITAsset(resultSet.getInt("ID"),resultSet.getString("name"), 
-							 resultSet.getString("description"), 
-							 resultSet.getFloat("unitPrice"), 
-							 resultSet.getString("invoiceNo"), 
-							 resultSet.getString("location"), 
-							 resultSet.getString("status"), 
-							 resultSet.getString("classification"),
-							 resultSet.getInt("assetTag"), 
-							 resultSet.getString("serviceTag"), 
-							 resultSet.getDate("deliveryDate"), 
-							 resultSet.getDate("Warranty Start"), 
-							 resultSet.getDate("Warranty End"), 
-							 resultSet.getDate("Contract Start"), 
-							 resultSet.getDate("Contract End"), 
-							 resultSet.getFloat("maintenanceCost"));
-                }
-                else {
-                	inventoryItem = new InventoryItem(resultSet.getInt("ID"),resultSet.getString("name"), 
-							 resultSet.getString("description"), 
-							 resultSet.getFloat("unitPrice"), 
-							 resultSet.getString("invoiceNo"), 
-							 resultSet.getString("location"), 
-							 resultSet.getString("status"), 
-							 resultSet.getString("classification"));
+
+                if (itemClass.equalsIgnoreCase("hardware")) {
+                    inventoryItem = new HardwareItem(resultSet.getInt("ID"), resultSet.getString("name"),
+                            resultSet.getString("description"),
+                            resultSet.getFloat("unitPrice"),
+                            resultSet.getString("invoiceNo"),
+                            resultSet.getString("location"),
+                            resultSet.getString("status"),
+                            resultSet.getString("classification"));
+                } else if (itemClass.equalsIgnoreCase("software")) {
+                    inventoryItem = new SoftwareItem(resultSet.getInt("ID"), resultSet.getString("name"),
+                            resultSet.getString("description"),
+                            resultSet.getFloat("unitPrice"),
+                            resultSet.getString("invoiceNo"),
+                            resultSet.getString("location"),
+                            resultSet.getString("status"),
+                            resultSet.getString("classification"),
+                            resultSet.getString("licenseKey"));
+                } else if (itemClass.equalsIgnoreCase("IT")) {
+                    inventoryItem = new ITAsset(resultSet.getInt("ID"), resultSet.getString("name"),
+                            resultSet.getString("description"),
+                            resultSet.getFloat("unitPrice"),
+                            resultSet.getString("invoiceNo"),
+                            resultSet.getString("location"),
+                            resultSet.getString("status"),
+                            resultSet.getString("classification"),
+                            resultSet.getInt("assetTag"),
+                            resultSet.getString("serviceTag"),
+                            resultSet.getDate("deliveryDate"),
+                            resultSet.getDate("Warranty Start"),
+                            resultSet.getDate("Warranty End"),
+                            resultSet.getDate("Contract Start"),
+                            resultSet.getDate("Contract End"),
+                            resultSet.getFloat("maintenanceCost"));
+                } else {
+                    inventoryItem = new InventoryItem(resultSet.getInt("ID"), resultSet.getString("name"),
+                            resultSet.getString("description"),
+                            resultSet.getFloat("unitPrice"),
+                            resultSet.getString("invoiceNo"),
+                            resultSet.getString("location"),
+                            resultSet.getString("status"),
+                            resultSet.getString("classification"));
                 }
                 inventoryItems.add(inventoryItem);
             }
@@ -343,7 +340,7 @@ public class InventoryItemDAO implements IDBCUD {
                 preparedStatement = con.prepareStatement(query);
                 preparedStatement.setInt(1, id);
                 preparedStatement.setString(2, ((SoftwareItem) inventoryItem).getLicenseKey());
-                System.out.println("License Key in DAO: "+((SoftwareItem) inventoryItem).getLicenseKey());
+                System.out.println("License Key in DAO: " + ((SoftwareItem) inventoryItem).getLicenseKey());
                 preparedStatement.execute();
             }
 
@@ -361,19 +358,84 @@ public class InventoryItemDAO implements IDBCUD {
 
     }
 
-    public void update(Object object, String origKey) {
+    public void update(Object object) {
         InventoryItem inventoryItem = (InventoryItem) object;
         Connection con = DBConnection.getConnection();
         try {
-            String query = "UPDATE inventoryitem SET ID = ?,itemData = ?, "
-                    + "status= ?, classification = ? WHERE ID = ?;";
+            int id = ((InventoryItem) object).getID();
+            InventoryItem previous = (InventoryItem) get(String.valueOf(id));
+            InventoryItem current = (InventoryItem) object;
+
+            String query = "UPDATE inventoryitem SET itemData = ?, "
+                    + "status= ?, classification = ?, invoiceNo=?, location=? WHERE ID = ?;";
             PreparedStatement preparedStatement = con.prepareStatement(query);
-            preparedStatement.setInt(1, inventoryItem.getID());
-            preparedStatement.setString(2, inventoryItem.getName());
-            preparedStatement.setString(3, inventoryItem.getStatus());
-            preparedStatement.setString(4, inventoryItem.getClassification());
-            preparedStatement.setString(5, origKey);
+            //preparedStatement.setInt(1, current.getID());
+            preparedStatement.setString(1, current.getName());
+            preparedStatement.setString(2, current.getStatus());
+            preparedStatement.setString(3, current.getClassification());
+            preparedStatement.setString(4, current.getInvoiceNo());
+            preparedStatement.setString(5, current.getLocation());
+            preparedStatement.setInt(6, current.getID());
             preparedStatement.execute();
+
+            String type = "";
+            if (previous.getClassification().equalsIgnoreCase("hardware") || previous.getClassification().equalsIgnoreCase("IT")) {
+                type = type + "hardwareitem";
+            } else if (previous.getClassification().equalsIgnoreCase("software")) {
+                type = type + "softwareitem";
+            }
+            query = "DELETE FROM " + type + " WHERE ID = ?;";
+            preparedStatement = con.prepareStatement(query);
+            preparedStatement.setInt(1, previous.getID());
+            preparedStatement.execute();
+            
+            if (object instanceof NonITAsset || object instanceof ITAsset) {
+                query = "INSERT INTO hardwareitem \n"
+                        + "VALUES (?)";
+                preparedStatement = con.prepareStatement(query);
+                preparedStatement.setInt(1, id);
+                preparedStatement.execute();
+
+                if (object instanceof ITAsset) {
+                    inventoryItem = (ITAsset) object;
+
+                    query = "INSERT INTO itasset \n"
+                            + "VALUES (?, ?, ?, ?)";
+                    preparedStatement = con.prepareStatement(query);
+                    preparedStatement.setInt(1, id);
+                    preparedStatement.setInt(2, ((ITAsset) inventoryItem).getAssetTag());
+                    preparedStatement.setString(3, ((ITAsset) inventoryItem).getServiceTag());
+                    preparedStatement.setDate(4, new java.sql.Date(((ITAsset) inventoryItem).getDeliveryDate().getTime()));
+                    preparedStatement.execute();
+
+                    query = "INSERT INTO warranty \n"
+                            + "VALUES (?, ?, ?)";
+                    preparedStatement = con.prepareStatement(query);
+                    preparedStatement.setInt(1, id);
+                    preparedStatement.setDate(2, new java.sql.Date(((ITAsset) inventoryItem).getWarrantyStartDate().getTime()));
+                    preparedStatement.setDate(3, new java.sql.Date(((ITAsset) inventoryItem).getWarrantyEndDate().getTime()));
+                    preparedStatement.execute();
+
+                    query = "INSERT INTO contract \n"
+                            + "VALUES (?, ?, ?, ?)";
+                    preparedStatement = con.prepareStatement(query);
+                    preparedStatement.setInt(1, id);
+                    preparedStatement.setDate(2, new java.sql.Date(((ITAsset) inventoryItem).getContractStartDate().getTime()));
+                    preparedStatement.setDate(3, new java.sql.Date(((ITAsset) inventoryItem).getContractEndDate().getTime()));
+                    preparedStatement.setFloat(4, ((ITAsset) inventoryItem).getContractMaintenanceCost());
+                    preparedStatement.execute();
+                }
+            } else if (object instanceof SoftwareItem) {
+                inventoryItem = (SoftwareItem) object;
+                query = "INSERT INTO softwareitem \n"
+                        + "VALUES (?, ?)";
+                preparedStatement = con.prepareStatement(query);
+                preparedStatement.setInt(1, id);
+                preparedStatement.setString(2, ((SoftwareItem) inventoryItem).getLicenseKey());
+                System.out.println("License Key in DAO: " + ((SoftwareItem) inventoryItem).getLicenseKey());
+                preparedStatement.execute();
+            }
+
         } catch (SQLException sqlException) {
             sqlException.printStackTrace();
         } finally {
