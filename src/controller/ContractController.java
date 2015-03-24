@@ -41,7 +41,7 @@ public class ContractController implements Subject{
     }
     
 
-    public Contract getWarranty() {
+    public Contract getContract() {
         return contract;
     }
     
