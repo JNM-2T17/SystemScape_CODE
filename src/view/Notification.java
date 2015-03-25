@@ -170,24 +170,23 @@ public class Notification extends JPanel implements ActionListener, Observer{
                 inventoryItemController = new InventoryItemController();
                 warrantyController.registerObserver(this);
                 contractController.registerObserver(this);
-                
-                addContract("Sample", 3);
-                
 		
 	}
         @Override
         public void update(){
+            listContract.removeAll();
+            listWarranty.removeAll();
+            cntContract = cntWarranty = 0;
             GregorianCalendar gregorianCalendar = new GregorianCalendar();
             java.util.Date date = new java.util.Date(gregorianCalendar.getTimeInMillis());
-            for(Iterator i = warrantyController.search("10 days"); i.hasNext();){//10 days hardcoded
+            for(Iterator i = warrantyController.search("14 days"); i.hasNext();){//2 weeks hardcoded
                 Warranty warranty = (Warranty)i.next();
                 InventoryItem inventoryItem = ((InventoryItem)inventoryItemController.get("" + warranty.getHardware()));
                 int daysLeft = (int)((warranty.getEndDate().getTime() - date.getTime()) / (24 * 60 * 60 * 1000));
                 addWarranty(inventoryItem.getName(), daysLeft);
             }
             
-            for(Iterator i = contractController.search("10 days"); i.hasNext();){
-                System.out.println("yes?c");
+            for(Iterator i = contractController.search("14 days"); i.hasNext();){
                 Contract contract = (Contract)i.next();
                 InventoryItem inventoryItem = (InventoryItem)inventoryItemController.get("" + contract.getHardware());
                 int daysLeft = (int)((contract.getEndDate().getTime() - date.getTime()) / (24 * 60 * 60 * 1000));
