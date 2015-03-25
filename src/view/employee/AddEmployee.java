@@ -7,6 +7,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
+import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -25,6 +26,12 @@ import view.Button;
 import view.Button.ButtonBuilder;
 import view.supplier.Contact;
 
+import javax.swing.JRadioButton;
+import javax.swing.border.LineBorder;
+
+import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
+import org.jdesktop.swingx.autocomplete.Configurator;
+
 public class AddEmployee extends JPanel implements ActionListener {
 	private JTextField txtName;
 	private JButton btnSubmit;
@@ -32,6 +39,8 @@ public class AddEmployee extends JPanel implements ActionListener {
 	private JTextField txtUsername;
 	private JPasswordField txtPassword;
 	private JPasswordField txtConfirm;
+	private JRadioButton rdEmployee, rdTechnician; 
+	private JPanel panDetails;
 
 	public AddEmployee() {
 		this.setBackground(Color.WHITE);
@@ -54,38 +63,63 @@ public class AddEmployee extends JPanel implements ActionListener {
 		JLabel lblStatus = new JLabel("Status:");
 		lblStatus.setBounds(158, 130, 92, 26);
 		panContent.add(lblStatus);
+		
+		String[] opt={"Active", "On Leave"};
 
-		cmbStatus = new JComboBox();
+		cmbStatus = new JComboBox(opt);
+		cmbStatus.setEditable(true);
+		AutoCompleteDecorator.decorate(cmbStatus);
 		cmbStatus.setBackground(Color.WHITE);
 		cmbStatus.setBounds(288, 130, 372, 25);
 		panContent.add(cmbStatus);
 		
+		JLabel lblType = new JLabel("Type:");
+		lblType.setBounds(157, 172, 92, 26);
+		panContent.add(lblType);
+		
+		 rdEmployee = new JRadioButton("Employee");
+		 rdEmployee.setSelected(true);
+		 rdEmployee.addActionListener(this);
+		rdEmployee.setBackground(Color.WHITE);
+		rdEmployee.setBounds(288, 168, 161, 35);
+		panContent.add(rdEmployee);
+		
+		 rdTechnician = new JRadioButton("Technician");
+		rdTechnician.setBackground(Color.WHITE);
+		rdTechnician.setBounds(446, 168, 201, 35);
+		rdTechnician.addActionListener(this);
+		panContent.add(rdTechnician);
+		
+		ButtonGroup grp= new ButtonGroup();
+		grp.add(rdEmployee);
+		grp.add(rdTechnician);
+		
+		 panDetails = new JPanel();
+		panDetails.setBackground(Color.WHITE);
+		panDetails.setBounds(157, 219, 503, 125);
+		panContent.add(panDetails);
+		panDetails.setLayout(new MigLayout("", "[][grow]", "[][][]"));
+		
 		JLabel lblUsername = new JLabel("Username:");
-		lblUsername.setBounds(157, 206, 78, 14);
-		panContent.add(lblUsername);
-		
-		JLabel lblPassword = new JLabel("Password:");
-		lblPassword.setBounds(157, 242, 65, 14);
-		panContent.add(lblPassword);
-		
-		JLabel lblConfirmPassword = new JLabel("Confirm Password:");
-		lblConfirmPassword.setBounds(157, 281, 133, 14);
-		panContent.add(lblConfirmPassword);
+		panDetails.add(lblUsername, "cell 0 0");
 		
 		txtUsername = new JTextField();
+		panDetails.add(txtUsername, "cell 1 0,growx");
 		txtUsername.setColumns(10);
-		txtUsername.setBounds(288, 202, 372, 25);
-		panContent.add(txtUsername);
+		
+		JLabel lblPassword = new JLabel("Password:");
+		panDetails.add(lblPassword, "cell 0 1");
 		
 		txtPassword = new JPasswordField();
+		panDetails.add(txtPassword, "cell 1 1,growx");
 		txtPassword.setColumns(10);
-		txtPassword.setBounds(288, 238, 372, 25);
-		panContent.add(txtPassword);
+		
+		JLabel lblConfirmPassword = new JLabel("Confirm Password:");
+		panDetails.add(lblConfirmPassword, "cell 0 2");
 		
 		txtConfirm = new JPasswordField();
+		panDetails.add(txtConfirm, "cell 1 2,growx");
 		txtConfirm.setColumns(10);
-		txtConfirm.setBounds(288, 275, 372, 25);
-		panContent.add(txtConfirm);
 
 		JPanel panFooter = new JPanel();
 		panFooter.setBackground(Color.WHITE);
@@ -98,6 +132,12 @@ public class AddEmployee extends JPanel implements ActionListener {
 		btnSubmit.setBackground(new Color(32, 130, 213));
 		btnSubmit.setFont(new Font("Arial", Font.PLAIN, 18));
 		btnSubmit.addActionListener(this);
+		
+		panDetails.setVisible(false);
+	}
+	
+	public void toggle(boolean stat){
+		panDetails.setVisible(stat);
 	}
 
 	@Override
@@ -105,6 +145,12 @@ public class AddEmployee extends JPanel implements ActionListener {
 		// TODO Auto-generated method stub
 		if (e.getSource() == btnSubmit) {
 
+		}
+		else if(e.getSource()==rdEmployee){
+			if(rdEmployee.isSelected()) toggle(false);
+		}
+		else if(e.getSource()==rdTechnician){
+			if(rdTechnician.isSelected()) toggle(true);
 		}
 	}
 }
