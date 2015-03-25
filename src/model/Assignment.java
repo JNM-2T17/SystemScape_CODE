@@ -12,36 +12,26 @@ package model;
  */
 public class Assignment {
     private int ID;
-    private String employee;
-    private String project;
+    private Employee employee;
     
-    public Assignment (int ID, String employee, String project){
+    public Assignment (int ID, Employee employee ){
         this.ID = ID;
         this.employee = employee;
-        this.project = project;
     }
 
     public int getID() {
         return ID;
     }
 
-    public String getEmployee() {
+    public Employee getEmployee() {
         return employee;
-    }
-
-    public String getProject() {
-        return project;
     }
 
     public void setID(int ID) {
         this.ID = ID;
     }
 
-    public void setEmployee(String employee) {
+    public void setEmployee(Employee employee) {
         this.employee = employee;
-    }
-
-    public void setProject(String project) {
-        this.project = project;
     }
 }

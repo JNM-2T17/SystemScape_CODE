@@ -1,11 +1,10 @@
 package view.employee;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
@@ -13,24 +12,13 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
-import javax.swing.JScrollPane;
+import javax.swing.JRadioButton;
 import javax.swing.JTextField;
+import javax.swing.border.EmptyBorder;
 
 import net.miginfocom.swing.MigLayout;
 
-import java.awt.BorderLayout;
-
-import javax.swing.border.EmptyBorder;
-
-import view.Button;
-import view.Button.ButtonBuilder;
-import view.supplier.Contact;
-
-import javax.swing.JRadioButton;
-import javax.swing.border.LineBorder;
-
 import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
-import org.jdesktop.swingx.autocomplete.Configurator;
 
 public class AddEmployee extends JPanel implements ActionListener {
 	private JTextField txtName;
