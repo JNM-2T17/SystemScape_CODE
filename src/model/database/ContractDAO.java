@@ -106,10 +106,8 @@ public class ContractDAO implements IDBCUD {
         }
 
         try {
-            String query = "SELECT * FROM contract WHERE endDate <= ? AND endDate >=  ?" + "ORDER BY 1";
+            String query = "SELECT * FROM contract WHERE endDate <= \'" + searchStr + "\' AND endDate >= \'" + dateNow + "\' ORDER BY 1";
             PreparedStatement preparedStatement = con.prepareStatement(query);
-            preparedStatement.setString(1, "\'" + searchStr + "\'");
-            preparedStatement.setString(2, "\'" + dateNow + "\'");
             ResultSet resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
