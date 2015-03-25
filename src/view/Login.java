@@ -25,7 +25,7 @@ import javax.swing.border.LineBorder;
 import model.User;
 import view.employee.TabEmployees;
 import view.inventory.TabInventory;
-import view.project.TabProject;
+import view.projects.TabProject;
 import view.purchaseOrder.TabPO;
 import view.supplier.TabSupplier;
 

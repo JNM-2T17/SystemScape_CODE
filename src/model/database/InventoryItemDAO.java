@@ -471,4 +471,10 @@ public class InventoryItemDAO implements IDBCUD {
         }
     }
 
+	@Override
+	public void update(Object object, String origKey) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

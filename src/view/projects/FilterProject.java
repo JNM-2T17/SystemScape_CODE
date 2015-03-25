@@ -1,4 +1,4 @@
-package view.project;
+package view.projects;
 
 import javax.swing.JPanel;
 import javax.swing.BoxLayout;

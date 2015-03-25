@@ -1,4 +1,4 @@
-package view.project;
+package view.projects;
 
 import controller.ProjectController;
 

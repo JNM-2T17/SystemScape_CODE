@@ -1,4 +1,4 @@
-package view.project;
+package view.projects;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
