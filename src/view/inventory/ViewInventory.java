@@ -1,27 +1,15 @@
 package view.inventory;
 
-import controller.AssignmentController;
-import controller.ContractController;
-import controller.EmployeeController;
-import controller.ITAssetController;
-import controller.InventoryItemController;
-import controller.WarrantyController;
-
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.Iterator;
-
-import javax.swing.table.DefaultTableModel;
-
-import model.Contract;
-import model.Employee;
-import model.ITAsset;
-import model.InventoryItem;
-import model.Warranty;
-import view.CellEdit;
+import controller.*;
+import model.*;
 import view.Observer;
 import view.PanelCell;
 import view.ViewTemplate;
+
+import javax.swing.table.DefaultTableModel;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.Iterator;
 
 public class ViewInventory extends ViewTemplate implements Observer,
 		ActionListener {
@@ -111,7 +99,7 @@ public class ViewInventory extends ViewTemplate implements Observer,
 			Object idObject = assignmentController.getObject(String
 					.valueOf(inventoryItem.getID()));
 			if (idObject != null) {
-				employeeid = (int) idObject;
+				employeeid = (Integer) idObject;
 			}
 
 			getModel().setRowCount(getModel().getRowCount() + 1);

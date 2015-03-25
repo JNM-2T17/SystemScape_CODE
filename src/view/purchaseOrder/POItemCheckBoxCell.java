@@ -1,24 +1,13 @@
 package view.purchaseOrder;
 
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import controller.PurchaseOrderController;
+import model.PurchaseOrder;
 
-import javax.swing.AbstractButton;
-import javax.swing.ButtonModel;
-import javax.swing.DefaultCellEditor;
-import javax.swing.JCheckBox;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JTable;
+import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.table.TableCellRenderer;
-
-import model.PurchaseOrder;
-import controller.PurchaseOrderController;
+import java.awt.*;
 
 public class POItemCheckBoxCell extends DefaultCellEditor implements TableCellRenderer
   {
@@ -31,7 +20,7 @@ public class POItemCheckBoxCell extends DefaultCellEditor implements TableCellRe
     private PurchaseOrderController poController;
     private PurchaseOrder po;
     
-    public POItemCheckBoxCell(JCheckBox checkBox, JFrame parent, PurchaseOrder po, PurchaseOrderController poController)
+    public POItemCheckBoxCell(JCheckBox checkBox, final JFrame parent, PurchaseOrder po, final PurchaseOrderController poController)
     {
       super(checkBox);
       this.parent = parent;
