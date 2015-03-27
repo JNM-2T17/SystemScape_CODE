@@ -12,6 +12,7 @@ import javax.swing.JLabel;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Window.Type;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
@@ -27,6 +28,7 @@ import javax.swing.JTextArea;
 import javax.swing.JComboBox;
 
 import view.Message;
+import view.inventory.InventoryItemDisplayManager;
 import view.inventory.ItemPanelDecorator;
 import view.inventory.ItemPanelParticipant;
 import view.inventory.ItemPanelTemplate;
@@ -156,7 +158,14 @@ public class ItemTileIT extends ItemPanelDecorator implements ItemPanelParticipa
 		// TODO Auto-generated method stub
 		if(e.getStateChange() == ItemEvent.SELECTED)
 		{
-			PanelRegistry.getInstance().setCurrentType(cbType.getSelectedItem().toString());
+			if(cbType.getSelectedItem().equals("IT Assets"))
+				InventoryItemDisplayManager.getInstance().overrideContentPanel("IT");
+			else if(cbType.getSelectedItem().equals("Non-IT Assets"))
+				InventoryItemDisplayManager.getInstance().overrideContentPanel("Non-IT");
+			else if(cbType.getSelectedItem().equals("Software"))
+				InventoryItemDisplayManager.getInstance().overrideContentPanel("Software");
+			else if(cbType.getSelectedItem().equals("Others"))
+				InventoryItemDisplayManager.getInstance().overrideContentPanel("General");
 		}
 	}
 
@@ -191,6 +200,14 @@ public class ItemTileIT extends ItemPanelDecorator implements ItemPanelParticipa
 		 ArrayList<String> assigneeList = new ArrayList();
 	     while(iter.hasNext()){
 	    	 assigneeList.add(iter.next().toString());
+	     }
+	     if(cbAssignee == null)
+	     {
+	    	 System.out.println("Assignee is null");
+	     }
+	     if(assigneeList == null)
+	     {
+	    	 System.out.println("List is null");
 	     }
 	     cbAssignee.setModel(new DefaultComboBoxModel(assigneeList.toArray()));
 	}
