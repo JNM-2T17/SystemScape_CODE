@@ -1,4 +1,4 @@
-package view.supplier;
+package view.inventory;
 
 import controller.SupplierController;
 
