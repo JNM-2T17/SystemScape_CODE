@@ -10,6 +10,7 @@ import javax.swing.JButton;
 
 import java.awt.Font;
 
+import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.SpringLayout;
@@ -17,6 +18,7 @@ import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
 import model.Project;
+import view.ErrorListenerFactory;
 import view.Message;
 import view.PopUp;
 import view.supplier.Contact;
@@ -37,10 +39,12 @@ public class AddProject extends JPanel implements ActionListener {
 	private JButton btnSubmit;
 	private ProjectController projectController;
 
-	public AddProject() {
-//		super(parent);
+	private JFrame parent;
+	public AddProject(JFrame parent) {
+		// super(parent);
 		this.setLayout(new BorderLayout(0, 0));
-
+		this.parent=parent;
+		
 		JPanel panCenter = new JPanel();
 		panCenter.setBackground(Color.WHITE);
 		this.add(panCenter, BorderLayout.CENTER);
@@ -48,8 +52,10 @@ public class AddProject extends JPanel implements ActionListener {
 		panCenter.setLayout(sl_panCenter);
 
 		JLabel lblProjectTitle = new JLabel("Project Title:");
-		sl_panCenter.putConstraint(SpringLayout.NORTH, lblProjectTitle, 100, SpringLayout.NORTH, panCenter);
-		sl_panCenter.putConstraint(SpringLayout.WEST, lblProjectTitle, 100, SpringLayout.WEST, panCenter);
+		sl_panCenter.putConstraint(SpringLayout.NORTH, lblProjectTitle, 100,
+				SpringLayout.NORTH, panCenter);
+		sl_panCenter.putConstraint(SpringLayout.WEST, lblProjectTitle, 100,
+				SpringLayout.WEST, panCenter);
 		panCenter.add(lblProjectTitle);
 
 		JLabel lblStartDate = new JLabel("Start Date:");
@@ -57,7 +63,8 @@ public class AddProject extends JPanel implements ActionListener {
 				SpringLayout.SOUTH, lblProjectTitle);
 		sl_panCenter.putConstraint(SpringLayout.WEST, lblStartDate, 0,
 				SpringLayout.WEST, lblProjectTitle);
-		sl_panCenter.putConstraint(SpringLayout.EAST, lblStartDate, -340, SpringLayout.EAST, panCenter);
+		sl_panCenter.putConstraint(SpringLayout.EAST, lblStartDate, -340,
+				SpringLayout.EAST, panCenter);
 		panCenter.add(lblStartDate);
 
 		JLabel lblEndDate = new JLabel("End Date:");
@@ -65,29 +72,39 @@ public class AddProject extends JPanel implements ActionListener {
 				SpringLayout.SOUTH, lblStartDate);
 		sl_panCenter.putConstraint(SpringLayout.WEST, lblEndDate, 0,
 				SpringLayout.WEST, lblProjectTitle);
-		sl_panCenter.putConstraint(SpringLayout.EAST, lblEndDate, -346, SpringLayout.EAST, panCenter);
+		sl_panCenter.putConstraint(SpringLayout.EAST, lblEndDate, -346,
+				SpringLayout.EAST, panCenter);
 		panCenter.add(lblEndDate);
 
 		txtName = new JTextField();
+		txtName.addFocusListener(ErrorListenerFactory.getListener(txtName));
 		sl_panCenter.putConstraint(SpringLayout.WEST, txtName, 46,
 				SpringLayout.EAST, lblProjectTitle);
-		sl_panCenter.putConstraint(SpringLayout.SOUTH, txtName, 0, SpringLayout.SOUTH, lblProjectTitle);
+		sl_panCenter.putConstraint(SpringLayout.SOUTH, txtName, 0,
+				SpringLayout.SOUTH, lblProjectTitle);
 		sl_panCenter.putConstraint(SpringLayout.EAST, txtName, 285,
 				SpringLayout.EAST, lblProjectTitle);
 		panCenter.add(txtName);
 		txtName.setColumns(10);
 
 		dateStart = new JDateChooser(new Date());
-		sl_panCenter.putConstraint(SpringLayout.WEST, dateStart, 0, SpringLayout.WEST, txtName);
-		sl_panCenter.putConstraint(SpringLayout.SOUTH, dateStart, 0, SpringLayout.SOUTH, lblStartDate);
+		dateStart.getDateEditor().getUiComponent().addFocusListener(ErrorListenerFactory.getListener(dateStart));
+		sl_panCenter.putConstraint(SpringLayout.WEST, dateStart, 0,
+				SpringLayout.WEST, txtName);
+		sl_panCenter.putConstraint(SpringLayout.SOUTH, dateStart, 0,
+				SpringLayout.SOUTH, lblStartDate);
 		sl_panCenter.putConstraint(SpringLayout.EAST, dateStart, 0,
 				SpringLayout.EAST, txtName);
 		panCenter.add(dateStart);
 
 		dateEnd = new JDateChooser(new Date());
-		sl_panCenter.putConstraint(SpringLayout.WEST, dateEnd, 0, SpringLayout.WEST, txtName);
-		sl_panCenter.putConstraint(SpringLayout.SOUTH, dateEnd, 0, SpringLayout.SOUTH, lblEndDate);
-		sl_panCenter.putConstraint(SpringLayout.EAST, dateEnd, 0, SpringLayout.EAST, txtName);
+		dateEnd.getDateEditor().getUiComponent().addFocusListener(ErrorListenerFactory.getListener(dateEnd));
+		sl_panCenter.putConstraint(SpringLayout.WEST, dateEnd, 0,
+				SpringLayout.WEST, txtName);
+		sl_panCenter.putConstraint(SpringLayout.SOUTH, dateEnd, 0,
+				SpringLayout.SOUTH, lblEndDate);
+		sl_panCenter.putConstraint(SpringLayout.EAST, dateEnd, 0,
+				SpringLayout.EAST, txtName);
 		panCenter.add(dateEnd);
 
 		JPanel panFooter = new JPanel();
@@ -101,7 +118,7 @@ public class AddProject extends JPanel implements ActionListener {
 		btnSubmit.setBackground(new Color(32, 130, 213));
 		btnSubmit.setFont(new Font("Arial", Font.PLAIN, 18));
 		btnSubmit.addActionListener(this);
-		
+
 		projectController = ProjectController.getInstance();
 
 		setVisible(true);
@@ -109,20 +126,41 @@ public class AddProject extends JPanel implements ActionListener {
 		this.revalidate();
 	}
 
-	
+	public String checkInput() {
+		String text = "";
+		if (txtName.getText().equals("")) {
+			text += "Please specify project name.\n";
+			txtName.setBorder(BorderFactory.createLineBorder(Color.RED, 1));
+		}
+		if (dateStart.getDate().after(dateEnd.getDate())) {
+			text += "Start date should occur before the end date.\n";
+			dateStart.setBorder(BorderFactory.createLineBorder(Color.RED, 1));
+			dateEnd.setBorder(BorderFactory.createLineBorder(Color.RED, 1));
+		}
+		return text;
+
+	}
+
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
-		if(e.getSource()==btnSubmit){
-			Project checkProject;
-			Project project = new Project(txtName.getText(), dateStart.getDate(), dateEnd.getDate());
-			
-			projectController.addProject(project);
-			projectController.init();
-			System.out.println("Yey project: "+project.getName());
-			
+		String text = checkInput();
+		if (e.getSource() == btnSubmit) {
+			if (text.equals("")) {
+				Project checkProject;
+				Project project = new Project(txtName.getText(),
+						dateStart.getDate(), dateEnd.getDate());
+
+				projectController.addProject(project);
+				projectController.init();
+				System.out.println("Yey project: " + project.getName());
+			}
+			else{
+				new Message(parent, Message.ERROR,
+						text);
+			}
 		}
-		
+
 		else {
 			this.repaint();
 			this.revalidate();

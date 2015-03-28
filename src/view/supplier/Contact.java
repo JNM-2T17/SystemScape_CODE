@@ -1,6 +1,8 @@
 package view.supplier;
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
@@ -13,12 +15,13 @@ import java.awt.FlowLayout;
 import javax.swing.border.EmptyBorder;
 
 import view.Button;
+import view.ErrorListenerFactory;
 import view.Button.ButtonBuilder;
 
 
 public class Contact extends JPanel {
-	private JTextField value;
-	private JComboBox type;
+	private JLabel value;
+	private JLabel type;
 	private JButton btn;
 	
 	public Contact(){
@@ -29,13 +32,13 @@ public class Contact extends JPanel {
 		FlowLayout flowLayout = (FlowLayout) getLayout();
 		flowLayout.setAlignment(FlowLayout.LEFT);
 		setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-		String opt[]={"FAX", "Telephone", "Cellphone"};
 		
 		
-		value=new JTextField();
+		
+		value=new JLabel();
 		value.setPreferredSize(new Dimension(175, 25));
 		
-		type=new JComboBox(opt);
+		type=new JLabel();
 		type.setBorder(new EmptyBorder(0, 0, 0, 0));
 		type.setBackground(Color.white);
 		type.setPreferredSize(new Dimension(120, 25));
@@ -62,7 +65,7 @@ public class Contact extends JPanel {
 	}
 
 	public void setType(String type) {
-		this.type.setSelectedItem(type);
+		this.type.setText(type);
 	}
 
 	public String getValue() {
@@ -70,16 +73,11 @@ public class Contact extends JPanel {
 	}
 
 	public String getType() {
-		return (String) type.getSelectedItem();
+		return type.getText();
 	}
 
 	public JButton getBtn() {
 		return btn;
-	}
-
-	public void clear() {
-		value.setText("");
-		type.setSelectedIndex(0);
 	}
 	
 }

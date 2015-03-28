@@ -10,6 +10,7 @@ import javax.swing.SpringLayout;
 
 import java.awt.List;
 
+import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JComboBox;
@@ -22,6 +23,7 @@ import model.Project;
 import com.toedter.calendar.JDateChooser;
 
 import view.Button;
+import view.Message;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -30,7 +32,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
 public class EditProject extends JPanel implements ActionListener {
-	private JButton btnRight, btnLeft, btnDblRight, btnDblLeft;
+	private JButton btnSubmit, btnRight, btnLeft, btnDblRight, btnDblLeft;
 	private JTextField txtProjects;
 	private List listAll, listEmp;
 	private JFrame parent;
@@ -159,7 +161,7 @@ public class EditProject extends JPanel implements ActionListener {
 				SpringLayout.WEST, lblProject);
 		panContent.add(lblEndDate);
 
-		dateStart = new JDateChooser();
+		dateStart = new JDateChooser(project.getStartDate());
 		sl_panContent.putConstraint(SpringLayout.WEST, dateStart, 14,
 				SpringLayout.EAST, lblStartDate);
 		sl_panContent.putConstraint(SpringLayout.EAST, dateStart, -464,
@@ -171,7 +173,7 @@ public class EditProject extends JPanel implements ActionListener {
 		dateStart.setBackground(Color.WHITE);
 		panContent.add(dateStart);
 
-		dateEnd = new JDateChooser();
+		dateEnd = new JDateChooser(project.getEndDate());
 		sl_panContent.putConstraint(SpringLayout.NORTH, btnRight, 140, SpringLayout.SOUTH, dateEnd);
 		sl_panContent.putConstraint(SpringLayout.WEST, dateEnd, 20,
 				SpringLayout.EAST, lblEndDate);
@@ -191,16 +193,41 @@ public class EditProject extends JPanel implements ActionListener {
 		sl_panContent.putConstraint(SpringLayout.WEST, panFooter, 10,
 				SpringLayout.WEST, panContent);
 
-		JButton btnSubmit = new JButton("Submit");
+		btnSubmit = new JButton("Submit");
 		panFooter.add(btnSubmit);
 		btnSubmit.setForeground(Color.WHITE);
 		btnSubmit.setBackground(new Color(32, 130, 213));
 		btnSubmit.setFont(new Font("Arial", Font.PLAIN, 18));
 		btnSubmit.addActionListener(this);
 	}
+	
+	public String checkInput() {
+		String text = "";
+		if (txtProjects.getText().equals("")) {
+			text += "Please specify project name.\n";
+			txtProjects.setBorder(BorderFactory.createLineBorder(Color.RED, 1));
+		}
+		if (dateStart.getDate().after(dateEnd.getDate())) {
+			text += "Start date should occur before the end date.\n";
+			dateStart.setBorder(BorderFactory.createLineBorder(Color.RED, 1));
+			dateEnd.setBorder(BorderFactory.createLineBorder(Color.RED, 1));
+		}
+		return text;
+
+	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
+		if(e.getSource()==btnSubmit){
+			String text=checkInput();
+			if(text.equals("")){
+				
+			}
+			else{
+				new Message(parent, Message.ERROR,
+						text);
+			}
+		}
 	}
 }

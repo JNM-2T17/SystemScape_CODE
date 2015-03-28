@@ -42,7 +42,7 @@ public class TabProject extends JPanel implements ActionListener{
 		this.add(temp, "view");
 		list.add(temp);
 		
-		temp=new Content.ContentBuilder().caption("Add Project").back(true).content(new AddProject()).build();
+		temp=new Content.ContentBuilder().caption("Add Project").back(true).content(new AddProject(gui)).build();
 		temp.getBtnBack().addActionListener(this);
 		this.add(temp, "add");
 		list.add(temp);

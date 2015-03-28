@@ -10,6 +10,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -27,7 +28,9 @@ import javax.swing.JFrame;
 import javax.swing.border.EmptyBorder;
 
 import model.Supplier;
+import model.SupplierContact;
 import view.Button;
+import view.ErrorListenerFactory;
 import view.Button.ButtonBuilder;
 import view.Message;
 
@@ -41,13 +44,17 @@ public class AddSupplier extends JPanel implements ActionListener {
 	private JTextField txtSupp;
 	// private JComboBox cmbCountry, cmbState, cmbCity;
 	private JTextField cmbCountry, cmbState, cmbCity;
-	private Contact temp;
+	private JPanel temp;
 	private JPanel panContact, panClose;
 	private ArrayList<Contact> list;
 	private ArrayList<JButton> close;
 	private JButton btnSubmit;
 	private SupplierController supplierController;
 	private JFrame parent;
+	
+	private JTextField value;
+	private JButton btn;
+	private JComboBox type;
 
 	public AddSupplier(JFrame parent) {
 		this.parent = parent;
@@ -67,6 +74,7 @@ public class AddSupplier extends JPanel implements ActionListener {
 		panContent.add(lblSupp, "cell 0 0,alignx left,growy");
 
 		txtSupp = new JTextField();
+		txtSupp.addFocusListener(ErrorListenerFactory.getListener(txtSupp));
 		panContent.add(txtSupp, "cell 2 0,grow");
 		txtSupp.setColumns(10);
 
@@ -83,14 +91,17 @@ public class AddSupplier extends JPanel implements ActionListener {
 		panContent.add(lblCity, "cell 0 4,alignx right,growy");
 
 		cmbCountry = new JTextField();
+		cmbCountry.addFocusListener(ErrorListenerFactory.getListener(cmbCountry));
 		panContent.add(cmbCountry, "cell 2 2,grow");
 		cmbCountry.setBackground(Color.white);
 
 		cmbState = new JTextField();
+		cmbState.addFocusListener(ErrorListenerFactory.getListener(cmbState));
 		panContent.add(cmbState, "cell 2 3,grow");
 		cmbState.setBackground(Color.white);
 
 		cmbCity = new JTextField();
+		cmbState.addFocusListener(ErrorListenerFactory.getListener(cmbCity));
 		panContent.add(cmbCity, "cell 2 4,grow");
 		cmbCity.setBackground(Color.white);
 
@@ -117,9 +128,33 @@ public class AddSupplier extends JPanel implements ActionListener {
 		panClose.setVisible(false);
 		
 
-		temp = new Contact();
+		temp = new JPanel();
+		temp.setMaximumSize(new Dimension(400, 37));
+		temp.setPreferredSize(new Dimension(365, 37));
+		temp.setBackground(Color.WHITE);
 		FlowLayout flowLayout = (FlowLayout) temp.getLayout();
-		temp.getBtn().addActionListener(this);
+		flowLayout.setAlignment(FlowLayout.LEFT);
+		
+		
+		value=new JTextField();
+		value.setPreferredSize(new Dimension(175, 25));
+		value.addFocusListener(ErrorListenerFactory.getListener(value));
+		temp.add(value);
+		
+		String opt[]={"FAX", "Telephone", "Cellphone"};
+		type=new JComboBox(opt);
+		type.setBorder(new EmptyBorder(0, 0, 0, 0));
+		type.setBackground(Color.white);
+		type.setPreferredSize(new Dimension(120, 25));
+		temp.add(type);
+		
+		btn= new Button.ButtonBuilder().img("src/assets/Round/Add.png", 30,
+				30).build();
+		temp.add(btn);
+		btn.setActionCommand("add");
+		btn.addActionListener(this);
+		temp.add(btn);
+		
 		panContact.add(temp, "newline,alignx left,aligny top");
 
 		JPanel panFooter = new JPanel();
@@ -138,6 +173,8 @@ public class AddSupplier extends JPanel implements ActionListener {
 		// populate();
 		System.out.println("STUPID");
 		
+		
+		
 		this.repaint();
 		this.revalidate();
 	}
@@ -154,11 +191,12 @@ public class AddSupplier extends JPanel implements ActionListener {
 
 	}
 
-	public void addContact(Contact pan) {
+	public void addContact(String value, String type) {
 
-		if (pan.getValue().equals("")) {
+		if (value.equals("")) {
+			this.value.setBorder(BorderFactory.createLineBorder(Color.RED, 1));
 			new Message(parent, Message.ERROR, "Please set contact value.");
-		} else if (contactError(pan.getValue())) {
+		} else if (contactError(value)) {
 			new Message(parent, Message.ERROR,
 					"Contact value can only be composed of numbers.");
 		} else {
@@ -171,14 +209,11 @@ public class AddSupplier extends JPanel implements ActionListener {
 			temp.setButton(close);
 			temp.getBtn().setActionCommand("close");
 
-			System.out.println("PAN VALUE" + pan.getValue());
-			System.out.println("PAN TYPE" + pan.getType());
+			temp.setValue(value);
+			temp.setType(type);
 
-			temp.setValue(pan.getValue());
-			temp.setType(pan.getType());
-
-			pan.setValue("");
-			pan.setType("FAX");
+			this.value.setText("");
+			this.type.setSelectedIndex(0);
 
 			panClose.add(temp);
 			list.add(temp);
@@ -195,32 +230,6 @@ public class AddSupplier extends JPanel implements ActionListener {
 
 	}
 
-	// public void populate() {
-	// Iterator iterator = supplierController.getDistinct("country");
-	// ArrayList<String> data = new ArrayList();
-	//
-	// while (iterator.hasNext()) {
-	// data.add((String) iterator.next());
-	// }
-	// cmbCountry.setModel(new DefaultComboBoxModel(data.toArray()));
-	// data.removeAll(data);
-	//
-	// iterator = supplierController.getDistinct("state");
-	// while (iterator.hasNext()) {
-	// data.add((String) iterator.next());
-	// }
-	// cmbState.setModel(new DefaultComboBoxModel(data.toArray()));
-	// data.removeAll(data);
-	//
-	// iterator = supplierController.getDistinct("city");
-	// while (iterator.hasNext()) {
-	// data.add((String) iterator.next());
-	// }
-	//
-	// cmbCity.setModel(new DefaultComboBoxModel(data.toArray()));
-	//
-	// }
-
 	public void clear() {
 		list.clear();
 		close.clear();
@@ -231,34 +240,37 @@ public class AddSupplier extends JPanel implements ActionListener {
 		panClose.removeAll();
 
 		Contact pan = (Contact) panContact.getComponent(1);
-		pan.clear();
 		this.repaint();
 		this.revalidate();
 	}
 
-	public boolean checkInput() {
-		boolean stat = true;
+	public String checkInput() {
+		String text="";
 
 		if (txtSupp.getText().equals("")) {
-			new Message(parent, Message.ERROR, "Please specify the supplier.");
-			stat = false;
-		} else if (cmbCountry.getText().equals("")
+			text+="Please specify the supplier.\n";
+			txtSupp.setBorder(BorderFactory.createLineBorder(Color.RED, 1));
+		}
+		if (cmbCountry.getText().equals("")
 				|| cmbState.getText().equals("")
 				|| cmbCity.getText().equals("")) {
-			new Message(parent, Message.ERROR,
-					"Please accomplish supplier location.");
-			stat = false;
+			if(cmbCountry.getText().equals("")) cmbCountry.setBorder(BorderFactory.createLineBorder(Color.RED, 1));
+			if(cmbState.getText().equals("")) cmbState.setBorder(BorderFactory.createLineBorder(Color.RED, 1));
+			if(cmbCity.getText().equals("")) cmbCity.setBorder(BorderFactory.createLineBorder(Color.RED, 1));
+			text+="Please accomplish supplier location.\n";
 		}
-		return stat;
+		System.out.println(text);
+		return text;
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		if (e.getActionCommand().equals("add")) {
-			addContact((Contact) panContact.getComponent(1));
+			addContact(value.getText(), (String)type.getSelectedItem());
 		} else if (e.getSource() == btnSubmit) {
-			if (checkInput()) {
+			String text=checkInput();System.out.println(text);
+			if (text.equals("")) {
 				Supplier checkSupplier;
 				Supplier supplier = new Supplier(txtSupp.getText(),
 						(String) cmbCountry.getText(),
@@ -268,7 +280,7 @@ public class AddSupplier extends JPanel implements ActionListener {
 				checkSupplier = (Supplier) supplierController
 						.getObject(supplier.getName());
 
-				if (checkSupplier == null) {
+				if (checkSupplier != null) {
 					for (int i = 0; i < list.size(); i++) {
 						System.out.println("RISSA: "+i);
 						supplier.addSupplierContact(txtSupp.getText(), list
@@ -285,7 +297,11 @@ public class AddSupplier extends JPanel implements ActionListener {
 							"Supplier already exists!");
 				}
 				supplierController.init();
-				clear();
+				//clear();
+			}
+			else{
+				new Message(parent, Message.ERROR,
+						text);
 			}
 
 		} else {

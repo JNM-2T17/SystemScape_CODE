@@ -8,7 +8,9 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Arrays;
 
+import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -24,6 +26,8 @@ import net.miginfocom.swing.MigLayout;
 import java.awt.BorderLayout;
 
 import javax.swing.border.EmptyBorder;
+
+import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 
 import view.Button;
 import view.Message;
@@ -66,8 +70,12 @@ public class EditEmployee extends JPanel implements ActionListener {
 		JLabel lblStatus = new JLabel("Status:");
 		lblStatus.setBounds(158, 130, 92, 26);
 		panContent.add(lblStatus);
+		
+		String[] opt={"Active", "On Leave"};
 
-		cmbStatus = new JComboBox();
+		cmbStatus = new JComboBox(opt);
+		cmbStatus.setEditable(true);
+		AutoCompleteDecorator.decorate(cmbStatus);
 		cmbStatus.setBackground(Color.WHITE);
 		cmbStatus.setBounds(251, 130, 372, 25);
 		panContent.add(cmbStatus);
@@ -97,8 +105,8 @@ public class EditEmployee extends JPanel implements ActionListener {
 		scrollPane.setViewportView(panContact);
 		panClose.setVisible(false);
 		
-		String[] opt={"sample", "sample2"};
-		cmbProj=new JComboBox(opt);
+		String[] opt2={"sample", "sample2"};
+		cmbProj=new JComboBox(opt2);
 		cmbProj.setBackground(Color.white);
 		cmbProj.setPreferredSize(new Dimension(200, 25));
 		btnAdd = new Button.ButtonBuilder().img("src/assets/Round/Add.png", 30,
@@ -165,20 +173,42 @@ public class EditEmployee extends JPanel implements ActionListener {
 			this.repaint();
 			this.revalidate();
 	}
+	
+	public String checkInput(){
+		String text="";
+		if(txtName.getText().equals("")){
+			txtName.setBorder(BorderFactory.createLineBorder(Color.RED, 1));
+			text+="Please specify employee name.\n";
+		}
+		return text;
+	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
-		if (e.getActionCommand().equals("add")) {
+		if(e.getSource()==btnSubmit){
+			String text=checkInput();
+			if(text.equals("")){
+				
+			}
+			else{
+				new Message(parent, Message.ERROR,
+						text);
+			}
+			
+		}
+		else if (e.getActionCommand().equals("add")) {
 //			System.out.println(((JPanel) panContact.getComponent(0)).getComponentCount());
 //			System.out.println(temp.getComponentCount());
 			addProject((JComboBox) temp.getComponent(0));
+			((JComboBox) temp.getComponent(0)).removeItem(((JComboBox) temp.getComponent(0)).getSelectedItem());
 		} else {
 			int index = close.indexOf(e.getSource());
+			
+			((JComboBox) temp.getComponent(0)).addItem(list.get(index).getValue());
 			close.remove(index);
 			panClose.remove(index);
 			list.remove(index);
-			
 			panClose.setMaximumSize(new Dimension(360,
 					panClose.getComponentCount() * 37));
 			this.repaint();
