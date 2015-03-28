@@ -16,11 +16,13 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 
+import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JTextField;
 import javax.swing.JTextArea;
 import javax.swing.JComboBox;
 
+import view.ErrorListenerFactory;
 import view.Message;
 import view.inventory.ItemPanelDecorator;
 import view.inventory.ItemPanelParticipant;
@@ -70,6 +72,7 @@ public class ItemTileWarrantyView extends ItemPanelDecorator implements ItemPane
 		panWarranty.add(lblDeliveryDate, "flowx,cell 1 1");
 		
 		startWarrantyDate = new JDateChooser();
+		startWarrantyDate.addFocusListener(ErrorListenerFactory.getListener(startWarrantyDate));
 		startWarrantyDate.setOpaque(false);
 		startWarrantyDate.setDate(new Date());
 		startWarrantyDate.setBorder(null);
@@ -83,6 +86,7 @@ public class ItemTileWarrantyView extends ItemPanelDecorator implements ItemPane
 		panWarranty.add(lblEnd, "cell 1 3,alignx left");
 		
 		endWarrantyDate = new JDateChooser();
+		endWarrantyDate.addFocusListener(ErrorListenerFactory.getListener(endWarrantyDate));
 		endWarrantyDate.setOpaque(false);
 		endWarrantyDate.setDate(new Date());
 		endWarrantyDate.setBorder(null);
@@ -125,15 +129,17 @@ public class ItemTileWarrantyView extends ItemPanelDecorator implements ItemPane
 	}
 
 	@Override
-	public boolean checkInput() {
+	public String checkInput() {
+		String stat="";
 		Date st = startWarrantyDate.getDate();
 		Date end = endWarrantyDate.getDate();
 		
 		if(st.compareTo(end)>0){
-			new Message(parent, Message.ERROR, "Warranty start date must occur before the end date");
-			return false;
+			startWarrantyDate.setBorder(BorderFactory.createLineBorder(Color.RED, 1));
+			endWarrantyDate.setBorder(BorderFactory.createLineBorder(Color.RED, 1));
+			stat+= "Warranty start date must occur before the end date.\n";
 		}
-		return true;
+		return stat;
 	}
 
 	@Override

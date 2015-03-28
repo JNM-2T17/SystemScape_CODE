@@ -26,6 +26,7 @@ import javax.swing.border.LineBorder;
 import javax.swing.JScrollPane;
 import javax.swing.JComboBox;
 
+import view.ErrorListenerFactory;
 import view.Message;
 import view.inventory.ItemPanelDecorator;
 import view.inventory.ItemPanelParticipant;
@@ -77,6 +78,7 @@ public class ItemTileGenInfoView extends ItemPanelDecorator implements ItemPanel
 		panGeneral.add(lblName, "cell 0 0,alignx right");
 
 		tfName = new JTextField();
+		tfName.addFocusListener(ErrorListenerFactory.getListener(tfName));
 		panGeneral.add(tfName, "cell 2 0,growx");
 		tfName.setColumns(10);
 
@@ -92,6 +94,7 @@ public class ItemTileGenInfoView extends ItemPanelDecorator implements ItemPanel
 		panGeneral.add(scrollPane, "cell 2 1,grow");
 
 		taDescription = new JTextArea();
+		taDescription.addFocusListener(ErrorListenerFactory.getListener(taDescription));
 		scrollPane.setViewportView(taDescription);
 		taDescription.setBorder(new LineBorder(Color.LIGHT_GRAY));
 
@@ -99,6 +102,7 @@ public class ItemTileGenInfoView extends ItemPanelDecorator implements ItemPanel
 		panGeneral.add(lblUnitPrice, "cell 0 2,alignx right");
 
 		tfUnitPrice = new JTextField();
+		tfUnitPrice.addFocusListener(ErrorListenerFactory.getListener(tfUnitPrice));
 		tfUnitPrice.setColumns(10);
 		panGeneral.add(tfUnitPrice, "cell 2 2,growx");
 
@@ -106,6 +110,7 @@ public class ItemTileGenInfoView extends ItemPanelDecorator implements ItemPanel
 		panGeneral.add(lblInvoiceNumber, "cell 0 3");
 
 		tfInvoiceNumber = new JTextField();
+		tfInvoiceNumber.addFocusListener(ErrorListenerFactory.getListener(tfInvoiceNumber));
 		tfInvoiceNumber.setColumns(10);
 		panGeneral.add(tfInvoiceNumber, "cell 2 3,growx");
 
@@ -158,32 +163,32 @@ public class ItemTileGenInfoView extends ItemPanelDecorator implements ItemPanel
 	}
 
 	@Override
-	public boolean checkInput() {
-		boolean stat = true;
+	public String checkInput() {
+		String stat = "";
 		if (tfName.getText().equals("")) {
-			new Message(parent, Message.ERROR, "Please specify item name.");
-			stat = false;
-		} else if (taDescription.getText().equals("")) {
-			new Message(parent, Message.ERROR,
-					"Please specify item description.");
-			stat = false;
-		} else if (tfUnitPrice.getText().equals("")) {
-			new Message(parent, Message.ERROR,
-					"Please specify item unit price.");
-			stat = false;
-		} else if (tfInvoiceNumber.getText().equals("")) {
-			new Message(parent, Message.ERROR,
-					"Please specify item invoice number.");
-			stat = false;
-		} else {
-			try {
-				float f = Float.parseFloat(tfUnitPrice.getText());
-			} catch (Exception e) {
-				new Message(parent, Message.ERROR,
-						"Invalid unit price.");
-				stat = false;
-			}
+			stat += "Please specify item name.\n";
+			tfName.setBorder(BorderFactory.createLineBorder(Color.RED, 1));
 		}
+		if (taDescription.getText().equals("")) {
+			stat += "Please specify item description.\n";
+			taDescription.setBorder(BorderFactory.createLineBorder(Color.RED, 1));
+		}
+		if (tfUnitPrice.getText().equals("")) {
+			stat += "Please specify item unit price.\n";
+			tfUnitPrice.setBorder(BorderFactory.createLineBorder(Color.RED, 1));
+		}
+		if (tfInvoiceNumber.getText().equals("")) {
+			stat += "Please specify item invoice number.\n";
+			tfInvoiceNumber.setBorder(BorderFactory.createLineBorder(Color.RED, 1));
+		}
+
+		try {
+			float f = Float.parseFloat(tfUnitPrice.getText());
+		} catch (Exception e) {
+			stat += "Invalid unit price.\n";
+			tfUnitPrice.setBorder(BorderFactory.createLineBorder(Color.RED, 1));
+		}
+
 		return stat;
 	}
 

@@ -35,7 +35,7 @@ public class InventoryItemDisplayManager {
 	
 	private InventoryItemDisplayManager()
 	{
-		panelRegistry = new PanelRegistry();
+		panelRegistry = new PanelRegistry(this);
 		
 	}
 	
@@ -49,6 +49,9 @@ public class InventoryItemDisplayManager {
 	public void setGui(Gui gui)
 	{
 		this.gui = gui;
+	}
+	public Gui getGui(){
+		return gui;
 	}
 	
 	public void setContent(Content temp)

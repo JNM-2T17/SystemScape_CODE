@@ -133,9 +133,9 @@ public class ItemTileNonITField extends ItemPanelDecorator implements ItemPanelP
 	}
 
 	@Override
-	public boolean checkInput() {
+	public String checkInput() {
 		// TODO Auto-generated method stub
-		return true;
+		return "";
 	}
 
 	@Override

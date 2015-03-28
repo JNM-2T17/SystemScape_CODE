@@ -3,6 +3,7 @@ package view;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.SpringLayout;
 import javax.swing.JLabel;
 import javax.swing.ImageIcon;
@@ -129,6 +130,9 @@ public class Message extends PopUp implements ActionListener{
 			btnOk.setVisible(false);
 		}
 
+		JScrollPane pane=new JScrollPane();
+		pane.setBorder(null);
+		
 		JTextArea msg = new JTextArea();
 		msg.setText(text);
 		msg.setFont(new Font("Arial", Font.PLAIN, 18));
@@ -136,7 +140,15 @@ public class Message extends PopUp implements ActionListener{
 		msg.setWrapStyleWord(true);
 		msg.setBackground(Color.WHITE);
 		msg.setBorder(new EmptyBorder(10, 10, 10, 10));
-		panContent.add(msg, BorderLayout.CENTER);
+		
+		pane.setViewportView(msg);
+		panContent.add(pane, BorderLayout.CENTER);
+		
+//		if(msg.getRows()>5){
+//			panMain.setSize(new Dimension(panMain.getWidth(), msg.getHeight()*10));
+//			panMain.setPreferredSize(new Dimension(panMain.getWidth(), msg.getHeight()*10));
+//		}
+		
 		
 		this.setVisible(true);
 		this.repaint();

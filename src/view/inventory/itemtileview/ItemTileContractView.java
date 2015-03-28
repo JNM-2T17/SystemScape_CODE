@@ -1,5 +1,6 @@
 package view.inventory.itemtileview;
 
+import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.GroupLayout;
@@ -24,6 +25,7 @@ import com.toedter.calendar.JDateChooser;
 
 import javax.swing.JComboBox;
 
+import view.ErrorListenerFactory;
 import view.Message;
 import view.inventory.ItemPanelDecorator;
 import view.inventory.ItemPanelParticipant;
@@ -64,6 +66,7 @@ public class ItemTileContractView extends ItemPanelDecorator implements ItemPane
 		panContract.add(lblStart, "flowx,cell 1 1");
 		
 		startDateChooser = new JDateChooser();
+		startDateChooser.getDateEditor().getUiComponent().addFocusListener(ErrorListenerFactory.getListener(startDateChooser));
 		startDateChooser.setOpaque(false);
 		startDateChooser.setDate(new Date());
 		startDateChooser.setBorder(null);
@@ -76,6 +79,7 @@ public class ItemTileContractView extends ItemPanelDecorator implements ItemPane
 		panContract.add(lblEnd, "cell 1 3,alignx left");
 		
 		endDateChooser = new JDateChooser();
+		endDateChooser.getDateEditor().getUiComponent().addFocusListener(ErrorListenerFactory.getListener(endDateChooser));
 		endDateChooser.setOpaque(false);
 		endDateChooser.setDate(new Date());
 		endDateChooser.setBorder(null);
@@ -94,6 +98,7 @@ public class ItemTileContractView extends ItemPanelDecorator implements ItemPane
 
 		
 		tfMainCost = new JTextField();
+		tfMainCost.addFocusListener(ErrorListenerFactory.getListener(tfMainCost));
 		panContract.add(tfMainCost, "cell 2 5 3 1,growx");
 		tfMainCost.setColumns(10);
 		
@@ -126,6 +131,7 @@ public class ItemTileContractView extends ItemPanelDecorator implements ItemPane
 		panContract.add(lblStart, "flowx,cell 1 1");
 		
 		startDateChooser = new JDateChooser();
+		startDateChooser.getDateEditor().getUiComponent().addFocusListener(ErrorListenerFactory.getListener(startDateChooser));
 		startDateChooser.setOpaque(false);
 		startDateChooser.setDate(new Date());
 		startDateChooser.setBorder(null);
@@ -138,6 +144,7 @@ public class ItemTileContractView extends ItemPanelDecorator implements ItemPane
 		panContract.add(lblEnd, "cell 1 3,alignx left");
 		
 		endDateChooser = new JDateChooser();
+		endDateChooser.getDateEditor().getUiComponent().addFocusListener(ErrorListenerFactory.getListener(endDateChooser));
 		endDateChooser.setOpaque(false);
 		endDateChooser.setDate(new Date());
 		endDateChooser.setBorder(null);
@@ -155,6 +162,7 @@ public class ItemTileContractView extends ItemPanelDecorator implements ItemPane
 		addItemPanelReference.assignToQuad(panContract, 4);
 		
 		tfMainCost = new JTextField();
+		tfMainCost.addFocusListener(ErrorListenerFactory.getListener(tfMainCost));
 		panContract.add(tfMainCost, "cell 2 5 3 1,growx");
 		tfMainCost.setColumns(10);
 
@@ -180,23 +188,22 @@ public class ItemTileContractView extends ItemPanelDecorator implements ItemPane
 	}
 
 	@Override
-	public boolean checkInput() {
-		boolean stat=true;
+	public String checkInput() {
+		String stat="";
 		Date st = startDateChooser.getDate();
 		Date end = endDateChooser.getDate();
 		
 		if(st.compareTo(end)>0){
-			new Message(parent, Message.ERROR, "Contract start date must occur before the end date");
-			stat=false;
+			stat+="Contract start date must occur before the end date\n";
+			endDateChooser.setBorder(BorderFactory.createLineBorder(Color.RED, 1));
+			startDateChooser.setBorder(BorderFactory.createLineBorder(Color.RED, 1));
 		}
-		else{
-			try{
-				float f=Float.parseFloat(tfMainCost.getText());
-			}
-			catch(Exception e){
-				new Message(parent, Message.ERROR, "Invalid maintenance cost");
-				stat=false; 
-			}
+		try{
+			float f=Float.parseFloat(tfMainCost.getText());
+		}
+		catch(Exception e){
+			tfMainCost.setBorder(BorderFactory.createLineBorder(Color.RED, 1));
+			stat+="Invalid maintenance cost\n";
 		}
 		return stat;
 	}

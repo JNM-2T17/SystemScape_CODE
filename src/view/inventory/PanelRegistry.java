@@ -24,6 +24,9 @@ import controller.WarrantyController;
 
 import java.util.Date;
 
+import javax.swing.JFrame;
+
+import view.Message;
 import view.inventory.itemstorage.ItemStorageContract;
 import view.inventory.itemstorage.ItemStorageGenInfo;
 import view.inventory.itemstorage.ItemStorageGeneral;
@@ -43,10 +46,13 @@ public class PanelRegistry implements PanelRegistration {
 	private boolean isAdd;
 	private ArrayList<ItemPanelParticipant> participantList;
 	private InventoryItemDisplayManager displayManager;
-	public PanelRegistry() {
+	
+	private JFrame parent;
+	public PanelRegistry(InventoryItemDisplayManager manager) {
 		participantList = new ArrayList<ItemPanelParticipant>();
 		type = "IT";
 		isAdd = true;
+		this.displayManager=manager;
 	}
 
 	public void clearParticipants() {
@@ -76,14 +82,13 @@ public class PanelRegistry implements PanelRegistration {
 		ArrayList warrantyInfo = new ArrayList();
 		ArrayList contractInfo = new ArrayList();
 		System.out.println("Passed RIA");
-		boolean stat = true;
 		int i = 0;
+		String text="";
 		if(participantList.size() > 0)
 		{
-			while (i < participantList.size() && stat) {
-				stat=participantList.get(i).checkInput();
+			while (i < participantList.size()) {
+				text+=participantList.get(i).checkInput();
 				i++;
-				System.out.println("Status :" + stat);
 			}
 		}
 		else
@@ -92,7 +97,7 @@ public class PanelRegistry implements PanelRegistration {
 		}
 		
 
-		if (stat) {
+		if (text.equals("")) {
 			for (i = 0; i < participantList.size(); i++) {
 				if (i == 0) {
 					Iterator iter = participantList.get(i)
@@ -121,6 +126,10 @@ public class PanelRegistry implements PanelRegistration {
 				}
 			}
 			buildInventoryItem(type, generalInfo, typeInfo, warrantyInfo, contractInfo);
+		}
+		else{
+			new Message(displayManager.getGui(), Message.ERROR,
+					text);
 		}
 		
 	}

@@ -25,5 +25,5 @@ public interface ItemPanelParticipant {
 	 * Checks the input for the specific registered <b>ItemPanelParticipant</b>
 	 * @return
 	 */
-	public boolean checkInput();
+	public String checkInput();
 }

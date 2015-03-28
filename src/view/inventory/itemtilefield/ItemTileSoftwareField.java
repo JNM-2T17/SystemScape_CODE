@@ -20,12 +20,14 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 
+import javax.swing.BorderFactory;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JFrame;
 import javax.swing.JTextField;
 import javax.swing.JTextArea;
 import javax.swing.JComboBox;
 
+import view.ErrorListenerFactory;
 import view.Message;
 import view.inventory.InventoryItemDisplayManager;
 import view.inventory.ItemPanelDecorator;
@@ -87,6 +89,7 @@ public class ItemTileSoftwareField extends ItemPanelDecorator implements ItemPan
 		panSoftware.add(lblDeliveryDate, "flowx,cell 1 5 4 1,alignx right");
 		
 		deliveryDateChooser = new JDateChooser();
+		deliveryDateChooser.getDateEditor().getUiComponent().addFocusListener(ErrorListenerFactory.getListener(deliveryDateChooser));
 		deliveryDateChooser.setOpaque(false);
 		deliveryDateChooser.setDate(new Date());
 		deliveryDateChooser.setBorder(null);
@@ -107,6 +110,7 @@ public class ItemTileSoftwareField extends ItemPanelDecorator implements ItemPan
 		
 		
 		tfLicenseKey = new JTextField();
+		tfLicenseKey.addFocusListener(ErrorListenerFactory.getListener(tfLicenseKey));
 		tfLicenseKey.setColumns(10);
 		panSoftware.add(tfLicenseKey, "cell 5 3 3 1,growx");
 		
@@ -147,12 +151,13 @@ public class ItemTileSoftwareField extends ItemPanelDecorator implements ItemPan
 	}
 
 	@Override
-	public boolean checkInput() {
+	public String checkInput() {
+		String stat="";
 		if(tfLicenseKey.getText().equals("")){
-			new Message(parent, Message.ERROR, "Please specity item license key.");
-			return false;
+			tfLicenseKey.setBorder(BorderFactory.createLineBorder(Color.RED, 1));
+			stat+="Please specity item license key.\n";
 		}
-		return true;
+		return stat;
 	}
 
 	@Override

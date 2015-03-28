@@ -21,12 +21,14 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 
+import javax.swing.BorderFactory;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JFrame;
 import javax.swing.JTextField;
 import javax.swing.JTextArea;
 import javax.swing.JComboBox;
 
+import view.ErrorListenerFactory;
 import view.Message;
 import view.inventory.InventoryItemDisplayManager;
 import view.inventory.ItemPanelDecorator;
@@ -93,6 +95,7 @@ public class ItemTileITField extends ItemPanelDecorator implements ItemPanelPart
 		panIT.add(lblDeliveryDate, "flowx,cell 1 7 4 1");
 		
 		deliveryDateChooser = new JDateChooser();
+		deliveryDateChooser.getDateEditor().getUiComponent().addFocusListener(ErrorListenerFactory.getListener(deliveryDateChooser));
 		deliveryDateChooser.setOpaque(false);
 		deliveryDateChooser.setDate(new Date());
 		deliveryDateChooser.setBorder(null);
@@ -115,11 +118,13 @@ public class ItemTileITField extends ItemPanelDecorator implements ItemPanelPart
 		/* Asset and Service Fields */
 		
 		tfAssetTag = new JTextField();
+		tfAssetTag.addFocusListener(ErrorListenerFactory.getListener(tfAssetTag));
 		tfAssetTag.setColumns(10);
 		panIT.add(tfAssetTag, "cell 5 3 3 1,growx");
 		
 		
 		tfServiceTag = new JTextField();
+		tfServiceTag.addFocusListener(ErrorListenerFactory.getListener(tfServiceTag));
 		tfServiceTag.setColumns(10);
 		panIT.add(tfServiceTag, "cell 5 5 3 1,growx");
 		
@@ -170,16 +175,15 @@ public class ItemTileITField extends ItemPanelDecorator implements ItemPanelPart
 	}
 
 	@Override
-	public boolean checkInput() {
-		boolean stat=true;
+	public String checkInput() {
+		String stat="";
 		if(tfAssetTag.getText().equals("")){
-			System.out.println("ASSET: "+tfAssetTag.getText());
-			new Message(parent, Message.ERROR, "Please specity item asset tag.");
-			stat=false;
+			stat+= "Please specity item asset tag.\n";
+			tfAssetTag.setBorder(BorderFactory.createLineBorder(Color.RED, 1));
 		}
-		else if(tfServiceTag.getText().equals("")){
-			new Message(parent, Message.ERROR, "Please specity item service tag.");
-			stat=false;
+		if(tfServiceTag.getText().equals("")){
+			stat+= "Please specity item service tag.\n";
+			tfServiceTag.setBorder(BorderFactory.createLineBorder(Color.RED, 1));
 		}
 		
 		return stat;

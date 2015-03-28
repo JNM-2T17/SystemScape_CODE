@@ -134,9 +134,9 @@ public class ItemTileGeneralView extends ItemPanelDecorator implements ItemPanel
 	}
 
 	@Override
-	public boolean checkInput() {
+	public String checkInput() {
 		// TODO Auto-generated method stub
-		return true;
+		return "";
 	}
 
 	@Override
