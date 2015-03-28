@@ -141,6 +141,7 @@ public class Message extends PopUp implements ActionListener{
 		msg.setBackground(Color.WHITE);
 		msg.setBorder(new EmptyBorder(10, 10, 10, 10));
 		
+		pane.setAutoscrolls(false);
 		pane.setViewportView(msg);
 		panContent.add(pane, BorderLayout.CENTER);
 		
