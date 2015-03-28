@@ -108,9 +108,8 @@ public class InventoryItemDAO implements IDBCUD {
             PreparedStatement preparedStatement = con.prepareStatement(query);
             preparedStatement.setString(1, key);
             ResultSet resultSet = preparedStatement.executeQuery();
-
+            InventoryItem inventoryItem = null;
             if (resultSet.next()) {
-                InventoryItem inventoryItem;
                 String query2 = "SELECT * FROM itemdata id WHERE id.name = \"" + resultSet.getString("itemData") + "\"";
                 PreparedStatement preparedStatement2 = con.prepareStatement(query2);
                 ResultSet resultSet2 = preparedStatement2.executeQuery();
@@ -125,14 +124,15 @@ public class InventoryItemDAO implements IDBCUD {
                         ResultSet resultSet4 = preparedStatement4.executeQuery();
 
                         if (resultSet4.next()) {//IF ITAsset
-                            String query6 = "SELECT * FROM warranty WHERE ID = \"" + resultSet.getString("ID") + "\"";
+                            String query6 = "SELECT * FROM warranty WHERE hardware = \"" + resultSet.getString("ID") + "\"";
                             PreparedStatement preparedStatement6 = con.prepareStatement(query6);
-                            ResultSet resultSet6 = preparedStatement4.executeQuery();
+                            ResultSet resultSet6 = preparedStatement6.executeQuery();
 
-                            String query7 = "SELECT * FROM contract WHERE ID = \"" + resultSet.getString("ID") + "\"";
+                            String query7 = "SELECT * FROM contract WHERE hardware = \"" + resultSet.getString("ID") + "\"";
                             PreparedStatement preparedStatement7 = con.prepareStatement(query7);
                             ResultSet resultSet7 = preparedStatement7.executeQuery();
-
+                            
+                            if(resultSet7.next() && resultSet6.next()){
                             inventoryItem = new ITAsset(resultSet.getInt("ID"),
                                     resultSet2.getString("name"), resultSet2.getString("description"),
                                     resultSet2.getFloat("unitPrice"), resultSet.getString("invoiceNo"),
@@ -140,6 +140,7 @@ public class InventoryItemDAO implements IDBCUD {
                                     resultSet.getString("classification"), resultSet4.getInt("assetTag"), resultSet4.getString("serviceTag"),
                                     resultSet4.getDate("deliveryDate"), resultSet6.getDate("startDate"), resultSet6.getDate("endDate"),
                                     resultSet7.getDate("startDate"), resultSet7.getDate("endDate"), resultSet7.getFloat("maintenanceCost"));
+                            }
                         } else {//Else NonITAsset
                             inventoryItem = new NonITAsset(resultSet.getInt("ID"), resultSet2.getString("name"),
                                     resultSet2.getString("description"), resultSet2.getFloat("unitPrice"),
