@@ -84,6 +84,7 @@ public class PurchaseOrderController implements Subject, PurchaseOrderInterface,
     public void addItem(ItemData item, int qty) {
         // TODO Auto-generated method stub
         po.addItem(item.getName(), item.getDescription(), item.getUnitPrice(), qty);
+        editPurchaseOrder(po);
         notifyObserver();
     }
 
@@ -114,13 +115,13 @@ public class PurchaseOrderController implements Subject, PurchaseOrderInterface,
             dao.add("ItemData", i.next());
    
         
-        dao.add("PurchaseOrder", po);
+        //dao.add("PurchaseOrder", po);
         notifyObserver();
     }
 
     @Override
     public void editPurchaseOrder(PurchaseOrder purchaseOrder) {
-		// TODO Auto-generated method stub
+		dao.update("purchaseorder", purchaseOrder, "" + purchaseOrder.getIdNo());
 
     }
 }
