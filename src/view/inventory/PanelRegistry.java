@@ -134,7 +134,7 @@ public class PanelRegistry implements PanelRegistration {
 	 * @param contractInfo
 	 */
 	private void buildInventoryItem(String type, ArrayList generalInfo, ArrayList typeInfo, ArrayList warrantyInfo, ArrayList contractInfo)
-	{
+	{       
 		InventoryItem inventoryItem = null;
 		float unitPrice = Float.parseFloat(generalInfo.get(2).toString());
 		System.out.println(typeInfo.get(0).toString());
@@ -178,7 +178,6 @@ public class PanelRegistry implements PanelRegistration {
 							new Warranty(0, (Date) warrantyInfo.get(0),
 									(Date) warrantyInfo.get(1))).build();
 			inventoryItem = itAsset;
-			
 
 		} else if (type.equals("Non-IT")) {
 
@@ -228,8 +227,14 @@ public class PanelRegistry implements PanelRegistration {
 		System.out.println(inventoryItem.getInvoiceNo());
 		
 		System.out.println(generalInfo.get(6).toString());
-		if(isAdd) InventoryItemController.getInstance().addInventoryItem(inventoryItem);
-			else InventoryItemController.getInstance().editInventoryItem(inventoryItem,generalInfo.get(6).toString());
+		if(isAdd){
+                    InventoryItemController.getInstance().addInventoryItem(inventoryItem);
+                }
+                else{ 
+                    System.out.println("doobie " + generalInfo.get(6).toString());
+                    InventoryItemController.getInstance().editInventoryItem(inventoryItem, generalInfo.get(6).toString());
+                    isAdd = true;
+                }
 		
 	}
 
@@ -263,7 +268,7 @@ public class PanelRegistry implements PanelRegistration {
 	 * @param ii <b>InventoryItem</b> passed from the <b>InventoryItemController</b> through the <b>TabInventory</b>
 	 */
 	public void setEditToCurrentSet(InventoryItem ii)
-	{
+	{       
 		System.out.println(participantList.size());
 		Object object = (Object)ii;
 		setCurrentType(((InventoryItem) object).getClassification());
@@ -403,6 +408,8 @@ public class PanelRegistry implements PanelRegistration {
 			((TypeItemTile) participantList.get(1)).setType("Others");
 //			tabInventory.showAddPanel();
 		}
+                isAdd = false;
+                System.out.println("OGA CHAKA " + isAdd);
 		resetAllStorage();
 		
 	}

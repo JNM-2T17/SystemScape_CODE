@@ -359,14 +359,14 @@ public class InventoryItemDAO implements IDBCUD {
 
     }
 
-    public void update(Object object) {
+    public void update(Object object, String origKey) {
         InventoryItem inventoryItem = (InventoryItem) object;
         Connection con = DBConnection.getConnection();
         try {
-            int id = ((InventoryItem) object).getID();
-            InventoryItem previous = (InventoryItem) get(String.valueOf(id));
+            int id = Integer.parseInt(origKey);
+            InventoryItem previous = (InventoryItem) get(origKey);
+            System.out.println("PANZERKAMPFWAGEN " + previous.getID());
             InventoryItem current = (InventoryItem) object;
-
             String query = "UPDATE inventoryitem SET itemData = ?, "
                     + "status= ?, classification = ?, invoiceNo=?, location=? WHERE ID = ?;";
             PreparedStatement preparedStatement = con.prepareStatement(query);
@@ -376,7 +376,7 @@ public class InventoryItemDAO implements IDBCUD {
             preparedStatement.setString(3, current.getClassification());
             preparedStatement.setString(4, current.getInvoiceNo());
             preparedStatement.setString(5, current.getLocation());
-            preparedStatement.setInt(6, current.getID());
+            preparedStatement.setInt(6, previous.getID());
             preparedStatement.execute();
 
             String type = "";
@@ -399,7 +399,6 @@ public class InventoryItemDAO implements IDBCUD {
 
                 if (object instanceof ITAsset) {
                     inventoryItem = (ITAsset) object;
-
                     query = "INSERT INTO itasset \n"
                             + "VALUES (?, ?, ?, ?)";
                     preparedStatement = con.prepareStatement(query);
@@ -408,7 +407,17 @@ public class InventoryItemDAO implements IDBCUD {
                     preparedStatement.setString(3, ((ITAsset) inventoryItem).getServiceTag());
                     preparedStatement.setDate(4, new java.sql.Date(((ITAsset) inventoryItem).getDeliveryDate().getTime()));
                     preparedStatement.execute();
-
+                    
+                    query = "DELETE FROM warranty WHERE hardware = ?";
+                    preparedStatement = con.prepareStatement(query);
+                    preparedStatement.setInt(1, id);
+                    preparedStatement.execute();
+                    
+                    query = "DELETE FROM contract WHERE hardware = ?";
+                    preparedStatement = con.prepareStatement(query);
+                    preparedStatement.setInt(1, id);
+                    preparedStatement.execute();
+                    
                     query = "INSERT INTO warranty \n"
                             + "VALUES (?, ?, ?)";
                     preparedStatement = con.prepareStatement(query);
@@ -425,6 +434,7 @@ public class InventoryItemDAO implements IDBCUD {
                     preparedStatement.setDate(3, new java.sql.Date(((ITAsset) inventoryItem).getContractEndDate().getTime()));
                     preparedStatement.setFloat(4, ((ITAsset) inventoryItem).getContractMaintenanceCost());
                     preparedStatement.execute();
+                    
                 }
             } else if (object instanceof SoftwareItem) {
                 inventoryItem = (SoftwareItem) object;
@@ -436,6 +446,17 @@ public class InventoryItemDAO implements IDBCUD {
                 System.out.println("License Key in DAO: " + ((SoftwareItem) inventoryItem).getLicenseKey());
                 preparedStatement.execute();
             }
+            
+            query = "UPDATE itemdata SET name = ?, "
+                    + "description= ?, unitPrice = ? WHERE name = ?;";
+            preparedStatement = con.prepareStatement(query);
+            preparedStatement.setString(1, current.getName());
+            preparedStatement.setString(2, current.getDescription());
+            preparedStatement.setFloat(3, current.getUnitPrice());
+            preparedStatement.setString(4, current.getName());
+            preparedStatement.execute();
+            
+            
 
         } catch (SQLException sqlException) {
             sqlException.printStackTrace();
@@ -472,10 +493,10 @@ public class InventoryItemDAO implements IDBCUD {
         }
     }
 
-	@Override
+	/*@Override
 	public void update(Object object, String origKey) {
 		// TODO Auto-generated method stub
 		
-	}
+	}*/
 
 }
