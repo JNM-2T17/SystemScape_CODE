@@ -13,6 +13,6 @@ public class ErrorListenerFactory {
 		else if(obj instanceof JTextArea){
 			return new TextAreaError((JTextArea) obj);
 		}
-		return null;
+		return new TextFieldError((JTextField) obj);
 	}
 }

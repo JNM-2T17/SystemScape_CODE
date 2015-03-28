@@ -29,6 +29,7 @@ import javax.swing.border.EmptyBorder;
 import model.Supplier;
 import model.SupplierContact;
 import view.Button;
+import view.ErrorListenerFactory;
 import view.Button.ButtonBuilder;
 import view.Message;
 
@@ -42,7 +43,7 @@ public class EditSupplier extends JPanel implements ActionListener {
 	private JTextField txtSupp;
 	// private JComboBox cmbCountry, cmbState, cmbCity;
 	private JTextField cmbCountry, cmbState, cmbCity;
-	private Contact temp;
+	private JPanel temp;
 	private JPanel panContact, panClose;
 	private ArrayList<Contact> list;
 	private ArrayList<JButton> close;
@@ -50,13 +51,16 @@ public class EditSupplier extends JPanel implements ActionListener {
 	private SupplierController supplierController;
 	private JFrame parent;
 	
+	private JTextField value;
+	private JButton btn;
+	private JComboBox type;
+	
 	private Supplier supp;
 
 	public EditSupplier(JFrame parent, Supplier supp) {
 		this.parent = parent;
-		this.supp=supp;
 		this.setBackground(Color.WHITE);
-
+		this.supp=supp;
 		list = new ArrayList<Contact>();
 		close = new ArrayList<JButton>();
 		setLayout(new BorderLayout(0, 0));
@@ -70,7 +74,7 @@ public class EditSupplier extends JPanel implements ActionListener {
 		JLabel lblSupp = new JLabel("Supplier: ");
 		panContent.add(lblSupp, "cell 0 0,alignx left,growy");
 
-		txtSupp = new JTextField(supp.getName());
+		txtSupp = new JTextField();
 		panContent.add(txtSupp, "cell 2 0,grow");
 		txtSupp.setColumns(10);
 
@@ -86,15 +90,15 @@ public class EditSupplier extends JPanel implements ActionListener {
 		JLabel lblCity = new JLabel("City:");
 		panContent.add(lblCity, "cell 0 4,alignx right,growy");
 
-		cmbCountry = new JTextField(supp.getCountry());
+		cmbCountry = new JTextField();
 		panContent.add(cmbCountry, "cell 2 2,grow");
 		cmbCountry.setBackground(Color.white);
 
-		cmbState = new JTextField(supp.getState());
+		cmbState = new JTextField();
 		panContent.add(cmbState, "cell 2 3,grow");
 		cmbState.setBackground(Color.white);
 
-		cmbCity = new JTextField(supp.getCity());
+		cmbCity = new JTextField();
 		panContent.add(cmbCity, "cell 2 4,grow");
 		cmbCity.setBackground(Color.white);
 
@@ -121,9 +125,33 @@ public class EditSupplier extends JPanel implements ActionListener {
 		panClose.setVisible(false);
 		
 
-		temp = new Contact();
+		temp = new JPanel();
+		temp.setMaximumSize(new Dimension(400, 37));
+		temp.setPreferredSize(new Dimension(365, 37));
+		temp.setBackground(Color.WHITE);
 		FlowLayout flowLayout = (FlowLayout) temp.getLayout();
-		temp.getBtn().addActionListener(this);
+		flowLayout.setAlignment(FlowLayout.LEFT);
+		
+		
+		value=new JTextField();
+		value.setPreferredSize(new Dimension(175, 25));
+		value.addFocusListener(ErrorListenerFactory.getListener(value));
+		temp.add(value);
+		
+		String opt[]={"FAX", "Telephone", "Cellphone"};
+		type=new JComboBox(opt);
+		type.setBorder(new EmptyBorder(0, 0, 0, 0));
+		type.setBackground(Color.white);
+		type.setPreferredSize(new Dimension(120, 25));
+		temp.add(type);
+		
+		btn= new Button.ButtonBuilder().img("src/assets/Round/Add.png", 30,
+				30).build();
+		temp.add(btn);
+		btn.setActionCommand("add");
+		btn.addActionListener(this);
+		temp.add(btn);
+		
 		panContact.add(temp, "newline,alignx left,aligny top");
 
 		JPanel panFooter = new JPanel();
@@ -143,6 +171,7 @@ public class EditSupplier extends JPanel implements ActionListener {
 		System.out.println("STUPID");
 		
 		init();
+		
 	}
 	
 	private void init(){
@@ -178,6 +207,7 @@ public class EditSupplier extends JPanel implements ActionListener {
 		this.revalidate();
 	}
 
+
 	public boolean contactError(String val) {
 		boolean stat = false;
 		for (int i = 0; i < val.length(); i++) {
@@ -190,11 +220,11 @@ public class EditSupplier extends JPanel implements ActionListener {
 
 	}
 
-	public void addContact(Contact pan) {
+	public void addContact(String value, String type) {
 
-		if (pan.getValue().equals("")) {
+		if (value.equals("")) {
 			new Message(parent, Message.ERROR, "Please set contact value.");
-		} else if (contactError(pan.getValue())) {
+		} else if (contactError(value)) {
 			new Message(parent, Message.ERROR,
 					"Contact value can only be composed of numbers.");
 		} else {
@@ -207,14 +237,11 @@ public class EditSupplier extends JPanel implements ActionListener {
 			temp.setButton(close);
 			temp.getBtn().setActionCommand("close");
 
-			System.out.println("PAN VALUE" + pan.getValue());
-			System.out.println("PAN TYPE" + pan.getType());
+			temp.setValue(value);
+			temp.setType(type);
 
-			temp.setValue(pan.getValue());
-			temp.setType(pan.getType());
-
-			pan.setValue("");
-			pan.setType("FAX");
+			this.value.setText("");
+			this.type.setSelectedIndex(0);
 
 			panClose.add(temp);
 			list.add(temp);
@@ -231,32 +258,6 @@ public class EditSupplier extends JPanel implements ActionListener {
 
 	}
 
-	// public void populate() {
-	// Iterator iterator = supplierController.getDistinct("country");
-	// ArrayList<String> data = new ArrayList();
-	//
-	// while (iterator.hasNext()) {
-	// data.add((String) iterator.next());
-	// }
-	// cmbCountry.setModel(new DefaultComboBoxModel(data.toArray()));
-	// data.removeAll(data);
-	//
-	// iterator = supplierController.getDistinct("state");
-	// while (iterator.hasNext()) {
-	// data.add((String) iterator.next());
-	// }
-	// cmbState.setModel(new DefaultComboBoxModel(data.toArray()));
-	// data.removeAll(data);
-	//
-	// iterator = supplierController.getDistinct("city");
-	// while (iterator.hasNext()) {
-	// data.add((String) iterator.next());
-	// }
-	//
-	// cmbCity.setModel(new DefaultComboBoxModel(data.toArray()));
-	//
-	// }
-
 	public void clear() {
 		list.clear();
 		close.clear();
@@ -267,7 +268,6 @@ public class EditSupplier extends JPanel implements ActionListener {
 		panClose.removeAll();
 
 		Contact pan = (Contact) panContact.getComponent(1);
-		pan.clear();
 		this.repaint();
 		this.revalidate();
 	}
@@ -292,7 +292,7 @@ public class EditSupplier extends JPanel implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		if (e.getActionCommand().equals("add")) {
-			addContact((Contact) panContact.getComponent(1));
+			addContact(value.getText(), (String)type.getSelectedItem());
 		} else if (e.getSource() == btnSubmit) {
 			if (checkInput()) {
 				Supplier checkSupplier;
@@ -312,13 +312,13 @@ public class EditSupplier extends JPanel implements ActionListener {
 								Integer.parseInt(list.get(i).getValue()));
 					}
 
-					supplierController.editSupplier(supplier);
+					supplierController.addSupplier(supplier);
 
 					Message msg = new Message(parent, Message.SUCCESS,
-							"Supplier edited successfully.");
+							"Supplier added successfully.");
 				} else {
 					Message msg = new Message(parent, Message.ERROR,
-							"Supplier doesn't exists!\nClick add button to add new Supplier");
+							"Supplier already exists!");
 				}
 				supplierController.init();
 				//clear();
