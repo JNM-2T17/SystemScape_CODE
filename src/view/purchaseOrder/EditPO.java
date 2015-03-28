@@ -295,14 +295,21 @@ public class EditPO extends JPanel implements ActionListener, Observer {
 			 ***/
 
 		} else if (event.getSource() == btnSubmit) {
-
+                        String type = null;
+                        
 			if (checkFields() == false) {
-
-				/****
-				 * add the code statements here to edit the po when all fields
-				 * of the form are not empty
-				 ***/
-
+                                if(((String)cmbClass.getSelectedItem()).equals("Hard")){
+                                    type = "Hardware";
+                                }
+                                else if(((String)cmbClass.getSelectedItem()).equals("Soft")){
+                                    type = "Software";
+                                }
+                                else if(((String)cmbClass.getSelectedItem()).equals("Gen")){
+                                    type = "General";
+                                }
+                                
+                                poController.editPurchaseOrder(new PurchaseOrder(dateChooser.getDate(), po.getIdNo(), type, ((Supplier)supplierController.getObject("" + cmbSupplier.getSelectedItem())), po.getInvoiceNo()));
+                                poController.notifyObserver();
 			} else {
 				JOptionPane.showMessageDialog(null, "No date");
 

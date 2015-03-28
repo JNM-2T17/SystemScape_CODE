@@ -286,35 +286,28 @@ public class PurchaseOrderDAO implements IDBCUD {
         Iterator iterator = purchaseorder.getItems();
         ItemData itemData;
         try {
-            String query = "BEGIN transaction\n"
-                    + "\n"
-                    + "UPDATE purchaseorder SET date = ?, no = ?, type = ?, supplier = ?\n"
-                    + "WHERE type =? AND no = ?\n"
-                    + "\n"
-                    + "UPDATE supplier SET name = ?, country = ?, state = ?, city = ?\n"
-                    + "FROM purchaseorder p, supplier s\n"
-                    + "WHERE p.name = s.supplier\n"
-                    + "AND p.name = ?\n"
-                    + "\n"
-                    + "COMMIT";
-
+            String query = /*"BEGIN transaction "
+                    + */"UPDATE purchaseorder SET date = ?, no = ?, type = ?, supplier = ? "
+                    + "WHERE no = ? ";
+                    /*+ "UPDATE supplier SET name = ?, country = ?, state = ?, city = ? "
+                    + "FROM purchaseorder p, supplier s "
+                    + "WHERE p.supplier = s.supplier "
+                    + "AND p.supplier = ? "
+                    + "COMMIT";*/
             PreparedStatement preparedStatement = con.prepareStatement(query);
             java.sql.Date sqlDate = new java.sql.Date(purchaseorder.getDate().getTime());
             preparedStatement.setDate(1, sqlDate);
-            preparedStatement.setString(2, "" + purchaseorder.getIdNo());
+            preparedStatement.setInt(2, purchaseorder.getIdNo());
             preparedStatement.setString(3, purchaseorder.getType());
             preparedStatement.setString(4, purchaseorder.getSupplier().getName());
-            preparedStatement.setString(5, purchaseorder.getType());
-            preparedStatement.setString(6, "" + purchaseorder.getIdNo());
-            preparedStatement.setString(7, purchaseorder.getSupplier().getName());
-            preparedStatement.setString(8, purchaseorder.getSupplier().getCountry());
-            preparedStatement.setString(9, purchaseorder.getSupplier().getState());
-            preparedStatement.setString(10, purchaseorder.getSupplier().getCity());
-            preparedStatement.setString(11, purchaseorder.getSupplier().getName());
-            preparedStatement.setString(12, purchaseorder.getType());
-            preparedStatement.setString(13, "" + purchaseorder.getIdNo());
-            preparedStatement.execute();
-
+            preparedStatement.setString(5, key);
+            /*preparedStatement.setString(6, purchaseorder.getSupplier().getName());
+            preparedStatement.setString(7, purchaseorder.getSupplier().getCountry());
+            preparedStatement.setString(8, purchaseorder.getSupplier().getState());
+            preparedStatement.setString(9, purchaseorder.getSupplier().getCity());
+            preparedStatement.setString(10, purchaseorder.getSupplier().getName());
+            */preparedStatement.execute();
+            
             while (iterator.hasNext()) {
                 es = (Map.Entry) iterator.next();
                 itemData = (ItemData) es.getKey();
@@ -341,7 +334,7 @@ public class PurchaseOrderDAO implements IDBCUD {
                 preparedStatement2.setString(8, itemData.getDescription());
                 preparedStatement2.setString(9, "" + itemData.getUnitPrice());
                 preparedStatement2.setString(10, itemData.getName());
-                preparedStatement.execute();
+                preparedStatement2.execute();
             }
         } catch (SQLException sqlException) {
             sqlException.printStackTrace();
@@ -354,6 +347,7 @@ public class PurchaseOrderDAO implements IDBCUD {
                 sqlee.printStackTrace();
             }
         }
+        System.out.println("update shouldve happened");
     }
 
     public void delete(Object object) {

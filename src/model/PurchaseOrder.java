@@ -79,6 +79,10 @@ public class PurchaseOrder {
     public Iterator getItems() {
         return item.keySet().iterator();
     }
+    
+    public Iterator getItemData() {
+        return item.entrySet().iterator();
+    }
 
     public int getQuantity(ItemData itemData) {
         return item.get(itemData);
