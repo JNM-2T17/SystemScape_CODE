@@ -2,8 +2,10 @@ package view;
 
 import java.awt.event.FocusListener;
 
+import javax.swing.JPasswordField;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+
 import com.toedter.calendar.JDateChooser;
 
 public class ErrorListenerFactory {
@@ -16,6 +18,9 @@ public class ErrorListenerFactory {
 		}
 		else if(obj instanceof JDateChooser){
 			return new DateChooserError((JDateChooser) obj);
+		}
+		else if(obj instanceof JPasswordField){
+			return new PasswordError((JPasswordField) obj);
 		}
 		return new TextFieldError((JTextField) obj);
 	}

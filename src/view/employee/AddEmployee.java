@@ -5,10 +5,13 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Arrays;
 
+import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
@@ -20,6 +23,9 @@ import net.miginfocom.swing.MigLayout;
 
 import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 
+import view.ErrorListenerFactory;
+import view.Message;
+
 public class AddEmployee extends JPanel implements ActionListener {
 	private JTextField txtName;
 	private JButton btnSubmit;
@@ -29,11 +35,14 @@ public class AddEmployee extends JPanel implements ActionListener {
 	private JPasswordField txtConfirm;
 	private JRadioButton rdEmployee, rdTechnician; 
 	private JPanel panDetails;
+	
+	private JFrame parent;
 
-	public AddEmployee() {
+	public AddEmployee(JFrame parent) {
 		this.setBackground(Color.WHITE);
 		setLayout(new BorderLayout(0, 0));
-
+		this.parent=parent;
+		
 		JPanel panContent = new JPanel();
 		panContent.setBackground(Color.WHITE);
 		add(panContent);
@@ -44,6 +53,7 @@ public class AddEmployee extends JPanel implements ActionListener {
 		panContent.add(lblSupp);
 
 		txtName = new JTextField();
+		txtName.addFocusListener(ErrorListenerFactory.getListener(txtName));
 		txtName.setBounds(288, 90, 372, 25);
 		panContent.add(txtName);
 		txtName.setColumns(10);
@@ -92,6 +102,7 @@ public class AddEmployee extends JPanel implements ActionListener {
 		panDetails.add(lblUsername, "cell 0 0");
 		
 		txtUsername = new JTextField();
+		txtUsername.addFocusListener(ErrorListenerFactory.getListener(txtUsername));
 		panDetails.add(txtUsername, "cell 1 0,growx");
 		txtUsername.setColumns(10);
 		
@@ -99,6 +110,7 @@ public class AddEmployee extends JPanel implements ActionListener {
 		panDetails.add(lblPassword, "cell 0 1");
 		
 		txtPassword = new JPasswordField();
+		txtPassword.addFocusListener(ErrorListenerFactory.getListener(txtPassword));
 		panDetails.add(txtPassword, "cell 1 1,growx");
 		txtPassword.setColumns(10);
 		
@@ -106,6 +118,7 @@ public class AddEmployee extends JPanel implements ActionListener {
 		panDetails.add(lblConfirmPassword, "cell 0 2");
 		
 		txtConfirm = new JPasswordField();
+		txtConfirm.addFocusListener(ErrorListenerFactory.getListener(txtConfirm));
 		panDetails.add(txtConfirm, "cell 1 2,growx");
 		txtConfirm.setColumns(10);
 
@@ -127,12 +140,43 @@ public class AddEmployee extends JPanel implements ActionListener {
 	public void toggle(boolean stat){
 		panDetails.setVisible(stat);
 	}
+	
+	public String checkInput(){
+		String text="";
+		if(txtName.getText().equals("")){
+			txtName.setBorder(BorderFactory.createLineBorder(Color.RED, 1));
+			if(rdTechnician.isSelected()) text+="Please specify technician name.\n";
+			else text+="Please specify employee name.\n";
+		}
+		if(rdTechnician.isSelected()){
+			if(txtUsername.getText().equals("")){
+				txtUsername.setBorder(BorderFactory.createLineBorder(Color.RED, 1));
+				text+="Please specify technician username.\n";
+			}
+			if(txtPassword.getPassword().length==0){
+				txtPassword.setBorder(BorderFactory.createLineBorder(Color.RED, 1));
+				text+="Please specify technician password.\n";
+			}
+			if(!Arrays.equals(txtPassword.getPassword(), txtConfirm.getPassword())){
+				txtConfirm.setBorder(BorderFactory.createLineBorder(Color.RED, 1));
+				text+="Passwords do not match.\n";
+			}
+		}
+		return text;
+	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		if (e.getSource() == btnSubmit) {
-
+			String text=checkInput();
+			if(text.equals("")){
+				
+			}
+			else{
+				new Message(parent, Message.ERROR,
+						text);
+			}
 		}
 		else if(e.getSource()==rdEmployee){
 			if(rdEmployee.isSelected()) toggle(false);
