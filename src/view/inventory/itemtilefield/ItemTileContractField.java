@@ -1,4 +1,4 @@
-package view.inventory.itemtile;
+package view.inventory.itemtilefield;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -29,7 +29,7 @@ import view.inventory.ItemPanelDecorator;
 import view.inventory.ItemPanelParticipant;
 import view.inventory.ItemPanelTemplate;
 
-public class ItemTileContract extends ItemPanelDecorator implements ItemPanelParticipant{
+public class ItemTileContractField extends ItemPanelDecorator implements ItemPanelParticipant{
 	
 	private JPanel panContract = null;
 	
@@ -44,7 +44,7 @@ public class ItemTileContract extends ItemPanelDecorator implements ItemPanelPar
 	
 	private JFrame parent;
 	
-	public ItemTileContract(JFrame parent, ItemPanelTemplate addItemPanelReference) {
+	public ItemTileContractField(JFrame parent, ItemPanelTemplate addItemPanelReference) {
 		super(addItemPanelReference);
 		this.parent=parent;
 		// TODO Auto-generated constructor stub

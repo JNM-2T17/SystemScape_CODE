@@ -4,10 +4,10 @@ import java.awt.Component;
 
 import javax.swing.JPanel;
 
-import view.inventory.itemtile.ItemTileContract;
-import view.inventory.itemtile.ItemTileGenInfo;
-import view.inventory.itemtile.ItemTileIT;
-import view.inventory.itemtile.ItemTileWarranty;
+import view.inventory.itemtilefield.ItemTileContractField;
+import view.inventory.itemtilefield.ItemTileGenInfoField;
+import view.inventory.itemtilefield.ItemTileITField;
+import view.inventory.itemtilefield.ItemTileWarrantyField;
 
 /**
  * A <b>Decorator</b> is created by first setting a <b>BasicAddItem</b> panel as the base case then instantiating <b>ItemPanelTemplate</b> as another parameter of another <b>ItemPanelTemplate</b>

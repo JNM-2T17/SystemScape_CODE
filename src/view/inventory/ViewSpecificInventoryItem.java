@@ -1,7 +1,5 @@
 package view.inventory;
 
-import controller.SupplierController;
-
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
@@ -17,6 +15,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
+import model.InventoryItem;
 import net.miginfocom.swing.MigLayout;
 
 import java.awt.BorderLayout;
@@ -26,8 +25,6 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JFrame;
 import javax.swing.border.EmptyBorder;
 
-import model.Supplier;
-import model.SupplierContact;
 import view.Button;
 import view.Button.ButtonBuilder;
 import view.Message;
@@ -126,13 +123,13 @@ public class ViewSpecificInventoryItem extends JPanel {
 
 	private void init(Iterator it) {
 		while (it.hasNext()) {
-			SupplierContact sc = (SupplierContact) it.next();
+			InventoryItem ii = (InventoryItem) it.next();
 
-			panClose.add(new JLabel(sc.getValue() + " (" + sc.getType() + ")"),
-					"newline");
-			if (!panClose.isVisible()) {
-				panClose.setVisible(true);
-			}
+//			panClose.add(new JLabel(ii.getValue() + " (" + sc.getType() + ")"),
+//					"newline");
+//			if (!panClose.isVisible()) {
+//				panClose.setVisible(true);
+//			}
 
 		}
 
@@ -143,12 +140,12 @@ public class ViewSpecificInventoryItem extends JPanel {
 		this.revalidate();
 	}
 	
-	public void setSupplier(Supplier supp){
-		txtSupp.setText(supp.getName());
-		cmbCountry.setText(supp.getCountry());
-		cmbState.setText(supp.getState());
-		cmbCity.setText(supp.getCity());
-		init(supp.getSupplierContactList());
+	public void setInventoryItem(InventoryItem ii){
+//		txtSupp.setText(ii.getName());
+//		cmbCountry.setText(ii.getCountry());
+//		cmbState.setText(ii.getState());
+//		cmbCity.setText(ii.getCity());
+//		init(supp.getSupplierContactList());
 	}
 	
 	

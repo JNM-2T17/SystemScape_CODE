@@ -31,9 +31,9 @@ import view.inventory.itemstorage.ItemStorageIT;
 import view.inventory.itemstorage.ItemStorageNonIT;
 import view.inventory.itemstorage.ItemStorageSoftware;
 import view.inventory.itemstorage.ItemStorageWarranty;
-import view.inventory.itemtile.ItemTileContract;
-import view.inventory.itemtile.ItemTileWarranty;
-import view.inventory.itemtile.TypeItemTile;
+import view.inventory.itemtilefield.ItemTileContractField;
+import view.inventory.itemtilefield.ItemTileWarrantyField;
+import view.inventory.itemtilefield.TypeItemTileField;
 import model.Contract;
 import model.Warranty;
 
@@ -233,6 +233,7 @@ public class PanelRegistry implements PanelRegistration {
                 else{ 
                     System.out.println("doobie " + generalInfo.get(6).toString());
                     InventoryItemController.getInstance().editInventoryItem(inventoryItem, generalInfo.get(6).toString());
+                
                     isAdd = true;
                 }
 		
@@ -299,8 +300,8 @@ public class PanelRegistry implements PanelRegistration {
 					.saveStatus(inventoryItem.getStatus())
 					.loadList()
 			);
-			((TypeItemTile) participantList.get(1)).loadAssigneeList(employees.iterator());
-			((TypeItemTile) participantList.get(1)).setType("IT Assets");
+			((TypeItemTileField) participantList.get(1)).loadAssigneeList(employees.iterator());
+			((TypeItemTileField) participantList.get(1)).setType("IT Assets");
 			
 			participantList.get(1).loadPresets(
 					ItemStorageIT.getInstance()
@@ -321,8 +322,8 @@ public class PanelRegistry implements PanelRegistration {
 			
 			/** TEMPORARY FIX **/
 			System.out.println("ASDASD" + ((ITAsset) inventoryItem).getWarrantyStartDate());
-			((ItemTileWarranty)participantList.get(2)).setWarrantyStartDate(((ITAsset) inventoryItem).getWarrantyStartDate());
-			((ItemTileWarranty)participantList.get(2)).setWarrantyEndDate(((ITAsset) inventoryItem).getWarrantyEndDate());
+			((ItemTileWarrantyField)participantList.get(2)).setWarrantyStartDate(((ITAsset) inventoryItem).getWarrantyStartDate());
+			((ItemTileWarrantyField)participantList.get(2)).setWarrantyEndDate(((ITAsset) inventoryItem).getWarrantyEndDate());
 			
 			
 			participantList.get(3).loadPresets(
@@ -333,8 +334,8 @@ public class PanelRegistry implements PanelRegistration {
 					.loadList()
 			);
 			
-			((ItemTileContract)participantList.get(3)).setContractStartDate(((ITAsset) inventoryItem).getWarrantyStartDate());
-			((ItemTileContract)participantList.get(3)).setContractEndDate(((ITAsset) inventoryItem).getWarrantyEndDate());
+			((ItemTileContractField)participantList.get(3)).setContractStartDate(((ITAsset) inventoryItem).getWarrantyStartDate());
+			((ItemTileContractField)participantList.get(3)).setContractEndDate(((ITAsset) inventoryItem).getWarrantyEndDate());
 			
 			
 //			tabInventory.showAddPanel();
@@ -355,8 +356,8 @@ public class PanelRegistry implements PanelRegistration {
 					.saveStatus(inventoryItem.getStatus())
 					.loadList()
 			);
-			((TypeItemTile) participantList.get(1)).loadAssigneeList(employees.iterator());
-			((TypeItemTile) participantList.get(1)).setType("Non-IT Assets");
+			((TypeItemTileField) participantList.get(1)).loadAssigneeList(employees.iterator());
+			((TypeItemTileField) participantList.get(1)).setType("Non-IT Assets");
 			
 //			tabInventory.showAddPanel();
 		}
@@ -377,8 +378,8 @@ public class PanelRegistry implements PanelRegistration {
 			);
 			
 			
-			((TypeItemTile) participantList.get(1)).loadAssigneeList(employees.iterator());
-			((TypeItemTile) participantList.get(1)).setType("Software");
+			((TypeItemTileField) participantList.get(1)).loadAssigneeList(employees.iterator());
+			((TypeItemTileField) participantList.get(1)).setType("Software");
 			participantList.get(1).loadPresets(
 					ItemStorageSoftware.getInstance()
 					.saveLicenseKey(((SoftwareItem) inventoryItem).getLicenseKey())
@@ -404,8 +405,8 @@ public class PanelRegistry implements PanelRegistration {
 					.loadList()
 			);
 
-			((TypeItemTile) participantList.get(1)).loadAssigneeList(employees.iterator());
-			((TypeItemTile) participantList.get(1)).setType("Others");
+			((TypeItemTileField) participantList.get(1)).loadAssigneeList(employees.iterator());
+			((TypeItemTileField) participantList.get(1)).setType("Others");
 //			tabInventory.showAddPanel();
 		}
                 isAdd = false;

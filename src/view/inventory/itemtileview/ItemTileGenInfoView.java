@@ -1,4 +1,4 @@
-package view.inventory.itemtile;
+package view.inventory.itemtileview;
 
 import javax.swing.BorderFactory;
 import javax.swing.DefaultComboBoxModel;
@@ -35,7 +35,7 @@ import view.inventory.ItemPanelTemplate;
  * @author dovahkiin5
  *
  */
-public class ItemTileGenInfo extends ItemPanelDecorator implements ItemPanelParticipant {
+public class ItemTileGenInfoView extends ItemPanelDecorator implements ItemPanelParticipant {
 
 	private JPanel panGeneral;
 	private JLabel lblName;
@@ -57,7 +57,7 @@ public class ItemTileGenInfo extends ItemPanelDecorator implements ItemPanelPart
 	
 	private String currentID;
 
-	public ItemTileGenInfo(JFrame parent,
+	public ItemTileGenInfoView(JFrame parent,
 			ItemPanelTemplate addItemPanelReference) {
 		super(addItemPanelReference);
 		this.parent = parent;

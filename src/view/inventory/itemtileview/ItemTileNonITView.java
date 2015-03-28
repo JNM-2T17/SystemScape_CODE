@@ -1,4 +1,4 @@
-package view.inventory.itemtile;
+package view.inventory.itemtileview;
 
 import javax.swing.JPanel;
 import javax.swing.GroupLayout;
@@ -14,8 +14,6 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
@@ -34,19 +32,20 @@ import view.inventory.PanelRegistry;
 
 import com.toedter.calendar.JDateChooser;
 
-public class ItemTileGeneral extends ItemPanelDecorator implements ItemPanelParticipant, TypeItemTile, ItemListener{
-	
-	private JPanel panGeneral;
+public class ItemTileNonITView extends ItemPanelDecorator implements ItemPanelParticipant,TypeItemTileView, ActionListener{
+
+	private JPanel panNonIT;
 	private JLabel lblType;
 	private JLabel lblDeliveryDate;
 	private JLabel lblAssignee;
 	
 	private JComboBox cbType;
+	private JDateChooser deliveryDateChooser;
 	private JComboBox cbAssignee;
 	
-	private JDateChooser deliveryDateChooser;
 	
-	public ItemTileGeneral(JFrame parent, ItemPanelTemplate addItemPanelReference) {
+
+	public ItemTileNonITView(JFrame parent, ItemPanelTemplate addItemPanelReference) {
 		super(addItemPanelReference);
 		// TODO Auto-generated constructor stub
 	}
@@ -54,27 +53,39 @@ public class ItemTileGeneral extends ItemPanelDecorator implements ItemPanelPart
 	@Override
 	public void renderPanel()
 	{
-		renderItemTileGeneralPanel();
+		renderItemTileNonIT();
 		super.renderPanel();
 	}
 	
-	public void renderItemTileGeneralPanel()
+	public void renderItemTileNonIT()
 	{
-		panGeneral = new JPanel();
-		panGeneral.setBorder(new LineBorder(new Color(30, 144, 255), 3, true));
-		panGeneral.setBackground(Color.WHITE);
+
+		panNonIT = new JPanel();
+		panNonIT.setBorder(new LineBorder(new Color(30, 144, 255), 3, true));
+		panNonIT.setBackground(Color.WHITE);
 		/* Layout */
-		
-		panGeneral.setLayout(new MigLayout("", "[46.00][38.00][38.00][38.00][38.00,grow][100,grow][100][100][31.00]", "[][][17.00][][9.00][39.00][11.00][grow][17][][]"));
-		
 		String typeStrings[] = {"IT Assets","Non-IT Assets","Software","Others"};
 		
-		/* Labels */
+		panNonIT.setLayout(new MigLayout("", "[46.00][38.00][38.00][38.00,grow][38.00,grow][100,grow][100][100][31.00]", "[][][17][][17][][]"));
+		
+		
+		/* Label */
+		
 		lblType = new JLabel("Type:");
-		panGeneral.add(lblType, "cell 1 1 2 1,alignx left");
+		panNonIT.add(lblType, "cell 1 1 2 1,alignx left");
 		
 		lblDeliveryDate = new JLabel("Delivery Date:");
-		panGeneral.add(lblDeliveryDate, "flowx,cell 1 3 4 1,alignx right");
+		panNonIT.add(lblDeliveryDate, "flowx,cell 1 3 4 1");
+		
+		/* Type Combo Box */
+		
+		cbType = new JComboBox(typeStrings);
+		cbType.setSelectedItem("Non-IT Assets");
+		cbType.setBackground(Color.white);
+		cbType.addActionListener(this);
+		panNonIT.add(cbType, "cell 3 1 5 1,growx");
+		
+
 		
 		deliveryDateChooser = new JDateChooser();
 		deliveryDateChooser.setOpaque(false);
@@ -83,44 +94,32 @@ public class ItemTileGeneral extends ItemPanelDecorator implements ItemPanelPart
 		deliveryDateChooser.setDateFormatString("yyyy-MM-dd");
 		deliveryDateChooser.setBackground(Color.WHITE);
 		deliveryDateChooser.setPreferredSize(new Dimension(150, 30));
-		panGeneral.add(deliveryDateChooser, "cell 5 3 3 1,grow");
+		panNonIT.add(deliveryDateChooser, "cell 5 3 3 1,growx,aligny center");
 		
-		lblAssignee = new JLabel("Assignee:");
-		panGeneral.add(lblAssignee, "flowx,cell 1 5 3 1");
-		
-		/* Type Combo Box */
-		
-		cbType = new JComboBox(typeStrings);
-		cbType.setSelectedItem("General");
-		cbType.setBackground(Color.white);
-		cbType.addItemListener(this);
-		panGeneral.add(cbType, "cell 3 1 5 1,growx");
-		
-		/* Assignee Combo Boxes */
+		lblAssignee = new JLabel("Assignee: ");
+		panNonIT.add(lblAssignee, "cell 1 5 2 1");
 		
 		cbAssignee = new JComboBox();
-		cbAssignee.setBackground(Color.white);
 		cbAssignee.setModel(new DefaultComboBoxModel(new String[] { "Shayane Tan",
 				"Rissa Quindoza", "Gio Velez" }));
-		panGeneral.add(cbAssignee, "cell 4 5 4 1,growx");
-		addItemPanelReference.assignToQuad(panGeneral, 1);
-
+		cbAssignee.setBackground(Color.WHITE);
+		panNonIT.add(cbAssignee, "cell 3 5 5 1,growx");
+		addItemPanelReference.assignToQuad(panNonIT, 1);
+		
 	}
-	
+
 	@Override
 	public Iterator retrieveInformation() {
 		// TODO Auto-generated method stub
 		ArrayList infoList = new ArrayList(); 
-		infoList.add(deliveryDateChooser.getDate());
 		infoList.add(cbAssignee.getSelectedItem().toString());
 		return infoList.iterator();
 	}
 
-
 	@Override
-	public void itemStateChanged(ItemEvent e) {
+	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
-		if(e.getStateChange() == ItemEvent.SELECTED)
+		if(e.getSource() == cbType)
 		{
 			if(cbType.getSelectedItem().equals("IT Assets"))
 				InventoryItemDisplayManager.getInstance().overrideContentPanel("IT");
@@ -150,10 +149,10 @@ public class ItemTileGeneral extends ItemPanelDecorator implements ItemPanelPart
 
 	@Override
 	public void loadPresets(Iterator iter) {
+		// TODO Auto-generated method stub
 		cbAssignee.setSelectedItem(iter.next().toString());
 		deliveryDateChooser.setDate((Date) iter.next());
 	}
-	
 	@Override
 	public void setType(String type) {
 		cbType.setSelectedItem(type);
@@ -162,12 +161,6 @@ public class ItemTileGeneral extends ItemPanelDecorator implements ItemPanelPart
 	@Override
 	public void setDeliveryDate(Date date) {
 		deliveryDateChooser.setDate(date);
-		
 	}
-	
-
-	
-	
-	
 	
 }

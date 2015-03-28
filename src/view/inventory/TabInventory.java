@@ -11,13 +11,13 @@ import model.Supplier;
 import view.Content;
 import view.Gui;
 import view.Content.ContentBuilder;
-import view.inventory.itemtile.ItemTileContract;
-import view.inventory.itemtile.ItemTileGenInfo;
-import view.inventory.itemtile.ItemTileGeneral;
-import view.inventory.itemtile.ItemTileIT;
-import view.inventory.itemtile.ItemTileNonIT;
-import view.inventory.itemtile.ItemTileSoftware;
-import view.inventory.itemtile.ItemTileWarranty;
+import view.inventory.itemtilefield.ItemTileContractField;
+import view.inventory.itemtilefield.ItemTileGenInfoField;
+import view.inventory.itemtilefield.ItemTileGeneralField;
+import view.inventory.itemtilefield.ItemTileITField;
+import view.inventory.itemtilefield.ItemTileNonITField;
+import view.inventory.itemtilefield.ItemTileSoftwareField;
+import view.inventory.itemtilefield.ItemTileWarrantyField;
 import view.supplier.EditSupplier;
 import view.supplier.ViewListSuppliers;
 
@@ -109,6 +109,12 @@ public class TabInventory extends JPanel implements ActionListener{
 		repaint();
 		revalidate();
 	}
+	
+	public void setDelete()
+	{
+		displayManager.callDeleteInventoryItem();
+		System.out.println("Deleting... ");
+	}
 
 
 	public void setReturn(){
@@ -130,7 +136,6 @@ public class TabInventory extends JPanel implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		if(((JButton) e.getSource()).getActionCommand().equals("add")){
-			System.out.println("PESS");
 			setAdd("IT");
 		}
 		else if(((JButton) e.getSource()).getActionCommand().equals("filter")){
@@ -141,6 +146,9 @@ public class TabInventory extends JPanel implements ActionListener{
 		}
 		else if(((JButton) e.getSource()).getActionCommand().equals("back")){
 			setReturn();
+		}
+		else if(((JButton) e.getSource()).getActionCommand().equals("delete")){
+			setDelete();
 		}
 	}
 	

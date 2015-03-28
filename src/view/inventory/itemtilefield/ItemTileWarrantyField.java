@@ -1,4 +1,4 @@
-package view.inventory.itemtile;
+package view.inventory.itemtilefield;
 
 import javax.swing.JPanel;
 import javax.swing.GroupLayout;
@@ -28,7 +28,7 @@ import view.inventory.ItemPanelTemplate;
 
 import com.toedter.calendar.JDateChooser;
 
-public class ItemTileWarranty extends ItemPanelDecorator implements ItemPanelParticipant{
+public class ItemTileWarrantyField extends ItemPanelDecorator implements ItemPanelParticipant{
 
 	private JPanel panWarranty;
 	
@@ -42,7 +42,7 @@ public class ItemTileWarranty extends ItemPanelDecorator implements ItemPanelPar
 	
 	private JFrame parent;
 	
-	public ItemTileWarranty(JFrame parent, ItemPanelTemplate addItemPanelReference) {
+	public ItemTileWarrantyField(JFrame parent, ItemPanelTemplate addItemPanelReference) {
 		super(addItemPanelReference);
 		// TODO Auto-generated constructor stub
 		this.parent=parent;

@@ -8,7 +8,7 @@ public class ItemStorageGenInfo implements ItemStorage{
 	
 	private static ItemStorageGenInfo instance = null;
 	
-	private String ID;
+	private int ID;
 	private String name;
 	private String description;
 	private float unitPrice;
@@ -18,7 +18,7 @@ public class ItemStorageGenInfo implements ItemStorage{
 	
 	private ItemStorageGenInfo()
 	{
-		ID = "";
+		ID = 0;
 		name = "";
 		description = "";
 		unitPrice = 0;
@@ -40,7 +40,7 @@ public class ItemStorageGenInfo implements ItemStorage{
 	
 	public ItemStorageGenInfo saveID(int ID)
 	{
-		this.ID = Integer.toString(ID);
+		this.ID = ID;
 		return this;
 	}
 	public ItemStorageGenInfo saveName(String name)

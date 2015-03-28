@@ -1,9 +1,9 @@
-package view.inventory.itemtile;
+package view.inventory.itemtileview;
 
 import java.util.Date;
 import java.util.Iterator;
 
-public interface TypeItemTile {
+public interface TypeItemTileView {
 	/**
 	 * Sets the content to be loaded into the model of the assignee combo box
 	 * @param iter

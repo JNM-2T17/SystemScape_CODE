@@ -1,4 +1,4 @@
-package view.inventory.itemtile;
+package view.inventory.itemtilefield;
 
 import javax.swing.JPanel;
 import javax.swing.GroupLayout;
@@ -32,7 +32,7 @@ import view.inventory.PanelRegistry;
 
 import com.toedter.calendar.JDateChooser;
 
-public class ItemTileNonIT extends ItemPanelDecorator implements ItemPanelParticipant,TypeItemTile, ActionListener{
+public class ItemTileNonITField extends ItemPanelDecorator implements ItemPanelParticipant,TypeItemTileField, ActionListener{
 
 	private JPanel panNonIT;
 	private JLabel lblType;
@@ -45,7 +45,7 @@ public class ItemTileNonIT extends ItemPanelDecorator implements ItemPanelPartic
 	
 	
 
-	public ItemTileNonIT(JFrame parent, ItemPanelTemplate addItemPanelReference) {
+	public ItemTileNonITField(JFrame parent, ItemPanelTemplate addItemPanelReference) {
 		super(addItemPanelReference);
 		// TODO Auto-generated constructor stub
 	}
