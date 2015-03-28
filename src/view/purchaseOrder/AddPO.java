@@ -24,8 +24,6 @@ import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
-import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
-
 import model.ItemData;
 import model.PurchaseOrder;
 import model.Supplier;
@@ -102,8 +100,6 @@ public class AddPO extends JPanel implements ActionListener, Observer {
 
 		cmbSupplier = new JComboBox();
 		populateSupplierNames();
-//		cmbSupplier.setEditable(true);
-		AutoCompleteDecorator.decorate(cmbSupplier);
 
 		panSupplier.add(cmbSupplier);
 		cmbSupplier.setBackground(Color.white);
@@ -300,7 +296,11 @@ public class AddPO extends JPanel implements ActionListener, Observer {
 					(String) cmbClass.getSelectedItem(), poController);
 		} else if (event.getSource() == btnSubmit) {
 
-			if (checkFields() == false) {
+			if(table.getRowCount() == 0)
+			{
+				Message msg = new Message(parent, Message.ERROR,"Purchase Order has no items!");
+			}
+			else if (checkFields() == false) {
 				selectedDate = dateChooser.getDate();
 				Supplier supplier = (Supplier) supplierController.getObject((String) cmbSupplier.getSelectedItem());// dev
 				poController.addPurchaseOrder(new PurchaseOrder(selectedDate, 0,
