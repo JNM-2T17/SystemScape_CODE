@@ -439,6 +439,7 @@ public class InventoryItemDisplayManager {
 	public void retrieveInformation() {
 		// TODO Auto-generated method stub
 		panelRegistry.retrieveInformationFromAll();
+		tab.setReturn();
 	}
 	public static InventoryItemDisplayManager getInstance()
 	{
@@ -446,6 +447,11 @@ public class InventoryItemDisplayManager {
 			instance = new InventoryItemDisplayManager();
 		}
 		return instance;
+	}
+
+	public void setInventoryReturn() {
+		// TODO Auto-generated method stub
+		tab.setReturn();
 	}
 
 	

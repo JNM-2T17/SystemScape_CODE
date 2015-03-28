@@ -61,6 +61,7 @@ public class ItemTileGenInfo extends ItemPanelDecorator implements ItemPanelPart
 			ItemPanelTemplate addItemPanelReference) {
 		super(addItemPanelReference);
 		this.parent = parent;
+		currentID = "";
 		// TODO Auto-generated constructor stub
 		panGeneral = new JPanel();
 		panGeneral.setBorder(new LineBorder(new Color(30, 144, 255), 3, true));

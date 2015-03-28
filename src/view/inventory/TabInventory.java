@@ -112,13 +112,13 @@ public class TabInventory extends JPanel implements ActionListener{
 
 
 	public void setReturn(){
-//		Content temp=new Content.ContentBuilder().caption("View Inventory").add(true).filter(true).export(true).content(new ViewInventory(this)).build();
-//		temp.getBtnAdd().addActionListener(this);
-//		temp.getBtnFilter().addActionListener(this);
-//		temp.getBtnExport().addActionListener(this);
-//		this.add(temp, "view");
-//		list.add(temp);
-		//System.out.println(cl.);
+		Content temp=new Content.ContentBuilder().caption("View Inventory").add(true).filter(true).export(true).content(new ViewInventory(this)).build();
+		temp.getBtnAdd().addActionListener(this);
+		temp.getBtnFilter().addActionListener(this);
+		temp.getBtnExport().addActionListener(this);
+		this.add(temp, "view");
+		list.add(temp);
+
 		cl.show(this,"view");
 		repaint();
 		revalidate();
@@ -140,12 +140,7 @@ public class TabInventory extends JPanel implements ActionListener{
 			new ExportInventory(gui);
 		}
 		else if(((JButton) e.getSource()).getActionCommand().equals("back")){
-			
-			System.out.println("BACK");
-			cl.show(this,"view");
-			repaint();
-			revalidate();
-			
+			setReturn();
 		}
 	}
 	

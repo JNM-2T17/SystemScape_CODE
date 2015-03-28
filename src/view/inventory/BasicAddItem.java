@@ -31,7 +31,7 @@ public class BasicAddItem extends JPanel implements ActionListener, ItemPanelTem
 	
 	public BasicAddItem()
 	{
-		
+		iidm = InventoryItemDisplayManager.getInstance();
 		setLayout(new MigLayout("", "[450px,grow][450px,grow]", "[207.00,grow][207.00,grow][]"));
 		setBackground(Color.white);
 		panQuad2 = new JPanel();
@@ -109,9 +109,7 @@ public class BasicAddItem extends JPanel implements ActionListener, ItemPanelTem
 		// TODO Auto-generated method stub
 		if(e.getSource() == btnSubmit)
 		{
-			iidm = InventoryItemDisplayManager.getInstance();
 			iidm.retrieveInformation();
-			
 		}
 	}
 	

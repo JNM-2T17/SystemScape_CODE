@@ -42,7 +42,6 @@ public class PanelRegistry implements PanelRegistration {
 	private String type;
 	private boolean isAdd;
 	private ArrayList<ItemPanelParticipant> participantList;
-	private TabInventory tabInventory;
 	private InventoryItemDisplayManager displayManager;
 	public PanelRegistry() {
 		participantList = new ArrayList<ItemPanelParticipant>();
@@ -76,13 +75,22 @@ public class PanelRegistry implements PanelRegistration {
 		ArrayList typeInfo = new ArrayList();
 		ArrayList warrantyInfo = new ArrayList();
 		ArrayList contractInfo = new ArrayList();
-
+		System.out.println("Passed RIA");
 		boolean stat = true;
 		int i = 0;
-		while (i < participantList.size() && stat) {
-			stat=participantList.get(i).checkInput();
-			i++;
+		if(participantList.size() > 0)
+		{
+			while (i < participantList.size() && stat) {
+				stat=participantList.get(i).checkInput();
+				i++;
+				System.out.println("Status :" + stat);
+			}
 		}
+		else
+		{
+			System.out.println("Wala Unod");
+		}
+		
 
 		if (stat) {
 			for (i = 0; i < participantList.size(); i++) {
@@ -112,9 +120,9 @@ public class PanelRegistry implements PanelRegistration {
 					}
 				}
 			}
-
+			buildInventoryItem(type, generalInfo, typeInfo, warrantyInfo, contractInfo);
 		}
-		buildInventoryItem(type, generalInfo, typeInfo, warrantyInfo, contractInfo);
+		
 	}
 	
 	/**
@@ -223,16 +231,15 @@ public class PanelRegistry implements PanelRegistration {
 		if(isAdd) InventoryItemController.getInstance().addInventoryItem(inventoryItem);
 			else InventoryItemController.getInstance().editInventoryItem(inventoryItem,generalInfo.get(6).toString());
 		
-		tabInventory.setReturn();
 	}
 
-	/**
-	 * Connects the <b>Tab Inventory</b> to the <b>PanelRegistry</b>
-	 * @param tabInventory
-	 */
-	public void setTabInventory(TabInventory tabInventory) {
-		this.tabInventory = tabInventory;
-	}
+//	/**
+//	 * Connects the <b>Tab Inventory</b> to the <b>PanelRegistry</b>
+//	 * @param tabInventory
+//	 */
+//	public void setTabInventory(TabInventory tabInventory) {
+//		this.tabInventory = tabInventory;
+//	}
 
 	public void setCurrentType(String type) {
 
@@ -375,8 +382,6 @@ public class PanelRegistry implements PanelRegistration {
 		
 			
 			System.out.println(((SoftwareItem) inventoryItem).getLicenseKey());
-			tabInventory.repaint();
-			tabInventory.revalidate();
 		}
 		else if(((InventoryItem) object).getClassification().equals("Others"))
 		{
