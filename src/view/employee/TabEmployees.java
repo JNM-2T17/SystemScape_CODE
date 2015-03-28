@@ -43,7 +43,7 @@ public class TabEmployees extends JPanel implements ActionListener{
 		this.add(temp, "edit");
 		list.add(temp);
 		
-		cl.show(this, "edit");
+		cl.show(this, "view");
 	}
 	@Override
 	public void actionPerformed(ActionEvent e) {
