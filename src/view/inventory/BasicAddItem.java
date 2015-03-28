@@ -20,7 +20,7 @@ import java.awt.Color;
 
 public class BasicAddItem extends JPanel implements ActionListener, ItemPanelTemplate{
 	
-	private PanelRegistry panelRegistry;
+	private InventoryItemDisplayManager iidm;
 	private JButton btnSubmit;
 	private JPanel panSubmit;
 	private JPanel panQuad2;
@@ -109,7 +109,9 @@ public class BasicAddItem extends JPanel implements ActionListener, ItemPanelTem
 		// TODO Auto-generated method stub
 		if(e.getSource() == btnSubmit)
 		{
-			PanelRegistry.getInstance().retrieveInformationFromAll();
+			iidm = InventoryItemDisplayManager.getInstance();
+			iidm.retrieveInformation();
+			
 		}
 	}
 	

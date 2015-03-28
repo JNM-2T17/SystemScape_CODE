@@ -41,11 +41,10 @@ public class PanelRegistry implements PanelRegistration {
 
 	private String type;
 	private boolean isAdd;
-	private static PanelRegistry instance = null;
 	private ArrayList<ItemPanelParticipant> participantList;
 	private TabInventory tabInventory;
-
-	private PanelRegistry() {
+	private InventoryItemDisplayManager displayManager;
+	public PanelRegistry() {
 		participantList = new ArrayList<ItemPanelParticipant>();
 		type = "IT";
 		isAdd = true;
@@ -54,6 +53,7 @@ public class PanelRegistry implements PanelRegistration {
 	public void clearParticipants() {
 		participantList.clear();
 	}
+	
 
 	@Override
 	public void registerParticipant(ItemPanelParticipant itemPanelParticipant) {
@@ -223,8 +223,7 @@ public class PanelRegistry implements PanelRegistration {
 		if(isAdd) InventoryItemController.getInstance().addInventoryItem(inventoryItem);
 			else InventoryItemController.getInstance().editInventoryItem(inventoryItem,generalInfo.get(6).toString());
 		
-		tabInventory.revertToMain();
-		tabInventory.updateUI();
+		tabInventory.setReturn();
 	}
 
 	/**
@@ -239,18 +238,16 @@ public class PanelRegistry implements PanelRegistration {
 
 		if (type.equals("IT Assets")) {
 			this.type = "IT";
-			tabInventory.displayIT();
+			displayManager.displayIT();
 		} else if (type.equals("Non-IT Assets")) {
 			this.type = "Non-IT";
-			System.out.println("Pass");
-			tabInventory.displayNonIT();
-			System.out.println("Passes NON");
-		} else if (type.equals("Software") || type.equals("others")) {
+			displayManager.displayNonIT();
+		} else if (type.equals("Software")) {
 			this.type = "Software";
-			tabInventory.displaySoftware();
+			displayManager.displaySoftware();
 		} else if (type.equals("Others")) {
 			this.type = "Others";
-			tabInventory.displayGeneral();
+			displayManager.displayGeneral();
 		}
 	}
 	
@@ -260,6 +257,7 @@ public class PanelRegistry implements PanelRegistration {
 	 */
 	public void setEditToCurrentSet(InventoryItem ii)
 	{
+		System.out.println(participantList.size());
 		Object object = (Object)ii;
 		setCurrentType(((InventoryItem) object).getClassification());
 		System.out.println("TYPE: " + ((InventoryItem) object).getClassification());
@@ -268,6 +266,7 @@ public class PanelRegistry implements PanelRegistration {
 		
 		while(employeeIter.hasNext())
 		{
+			System.out.println("Passed");
 			employees.add(employeeIter.next().getName());
 		}
 		
@@ -288,7 +287,6 @@ public class PanelRegistry implements PanelRegistration {
 					.saveStatus(inventoryItem.getStatus())
 					.loadList()
 			);
-			
 			((TypeItemTile) participantList.get(1)).loadAssigneeList(employees.iterator());
 			((TypeItemTile) participantList.get(1)).setType("IT Assets");
 			
@@ -326,8 +324,8 @@ public class PanelRegistry implements PanelRegistration {
 			((ItemTileContract)participantList.get(3)).setContractStartDate(((ITAsset) inventoryItem).getWarrantyStartDate());
 			((ItemTileContract)participantList.get(3)).setContractEndDate(((ITAsset) inventoryItem).getWarrantyEndDate());
 			
-			resetAllStorage();
-			tabInventory.showAddPanel();
+			
+//			tabInventory.showAddPanel();
 		}
 		else if(((InventoryItem) object).getClassification().equals("Non-IT"))
 		{
@@ -348,8 +346,7 @@ public class PanelRegistry implements PanelRegistration {
 			((TypeItemTile) participantList.get(1)).loadAssigneeList(employees.iterator());
 			((TypeItemTile) participantList.get(1)).setType("Non-IT Assets");
 			
-			resetAllStorage();
-			tabInventory.showAddPanel();
+//			tabInventory.showAddPanel();
 		}
 		else if(((InventoryItem) object).getClassification().equals("Software"))
 		{
@@ -378,8 +375,8 @@ public class PanelRegistry implements PanelRegistration {
 		
 			
 			System.out.println(((SoftwareItem) inventoryItem).getLicenseKey());
-			resetAllStorage();
-			tabInventory.showAddPanel();
+			tabInventory.repaint();
+			tabInventory.revalidate();
 		}
 		else if(((InventoryItem) object).getClassification().equals("Others"))
 		{
@@ -399,9 +396,9 @@ public class PanelRegistry implements PanelRegistration {
 
 			((TypeItemTile) participantList.get(1)).loadAssigneeList(employees.iterator());
 			((TypeItemTile) participantList.get(1)).setType("Others");
-			resetAllStorage();
-			tabInventory.showAddPanel();
+//			tabInventory.showAddPanel();
 		}
+		resetAllStorage();
 		
 	}
 	
@@ -429,22 +426,6 @@ public class PanelRegistry implements PanelRegistration {
 			participantList.clear();
 		}
 	}
-	
-	public void setToAddMode()
-	{
-		isAdd = true;
-	}
-	
-	public void setToEditMode()
-	{
-		isAdd = false;
-	}
 
-	public static PanelRegistry getInstance() {
-		if (instance == null) {
-			instance = new PanelRegistry();
-		}
-		return instance;
-	}
 
 }

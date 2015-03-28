@@ -29,7 +29,7 @@ public class InventoryCellEdit extends CellEdit implements ActionListener {
 			tab.setEdit(ii);
 		}
 		else if(e.getSource()==getBtnView()){
-			System.out.println("view");
+			tab.setView(ii);
 		}
 	}
 	

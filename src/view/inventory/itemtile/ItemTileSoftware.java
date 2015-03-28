@@ -27,6 +27,7 @@ import javax.swing.JTextArea;
 import javax.swing.JComboBox;
 
 import view.Message;
+import view.inventory.InventoryItemDisplayManager;
 import view.inventory.ItemPanelDecorator;
 import view.inventory.ItemPanelParticipant;
 import view.inventory.ItemPanelTemplate;
@@ -134,8 +135,14 @@ public class ItemTileSoftware extends ItemPanelDecorator implements ItemPanelPar
 		// TODO Auto-generated method stub
 		if(e.getStateChange() == ItemEvent.SELECTED)
 		{
-			PanelRegistry.getInstance().setCurrentType(cbType.getSelectedItem().toString());
-			System.out.println("HAI!");
+			if(cbType.getSelectedItem().equals("IT Assets"))
+				InventoryItemDisplayManager.getInstance().overrideContentPanel("IT");
+			else if(cbType.getSelectedItem().equals("Non-IT Assets"))
+				InventoryItemDisplayManager.getInstance().overrideContentPanel("Non-IT");
+			else if(cbType.getSelectedItem().equals("Software"))
+				InventoryItemDisplayManager.getInstance().overrideContentPanel("Software");
+			else if(cbType.getSelectedItem().equals("Others"))
+				InventoryItemDisplayManager.getInstance().overrideContentPanel("General");
 		}
 	}
 
