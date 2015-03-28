@@ -64,12 +64,12 @@ public class TabProject extends JPanel implements ActionListener{
 	
 	public void setView(Project project){
 		
-//		Content temp=new Content.ContentBuilder().caption("View Specific Project").back(true).content(new ViewListProjects(this, gui, ProjectController.getInstance().getAll(), project)).build();
-//		temp.getBtnBack().addActionListener(this);
-//		this.add(temp, "preview");
-//		list.add(temp);
-//		
-//		cl.show(this, "preview");
+		Content temp=new Content.ContentBuilder().caption("View Specific Project").back(true).content(new ViewListProjects(this, gui, ProjectController.getInstance().getAll(), project)).build();
+		temp.getBtnBack().addActionListener(this);
+		this.add(temp, "preview");
+		list.add(temp);
+		
+		cl.show(this, "preview");
 		
 	}
 

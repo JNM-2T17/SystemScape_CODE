@@ -26,7 +26,12 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.util.Iterator;
+
 import javax.swing.JScrollPane;
+
+import model.Project;
+import model.SupplierContact;
 
 public class ViewSpecificProject extends JPanel {
 	private JLabel lblProjects;
@@ -62,8 +67,6 @@ public class ViewSpecificProject extends JPanel {
 		JLabel lblAll = new JLabel("List of Project Employees:");
 		sl_panContent.putConstraint(SpringLayout.WEST, lblProject, 0,
 				SpringLayout.WEST, lblAll);
-		sl_panContent.putConstraint(SpringLayout.NORTH, lblAll, 140,
-				SpringLayout.NORTH, panContent);
 		sl_panContent.putConstraint(SpringLayout.WEST, lblAll, 109,
 				SpringLayout.WEST, panContent);
 		panContent.add(lblAll);
@@ -78,6 +81,8 @@ public class ViewSpecificProject extends JPanel {
 		panContent.add(lblStartDate);
 
 		JLabel lblEndDate = new JLabel("End Date:");
+		sl_panContent.putConstraint(SpringLayout.NORTH, lblAll, 20,
+				SpringLayout.SOUTH, lblEndDate);
 		sl_panContent.putConstraint(SpringLayout.NORTH, lblEndDate, 15,
 				SpringLayout.SOUTH, lblStartDate);
 		sl_panContent.putConstraint(SpringLayout.WEST, lblEndDate, 0,
@@ -107,17 +112,19 @@ public class ViewSpecificProject extends JPanel {
 		panContent.add(dateEnd);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		sl_panContent.putConstraint(SpringLayout.NORTH, scrollPane, 20, SpringLayout.SOUTH, dateEnd);
-		sl_panContent.putConstraint(SpringLayout.WEST, scrollPane, 6, SpringLayout.EAST, lblAll);
-		sl_panContent.putConstraint(SpringLayout.SOUTH, scrollPane, 289, SpringLayout.SOUTH, dateEnd);
-		sl_panContent.putConstraint(SpringLayout.EAST, scrollPane, 310, SpringLayout.EAST, lblAll);
+		sl_panContent.putConstraint(SpringLayout.NORTH, scrollPane, 20, SpringLayout.SOUTH, lblAll);
+		sl_panContent.putConstraint(SpringLayout.WEST, scrollPane, 6, SpringLayout.WEST, lblAll);
+		sl_panContent.putConstraint(SpringLayout.SOUTH, scrollPane, 400, SpringLayout.SOUTH, lblAll);
+		sl_panContent.putConstraint(SpringLayout.EAST, scrollPane, 200, SpringLayout.EAST, lblAll);
 		panContent.add(scrollPane);
 		
 		JPanel panEmp = new JPanel();
 		scrollPane.setViewportView(panEmp);
 	}
 	
-	public void setProject(String proj){
-		lblProjects.setText(proj);
+	public void setProject(Project proj){
+		lblProjects.setText(proj.getName());
+		dateStart.setText(proj.getStartDate().toString());
+		dateEnd.setText(proj.getEndDate().toString());
 	}
 }
