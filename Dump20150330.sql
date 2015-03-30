@@ -1,8 +1,10 @@
--- MySQL dump 10.13  Distrib 5.6.23, for Win64 (x86_64)
+CREATE DATABASE  IF NOT EXISTS `caista` /*!40100 DEFAULT CHARACTER SET utf8 */;
+USE `caista`;
+-- MySQL dump 10.13  Distrib 5.6.17, for Win32 (x86)
 --
 -- Host: 127.0.0.1    Database: caista
 -- ------------------------------------------------------
--- Server version	5.6.23-log
+-- Server version	5.6.22-log
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -67,18 +69,19 @@ INSERT INTO `contract` VALUES (475,'2002-05-05','2050-12-12',746),(5638,'1980-12
 UNLOCK TABLES;
 
 --
--- Temporary view structure for view `count inventory`
+-- Temporary table structure for view `count inventory`
 --
 
 DROP TABLE IF EXISTS `count inventory`;
 /*!50001 DROP VIEW IF EXISTS `count inventory`*/;
 SET @saved_cs_client     = @@character_set_client;
 SET character_set_client = utf8;
-/*!50001 CREATE VIEW `count inventory` AS SELECT 
- 1 AS `Item`,
- 1 AS `Description`,
- 1 AS `Type`,
- 1 AS `Quantity`*/;
+/*!50001 CREATE TABLE `count inventory` (
+  `Item` tinyint NOT NULL,
+  `Description` tinyint NOT NULL,
+  `Type` tinyint NOT NULL,
+  `Quantity` tinyint NOT NULL
+) ENGINE=MyISAM */;
 SET character_set_client = @saved_cs_client;
 
 --
@@ -130,31 +133,32 @@ INSERT INTO `hardwareitem` VALUES (1),(2),(3),(4),(5),(6),(7),(8),(9),(15),(16),
 UNLOCK TABLES;
 
 --
--- Temporary view structure for view `inventory`
+-- Temporary table structure for view `inventory`
 --
 
 DROP TABLE IF EXISTS `inventory`;
 /*!50001 DROP VIEW IF EXISTS `inventory`*/;
 SET @saved_cs_client     = @@character_set_client;
 SET character_set_client = utf8;
-/*!50001 CREATE VIEW `inventory` AS SELECT 
- 1 AS `ID`,
- 1 AS `name`,
- 1 AS `description`,
- 1 AS `unitprice`,
- 1 AS `status`,
- 1 AS `classification`,
- 1 AS `invoiceNo`,
- 1 AS `location`,
- 1 AS `assetTag`,
- 1 AS `serviceTag`,
- 1 AS `deliveryDate`,
- 1 AS `licenseKey`,
- 1 AS `Warranty Start`,
- 1 AS `Warranty End`,
- 1 AS `Contract Start`,
- 1 AS `Contract End`,
- 1 AS `maintenanceCost`*/;
+/*!50001 CREATE TABLE `inventory` (
+  `ID` tinyint NOT NULL,
+  `name` tinyint NOT NULL,
+  `description` tinyint NOT NULL,
+  `unitprice` tinyint NOT NULL,
+  `status` tinyint NOT NULL,
+  `classification` tinyint NOT NULL,
+  `invoiceNo` tinyint NOT NULL,
+  `location` tinyint NOT NULL,
+  `assetTag` tinyint NOT NULL,
+  `serviceTag` tinyint NOT NULL,
+  `deliveryDate` tinyint NOT NULL,
+  `licenseKey` tinyint NOT NULL,
+  `Warranty Start` tinyint NOT NULL,
+  `Warranty End` tinyint NOT NULL,
+  `Contract Start` tinyint NOT NULL,
+  `Contract End` tinyint NOT NULL,
+  `maintenanceCost` tinyint NOT NULL
+) ENGINE=MyISAM */;
 SET character_set_client = @saved_cs_client;
 
 --
@@ -510,6 +514,7 @@ UNLOCK TABLES;
 -- Final view structure for view `count inventory`
 --
 
+/*!50001 DROP TABLE IF EXISTS `count inventory`*/;
 /*!50001 DROP VIEW IF EXISTS `count inventory`*/;
 /*!50001 SET @saved_cs_client          = @@character_set_client */;
 /*!50001 SET @saved_cs_results         = @@character_set_results */;
@@ -528,6 +533,7 @@ UNLOCK TABLES;
 -- Final view structure for view `inventory`
 --
 
+/*!50001 DROP TABLE IF EXISTS `inventory`*/;
 /*!50001 DROP VIEW IF EXISTS `inventory`*/;
 /*!50001 SET @saved_cs_client          = @@character_set_client */;
 /*!50001 SET @saved_cs_results         = @@character_set_results */;
@@ -551,4 +557,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-03-28 12:57:52
+-- Dump completed on 2015-03-30 23:33:32
