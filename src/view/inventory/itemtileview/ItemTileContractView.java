@@ -1,6 +1,7 @@
 package view.inventory.itemtileview;
 
-import javax.swing.BorderFactory;
+import javafx.util.converter.DateStringConverter;
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.GroupLayout;
@@ -14,6 +15,7 @@ import javax.swing.JLabel;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
@@ -25,7 +27,6 @@ import com.toedter.calendar.JDateChooser;
 
 import javax.swing.JComboBox;
 
-import view.ErrorListenerFactory;
 import view.Message;
 import view.inventory.ItemPanelDecorator;
 import view.inventory.ItemPanelParticipant;
@@ -40,11 +41,10 @@ public class ItemTileContractView extends ItemPanelDecorator implements ItemPane
 	private JLabel lblEnd;
 	private JLabel lblMaintenanceCost;
 	
-	private JTextField tfMainCost;
-	private JDateChooser startDateChooser;
-	private JDateChooser endDateChooser;
-	
 	private JFrame parent;
+	private JLabel lblStartText;
+	private JLabel lblEndText;
+	private JLabel lblMainCostText;
 	
 	public ItemTileContractView(JFrame parent, ItemPanelTemplate addItemPanelReference) {
 		super(addItemPanelReference);
@@ -65,44 +65,23 @@ public class ItemTileContractView extends ItemPanelDecorator implements ItemPane
 		lblStart = new JLabel("Start:");
 		panContract.add(lblStart, "flowx,cell 1 1");
 		
-		startDateChooser = new JDateChooser();
-		startDateChooser.getDateEditor().getUiComponent().addFocusListener(ErrorListenerFactory.getListener(startDateChooser));
-		startDateChooser.setOpaque(false);
-		startDateChooser.setDate(new Date());
-		startDateChooser.setBorder(null);
-		startDateChooser.setDateFormatString("yyyy-MM-dd");
-		startDateChooser.setBackground(Color.WHITE);
-		startDateChooser.setPreferredSize(new Dimension(150, 30));
-		panContract.add(startDateChooser, "cell 2 1 3 1,growx,aligny center");
+		lblStartText = new JLabel("");
+		panContract.add(lblStartText, "cell 2 1 3 1");
 		
 		lblEnd = new JLabel("End:");
 		panContract.add(lblEnd, "cell 1 3,alignx left");
 		
-		endDateChooser = new JDateChooser();
-		endDateChooser.getDateEditor().getUiComponent().addFocusListener(ErrorListenerFactory.getListener(endDateChooser));
-		endDateChooser.setOpaque(false);
-		endDateChooser.setDate(new Date());
-		endDateChooser.setBorder(null);
-		endDateChooser.setDateFormatString("yyyy-MM-dd");
-		endDateChooser.setBackground(Color.WHITE);
-		endDateChooser.setPreferredSize(new Dimension(150, 30));
-		panContract.add(endDateChooser, "cell 2 3 3 1,growx,aligny center");
+		lblEndText = new JLabel("");
+		panContract.add(lblEndText, "cell 2 3 3 1");
 		
 		lblMaintenanceCost = new JLabel("Maintenance Cost:");
 //		lblMaintenanceCost.setFont(new Font("Tahoma", Font.PLAIN, 5));
 		panContract.add(lblMaintenanceCost, "flowx,cell 0 5 2 1");
 		
-		
-		/* Maintenance Cost */
-		
-
-		
-		tfMainCost = new JTextField();
-		tfMainCost.addFocusListener(ErrorListenerFactory.getListener(tfMainCost));
-		panContract.add(tfMainCost, "cell 2 5 3 1,growx");
-		tfMainCost.setColumns(10);
-		
 		addItemPanelReference.assignToQuad(panContract, 4);
+		
+		lblMainCostText = new JLabel("");
+		panContract.add(lblMainCostText, "cell 2 5 3 1");
 
 	}
 	
@@ -130,88 +109,55 @@ public class ItemTileContractView extends ItemPanelDecorator implements ItemPane
 		lblStart = new JLabel("Start:");
 		panContract.add(lblStart, "flowx,cell 1 1");
 		
-		startDateChooser = new JDateChooser();
-		startDateChooser.getDateEditor().getUiComponent().addFocusListener(ErrorListenerFactory.getListener(startDateChooser));
-		startDateChooser.setOpaque(false);
-		startDateChooser.setDate(new Date());
-		startDateChooser.setBorder(null);
-		startDateChooser.setDateFormatString("yyyy-MM-dd");
-		startDateChooser.setBackground(Color.WHITE);
-		startDateChooser.setPreferredSize(new Dimension(150, 30));
-		panContract.add(startDateChooser, "cell 2 1 3 1,growx,aligny center");
+		lblStartText = new JLabel("");
+		panContract.add(lblStartText, "cell 2 1 3 1");
 		
 		lblEnd = new JLabel("End:");
 		panContract.add(lblEnd, "cell 1 3,alignx left");
 		
-		endDateChooser = new JDateChooser();
-		endDateChooser.getDateEditor().getUiComponent().addFocusListener(ErrorListenerFactory.getListener(endDateChooser));
-		endDateChooser.setOpaque(false);
-		endDateChooser.setDate(new Date());
-		endDateChooser.setBorder(null);
-		endDateChooser.setDateFormatString("yyyy-MM-dd");
-		endDateChooser.setBackground(Color.WHITE);
-		endDateChooser.setPreferredSize(new Dimension(150, 30));
-		panContract.add(endDateChooser, "cell 2 3 3 1,growx,aligny center");
+		lblEndText = new JLabel("");
+		panContract.add(lblEndText, "cell 2 3 3 1");
 		
 		lblMaintenanceCost = new JLabel("Maintenance Cost:");
+//		lblMaintenanceCost.setFont(new Font("Tahoma", Font.PLAIN, 5));
 		panContract.add(lblMaintenanceCost, "flowx,cell 0 5 2 1");
-		
-		
-		/* Maintenance Cost */
 		
 		addItemPanelReference.assignToQuad(panContract, 4);
 		
-		tfMainCost = new JTextField();
-		tfMainCost.addFocusListener(ErrorListenerFactory.getListener(tfMainCost));
-		panContract.add(tfMainCost, "cell 2 5 3 1,growx");
-		tfMainCost.setColumns(10);
+		lblMainCostText = new JLabel("");
+		panContract.add(lblMainCostText, "cell 2 5 3 1");
 
+		
+		addItemPanelReference.assignToQuad(panContract, 4);
 		
 	}
 
 	@Override
 	public Iterator retrieveInformation() {
-		// TODO Auto-generated method stub
-		ArrayList infoList = new ArrayList(); 
-		infoList.add(tfMainCost.getText());
-		infoList.add(startDateChooser.getDate());
-		infoList.add(endDateChooser.getDate());
-		return infoList.iterator();
+		return null;
 	}
 	
 	public void setContractStartDate(Date date) {
-		startDateChooser.setDate(date);
+		SimpleDateFormat formatter=new SimpleDateFormat("yyyy-MM-dd");
+		String formattedDate = formatter.format(date);
+		lblStartText.setText(formattedDate);
 	}
 	
 	public void setContractEndDate(Date date) {
-		endDateChooser.setDate(date);
+		SimpleDateFormat formatter=new SimpleDateFormat("yyyy-MM-dd");
+		String formattedDate = formatter.format(date);
+		lblStartText.setText(formattedDate);
 	}
 
 	@Override
-	public String checkInput() {
-		String stat="";
-		Date st = startDateChooser.getDate();
-		Date end = endDateChooser.getDate();
-		
-		if(st.compareTo(end)>0){
-			stat+="Contract start date must occur before the end date\n";
-			endDateChooser.setBorder(BorderFactory.createLineBorder(Color.RED, 1));
-			startDateChooser.setBorder(BorderFactory.createLineBorder(Color.RED, 1));
-		}
-		try{
-			float f=Float.parseFloat(tfMainCost.getText());
-		}
-		catch(Exception e){
-			tfMainCost.setBorder(BorderFactory.createLineBorder(Color.RED, 1));
-			stat+="Invalid maintenance cost\n";
-		}
-		return stat;
+	public boolean checkInput() {
+		return true;
 	}
 
 	@Override
 	public void loadPresets(Iterator iter) {
 		// TODO Auto-generated method stub
-		tfMainCost.setText(iter.next().toString());
+		lblMainCostText.setText(iter.next().toString());
 		/** TEMPORARILY DISABLED**/
 //		startDateChooser.setDate((Date) iter.next());
 //		endDateChooser.setDate((Date) iter.next());

@@ -76,7 +76,7 @@ public class TabInventory extends JPanel implements ActionListener{
 	 * @param ii
 	 */
 	public void setEdit(InventoryItem ii){
-		Content temp=new Content.ContentBuilder().caption("Edit Item").back(true).delete(true).content(displayManager.buildContent(ii,"edit")).build();
+		Content temp=new Content.ContentBuilder().caption("Edit Item").back(true).delete(true).content(displayManager.buildContent(ii.getClassification(),"edit")).build();
 		temp.getBtnBack().addActionListener(this);
 		temp.getBtnDelete().addActionListener(this);
 		this.add(temp, "edit");
@@ -89,12 +89,16 @@ public class TabInventory extends JPanel implements ActionListener{
 	
 	public void setView(InventoryItem ii){
 		
-//		Content temp=new Content.ContentBuilder().caption("View Specific Supplier").back(true).content(new ViewListSuppliers(this, gui, SupplierController.getInstance().getAll(), supp)).build();
-//		temp.getBtnBack().addActionListener(this);
-//		this.add(temp, "preview");
-//		list.add(temp);
-//		
-//		cl.show(this, "preview");
+		displayManager.createNewViewList();
+		Content temp=new Content.ContentBuilder().caption("View Specific Item").back(true).content(displayManager.buildContent(ii.getClassification(),"viewspec")).build();
+		
+		temp.getBtnBack().addActionListener(this);
+		this.add(temp, "viewspec");
+		list.add(temp);
+		
+		cl.show(this, "add");
+		repaint();
+		revalidate();
 	}
 	
 	public void setAdd(String type)
@@ -149,6 +153,9 @@ public class TabInventory extends JPanel implements ActionListener{
 		}
 		else if(((JButton) e.getSource()).getActionCommand().equals("delete")){
 			setDelete();
+		}
+		else if(((JButton) e.getSource()).getActionCommand().equals("view")){
+			setView();
 		}
 	}
 	

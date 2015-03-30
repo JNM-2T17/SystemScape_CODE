@@ -17,18 +17,17 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 
-import javax.swing.BorderFactory;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JFrame;
 import javax.swing.JTextField;
 import javax.swing.JTextArea;
 import javax.swing.JComboBox;
 
-import view.ErrorListenerFactory;
 import view.Message;
 import view.inventory.InventoryItemDisplayManager;
 import view.inventory.ItemPanelDecorator;
@@ -46,21 +45,57 @@ public class ItemTileITView extends ItemPanelDecorator implements ItemPanelParti
 	private JLabel lblServiceTag;
 	private JLabel lblDeliveryDate;
 	private JLabel lblAssignee;
-
-	private JTextField tfAssetTag;
-	private JTextField tfServiceTag;
-	
-	private JComboBox cbType;
-	private JComboBox cbAssignee;
-	
-	private JDateChooser deliveryDateChooser;
 	
 	private JFrame parent;
+	private JLabel lblTypeText;
+	private JLabel lblAssetTagText;
+	private JLabel lblServiceTagText;
+	private JLabel lblDeliveryDateText;
+	private JLabel lblAssigneeText;
 	
 	public ItemTileITView(JFrame parent, ItemPanelTemplate addItemPanelReference) {
 		super(addItemPanelReference);
 		// TODO Auto-generated constructor stub
 		this.parent=parent;
+		panIT = new JPanel();
+		panIT.setBorder(new LineBorder(new Color(30, 144, 255), 3, true));
+		panIT.setBackground(Color.WHITE);
+		/* Layout */
+		
+		panIT.setLayout(new MigLayout("", "[46.00][38.00][38.00][38.00][38.00,grow][100,grow][100][100][31.00]", "[][][17.00][][9.00][39.00][11.00][][17][][]"));
+		
+		String typeStrings[] = {"IT Assets","Non-IT Assets","Software","Others"};
+		
+		/* Labels */
+		lblType = new JLabel("Type:");
+		panIT.add(lblType, "cell 1 1 2 1,alignx left");
+		
+		lblTypeText = new JLabel("");
+		panIT.add(lblTypeText, "cell 3 1 5 1");
+		
+		lblAssetTag = new JLabel("Asset Tag:");
+		panIT.add(lblAssetTag, "cell 2 3 3 1,alignx left");
+		
+		lblAssetTagText = new JLabel("");
+		panIT.add(lblAssetTagText, "cell 5 3 3 1");
+		
+		lblServiceTag = new JLabel("Service Tag:");
+		panIT.add(lblServiceTag, "cell 2 5 3 1");
+		
+		lblServiceTagText = new JLabel("");
+		panIT.add(lblServiceTagText, "cell 5 5 3 1");
+		
+		lblDeliveryDate = new JLabel("Delivery Date:");
+		panIT.add(lblDeliveryDate, "flowx,cell 1 7 4 1");
+		
+		lblDeliveryDateText = new JLabel("");
+		panIT.add(lblDeliveryDateText, "cell 5 7 3 1");
+		
+		lblAssignee = new JLabel("Assignee:");
+		panIT.add(lblAssignee, "flowx,cell 1 9 3 1");
+		
+		lblAssigneeText = new JLabel("");
+		panIT.add(lblAssigneeText, "cell 4 9 4 1");
 	}
 	
 	@Override
@@ -85,56 +120,32 @@ public class ItemTileITView extends ItemPanelDecorator implements ItemPanelParti
 		lblType = new JLabel("Type:");
 		panIT.add(lblType, "cell 1 1 2 1,alignx left");
 		
+		lblTypeText = new JLabel("");
+		panIT.add(lblTypeText, "cell 3 1 5 1");
+		
 		lblAssetTag = new JLabel("Asset Tag:");
 		panIT.add(lblAssetTag, "cell 2 3 3 1,alignx left");
+		
+		lblAssetTagText = new JLabel("");
+		panIT.add(lblAssetTagText, "cell 5 3 3 1");
 		
 		lblServiceTag = new JLabel("Service Tag:");
 		panIT.add(lblServiceTag, "cell 2 5 3 1");
 		
+		lblServiceTagText = new JLabel("");
+		panIT.add(lblServiceTagText, "cell 5 5 3 1");
+		
 		lblDeliveryDate = new JLabel("Delivery Date:");
 		panIT.add(lblDeliveryDate, "flowx,cell 1 7 4 1");
 		
-		deliveryDateChooser = new JDateChooser();
-		deliveryDateChooser.getDateEditor().getUiComponent().addFocusListener(ErrorListenerFactory.getListener(deliveryDateChooser));
-		deliveryDateChooser.setOpaque(false);
-		deliveryDateChooser.setDate(new Date());
-		deliveryDateChooser.setBorder(null);
-		deliveryDateChooser.setDateFormatString("yyyy-MM-dd");
-		deliveryDateChooser.setBackground(Color.WHITE);
-		deliveryDateChooser.setPreferredSize(new Dimension(150, 30));
-		panIT.add(deliveryDateChooser, "cell 5 7 3 1,grow");
+		lblDeliveryDateText = new JLabel("");
+		panIT.add(lblDeliveryDateText, "cell 5 7 3 1");
 		
 		lblAssignee = new JLabel("Assignee:");
 		panIT.add(lblAssignee, "flowx,cell 1 9 3 1");
 		
-		/* Type Combo Box */
-		
-		cbType = new JComboBox(typeStrings);
-		cbType.setSelectedItem("IT Assets");
-		cbType.setBackground(Color.white);
-		cbType.addItemListener(this);
-		panIT.add(cbType, "cell 3 1 5 1,growx");
-		
-		/* Asset and Service Fields */
-		
-		tfAssetTag = new JTextField();
-		tfAssetTag.addFocusListener(ErrorListenerFactory.getListener(tfAssetTag));
-		tfAssetTag.setColumns(10);
-		panIT.add(tfAssetTag, "cell 5 3 3 1,growx");
-		
-		
-		tfServiceTag = new JTextField();
-		tfServiceTag.addFocusListener(ErrorListenerFactory.getListener(tfServiceTag));
-		tfServiceTag.setColumns(10);
-		panIT.add(tfServiceTag, "cell 5 5 3 1,growx");
-		
-		/* Assignee Combo Boxes */
-		
-		cbAssignee = new JComboBox();
-		cbAssignee.setBackground(Color.white);
-		cbAssignee.setModel(new DefaultComboBoxModel(new String[] { "Shayane Tan",
-				"Rissa Quindoza", "Gio Velez" }));
-		panIT.add(cbAssignee, "cell 4 9 4 1,growx");
+		lblAssigneeText = new JLabel("");
+		panIT.add(lblAssigneeText, "cell 4 9 4 1");
 		
 		addItemPanelReference.assignToQuad(panIT, 1);
 
@@ -143,83 +154,47 @@ public class ItemTileITView extends ItemPanelDecorator implements ItemPanelParti
 	@Override
 	public Iterator retrieveInformation() {
 		// TODO Auto-generated method stub
-		ArrayList infoList = new ArrayList();
-		System.out.println("Date: " + (deliveryDateChooser.getDate() instanceof java.util.Date));
-		infoList.add(deliveryDateChooser.getDate());
-		infoList.add(cbAssignee.getSelectedItem().toString());
-		infoList.add(tfAssetTag.getText());
-		infoList.add(tfServiceTag.getText());
-		return infoList.iterator();
+		return null;
 	}
 
 	@Override
 	public void setDeliveryDate(Date date)
 	{
-		deliveryDateChooser.setDate(date);
+		SimpleDateFormat formatter=new SimpleDateFormat("yyyy-MM-dd");
+		String formattedDate = formatter.format(date);
+		lblDeliveryDateText.setText(formattedDate);
 	}
 
 	@Override
 	public void itemStateChanged(ItemEvent e) {
-		// TODO Auto-generated method stub
-		if(e.getStateChange() == ItemEvent.SELECTED)
-		{
-			if(cbType.getSelectedItem().equals("IT Assets"))
-				InventoryItemDisplayManager.getInstance().overrideContentPanel("IT");
-			else if(cbType.getSelectedItem().equals("Non-IT Assets"))
-				InventoryItemDisplayManager.getInstance().overrideContentPanel("Non-IT");
-			else if(cbType.getSelectedItem().equals("Software"))
-				InventoryItemDisplayManager.getInstance().overrideContentPanel("Software");
-			else if(cbType.getSelectedItem().equals("Others"))
-				InventoryItemDisplayManager.getInstance().overrideContentPanel("General");
-		}
+		
 	}
 
 	@Override
-	public String checkInput() {
-		String stat="";
-		if(tfAssetTag.getText().equals("")){
-			stat+= "Please specity item asset tag.\n";
-			tfAssetTag.setBorder(BorderFactory.createLineBorder(Color.RED, 1));
-		}
-		if(tfServiceTag.getText().equals("")){
-			stat+= "Please specity item service tag.\n";
-			tfServiceTag.setBorder(BorderFactory.createLineBorder(Color.RED, 1));
-		}
-		
-		return stat;
+	public boolean checkInput() {
+		return true;
 	}
-	
+
 	@Override
 	public void loadPresets(Iterator iter) {
 		// TODO Auto-generated method stub
-		deliveryDateChooser.setDate((Date) iter.next());
-		cbAssignee.setSelectedItem(iter.next().toString());
-		tfAssetTag.setText(iter.next().toString());
-		tfServiceTag.setText(iter.next().toString());
+		SimpleDateFormat formatter=new SimpleDateFormat("yyyy-MM-dd");
+		String formattedDate = formatter.format(iter.next().toString());
+		lblDeliveryDateText.setText(formattedDate);
+		
+		lblAssigneeText.setText(iter.next().toString());
+		lblAssetTagText.setText(iter.next().toString());
+		lblServiceTagText.setText(iter.next().toString());
 	}
 
 	@Override
 	public void loadAssigneeList(Iterator iter) {
-		// TODO Auto-generated method stub
-		 ArrayList<String> assigneeList = new ArrayList();
-	     while(iter.hasNext()){
-	    	 assigneeList.add(iter.next().toString());
-	     }
-	     if(cbAssignee == null)
-	     {
-	    	 System.out.println("Assignee is null");
-	     }
-	     if(assigneeList == null)
-	     {
-	    	 System.out.println("List is null");
-	     }
-	     cbAssignee.setModel(new DefaultComboBoxModel(assigneeList.toArray()));
+		
 	}
 
 	@Override
 	public void setType(String type) {
-		// TODO Auto-generated method stub
-		cbType.setSelectedItem(type);
+		
 	}
 	
 	

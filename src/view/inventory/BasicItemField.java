@@ -18,7 +18,7 @@ import net.miginfocom.swing.MigLayout;
 
 import java.awt.Color;
 
-public class BasicAddItem extends JPanel implements ActionListener, ItemPanelTemplate{
+public class BasicItemField extends JPanel implements ActionListener, ItemPanelTemplate{
 	
 	private InventoryItemDisplayManager iidm;
 	private JButton btnSubmit;
@@ -29,7 +29,7 @@ public class BasicAddItem extends JPanel implements ActionListener, ItemPanelTem
 	private JPanel panQuad4;
 	
 	
-	public BasicAddItem()
+	public BasicItemField()
 	{
 		iidm = InventoryItemDisplayManager.getInstance();
 		setLayout(new MigLayout("", "[450px,grow][450px,grow]", "[207.00,grow][207.00,grow][]"));

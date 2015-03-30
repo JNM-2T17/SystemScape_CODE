@@ -12,17 +12,16 @@ import javax.swing.JLabel;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 
-import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JTextField;
 import javax.swing.JTextArea;
 import javax.swing.JComboBox;
 
-import view.ErrorListenerFactory;
 import view.Message;
 import view.inventory.ItemPanelDecorator;
 import view.inventory.ItemPanelParticipant;
@@ -39,15 +38,35 @@ public class ItemTileWarrantyView extends ItemPanelDecorator implements ItemPane
 	private JLabel lblEnd;
 	private JLabel lblDeliveryDate;
 	
-	private JDateChooser startWarrantyDate;
-	private JDateChooser endWarrantyDate;
-	
 	private JFrame parent;
+	private JLabel lblStartText;
+	private JLabel lblEndText;
 	
 	public ItemTileWarrantyView(JFrame parent, ItemPanelTemplate addItemPanelReference) {
 		super(addItemPanelReference);
 		// TODO Auto-generated constructor stub
 		this.parent=parent;
+		panWarranty	 = new JPanel();
+		panWarranty.setBorder(new LineBorder(new Color(30, 144, 255), 3, true));
+		panWarranty.setBackground(Color.WHITE);
+		
+		panWarranty.setLayout(new MigLayout("", "[46.00][38.00][100,grow][100,grow][100,grow][31.00]", "[][][17][][17][][]"));
+		
+		lblWarranty = new JLabel("Warranty:");
+		panWarranty.add(lblWarranty, "cell 0 0,alignx left");
+		
+		lblDeliveryDate = new JLabel("Start:");
+		panWarranty.add(lblDeliveryDate, "flowx,cell 1 1");
+		
+		lblStartText = new JLabel("");
+		panWarranty.add(lblStartText, "cell 2 1 2 1");
+		
+		
+		lblEnd = new JLabel("End:");
+		panWarranty.add(lblEnd, "cell 1 3,alignx left");
+		
+		lblEndText = new JLabel("");
+		panWarranty.add(lblEndText, "cell 2 3 2 1,alignx left");
 	}
 	
 	@Override
@@ -71,30 +90,15 @@ public class ItemTileWarrantyView extends ItemPanelDecorator implements ItemPane
 		lblDeliveryDate = new JLabel("Start:");
 		panWarranty.add(lblDeliveryDate, "flowx,cell 1 1");
 		
-		startWarrantyDate = new JDateChooser();
-		startWarrantyDate.addFocusListener(ErrorListenerFactory.getListener(startWarrantyDate));
-		startWarrantyDate.setOpaque(false);
-		startWarrantyDate.setDate(new Date());
-		startWarrantyDate.setBorder(null);
-		startWarrantyDate.setDateFormatString("yyyy-MM-dd");
-		startWarrantyDate.setBackground(Color.WHITE);
-		startWarrantyDate.setPreferredSize(new Dimension(150, 30));
-		panWarranty.add(startWarrantyDate, "cell 2 1 2 1,growx,aligny center");
+		lblStartText = new JLabel("");
+		panWarranty.add(lblStartText, "cell 2 1 2 1");
 		
 		
 		lblEnd = new JLabel("End:");
 		panWarranty.add(lblEnd, "cell 1 3,alignx left");
 		
-		endWarrantyDate = new JDateChooser();
-		endWarrantyDate.addFocusListener(ErrorListenerFactory.getListener(endWarrantyDate));
-		endWarrantyDate.setOpaque(false);
-		endWarrantyDate.setDate(new Date());
-		endWarrantyDate.setBorder(null);
-		endWarrantyDate.setDateFormatString("yyyy-MM-dd");
-		endWarrantyDate.setBackground(Color.WHITE);
-		endWarrantyDate.setPreferredSize(new Dimension(150, 30));
-		panWarranty.add(endWarrantyDate, "cell 2 3 2 1,growx,aligny center");
-		
+		lblEndText = new JLabel("");
+		panWarranty.add(lblEndText, "cell 2 3 2 1,alignx left");
 		
 		addItemPanelReference.assignToQuad(panWarranty, 3);
 		
@@ -102,11 +106,7 @@ public class ItemTileWarrantyView extends ItemPanelDecorator implements ItemPane
 	
 	@Override
 	public Iterator retrieveInformation() {
-		// TODO Auto-generated method stub
-		ArrayList infoList = new ArrayList(); 
-		infoList.add(startWarrantyDate.getDate());
-		infoList.add(endWarrantyDate.getDate());
-		return infoList.iterator();
+		return null;
 	}
 	
 	/**
@@ -115,8 +115,9 @@ public class ItemTileWarrantyView extends ItemPanelDecorator implements ItemPane
 	 */
 	public void setWarrantyStartDate(Date date)
 	{
-		startWarrantyDate.setDate(date);
-		System.out.println("Date Retrieved");
+		SimpleDateFormat formatter=new SimpleDateFormat("yyyy-MM-dd");
+		String formattedDate = formatter.format(date);
+		lblStartText.setText(formattedDate);
 	}
 	
 	/**
@@ -125,28 +126,27 @@ public class ItemTileWarrantyView extends ItemPanelDecorator implements ItemPane
 	 */
 	public void setWarrantyEndDate(Date date)
 	{
-		endWarrantyDate.setDate(date);
+		SimpleDateFormat formatter=new SimpleDateFormat("yyyy-MM-dd");
+		String formattedDate = formatter.format(date);
+		lblEndText.setText(formattedDate);
 	}
 
 	@Override
-	public String checkInput() {
-		String stat="";
-		Date st = startWarrantyDate.getDate();
-		Date end = endWarrantyDate.getDate();
+	public boolean checkInput() {
 		
-		if(st.compareTo(end)>0){
-			startWarrantyDate.setBorder(BorderFactory.createLineBorder(Color.RED, 1));
-			endWarrantyDate.setBorder(BorderFactory.createLineBorder(Color.RED, 1));
-			stat+= "Warranty start date must occur before the end date.\n";
-		}
-		return stat;
+		return true;
 	}
 
 	@Override
 	public void loadPresets(Iterator iter) {
 		// TODO Auto-generated method stub
-		startWarrantyDate.setDate((Date) iter.next());
-		endWarrantyDate.setDate((Date) iter.next());
+		SimpleDateFormat formatter=new SimpleDateFormat("yyyy-MM-dd");
+		String formattedDate = formatter.format(iter.next().toString());
+		lblStartText.setText(formattedDate);
+		
+		formatter = new SimpleDateFormat("yyyy-MM-dd");
+		formattedDate = formatter.format(iter.next().toString());
+		lblEndText.setText(formattedDate);
 	}
 	
 	

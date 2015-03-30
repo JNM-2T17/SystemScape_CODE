@@ -30,6 +30,7 @@ public class InventoryCellEdit extends CellEdit implements ActionListener {
 		}
 		else if(e.getSource()==getBtnView()){
 			tab.setView(ii);
+			System.out.println("Pass");
 		}
 	}
 	

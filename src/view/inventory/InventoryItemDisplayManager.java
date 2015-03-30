@@ -1,6 +1,7 @@
 package view.inventory;
 
 import java.awt.CardLayout;
+import java.util.Iterator;
 
 import javax.swing.JPanel;
 
@@ -14,6 +15,13 @@ import view.inventory.itemtilefield.ItemTileITField;
 import view.inventory.itemtilefield.ItemTileNonITField;
 import view.inventory.itemtilefield.ItemTileSoftwareField;
 import view.inventory.itemtilefield.ItemTileWarrantyField;
+import view.inventory.itemtileview.ItemTileContractView;
+import view.inventory.itemtileview.ItemTileGenInfoView;
+import view.inventory.itemtileview.ItemTileGeneralView;
+import view.inventory.itemtileview.ItemTileITView;
+import view.inventory.itemtileview.ItemTileNonITView;
+import view.inventory.itemtileview.ItemTileSoftwareView;
+import view.inventory.itemtileview.ItemTileWarrantyView;
 
 public class InventoryItemDisplayManager {
 
@@ -21,22 +29,30 @@ public class InventoryItemDisplayManager {
 	private PanelRegistry panelRegistry;
 	private TabInventory tab;
 	private Gui gui;
+	private ViewInventoryItemLinkedList viewList;
 	
-	private ItemTileGenInfoField itemTileGenInfo;
-	private ItemTileGeneralField itemTileGeneral;
-	private ItemTileITField itemTileIT;
-	private ItemTileNonITField itemTileNonIT;
-	private ItemTileWarrantyField itemTileWarranty;
-	private ItemTileContractField itemTileContract;
-	private ItemTileSoftwareField itemTileSoftware;
+	private ItemTileGenInfoField itemTileGenInfoField;
+	private ItemTileGeneralField itemTileGeneralField;
+	private ItemTileITField itemTileITField;
+	private ItemTileNonITField itemTileNonITField;
+	private ItemTileWarrantyField itemTileWarrantyField;
+	private ItemTileContractField itemTileContractField;
+	private ItemTileSoftwareField itemTileSoftwareField;
+	
+	private ItemTileGenInfoView itemTileGenInfoView;
+	private ItemTileGeneralView itemTileGeneralView;
+	private ItemTileITView itemTileITView;
+	private ItemTileNonITView itemTileNonITView;
+	private ItemTileWarrantyView itemTileWarrantyView;
+	private ItemTileContractView itemTileContractView;
+	private ItemTileSoftwareView itemTileSoftwareView;
 	
 	private Content temp;
 	private CardLayout cl;
 	
 	private InventoryItemDisplayManager()
 	{
-		panelRegistry = new PanelRegistry(this);
-		
+		panelRegistry = new PanelRegistry();
 	}
 	
 	public void setTabInventory(TabInventory tab)
@@ -50,9 +66,6 @@ public class InventoryItemDisplayManager {
 	{
 		this.gui = gui;
 	}
-	public Gui getGui(){
-		return gui;
-	}
 	
 	public void setContent(Content temp)
 	{
@@ -64,23 +77,61 @@ public class InventoryItemDisplayManager {
 		this.cl = cl;
 	}
 	
+	public void createNewViewList()
+	{
+		viewList = new ViewInventoryItemLinkedList();
+	}
+	
+	public void viewNextNode()
+	{
+		InventoryItem ii = null;
+		ii = viewList.pNext();
+		if(ii != null)
+		{
+			
+		}
+	}
+	
+	
 	public JPanel buildContent(InventoryItem ii, String mode) {
 		// TODO Auto-generated method stub
-		if(ii.getClassification().equals("IT"))
+		if(mode.equals("add") || mode.equals("edit"))
 		{
-			return displayIT(ii);
+			if(ii.getClassification().equals("IT"))
+			{
+				return displayIT(ii);
+			}
+			else if(ii.getClassification().equals("Non-IT"))
+			{
+				return displayNonIT(ii);
+			}
+			else if(ii.getClassification().equals("Software"))
+			{
+				return displaySoftware(ii);
+			}
+			else if(ii.getClassification().equals("General"))
+			{
+				return displayGeneral(ii);
+			}
 		}
-		else if(ii.getClassification().equals("Non-IT"))
+		else if(mode.equals("viewSpec"))
 		{
-			return displayNonIT(ii);
-		}
-		else if(ii.getClassification().equals("Software"))
-		{
-			return displaySoftware(ii);
-		}
-		else if(ii.getClassification().equals("General"))
-		{
-			return displayGeneral(ii);
+			if(ii.getClassification().equals("IT"))
+			{
+				return displayIT(ii);
+			}
+			else if(ii.getClassification().equals("Non-IT"))
+			{
+				return displayNonIT(ii);
+			}
+			else if(ii.getClassification().equals("Software"))
+			{
+				return displaySoftware(ii);
+			}
+			else if(ii.getClassification().equals("General"))
+			{
+				return displayGeneral(ii);
+			}
 		}
 		
 		return displayIT(ii);
@@ -91,22 +142,22 @@ public class InventoryItemDisplayManager {
 		
 		if(type.equals("IT"))
 		{
-			return displayIT();
+			return displayITField();
 		}
 		else if(type.equals("Non-IT"))
 		{
-			return displayNonIT();
+			return displayNonITField();
 		}
 		else if(type.equals("Software"))
 		{
-			return displaySoftware();
+			return displaySoftwareField();
 		}
 		else if(type.equals("General"))
 		{
-			return displayGeneral();
+			return displayGeneralField();
 		}
 		
-		return displayIT();
+		return displayITField();
 	}
 	
 	/**
@@ -121,21 +172,21 @@ public class InventoryItemDisplayManager {
 		
 		panelRegistry.clearParticipants();
 		
-		BasicAddItem template = new BasicAddItem();
-		itemTileContract = new ItemTileContractField(gui, template);
-		itemTileWarranty = new ItemTileWarrantyField(gui, itemTileContract);
-		itemTileIT = new ItemTileITField(gui, itemTileWarranty);
-		itemTileGenInfo = new ItemTileGenInfoField(gui, itemTileIT);
-		ItemPanelDecorator dec = itemTileGenInfo;
+		BasicItemField template = new BasicItemField();
+		itemTileContractField = new ItemTileContractField(gui, template);
+		itemTileWarrantyField = new ItemTileWarrantyField(gui, itemTileContractField);
+		itemTileITField = new ItemTileITField(gui, itemTileWarrantyField);
+		itemTileGenInfoField = new ItemTileGenInfoField(gui, itemTileITField);
+		ItemPanelDecorator dec = itemTileGenInfoField;
 		
 		dec.renderPanel();
 		dec.repaint();
 		dec.revalidate();
 
-		panelRegistry.registerParticipant(itemTileGenInfo);
-		panelRegistry.registerParticipant(itemTileIT);
-		panelRegistry.registerParticipant(itemTileWarranty);
-		panelRegistry.registerParticipant(itemTileContract);
+		panelRegistry.registerParticipant(itemTileGenInfoField);
+		panelRegistry.registerParticipant(itemTileITField);
+		panelRegistry.registerParticipant(itemTileWarrantyField);
+		panelRegistry.registerParticipant(itemTileContractField);
 		panelRegistry.setEditToCurrentSet(ii);
 		
 		return template;
@@ -162,21 +213,21 @@ public class InventoryItemDisplayManager {
 			tab.remove(temp);
 		}
 		panelRegistry.clearParticipants();
-		BasicAddItem template = new BasicAddItem();
-		itemTileContract = new ItemTileContractField(gui, template);
-		itemTileWarranty = new ItemTileWarrantyField(gui, itemTileContract);
-		itemTileNonIT = new ItemTileNonITField(gui, itemTileWarranty);
-		itemTileGenInfo = new ItemTileGenInfoField(gui, itemTileNonIT);
-		ItemPanelDecorator dec = itemTileGenInfo;
+		BasicItemField template = new BasicItemField();
+		itemTileContractField = new ItemTileContractField(gui, template);
+		itemTileWarrantyField = new ItemTileWarrantyField(gui, itemTileContractField);
+		itemTileNonITField = new ItemTileNonITField(gui, itemTileWarrantyField);
+		itemTileGenInfoField = new ItemTileGenInfoField(gui, itemTileNonITField);
+		ItemPanelDecorator dec = itemTileGenInfoField;
 		
 		dec.renderPanel();
 		dec.repaint();
 		dec.revalidate();
 		
-		panelRegistry.registerParticipant(itemTileGenInfo);
-		panelRegistry.registerParticipant(itemTileNonIT);
-		panelRegistry.registerParticipant(itemTileWarranty);
-		panelRegistry.registerParticipant(itemTileContract);
+		panelRegistry.registerParticipant(itemTileGenInfoField);
+		panelRegistry.registerParticipant(itemTileNonITField);
+		panelRegistry.registerParticipant(itemTileWarrantyField);
+		panelRegistry.registerParticipant(itemTileContractField);
 
 		panelRegistry.setEditToCurrentSet(ii);
 		
@@ -204,17 +255,17 @@ public class InventoryItemDisplayManager {
 			tab.remove(temp);
 		}
 		panelRegistry.clearParticipants();
-		BasicAddItem template = new BasicAddItem();
-		itemTileSoftware = new ItemTileSoftwareField(gui, template);
-		itemTileGenInfo = new ItemTileGenInfoField(gui, itemTileSoftware);
-		ItemPanelDecorator dec = itemTileGenInfo;		
+		BasicItemField template = new BasicItemField();
+		itemTileSoftwareField = new ItemTileSoftwareField(gui, template);
+		itemTileGenInfoField = new ItemTileGenInfoField(gui, itemTileSoftwareField);
+		ItemPanelDecorator dec = itemTileGenInfoField;		
 
 		dec.renderPanel();
 		dec.repaint();
 		dec.revalidate();
 		
-		panelRegistry.registerParticipant(itemTileGenInfo);
-		panelRegistry.registerParticipant(itemTileSoftware);
+		panelRegistry.registerParticipant(itemTileGenInfoField);
+		panelRegistry.registerParticipant(itemTileSoftwareField);
 		
 		panelRegistry.setEditToCurrentSet(ii);
 		
@@ -242,18 +293,18 @@ public class InventoryItemDisplayManager {
 			tab.remove(temp);
 		}
 		panelRegistry.clearParticipants();
-		BasicAddItem template = new BasicAddItem();
-		itemTileWarranty = new ItemTileWarrantyField(gui, template);
-		itemTileGeneral = new ItemTileGeneralField(gui, template);
-		itemTileGenInfo = new ItemTileGenInfoField(gui, itemTileGeneral);
-		ItemPanelDecorator dec = itemTileGenInfo;
+		BasicItemField template = new BasicItemField();
+		itemTileWarrantyField = new ItemTileWarrantyField(gui, template);
+		itemTileGeneralField = new ItemTileGeneralField(gui, template);
+		itemTileGenInfoField = new ItemTileGenInfoField(gui, itemTileGeneralField);
+		ItemPanelDecorator dec = itemTileGenInfoField;
 		
 		dec.renderPanel();
 		dec.repaint();
 		dec.revalidate();
 
-		panelRegistry.registerParticipant(itemTileGenInfo);
-		panelRegistry.registerParticipant(itemTileGeneral);
+		panelRegistry.registerParticipant(itemTileGenInfoField);
+		panelRegistry.registerParticipant(itemTileGeneralField);
 		
 		return template;
 //		dec.renderPanel();
@@ -273,7 +324,7 @@ public class InventoryItemDisplayManager {
 	/**
 	 * Displays the Template for an ITAsset <b>InventoryItem</b>
 	 */
-	public JPanel displayIT()
+	public JPanel displayITField()
 	{
 		if(temp != null)
 		{
@@ -281,21 +332,21 @@ public class InventoryItemDisplayManager {
 		}
 		
 		panelRegistry.clearParticipants();
-		BasicAddItem template = new BasicAddItem();
-		itemTileContract = new ItemTileContractField(gui, template);
-		itemTileWarranty = new ItemTileWarrantyField(gui, itemTileContract);
-		itemTileIT = new ItemTileITField(gui, itemTileWarranty);
-		itemTileGenInfo = new ItemTileGenInfoField(gui, itemTileIT);
-		ItemPanelDecorator dec = itemTileGenInfo;
+		BasicItemField template = new BasicItemField();
+		itemTileContractField = new ItemTileContractField(gui, template);
+		itemTileWarrantyField = new ItemTileWarrantyField(gui, itemTileContractField);
+		itemTileITField = new ItemTileITField(gui, itemTileWarrantyField);
+		itemTileGenInfoField = new ItemTileGenInfoField(gui, itemTileITField);
+		ItemPanelDecorator dec = itemTileGenInfoField;
 		
 		dec.renderPanel();
 		dec.repaint();
 		dec.revalidate();
 		
-		panelRegistry.registerParticipant(itemTileGenInfo);
-		panelRegistry.registerParticipant(itemTileIT);
-		panelRegistry.registerParticipant(itemTileWarranty);
-		panelRegistry.registerParticipant(itemTileContract);
+		panelRegistry.registerParticipant(itemTileGenInfoField);
+		panelRegistry.registerParticipant(itemTileITField);
+		panelRegistry.registerParticipant(itemTileWarrantyField);
+		panelRegistry.registerParticipant(itemTileContractField);
 		
 		return template;
 		
@@ -315,28 +366,28 @@ public class InventoryItemDisplayManager {
 	/**
 	 * Displays the Template for a NonITAsset <b>InventoryItem</b>
 	 */
-	public JPanel displayNonIT()
+	public JPanel displayNonITField()
 	{
 		if(temp != null)
 		{
 			tab.remove(temp);
 		}
 		panelRegistry.clearParticipants();
-		BasicAddItem template = new BasicAddItem();
-		itemTileContract = new ItemTileContractField(gui, template);
-		itemTileWarranty = new ItemTileWarrantyField(gui, itemTileContract);
-		itemTileNonIT = new ItemTileNonITField(gui, itemTileWarranty);
-		itemTileGenInfo = new ItemTileGenInfoField(gui, itemTileNonIT);
-		ItemPanelDecorator dec = itemTileGenInfo;
+		BasicItemField template = new BasicItemField();
+		itemTileContractField = new ItemTileContractField(gui, template);
+		itemTileWarrantyField = new ItemTileWarrantyField(gui, itemTileContractField);
+		itemTileNonITField = new ItemTileNonITField(gui, itemTileWarrantyField);
+		itemTileGenInfoField = new ItemTileGenInfoField(gui, itemTileNonITField);
+		ItemPanelDecorator dec = itemTileGenInfoField;
 		
 		dec.renderPanel();
 		dec.repaint();
 		dec.revalidate();
 		
-		panelRegistry.registerParticipant(itemTileGenInfo);
-		panelRegistry.registerParticipant(itemTileNonIT);
-		panelRegistry.registerParticipant(itemTileWarranty);
-		panelRegistry.registerParticipant(itemTileContract);
+		panelRegistry.registerParticipant(itemTileGenInfoField);
+		panelRegistry.registerParticipant(itemTileNonITField);
+		panelRegistry.registerParticipant(itemTileWarrantyField);
+		panelRegistry.registerParticipant(itemTileContractField);
 		
 		return template;
 		
@@ -356,23 +407,23 @@ public class InventoryItemDisplayManager {
 	 * /**
 	 * Displays the template for a Software <b>InventoryItem</b>
 	 */
-	public JPanel displaySoftware()
+	public JPanel displaySoftwareField()
 	{
 		if(temp != null) {
 			tab.remove(temp);
 		}
 		panelRegistry.clearParticipants();
-		BasicAddItem template = new BasicAddItem();
-		itemTileSoftware = new ItemTileSoftwareField(gui, template);
-		itemTileGenInfo = new ItemTileGenInfoField(gui, itemTileSoftware);
-		ItemPanelDecorator dec = itemTileGenInfo;	
+		BasicItemField template = new BasicItemField();
+		itemTileSoftwareField = new ItemTileSoftwareField(gui, template);
+		itemTileGenInfoField = new ItemTileGenInfoField(gui, itemTileSoftwareField);
+		ItemPanelDecorator dec = itemTileGenInfoField;	
 		
 		dec.renderPanel();
 		dec.repaint();
 		dec.revalidate();
 
-		panelRegistry.registerParticipant(itemTileGenInfo);
-		panelRegistry.registerParticipant(itemTileSoftware);
+		panelRegistry.registerParticipant(itemTileGenInfoField);
+		panelRegistry.registerParticipant(itemTileSoftwareField);
 		
 		
 		return template;
@@ -393,25 +444,184 @@ public class InventoryItemDisplayManager {
 	/**
 	 * Displays the template for a General <b>InventoryItem</b>
 	 */
-	public JPanel displayGeneral()
+	public JPanel displayGeneralField()
 	{
 		if(temp != null)
 		{
 			tab.remove(temp);
 		}
 		panelRegistry.clearParticipants();
-		BasicAddItem template = new BasicAddItem();
-		itemTileWarranty = new ItemTileWarrantyField(gui, template);
-		itemTileGeneral = new ItemTileGeneralField(gui, template);
-		itemTileGenInfo = new ItemTileGenInfoField(gui, itemTileGeneral);
-		ItemPanelDecorator dec = itemTileGenInfo;
+		BasicItemField template = new BasicItemField();
+		itemTileWarrantyField = new ItemTileWarrantyField(gui, template);
+		itemTileGeneralField = new ItemTileGeneralField(gui, itemTileWarrantyField);
+		itemTileGenInfoField = new ItemTileGenInfoField(gui, itemTileGeneralField);
+		ItemPanelDecorator dec = itemTileGenInfoField;
 		
 		dec.renderPanel();
 		dec.repaint();
 		dec.revalidate();
 
-		panelRegistry.registerParticipant(itemTileGenInfo);
-		panelRegistry.registerParticipant(itemTileGeneral);
+		panelRegistry.registerParticipant(itemTileGenInfoField);
+		panelRegistry.registerParticipant(itemTileGeneralField);
+		
+		
+		return template;
+//		dec.renderPanel();
+//		dec.repaint();
+//		dec.revalidate();
+//		temp=new Content.ContentBuilder().caption("Edit Item").back(true).content(template).build();
+//		temp.getBtnBack().addActionListener(tab);
+//		
+//		tab.add(temp, "add");
+//		cl.show(tab, "add");	
+//		tab.revalidate();
+//		tab.repaint();
+		
+		
+	}
+	
+	/**
+	 * Displays the Template for an ITAsset <b>InventoryItem</b>
+	 */
+	public JPanel displayITView()
+	{
+		if(temp != null)
+		{
+			tab.remove(temp);
+		}
+		
+		panelRegistry.clearParticipants();
+		BasicItemField template = new BasicItemField();
+		itemTileContractView = new ItemTileContractView(gui, template);
+		itemTileWarrantyView = new ItemTileWarrantyView(gui, itemTileContractField);
+		itemTileITView = new ItemTileITView(gui, itemTileWarrantyField);
+		itemTileGenInfoView = new ItemTileGenInfoView(gui, itemTileITField);
+		ItemPanelDecorator dec = itemTileGenInfoView;
+		
+		dec.renderPanel();
+		dec.repaint();
+		dec.revalidate();
+		
+		panelRegistry.registerParticipant(itemTileGenInfoView);
+		panelRegistry.registerParticipant(itemTileITView);
+		panelRegistry.registerParticipant(itemTileWarrantyView);
+		panelRegistry.registerParticipant(itemTileContractView);
+		
+		return template;
+		
+		
+//		dec.renderPanel();
+//		dec.repaint();
+//		dec.revalidate();
+//		temp=new Content.ContentBuilder().caption("Add Item").back(true).content(template).build();
+//		temp.getBtnBack().addActionListener(tab);
+//		
+//		tab.add(temp, "add");
+//		cl.show(tab, "add");
+//		tab.revalidate();
+//		tab.repaint();
+	}
+	
+	/**
+	 * Displays the Template for a NonITAsset <b>InventoryItem</b>
+	 */
+	public JPanel displayNonITView()
+	{
+		if(temp != null)
+		{
+			tab.remove(temp);
+		}
+		panelRegistry.clearParticipants();
+		BasicItemField template = new BasicItemField();
+		itemTileContractView = new ItemTileContractView(gui, template);
+		itemTileWarrantyView = new ItemTileWarrantyView(gui, itemTileContractView);
+		itemTileNonITView = new ItemTileNonITView(gui, itemTileWarrantyView);
+		itemTileGenInfoView = new ItemTileGenInfoView(gui, itemTileNonITView);
+		ItemPanelDecorator dec = itemTileGenInfoView;
+		
+		dec.renderPanel();
+		dec.repaint();
+		dec.revalidate();
+		
+		panelRegistry.registerParticipant(itemTileGenInfoView);
+		panelRegistry.registerParticipant(itemTileNonITView);
+		panelRegistry.registerParticipant(itemTileWarrantyView);
+		panelRegistry.registerParticipant(itemTileContractView);
+		
+		return template;
+		
+//		dec.renderPanel();
+//		dec.repaint();
+//		dec.revalidate();
+//		temp=new Content.ContentBuilder().caption("Add Item").back(true).content(template).build();
+//		temp.getBtnBack().addActionListener(tab);
+//		
+//		tab.add(temp, "add");
+//		cl.show(tab, "add");
+//		tab.revalidate();
+//		tab.repaint();
+	}	
+	
+	/**
+	 * /**
+	 * Displays the template for a Software <b>InventoryItem</b>
+	 */
+	public JPanel displaySoftwareView()
+	{
+		if(temp != null) {
+			tab.remove(temp);
+		}
+		panelRegistry.clearParticipants();
+		BasicItemField template = new BasicItemField();
+		itemTileSoftwareView = new ItemTileSoftwareView(gui, template);
+		itemTileGenInfoView = new ItemTileGenInfoView(gui, itemTileSoftwareView);
+		ItemPanelDecorator dec = itemTileGenInfoView;	
+		
+		dec.renderPanel();
+		dec.repaint();
+		dec.revalidate();
+
+		panelRegistry.registerParticipant(itemTileGenInfoView);
+		panelRegistry.registerParticipant(itemTileSoftwareView);
+		
+		
+		return template;
+		
+//		dec.renderPanel();
+//		dec.repaint();
+//		dec.revalidate();
+//		temp=new Content.ContentBuilder().caption("Edit Item").back(true).content(template).build();
+//		temp.getBtnBack().addActionListener(tab);
+//		
+//		tab.add(temp, "add");
+//		cl.show(tab, "add");	
+//		tab.revalidate();
+//		tab.repaint();
+	}
+	
+	
+	/**
+	 * Displays the template for a General <b>InventoryItem</b>
+	 */
+	public JPanel displayGeneralView()
+	{
+		if(temp != null)
+		{
+			tab.remove(temp);
+		}
+		panelRegistry.clearParticipants();
+		BasicItemField template = new BasicItemField();
+		itemTileWarrantyView = new ItemTileWarrantyView(gui, template);
+		itemTileGeneralView = new ItemTileGeneralView(gui, itemTileWarrantyView);
+		itemTileGenInfoView = new ItemTileGenInfoView(gui, itemTileGeneralView);
+		ItemPanelDecorator dec = itemTileGenInfoView;
+		
+		dec.renderPanel();
+		dec.repaint();
+		dec.revalidate();
+
+		panelRegistry.registerParticipant(itemTileGenInfoView);
+		panelRegistry.registerParticipant(itemTileGeneralView);
 		
 		
 		return template;
