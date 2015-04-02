@@ -17,7 +17,7 @@ public class ViewInventoryItemLinkedList {
 		populateList();
 	}
 	
-	public void populateList()
+	private void populateList()
 	{
 		currIndex = 0;
 		
@@ -26,6 +26,11 @@ public class ViewInventoryItemLinkedList {
 			nodeMap.put(currIndex, iter.next());
 			currIndex++;
 		}
+	}
+	
+	public InventoryItem pCurr()
+	{
+		return nodeMap.get(currIndex);
 	}
 	
 	public InventoryItem pNext()

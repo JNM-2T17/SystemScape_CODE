@@ -34,6 +34,9 @@ import view.inventory.itemstorage.ItemStorageWarranty;
 import view.inventory.itemtilefield.ItemTileContractField;
 import view.inventory.itemtilefield.ItemTileWarrantyField;
 import view.inventory.itemtilefield.TypeItemTileField;
+import view.inventory.itemtileview.ItemTileContractView;
+import view.inventory.itemtileview.ItemTileWarrantyView;
+import view.inventory.itemtileview.TypeItemTileView;
 import model.Contract;
 import model.Warranty;
 
@@ -412,6 +415,153 @@ public class PanelRegistry implements PanelRegistration {
                 isAdd = false;
                 System.out.println("OGA CHAKA " + isAdd);
 		resetAllStorage();
+		
+	}
+	
+	public void setViewToCurrentSet(InventoryItem ii)
+	{       
+		System.out.println(participantList.size());
+		Object object = (Object)ii;
+		setCurrentType(((InventoryItem) object).getClassification());
+		System.out.println("TYPE: " + ((InventoryItem) object).getClassification());
+		Iterator<Employee> employeeIter = EmployeeController.getInstance().getAll();
+		ArrayList<String> employees = new ArrayList<String>();
+		
+		while(employeeIter.hasNext())
+		{
+			System.out.println("Passed");
+			employees.add(employeeIter.next().getName());
+		}
+		
+		if(((InventoryItem) object).getClassification().equals("IT"))
+		{
+			type = "IT";
+			/*** 															***/
+			InventoryItem inventoryItem = (ITAsset) object;
+			
+			participantList.get(0).loadPresets(
+					ItemStorageGenInfo.getInstance()
+					.saveID(inventoryItem.getID())
+					.saveName(inventoryItem.getName())
+					.saveDescription(inventoryItem.getDescription())
+					.saveUnitPrice(inventoryItem.getUnitPrice())
+					.saveInvoiceNumber(inventoryItem.getInvoiceNo())
+					.saveLocation(inventoryItem.getLocation())
+					.saveStatus(inventoryItem.getStatus())
+					.loadList()
+			);
+//			((TypeItemTileView) participantList.get(1)).loadAssigneeList(employees.iterator());
+			((TypeItemTileView) participantList.get(1)).setType("IT Assets");
+			
+			participantList.get(1).loadPresets(
+					ItemStorageIT.getInstance()
+					.saveAssetTag(((ITAsset) inventoryItem).getAssetTag())
+					.saveServiceTag(((ITAsset) inventoryItem).getServiceTag())
+					.loadList()
+			);
+			
+			/** TEMPORARILY DISABLED **/
+					
+//			participantList.get(2).loadPresets(
+//					ItemStorageWarranty.getInstance()
+//					.saveStartDate(((ITAsset) inventoryItem).getWarrantyStartDate())
+//					.saveEndDate(((ITAsset) inventoryItem).getWarrantyEndDate())
+//					.loadList()
+//			);
+			
+			
+			/** TEMPORARY FIX **/
+			System.out.println("ASDASD" + ((ITAsset) inventoryItem).getWarrantyStartDate());
+			((ItemTileWarrantyView)participantList.get(2)).setWarrantyStartDate(((ITAsset) inventoryItem).getWarrantyStartDate());
+			((ItemTileWarrantyView)participantList.get(2)).setWarrantyEndDate(((ITAsset) inventoryItem).getWarrantyEndDate());
+			
+			
+			participantList.get(3).loadPresets(
+					ItemStorageContract.getInstance()
+					.saveMainCost(((ITAsset) inventoryItem).getContractMaintenanceCost())
+//					.saveStartDate(((ITAsset) inventoryItem).getContractStartDate())
+//					.saveEndDate(((ITAsset) inventoryItem).getContractEndDate())
+					.loadList()
+			);
+			
+			((ItemTileContractView)participantList.get(3)).setContractStartDate(((ITAsset) inventoryItem).getWarrantyStartDate());
+			((ItemTileContractView)participantList.get(3)).setContractEndDate(((ITAsset) inventoryItem).getWarrantyEndDate());
+			
+			
+//			tabInventory.showAddPanel();
+		}
+		else if(((InventoryItem) object).getClassification().equals("Non-IT"))
+		{
+			type = "Non-IT";
+			/*** 						TEMPORARY FIX									***/
+			InventoryItem inventoryItem = (NonITAsset) object;
+			participantList.get(0).loadPresets(
+					ItemStorageGenInfo.getInstance()
+					.saveID(inventoryItem.getID())
+					.saveName(inventoryItem.getName())
+					.saveDescription(inventoryItem.getDescription())
+					.saveUnitPrice(inventoryItem.getUnitPrice())
+					.saveInvoiceNumber(inventoryItem.getInvoiceNo())
+					.saveLocation(inventoryItem.getLocation())
+					.saveStatus(inventoryItem.getStatus())
+					.loadList()
+			);
+			((TypeItemTileField) participantList.get(1)).loadAssigneeList(employees.iterator());
+			((TypeItemTileField) participantList.get(1)).setType("Non-IT Assets");
+			
+//			tabInventory.showAddPanel();
+		}
+		else if(((InventoryItem) object).getClassification().equals("Software"))
+		{
+			type = "Software";
+			InventoryItem inventoryItem = (SoftwareItem) object;
+			participantList.get(0).loadPresets(
+					ItemStorageGenInfo.getInstance()
+					.saveID(inventoryItem.getID())
+					.saveName(inventoryItem.getName())
+					.saveDescription(inventoryItem.getDescription())
+					.saveUnitPrice(inventoryItem.getUnitPrice())
+					.saveInvoiceNumber(inventoryItem.getInvoiceNo())
+					.saveLocation(inventoryItem.getLocation())
+					.saveStatus(inventoryItem.getStatus())
+					.loadList()
+			);
+			
+			
+			//((TypeItemTileView) participantList.get(1)).loadAssigneeList(employees.iterator());
+			((TypeItemTileView) participantList.get(1)).setType("Software");
+			participantList.get(1).loadPresets(
+					ItemStorageSoftware.getInstance()
+					.saveLicenseKey(((SoftwareItem) inventoryItem).getLicenseKey())
+					.loadList()
+			);
+		
+			
+			System.out.println(((SoftwareItem) inventoryItem).getLicenseKey());
+		}
+		else if(((InventoryItem) object).getClassification().equals("Others"))
+		{
+			type = "Others";
+			InventoryItem inventoryItem = (InventoryItem) object;
+			participantList.get(0).loadPresets(
+					ItemStorageGenInfo.getInstance()
+					.saveID(inventoryItem.getID())
+					.saveName(inventoryItem.getName())
+					.saveDescription(inventoryItem.getDescription())
+					.saveUnitPrice(inventoryItem.getUnitPrice())
+					.saveInvoiceNumber(inventoryItem.getInvoiceNo())
+					.saveLocation(inventoryItem.getLocation())
+					.saveStatus(inventoryItem.getStatus())
+					.loadList()
+			);
+
+//			((TypeItemTileField) participantList.get(1)).loadAssigneeList(employees.iterator());
+//			((TypeItemTileField) participantList.get(1)).setType("Others");
+//			tabInventory.showAddPanel();
+		}
+                isAdd = false;
+                System.out.println("OGA CHAKA " + isAdd);
+                resetAllStorage();
 		
 	}
 	

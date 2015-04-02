@@ -149,7 +149,7 @@ public class ItemTileGeneralView extends ItemPanelDecorator implements ItemPanel
 	
 	@Override
 	public void setType(String type) {
-		//cbType.setSelectedItem(type);
+		lblTypeText.setText(type);
 	}
 
 	@Override

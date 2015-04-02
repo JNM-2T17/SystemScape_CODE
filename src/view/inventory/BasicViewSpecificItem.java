@@ -32,37 +32,39 @@ public class BasicViewSpecificItem extends JPanel implements ActionListener, Ite
 	public BasicViewSpecificItem()
 	{
 		iidm = InventoryItemDisplayManager.getInstance();
-		setLayout(new MigLayout("", "[450px,grow][450px,grow]", "[207.00,grow][207.00,grow][]"));
+		
+		setLayout(new MigLayout("", "[26.00][450px,grow][450px,grow][]", "[207.00,grow][207.00,grow][]"));
 		setBackground(Color.white);
 		panQuad2 = new JPanel();
 		panQuad2.setBackground(Color.white);
-		add(panQuad2, "cell 0 0,grow");
+		add(panQuad2, "cell 1 0,grow");
 		
 		panQuad1 = new JPanel();
 		panQuad1.setBackground(Color.white);
-		add(panQuad1, "cell 1 0,grow");
+		add(panQuad1, "cell 2 0,grow");
 		
 		panQuad3 = new JPanel();
 		panQuad3.setBackground(Color.white);
-		add(panQuad3, "cell 0 1,grow");
+		add(panQuad3, "cell 1 1,grow");
 		
 		panQuad4 = new JPanel();
 		panQuad4.setBackground(Color.white);
-		add(panQuad4, "cell 1 1,grow");
+		add(panQuad4, "cell 2 1,grow");
 		
 		panSubmit = new JPanel();
 
 		
-		panSubmit = new JPanel();
-		panSubmit.setBackground(Color.white);
-		btnSubmit = new JButton("Submit");
-		btnSubmit.addActionListener(this);
-		panSubmit.add(btnSubmit);
-		btnSubmit.setForeground(Color.white);
-		btnSubmit.setBackground(new Color(32, 130, 213));
-		btnSubmit.setFont(new Font("Arial", Font.PLAIN, 18));
+//		panSubmit = new JPanel();
+//		panSubmit.setBackground(Color.white);
+//		btnSubmit = new JButton("Submit");
+//		btnSubmit.addActionListener(this);
+//		panSubmit.add(btnSubmit);
+//		btnSubmit.setForeground(Color.white);
+//		btnSubmit.setBackground(new Color(32, 130, 213));
+//		btnSubmit.setFont(new Font("Arial", Font.PLAIN, 18));
 		
-		add(panSubmit, "cell 0 2 2 1,alignx center");
+//		panMain.add(panSubmit, "cell 1 2 2 1,alignx center");
+		
 		
 	}
 	@Override
@@ -78,15 +80,14 @@ public class BasicViewSpecificItem extends JPanel implements ActionListener, Ite
 		switch(quadNo)
 		{
 		case 1:
-			
-			add(itemPanel, "cell 1 0,grow");
 			remove(panQuad1);
 			panQuad1 = itemPanel;
+			add(itemPanel, "cell 1 0,grow");
 			break;
 		case 2:
-			add(itemPanel, "cell 0 0,grow");
 			remove(panQuad2);
 			panQuad2 = itemPanel;
+			add(itemPanel, "cell 0 0,grow");
 			break;
 		case 3:
 			remove(panQuad3);

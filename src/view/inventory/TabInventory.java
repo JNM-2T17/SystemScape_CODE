@@ -154,9 +154,6 @@ public class TabInventory extends JPanel implements ActionListener{
 		else if(((JButton) e.getSource()).getActionCommand().equals("delete")){
 			setDelete();
 		}
-		else if(((JButton) e.getSource()).getActionCommand().equals("view")){
-			setView();
-		}
 	}
 	
 }

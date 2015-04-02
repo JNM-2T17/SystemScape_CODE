@@ -150,7 +150,7 @@ public class ItemTileNonITView extends ItemPanelDecorator implements ItemPanelPa
 	}
 	@Override
 	public void setType(String type) {
-		
+		lblType.setText(type);
 	}
 
 	@Override

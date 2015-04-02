@@ -194,7 +194,7 @@ public class ItemTileITView extends ItemPanelDecorator implements ItemPanelParti
 
 	@Override
 	public void setType(String type) {
-		
+		lblTypeText.setText(type);
 	}
 	
 	

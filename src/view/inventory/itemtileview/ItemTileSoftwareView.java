@@ -177,6 +177,7 @@ public class ItemTileSoftwareView extends ItemPanelDecorator implements ItemPane
 	}
 	@Override
 	public void setType(String type) {
+		lblTypeText.setText(type);
 	}
 	
 }

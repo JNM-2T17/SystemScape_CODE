@@ -26,11 +26,14 @@ public class InventoryCellEdit extends CellEdit implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource()==getBtnEdit()){
+			if(tab==null) System.out.println("ACT TAB NUUUUL");
+			System.out.println("EDIT-TO");
 			tab.setEdit(ii);
 		}
 		else if(e.getSource()==getBtnView()){
+			if(tab==null) System.out.println("ACT TAB NUUUUL");
+			System.out.println("Pasok PLEASE VIEW-TO");
 			tab.setView(ii);
-			System.out.println("Pass");
 		}
 	}
 	
