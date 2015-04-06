@@ -158,8 +158,9 @@ public class ItemTileSoftwareField extends ItemPanelDecorator implements ItemPan
 	@Override
 	public void loadPresets(Iterator iter) {
 		// TODO Auto-generated method stub
-		
+            if(iter.hasNext())
 		cbAssignee.setSelectedItem(iter.next().toString());
+            if(iter.hasNext())
 		tfLicenseKey.setText(iter.next().toString());
 	}
 	

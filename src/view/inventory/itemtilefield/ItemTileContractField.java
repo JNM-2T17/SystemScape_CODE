@@ -204,6 +204,7 @@ public class ItemTileContractField extends ItemPanelDecorator implements ItemPan
 	@Override
 	public void loadPresets(Iterator iter) {
 		// TODO Auto-generated method stub
+            if(iter.hasNext())
 		tfMainCost.setText(iter.next().toString());
 		/** TEMPORARILY DISABLED**/
 //		startDateChooser.setDate((Date) iter.next());

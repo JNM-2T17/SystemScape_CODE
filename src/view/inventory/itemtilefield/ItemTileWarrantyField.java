@@ -139,7 +139,9 @@ public class ItemTileWarrantyField extends ItemPanelDecorator implements ItemPan
 	@Override
 	public void loadPresets(Iterator iter) {
 		// TODO Auto-generated method stub
+            if(iter.hasNext())
 		startWarrantyDate.setDate((Date) iter.next());
+            if(iter.hasNext())
 		endWarrantyDate.setDate((Date) iter.next());
 	}
 	

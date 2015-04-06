@@ -143,10 +143,13 @@ public class ItemTileNonITView extends ItemPanelDecorator implements ItemPanelPa
 	@Override
 	public void loadPresets(Iterator iter) {
 		// TODO Auto-generated method stub
+            if(iter.hasNext())
 		lblAssigneeText.setText(iter.next().toString());
+            if(iter.hasNext()){
 		SimpleDateFormat formatter=new SimpleDateFormat("yyyy-MM-dd");
 		String formattedDate = formatter.format(iter.next().toString());
 		lblDeliveryDateText.setText(formattedDate);
+            }
 	}
 	@Override
 	public void setType(String type) {

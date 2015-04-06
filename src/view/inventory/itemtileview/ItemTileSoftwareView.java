@@ -158,8 +158,9 @@ public class ItemTileSoftwareView extends ItemPanelDecorator implements ItemPane
 	@Override
 	public void loadPresets(Iterator iter) {
 		// TODO Auto-generated method stub
-		
+            if(iter.hasNext())
 		lblAssigneeText.setText(iter.next().toString());
+            if(iter.hasNext())
 		lblLicenseKeyText.setText(iter.next().toString());
 	}
 	

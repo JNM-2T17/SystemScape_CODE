@@ -150,7 +150,9 @@ public class ItemTileGeneralField extends ItemPanelDecorator implements ItemPane
 
 	@Override
 	public void loadPresets(Iterator iter) {
+            if(iter.hasNext())
 		cbAssignee.setSelectedItem(iter.next().toString());
+            if(iter.hasNext())
 		deliveryDateChooser.setDate((Date) iter.next());
 	}
 	

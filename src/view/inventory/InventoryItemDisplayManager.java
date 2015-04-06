@@ -97,26 +97,31 @@ public class InventoryItemDisplayManager {
 		// TODO Auto-generated method stub
 		if(mode.equals("add") || mode.equals("edit"))
 		{
-			if(ii.getClassification().equals("IT"))
+                        System.out.println("Swing out " + ii.getClassification());
+			if(ii.getClassification().equalsIgnoreCase("IT"))
 			{
+                                System.out.println("Le IT " + ii.getClassification() + " in the Dark");
 				return displayITField(ii);
 			}
-			else if(ii.getClassification().equals("Non-IT"))
+			else if(ii.getClassification().equalsIgnoreCase("Non-IT"))
 			{
+                                System.out.println("Le Non " + ii.getClassification() + " in the Dark");
 				return displayNonITField(ii);
 			}
-			else if(ii.getClassification().equals("Software"))
+			else if(ii.getClassification().equalsIgnoreCase("Software"))
 			{
+                                System.out.println("Le Soft " + ii.getClassification() + " in the Dark");
 				return displaySoftwareField(ii);
 			}
-			else if(ii.getClassification().equals("General"))
+			else if(ii.getClassification().equalsIgnoreCase("Other"))
 			{
+                                System.out.println("Le other " + ii.getClassification() + " in the Dark");
 				return displayGeneralField(ii);
 			}
 			
-			if(ii != null)
+			/*if(ii != null)
 				return displayITField(ii);
-			else return displayITField();
+			else return displayITField();*/
 		}
 		else if(mode.equals("viewSpec"))
 		{
@@ -132,7 +137,7 @@ public class InventoryItemDisplayManager {
 			{
 				return displaySoftwareView(ii);
 			}
-			else if(ii.getClassification().equals("General"))
+			else if(ii.getClassification().equals("Other"))
 			{
 				return displayGeneralView(ii);
 			}
@@ -278,7 +283,8 @@ public class InventoryItemDisplayManager {
 
 		panelRegistry.registerParticipant(itemTileGenInfoField);
 		panelRegistry.registerParticipant(itemTileGeneralField);
-		
+		panelRegistry.setEditToCurrentSet(ii);
+                
 		return template;
 	}
 	

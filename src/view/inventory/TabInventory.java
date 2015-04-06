@@ -77,7 +77,7 @@ public class TabInventory extends JPanel implements ActionListener{
 	 * @param ii
 	 */
 	public void setEdit(InventoryItem ii){
-		Content temp=new Content.ContentBuilder().caption("Edit Item").back(true).delete(true).content(displayManager.buildContent(ii.getClassification(),"edit")).build();
+		Content temp=new Content.ContentBuilder().caption("Edit Item").back(true).delete(true).content(displayManager.buildContent(ii,"edit")).build();
 		temp.getBtnBack().addActionListener(this);
 		temp.getBtnDelete().addActionListener(this);
 		this.add(temp, "edit");

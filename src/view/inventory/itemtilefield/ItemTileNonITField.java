@@ -150,7 +150,9 @@ public class ItemTileNonITField extends ItemPanelDecorator implements ItemPanelP
 	@Override
 	public void loadPresets(Iterator iter) {
 		// TODO Auto-generated method stub
+            if(iter.hasNext())
 		cbAssignee.setSelectedItem(iter.next().toString());
+            if(iter.hasNext())
 		deliveryDateChooser.setDate((Date) iter.next());
 	}
 	@Override

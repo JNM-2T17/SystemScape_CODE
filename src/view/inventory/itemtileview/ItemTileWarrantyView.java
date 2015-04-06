@@ -140,13 +140,18 @@ public class ItemTileWarrantyView extends ItemPanelDecorator implements ItemPane
 	@Override
 	public void loadPresets(Iterator iter) {
 		// TODO Auto-generated method stub
-		SimpleDateFormat formatter=new SimpleDateFormat("yyyy-MM-dd");
-		String formattedDate = formatter.format(iter.next().toString());
+            SimpleDateFormat formatter;
+            String formattedDate;
+            if(iter.hasNext()){
+		formatter =new SimpleDateFormat("yyyy-MM-dd");
+		formattedDate = formatter.format(iter.next().toString());
 		lblStartText.setText(formattedDate);
-		
+            }
+            if(iter.hasNext()){
 		formatter = new SimpleDateFormat("yyyy-MM-dd");
 		formattedDate = formatter.format(iter.next().toString());
 		lblEndText.setText(formattedDate);
+            }
 	}
 	
 	

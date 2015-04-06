@@ -188,10 +188,16 @@ public class ItemTileITField extends ItemPanelDecorator implements ItemPanelPart
 	@Override
 	public void loadPresets(Iterator iter) {
 		// TODO Auto-generated method stub
-		deliveryDateChooser.setDate((Date) iter.next());
-		cbAssignee.setSelectedItem(iter.next().toString());
-		tfAssetTag.setText(iter.next().toString());
-		tfServiceTag.setText(iter.next().toString());
+            
+                if(iter.hasNext())
+                    deliveryDateChooser.setDate((Date) iter.next());
+                if(iter.hasNext())
+                    cbAssignee.setSelectedItem(iter.next().toString());
+                if(iter.hasNext())
+                    tfAssetTag.setText(iter.next().toString());
+                if(iter.hasNext()){
+                    tfServiceTag.setText(iter.next().toString());
+                }
 	}
 
 	@Override

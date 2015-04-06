@@ -157,6 +157,7 @@ public class ItemTileContractView extends ItemPanelDecorator implements ItemPane
 	@Override
 	public void loadPresets(Iterator iter) {
 		// TODO Auto-generated method stub
+            if(iter.hasNext())
 		lblMainCostText.setText(iter.next().toString());
 		/** TEMPORARILY DISABLED**/
 //		startDateChooser.setDate((Date) iter.next());

@@ -145,7 +145,7 @@ public class PanelRegistry implements PanelRegistration {
 
 		deliveryDate = (Date) typeInfo.get(0);
 		
-		if (type.equals("IT")) {
+		if (type.equalsIgnoreCase("IT")) {
 
 			int assetTag = Integer.parseInt(typeInfo.get(2).toString());
 
@@ -182,7 +182,7 @@ public class PanelRegistry implements PanelRegistration {
 									(Date) warrantyInfo.get(1))).build();
 			inventoryItem = itAsset;
 
-		} else if (type.equals("Non-IT")) {
+		} else if (type.equalsIgnoreCase("Non-IT")) {
 
 			NonITAsset nonItAsset = new NonITAsset.NonITAssetBuilder()
 					.addName(generalInfo.get(0).toString())
@@ -195,7 +195,7 @@ public class PanelRegistry implements PanelRegistration {
 					
 			inventoryItem = nonItAsset;
 			
-		} else if (type.equals("Software")) {
+		} else if (type.equalsIgnoreCase("Software")) {
 
 			SoftwareItem software = new SoftwareItem.SoftwareBuilder()
 					.addName(generalInfo.get(0).toString())
@@ -209,7 +209,7 @@ public class PanelRegistry implements PanelRegistration {
 			
 			inventoryItem = software;
 			
-		} else if (type.equals("Others")) {
+		} else if (type.equalsIgnoreCase("Other")) {
 			InventoryItem general = new InventoryItem.InventoryItemBuilder()
 					.addName(generalInfo.get(0).toString())
 					.addDescription(generalInfo.get(1).toString())
@@ -275,7 +275,7 @@ public class PanelRegistry implements PanelRegistration {
 	{       
 		System.out.println(participantList.size());
 		Object object = (Object)ii;
-		setCurrentType(((InventoryItem) object).getClassification());
+		//setCurrentType(((InventoryItem) object).getClassification());
 		System.out.println("TYPE: " + ((InventoryItem) object).getClassification());
 		Iterator<Employee> employeeIter = EmployeeController.getInstance().getAll();
 		ArrayList<String> employees = new ArrayList<String>();
@@ -286,7 +286,7 @@ public class PanelRegistry implements PanelRegistration {
 			employees.add(employeeIter.next().getName());
 		}
 		
-		if(((InventoryItem) object).getClassification().equals("IT"))
+		if(((InventoryItem) object).getClassification().equalsIgnoreCase("IT"))
 		{
 			type = "IT";
 			/*** 															***/
@@ -343,11 +343,11 @@ public class PanelRegistry implements PanelRegistration {
 			
 //			tabInventory.showAddPanel();
 		}
-		else if(((InventoryItem) object).getClassification().equals("Non-IT"))
+		else if(((InventoryItem) object).getClassification().equalsIgnoreCase("Non-IT"))
 		{
 			type = "Non-IT";
 			/*** 						TEMPORARY FIX									***/
-			InventoryItem inventoryItem = (NonITAsset) object;
+			InventoryItem inventoryItem = (InventoryItem) object;
 			participantList.get(0).loadPresets(
 					ItemStorageGenInfo.getInstance()
 					.saveID(inventoryItem.getID())
@@ -364,9 +364,10 @@ public class PanelRegistry implements PanelRegistration {
 			
 //			tabInventory.showAddPanel();
 		}
-		else if(((InventoryItem) object).getClassification().equals("Software"))
+		else if(((InventoryItem) object).getClassification().equalsIgnoreCase("Software"))
 		{
 			type = "Software";
+                        
 			InventoryItem inventoryItem = (SoftwareItem) object;
 			participantList.get(0).loadPresets(
 					ItemStorageGenInfo.getInstance()
@@ -392,8 +393,9 @@ public class PanelRegistry implements PanelRegistration {
 			
 			System.out.println(((SoftwareItem) inventoryItem).getLicenseKey());
 		}
-		else if(((InventoryItem) object).getClassification().equals("Others"))
+		else if(((InventoryItem) object).getClassification().equalsIgnoreCase("Other"))
 		{
+                        System.out.println("on top");
 			type = "Others";
 			InventoryItem inventoryItem = (InventoryItem) object;
 			participantList.get(0).loadPresets(
@@ -413,7 +415,6 @@ public class PanelRegistry implements PanelRegistration {
 //			tabInventory.showAddPanel();
 		}
                 isAdd = false;
-                System.out.println("OGA CHAKA " + isAdd);
 		resetAllStorage();
 		
 	}

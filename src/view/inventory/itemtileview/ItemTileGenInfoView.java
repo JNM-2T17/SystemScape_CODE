@@ -145,13 +145,19 @@ public class ItemTileGenInfoView extends ItemPanelDecorator implements ItemPanel
 	@Override
 	public void loadPresets(Iterator iter) {
 		// TODO Auto-generated method stub
-		
+            if(iter.hasNext())
 		currentID = iter.next().toString();
+            if(iter.hasNext())
 		lblNameText.setText(iter.next().toString());
+            if(iter.hasNext())
 		lblDescriptionText.setText(iter.next().toString());
+            if(iter.hasNext())
 		lblUnitPriceText.setText(iter.next().toString());
+            if(iter.hasNext())
 		lblInvoiceNumberText.setText(iter.next().toString());
+            if(iter.hasNext())
 		lblLocationText.setText(iter.next().toString());
+            if(iter.hasNext())
 		lblStatusText.setText(iter.next().toString());
 	}
 	

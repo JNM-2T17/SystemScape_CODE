@@ -143,6 +143,7 @@ public class ItemTileGeneralView extends ItemPanelDecorator implements ItemPanel
 
 	@Override
 	public void loadPresets(Iterator iter) {
+            if(iter.hasNext())
 		lblAssigneeText.setText(iter.next().toString());
 		//deliveryDateChooser.setDate((Date) iter.next());
 	}

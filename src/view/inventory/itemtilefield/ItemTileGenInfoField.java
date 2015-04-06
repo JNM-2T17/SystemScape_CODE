@@ -190,14 +190,20 @@ public class ItemTileGenInfoField extends ItemPanelDecorator implements ItemPane
 	@Override
 	public void loadPresets(Iterator iter) {
 		// TODO Auto-generated method stub
-		
-		currentID = Integer.parseInt(iter.next().toString());
-		tfName.setText(iter.next().toString());
-		taDescription.setText(iter.next().toString());
-		tfUnitPrice.setText(iter.next().toString());
-		tfInvoiceNumber.setText(iter.next().toString());
-		cbLocation.setSelectedItem(iter.next().toString());
-		cbStatus.setSelectedItem(iter.next().toString());
+		if(iter.hasNext())
+                    currentID = Integer.parseInt(iter.next().toString());
+                if(iter.hasNext())
+                    tfName.setText(iter.next().toString());
+                if(iter.hasNext())
+                    taDescription.setText(iter.next().toString());
+                if(iter.hasNext())
+                    tfUnitPrice.setText(iter.next().toString());
+                if(iter.hasNext())
+                    tfInvoiceNumber.setText(iter.next().toString());
+                if(iter.hasNext())
+                    cbLocation.setSelectedItem(iter.next().toString());
+                if(iter.hasNext())
+                    cbStatus.setSelectedItem(iter.next().toString());
 	}
 	
 	/**
