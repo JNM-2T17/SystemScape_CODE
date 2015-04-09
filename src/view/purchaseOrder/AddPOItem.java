@@ -190,9 +190,10 @@ public class AddPOItem extends PopUp implements ActionListener, FocusListener {
 			this.setVisible(false); // you can't see me! - LOL
 			this.dispose();
 		} else if (e.getSource() == btnSubmit) {
-
+                        
 			String error = checkFields();
 			if (error.equals("") == true) {
+                            if(poController.checkItemExists(txtItem.getText())){
 				String item = txtItem.getText();
 				String description = txtDescription.getText();
 				int quantity = parseStringInt(txtQuantity.getText());
@@ -200,8 +201,12 @@ public class AddPOItem extends PopUp implements ActionListener, FocusListener {
 
 				poController.addItem(new ItemData(item, description, price),
 						quantity);
-				this.setVisible(false); // you can't see me!
+                                this.setVisible(false); // you can't see me!
 				this.dispose();
+                            }else{
+                                Message msg = new Message(parent, Message.ERROR, "Item already exists!");
+                            }
+				
 
 			} else if (error.equals("") == false) {
 				Message msg = new Message(parent, Message.ERROR, error);
