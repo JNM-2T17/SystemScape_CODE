@@ -153,6 +153,9 @@ public class AddProject extends JPanel implements ActionListener {
 
 				projectController.addProject(project);
 				projectController.init();
+				
+				Message msg = new Message(parent, Message.SUCCESS,
+						"Project added successfully.");
 				System.out.println("Yey project: " + project.getName());
 			}
 			else{
