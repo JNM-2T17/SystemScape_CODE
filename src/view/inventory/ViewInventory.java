@@ -12,6 +12,7 @@ import java.awt.event.ActionListener;
 import java.util.Iterator;
 
 import javax.swing.table.DefaultTableModel;
+import model.Assignment;
 
 import model.Contract;
 import model.Employee;
@@ -47,6 +48,7 @@ public class ViewInventory extends ViewTemplate implements Observer,
 		warrantyController = WarrantyController.getInstance();
 
 		iiController.registerObserver(this);
+                assignmentController.registerObserver(this);
 	}
 
 	@Override
@@ -96,22 +98,22 @@ public class ViewInventory extends ViewTemplate implements Observer,
 		ITAsset itAsset;
 		Contract contract;
 		Warranty warranty;
-		Employee employee;
 		Iterator data = iiController.getAll();
-		int employeeid;
-
+		String employee;
+                Assignment assignment;
+                
 		while (data.hasNext()) {
 			Object object = data.next();
 			inventoryItem = (InventoryItem) object;
-			employeeid = 0;
+			employee = null;
 			warranty = (Warranty) warrantyController.getObject(String
 					.valueOf(inventoryItem.getID()));
 			contract = (Contract) contractController.getObject(String
 					.valueOf(inventoryItem.getID()));
-			Object idObject = assignmentController.getObject(String
-					.valueOf(inventoryItem.getID()));
-			if (idObject != null) {
-				employeeid = (int) idObject;
+			assignment = (Assignment)assignmentController.getObject(""+inventoryItem.getID());
+			if (assignment != null) {
+                                System.out.println("update "+assignment.getEmployee().getName());
+				employee = assignment.getEmployee().getName();
 			}
 
 			getModel().setRowCount(getModel().getRowCount() + 1);
@@ -140,11 +142,9 @@ public class ViewInventory extends ViewTemplate implements Observer,
 						((ITAsset) inventoryItem).getDeliveryDate(),
 						getModel().getRowCount() - 1, 8);
 			}
-
-			if (employeeid != 0) {
-				employee = (Employee) employeeController.getObject(String
-						.valueOf(employeeid));
-				getModel().setValueAt(employee.getName(),
+			if (employee != null) {
+                                
+				getModel().setValueAt(employee,
 						getModel().getRowCount() - 1, 6);
 			}
 			if (contract != null && warranty != null) {

@@ -1,6 +1,7 @@
 package view.inventory;
 
 import com.toedter.calendar.JDateChooser;
+import controller.AssignmentController;
 
 import controller.ContractController;
 
@@ -21,8 +22,11 @@ import controller.EmployeeController;
 import controller.ITAssetController;
 import controller.InventoryItemController;
 import controller.WarrantyController;
+import java.text.DateFormat;
 
 import java.util.Date;
+import java.util.Locale;
+import model.Assignment;
 
 import view.inventory.itemstorage.ItemStorageContract;
 import view.inventory.itemstorage.ItemStorageGenInfo;
@@ -36,7 +40,6 @@ import view.inventory.itemtilefield.ItemTileITField;
 import view.inventory.itemtilefield.ItemTileWarrantyField;
 import view.inventory.itemtilefield.TypeItemTileField;
 import view.inventory.itemtileview.ItemTileContractView;
-import view.inventory.itemtileview.ItemTileITView;
 import view.inventory.itemtileview.ItemTileWarrantyView;
 import view.inventory.itemtileview.TypeItemTileView;
 import model.Contract;
@@ -49,11 +52,15 @@ public class PanelRegistry implements PanelRegistration {
 	private ArrayList<ItemPanelParticipant> participantList;
 	private InventoryItemDisplayManager displayManager;
 	private InventoryItem currentInventoryItem;
-	
+	private EmployeeController employeeController;
+        private AssignmentController assignmentController;
+        
 	public PanelRegistry() {
 		participantList = new ArrayList<ItemPanelParticipant>();
 		type = "IT";
 		isAdd = true;
+                employeeController = EmployeeController.getInstance();
+                assignmentController = AssignmentController.getInstance();
 	}
 
 	public void clearParticipants() {
@@ -156,14 +163,20 @@ public class PanelRegistry implements PanelRegistration {
 		InventoryItem inventoryItem = null;
 		float unitPrice = Float.parseFloat(generalInfo.get(2).toString());
 		System.out.println(typeInfo.get(0).toString());
-		Date deliveryDate;
-
-		deliveryDate = (Date) typeInfo.get(0);
+		Date deliveryDate = null;
+                String string = "January 2, 2010";
+                DateFormat format = new SimpleDateFormat("MMMM d, yyyy", Locale.ENGLISH);
+                int assigneeNo = 0;
+                try{
+                    deliveryDate = format.parse(typeInfo.get(0).toString());
+                }catch(Exception e){
+                    
+                }
 		
 		if (type.equalsIgnoreCase("IT")) {
 
 			int assetTag = Integer.parseInt(typeInfo.get(2).toString());
-
+                        assigneeNo = 1;
 			if (!warrantyInfo.isEmpty()) {
 				Warranty warranty = new Warranty(0,
 						(Date) warrantyInfo.get(0),
@@ -207,10 +220,8 @@ public class PanelRegistry implements PanelRegistration {
 					.addLocation(generalInfo.get(4).toString())
 					.addStatus(generalInfo.get(5).toString()) 
 					.addClassification("Non-IT").build();
-			
 					
 			inventoryItem = nonItAsset;
-			
 			
 		} else if (type.equalsIgnoreCase("Soft")) {
 
@@ -249,13 +260,42 @@ public class PanelRegistry implements PanelRegistration {
 		System.out.println(generalInfo.get(6).toString());
 		if(isAdd){
                     InventoryItemController.getInstance().addInventoryItem(inventoryItem);
+                    Employee employee = (Employee)employeeController.getObject(typeInfo.get(assigneeNo).toString());
+                    if(!typeInfo.get(assigneeNo).toString().equals("None")){
+                        Assignment assignment = (Assignment)assignmentController.getObject(generalInfo.get(6).toString() + " " + employee.getID());
+                        assignmentController.add(assignment);
+                    }
                 }
                 else{ 
-                	System.out.println("EDITTING FILE!");
+                    System.out.println("EDITTING FILE!");
                     System.out.println("doobie " + generalInfo.get(6).toString());
                     InventoryItemController.getInstance().editInventoryItem(inventoryItem, generalInfo.get(6).toString());
-                
-                   
+                    Assignment assignment = null;
+                    Employee employee = (Employee)employeeController.getObject(typeInfo.get(assigneeNo).toString());
+                    if(employee != null)
+                        assignment = (Assignment)assignmentController.getObject(generalInfo.get(6).toString() + " " + employee.getID());
+                    Iterator i = assignmentController.filter(generalInfo.get(6).toString());
+                    
+                    if(assignment == null){ // checks if item is currently not assigned to the selected employee
+                        if(!typeInfo.get(assigneeNo).toString().equals("None")&&!typeInfo.get(assigneeNo).toString().equals("Remove Assignment")){//checks if user assigned item to new employee
+                            assignment = new Assignment(Integer.parseInt(generalInfo.get(6).toString()), employee);
+                            if(i.hasNext()){ //checks if item is currently assigned to an employee
+                                assignmentController.update(assignment);
+                            }else{
+                                if(!typeInfo.get(assigneeNo).toString().equals("None")){
+                                    assignmentController.add(assignment);
+                                }
+                            }  
+                        }else{
+                            if(typeInfo.get(assigneeNo).toString().equals("Remove Assignment")){
+                                if(i.hasNext()){
+                                    assignment = (Assignment)i.next();
+                                    System.out.println("brothers " + assignment.getEmployee().getID());
+                                    assignmentController.delete(assignment);
+                                }
+                            }
+                        }
+                    }
                 }
 		
 	}
@@ -307,13 +347,28 @@ public class PanelRegistry implements PanelRegistration {
 //		System.out.println("TYPE: " + ((InventoryItem) object).getClassification());
 		String typeInventoryItem = (ii.getClassification().toString());
 		System.out.println(typeInventoryItem);
-		Iterator<Employee> employeeIter = EmployeeController.getInstance().getAll();
-		ArrayList<String> employees = new ArrayList<String>();
+                Iterator i = assignmentController.filter(""+ii.getID());
+                ArrayList<String> employees = new ArrayList<String>();
+                Iterator<Employee> employeeIter = employeeController.getAll();
+                
+                Assignment assignment;                      // This code
+                if(i.hasNext()){                             // assumes item can
+                    assignment = ((Assignment)i.next());    // only be assigned to one employee
+                    employees.add(assignment.getEmployee().getName());
+                }
+                else
+                    employees.add("None");
+		
+		
 		
 		while(employeeIter.hasNext())
 		{
-			employees.add(employeeIter.next().getName());
+                    String name = employeeIter.next().getName();
+                    if(!employees.contains(name))
+                        employees.add(name);
 		}
+                if(!employees.contains("None"))
+                    employees.add("Remove Assignment");
 		InventoryItem inventoryItem;
 		
 		if(typeInventoryItem.equalsIgnoreCase("IT"))
@@ -457,7 +512,7 @@ public class PanelRegistry implements PanelRegistration {
 //		Object object = (Object)ii;
 //		setCurrentType(((InventoryItem) ii).getClassification());
 //		System.out.println("TYPE: " + ((InventoryItem) object).getClassification());
-		Iterator<Employee> employeeIter = EmployeeController.getInstance().getAll();
+		Iterator<Employee> employeeIter = employeeController.getAll();
 		ArrayList<String> employees = new ArrayList<String>();
 		
 		while(employeeIter.hasNext())
@@ -465,10 +520,6 @@ public class PanelRegistry implements PanelRegistration {
 			employees.add(employeeIter.next().getName());
 		}
 		
-		if(ii == null)
-		{
-			System.out.println("NULL NGA");
-		}
 		if(((InventoryItem) ii).getClassification().equalsIgnoreCase("IT"))
 		{
 			type = "IT";
@@ -486,13 +537,12 @@ public class PanelRegistry implements PanelRegistration {
 					.saveStatus(inventoryItem.getStatus())
 					.loadList()
 			);
-//			((TypeItemTileView) participantList.get(1)).loadAssigneeList(employees.iterator());
+			
 			((TypeItemTileView) participantList.get(1)).setType("IT Assets");
-			((ItemTileITView) participantList.get(1)).setDeliveryDate(((ITAsset) inventoryItem).getDeliveryDate());
+                        ((TypeItemTileView) participantList.get(1)).loadAssigneeList(employees.iterator());
 			
 			participantList.get(1).loadPresets(
 					ItemStorageIT.getInstance()
-					//.saveDeliveryDate(((ITAsset) inventoryItem).getDeliveryDate())
 					.saveAssetTag(((ITAsset) inventoryItem).getAssetTag())
 					.saveServiceTag(((ITAsset) inventoryItem).getServiceTag())
 					.loadList()
@@ -544,8 +594,9 @@ public class PanelRegistry implements PanelRegistration {
 					.saveStatus(inventoryItem.getStatus())
 					.loadList()
 			);
-			//((TypeItemTileField) participantList.get(1)).loadAssigneeList(employees.iterator());
-			//((TypeItemTileField) participantList.get(1)).setType("Non-IT Assets");
+			
+			((TypeItemTileField) participantList.get(1)).setType("Non-IT Assets");
+                        ((TypeItemTileField) participantList.get(1)).loadAssigneeList(employees.iterator());
 			//PROBLEM
 			
 //			tabInventory.showAddPanel();
@@ -567,8 +618,9 @@ public class PanelRegistry implements PanelRegistration {
 			);
 			
 			
-			//((TypeItemTileView) participantList.get(1)).loadAssigneeList(employees.iterator());
+		
 			((TypeItemTileView) participantList.get(1)).setType("Software");
+                        ((TypeItemTileView) participantList.get(1)).loadAssigneeList(employees.iterator());
 			//PROBLEM
 			participantList.get(1).loadPresets(
 					ItemStorageSoftware.getInstance()
@@ -595,8 +647,8 @@ public class PanelRegistry implements PanelRegistration {
 					.loadList()
 			);
 
-//			((TypeItemTileField) participantList.get(1)).loadAssigneeList(employees.iterator());
-			((TypeItemTileField) participantList.get(1)).setType("Others");
+			((TypeItemTileField) participantList.get(1)).loadAssigneeList(employees.iterator());
+//			((TypeItemTileField) participantList.get(1)).setType("Others");
 //			tabInventory.showAddPanel();
 		}
                 isAdd = false;
