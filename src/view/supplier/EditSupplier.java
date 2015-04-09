@@ -312,13 +312,16 @@ public class EditSupplier extends JPanel implements ActionListener {
 				
 				checkSupplier = (Supplier) supplierController
 						.getObject(supplier.getName());
-
-				if (checkSupplier == null) {
-					for (int i = 0; i < list.size(); i++) {
-						System.out.println("RISSA: "+i);
-						supplier.addSupplierContact(txtSupp.getText(), list
-								.get(i).getType().toString(), list.get(i).getValue());
-					}
+				for (int i = 0; i < list.size(); i++) {
+				supplier.addSupplierContact(txtSupp.getText(), list
+						.get(i).getType().toString(), list.get(i).getValue());
+				}
+				
+				if (checkSupplier != supplier) {
+					
+					supplierController.editSupplier(supplier, prevKey);
+					System.out.println("Putaaaa");
+					supplierController.init();
 
 					Message msg = new Message(parent, Message.SUCCESS,
 							"Supplier added successfully.");
@@ -326,9 +329,7 @@ public class EditSupplier extends JPanel implements ActionListener {
 					Message msg = new Message(parent, Message.ERROR,
 							"Supplier already exists!");
 				}
-				supplierController.editSupplier(supplier, prevKey);
-				System.out.println("Putaaaa");
-				supplierController.init();
+				
 				//clear();
 			}
 			else{
