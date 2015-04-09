@@ -45,6 +45,10 @@ public class EditPOItemSoft extends PopUp implements ActionListener, FocusListen
 	private JLabel lblLicense;
 	private JTextField txtLicense;
 	private JFrame parent;
+	private JLabel lblStatus;
+	private JComboBox cbxStatus;
+	private JLabel lblLocation;
+	private JComboBox comboBox;
 	
 	public EditPOItemSoft(JFrame parent,  PurchaseOrderController poController) 
 	{
@@ -60,12 +64,12 @@ public class EditPOItemSoft extends PopUp implements ActionListener, FocusListen
 		panCenter.setBackground(Color.white);
 		panCenter.setLayout(new BorderLayout(0, 0));
 		panCenter.setSize(new Dimension(600,400));
-		panCenter.setPreferredSize(new Dimension(500, 235));
+		panCenter.setPreferredSize(new Dimension(500, 308));
 		
 		panContent = new JPanel();
 		panContent.setBackground(Color.white);
 		panCenter.add(panContent, BorderLayout.CENTER);
-		panContent.setLayout(new MigLayout("", "[grow][188.00,grow][][][]", "[][][45.00][37.00][][][-44.00]"));
+		panContent.setLayout(new MigLayout("", "[grow][188.00,grow][][][]", "[][][45.00][][37.00][][][][-44.00]"));
 		
 		lblInvoice = new JLabel("Invoice #:");
 		lblInvoice.setFont(new Font("Arial", Font.PLAIN, 18));
@@ -100,13 +104,36 @@ public class EditPOItemSoft extends PopUp implements ActionListener, FocusListen
 		dateChooserDelivery.setFont(new Font("Arial", Font.PLAIN, 18));
 		panContent.add(dateChooserDelivery, "cell 1 2,growx");
 		
+		
+		String[] types={"IT Asset", "Non-IT Asset"};
+		
+		lblLocation = new JLabel("Location :");
+		lblLocation.setFont(new Font("Arial", Font.PLAIN, 18));
+		panContent.add(lblLocation, "cell 0 3,alignx left");
+		
+		comboBox = new JComboBox();
+		comboBox.setBackground(Color.WHITE);
+		comboBox.setModel(new DefaultComboBoxModel(new String[] {"1WS", "DAO"}));
+		comboBox.setFont(new Font("Arial", Font.PLAIN, 18));
+		panContent.add(comboBox, "cell 1 3,alignx left");
+		
+		lblStatus = new JLabel("Status :");
+		lblStatus.setFont(new Font("Arial", Font.PLAIN, 18));
+		panContent.add(lblStatus, "cell 0 4,alignx left");
+		
+		cbxStatus = new JComboBox();
+		cbxStatus.setBackground(Color.WHITE);
+		cbxStatus.setFont(new Font("Arial", Font.PLAIN, 18));
+		cbxStatus.setModel(new DefaultComboBoxModel(new String[] {"Assigned", "Unassigned"}));
+		panContent.add(cbxStatus, "cell 1 4,alignx left");
+		
 		lblLicense = new JLabel("License Key :");
 		lblLicense.setFont(new Font("Arial", Font.PLAIN, 18));
-		panContent.add(lblLicense, "cell 0 3,alignx left");
+		panContent.add(lblLicense, "cell 0 5,alignx left");
 		
 		txtLicense = new JTextField();
 		txtLicense.setFont(new Font("Arial", Font.PLAIN, 18));
-		panContent.add(txtLicense, "cell 1 3,growx");
+		panContent.add(txtLicense, "cell 1 5,growx");
 		txtLicense.setColumns(10);
 		txtLicense.addFocusListener( new FocusListener() {
 			Border border = BorderFactory.createLineBorder(Color.BLACK, 1);
@@ -121,18 +148,15 @@ public class EditPOItemSoft extends PopUp implements ActionListener, FocusListen
 			}
 		});
 		
-		
-		String[] types={"IT Asset", "Non-IT Asset"};
-		
 		lblAssiginee = new JLabel("Assginee :");
 		lblAssiginee.setFont(new Font("Arial", Font.PLAIN, 18));
-		panContent.add(lblAssiginee, "cell 0 4,alignx left");
+		panContent.add(lblAssiginee, "cell 0 6,alignx left");
 		cmbAssignee = new JComboBox(types);
 		cmbAssignee.setModel(new DefaultComboBoxModel(new String[] {"none"}));
 		cmbAssignee.setFont(new Font("Arial", Font.PLAIN, 18));
 		cmbAssignee.setPreferredSize(new Dimension(185, 32));
 		cmbAssignee.setBackground(Color.WHITE);
-		panContent.add(cmbAssignee, "cell 1 4,alignx left");
+		panContent.add(cmbAssignee, "cell 1 6,alignx left");
 		
 		panSubmit = new JPanel();
 		panSubmit.setBackground(Color.white);

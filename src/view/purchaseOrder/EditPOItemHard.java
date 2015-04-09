@@ -65,6 +65,10 @@ public class EditPOItemHard extends PopUp implements ActionListener, FocusListen
 	private JLabel lblMaintenance;
 	private JTextField txtMaintenance;
 	private JFrame parent;
+	private JLabel lblLocation;
+	private JComboBox cbxLocation;
+	private JLabel lblStatus;
+	private JComboBox cbxStatus;
 	public EditPOItemHard(JFrame parent, PurchaseOrderController poController) 
 	{
 		super(parent);
@@ -79,14 +83,15 @@ public class EditPOItemHard extends PopUp implements ActionListener, FocusListen
 		panCenter.setBackground(Color.white);
 		panCenter.setLayout(new BorderLayout(0, 0));
 		panCenter.setSize(new Dimension(500, 430));
-		panCenter.setPreferredSize(new Dimension(500, 430));
+		panCenter.setPreferredSize(new Dimension(500, 470));
 		
 		panContent = new JPanel();
 		panContent.setBackground(Color.white);
 		panCenter.add(panContent, BorderLayout.CENTER);
-		panContent.setLayout(new MigLayout("", "[][grow][188.00,grow][]", "[][][45.00][37.00][][][pref!,grow][-29.00][pref!,grow][][-44.00]"));
+		panContent.setLayout(new MigLayout("", "[][grow][188.00,grow][]", "[][][45.00][37.00][][][][][][pref!,grow][][][-29.00][14.00][][][][][][-44.00]"));
 		
 		lblInvoice = new JLabel("Invoice #:");
+		lblInvoice.setFont(new Font("Arial", Font.PLAIN, 11));
 		panContent.add(lblInvoice, "cell 1 1,alignx left");
 		
 		txtInvoice = new JTextField();
@@ -109,18 +114,22 @@ public class EditPOItemHard extends PopUp implements ActionListener, FocusListen
 		});
 		
 		lblDeliveryDate = new JLabel("Delivery Date :");
+		lblDeliveryDate.setFont(new Font("Arial", Font.PLAIN, 11));
 		panContent.add(lblDeliveryDate, "cell 1 2,alignx left");
 		
 		dateChooserDelivery = new JDateChooser();
+		dateChooserDelivery.setFont(new Font("Arial", Font.PLAIN, 11));
 		dateChooserDelivery.setPreferredSize(new Dimension(120, 20));
 		dateChooserDelivery.setDate(new Date());
 		dateChooserDelivery.setDateFormatString("yyyy-MM-dd");
 		panContent.add(dateChooserDelivery, "cell 2 2,growx");
 		
 		lblAsset = new JLabel("Asset Tag :");
+		lblAsset.setFont(new Font("Arial", Font.PLAIN, 11));
 		panContent.add(lblAsset, "cell 1 3,alignx left");
 		
 		txtAsset = new JTextField();
+		txtAsset.setFont(new Font("Arial", Font.PLAIN, 11));
 		txtAsset.setPreferredSize(new Dimension(120, 20));
 		panContent.add(txtAsset, "cell 2 3,growx");
 		txtAsset.setColumns(10);
@@ -139,9 +148,11 @@ public class EditPOItemHard extends PopUp implements ActionListener, FocusListen
 		});
 		
 		lblService = new JLabel("Service Tag :");
+		lblService.setFont(new Font("Arial", Font.PLAIN, 11));
 		panContent.add(lblService, "cell 1 4,alignx left");
 		
 		txtService = new JTextField();
+		txtService.setFont(new Font("Arial", Font.PLAIN, 11));
 		txtService.setPreferredSize(new Dimension(120, 20));
 		panContent.add(txtService, "cell 2 4,growx");
 		txtService.setColumns(10);
@@ -158,20 +169,42 @@ public class EditPOItemHard extends PopUp implements ActionListener, FocusListen
 			}
 		});
 		
-		lblAssiginee = new JLabel("Assginee :");
-		panContent.add(lblAssiginee, "cell 1 5,alignx left");
-		
 		String[] types={"IT Asset", "Non-IT Asset"};
+		
+		lblLocation = new JLabel("Location :");
+		lblLocation.setFont(new Font("Arial", Font.PLAIN, 11));
+		panContent.add(lblLocation, "cell 1 5,alignx left");
+		
+		cbxLocation = new JComboBox();
+		cbxLocation.setBackground(Color.WHITE);
+		cbxLocation.setModel(new DefaultComboBoxModel(new String[] {"1WS", "DAO"}));
+		cbxLocation.setFont(new Font("Arial", Font.PLAIN, 11));
+		panContent.add(cbxLocation, "cell 2 5,alignx left");
+		
+		lblStatus = new JLabel("Status :");
+		lblStatus.setFont(new Font("Arial", Font.PLAIN, 11));
+		panContent.add(lblStatus, "cell 1 6,alignx left");
+		
+		cbxStatus = new JComboBox();
+		cbxStatus.setBackground(Color.WHITE);
+		cbxStatus.setFont(new Font("Arial", Font.PLAIN, 11));
+		cbxStatus.setModel(new DefaultComboBoxModel(new String[] {"Assigned", "Unassigned"}));
+		panContent.add(cbxStatus, "cell 2 6,alignx left");
+		
+		lblAssiginee = new JLabel("Assginee :");
+		lblAssiginee.setFont(new Font("Arial", Font.PLAIN, 11));
+		panContent.add(lblAssiginee, "cell 1 7,alignx left");
 		cmbAssignee = new JComboBox(types);
+		cmbAssignee.setFont(new Font("Arial", Font.PLAIN, 11));
 		cmbAssignee.setModel(new DefaultComboBoxModel(new String[] {"none"}));
 		cmbAssignee.setPreferredSize(new Dimension(120, 32));
 		cmbAssignee.setBackground(Color.WHITE);
-		panContent.add(cmbAssignee, "cell 2 5,growx");
+		panContent.add(cmbAssignee, "cell 2 7,growx");
 		
 		panWarranty = new JPanel();
 		panWarranty.setBorder(new LineBorder(new Color(0, 102, 204), 1, true));
 		panWarranty.setBackground(Color.WHITE);
-		panContent.add(panWarranty, "cell 1 6 2 1,growx");
+		panContent.add(panWarranty, "cell 1 9 2 1,growx");
 		GridBagLayout gbl_panWarranty = new GridBagLayout();
 		gbl_panWarranty.columnWidths = new int[]{0, 0, 0, 0, 0, 0};
 		gbl_panWarranty.rowHeights = new int[]{0, 0, 0, 0, 0, 0};
@@ -180,6 +213,7 @@ public class EditPOItemHard extends PopUp implements ActionListener, FocusListen
 		panWarranty.setLayout(gbl_panWarranty);
 		
 		lblWarranty = new JLabel("Warranty :");
+		lblWarranty.setFont(new Font("Arial", Font.PLAIN, 11));
 		GridBagConstraints gbc_lblWarranty = new GridBagConstraints();
 		gbc_lblWarranty.insets = new Insets(0, 0, 5, 5);
 		gbc_lblWarranty.gridx = 1;
@@ -187,6 +221,7 @@ public class EditPOItemHard extends PopUp implements ActionListener, FocusListen
 		panWarranty.add(lblWarranty, gbc_lblWarranty);
 		
 		lblWarrantyStart = new JLabel("Start :");
+		lblWarrantyStart.setFont(new Font("Arial", Font.PLAIN, 11));
 		GridBagConstraints gbc_lblWarrantyStart = new GridBagConstraints();
 		gbc_lblWarrantyStart.insets = new Insets(0, 0, 5, 5);
 		gbc_lblWarrantyStart.gridx = 2;
@@ -194,6 +229,7 @@ public class EditPOItemHard extends PopUp implements ActionListener, FocusListen
 		panWarranty.add(lblWarrantyStart, gbc_lblWarrantyStart);
 		
 		dateChooserWarrantyStart = new JDateChooser();
+		dateChooserWarrantyStart.setFont(new Font("Arial", Font.PLAIN, 11));
 		dateChooserWarrantyStart.setPreferredSize(new Dimension(140, 20));
 		dateChooserWarrantyStart.setDateFormatString("yyyy-MM-dd");
 		dateChooserWarrantyStart.setDate(new Date());
@@ -205,6 +241,7 @@ public class EditPOItemHard extends PopUp implements ActionListener, FocusListen
 		panWarranty.add(dateChooserWarrantyStart, gbc_dateChooserWarrantyStart);
 		
 		lblWarrantyEnd = new JLabel("End :");
+		lblWarrantyEnd.setFont(new Font("Arial", Font.PLAIN, 11));
 		GridBagConstraints gbc_lblWarrantyEnd = new GridBagConstraints();
 		gbc_lblWarrantyEnd.insets = new Insets(0, 0, 5, 5);
 		gbc_lblWarrantyEnd.gridx = 2;
@@ -212,6 +249,7 @@ public class EditPOItemHard extends PopUp implements ActionListener, FocusListen
 		panWarranty.add(lblWarrantyEnd, gbc_lblWarrantyEnd);
 		
 		dateChooserWarrantyEnd = new JDateChooser();
+		dateChooserWarrantyEnd.setFont(new Font("Arial", Font.PLAIN, 11));
 		dateChooserWarrantyEnd.setPreferredSize(new Dimension(140, 20));
 		dateChooserWarrantyEnd.setDate(new Date());
 		dateChooserWarrantyEnd.setDateFormatString("yyyy-MM-dd");
@@ -225,7 +263,7 @@ public class EditPOItemHard extends PopUp implements ActionListener, FocusListen
 		panContract = new JPanel();
 		panContract.setBorder(new LineBorder(new Color(0, 102, 204), 1, true));
 		panContract.setBackground(new Color(255, 255, 255));
-		panContent.add(panContract, "cell 1 8 2 1,growx");
+		panContent.add(panContract, "cell 1 10 2 1,growx");
 		GridBagLayout gbl_panContract = new GridBagLayout();
 		gbl_panContract.columnWidths = new int[]{0, 0, 0, 0, 0, 0};
 		gbl_panContract.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0};
@@ -234,6 +272,7 @@ public class EditPOItemHard extends PopUp implements ActionListener, FocusListen
 		panContract.setLayout(gbl_panContract);
 		
 		lblContract = new JLabel("Contract :");
+		lblContract.setFont(new Font("Arial", Font.PLAIN, 11));
 		GridBagConstraints gbc_lblContract = new GridBagConstraints();
 		gbc_lblContract.insets = new Insets(0, 0, 5, 5);
 		gbc_lblContract.gridx = 1;
@@ -241,6 +280,7 @@ public class EditPOItemHard extends PopUp implements ActionListener, FocusListen
 		panContract.add(lblContract, gbc_lblContract);
 		
 		lblContractStart = new JLabel("Start :");
+		lblContractStart.setFont(new Font("Arial", Font.PLAIN, 11));
 		GridBagConstraints gbc_lblContractStart = new GridBagConstraints();
 		gbc_lblContractStart.anchor = GridBagConstraints.WEST;
 		gbc_lblContractStart.insets = new Insets(0, 0, 5, 5);
@@ -249,6 +289,7 @@ public class EditPOItemHard extends PopUp implements ActionListener, FocusListen
 		panContract.add(lblContractStart, gbc_lblContractStart);
 		
 		dateChooserContractStart = new JDateChooser();
+		dateChooserContractStart.setFont(new Font("Arial", Font.PLAIN, 11));
 		dateChooserContractStart.setPreferredSize(new Dimension(140, 20));
 		dateChooserContractStart.setDateFormatString("yyyy-MM-dd");
 		dateChooserContractStart.setDate(new Date());
@@ -260,6 +301,7 @@ public class EditPOItemHard extends PopUp implements ActionListener, FocusListen
 		panContract.add(dateChooserContractStart, gbc_dateChooserContractStart);
 		
 		lblContractEnd = new JLabel("End :");
+		lblContractEnd.setFont(new Font("Arial", Font.PLAIN, 11));
 		GridBagConstraints gbc_lblContractEnd = new GridBagConstraints();
 		gbc_lblContractEnd.anchor = GridBagConstraints.WEST;
 		gbc_lblContractEnd.insets = new Insets(0, 0, 5, 5);
@@ -268,6 +310,7 @@ public class EditPOItemHard extends PopUp implements ActionListener, FocusListen
 		panContract.add(lblContractEnd, gbc_lblContractEnd);
 		
 		dateChooserContractEnd = new JDateChooser();
+		dateChooserContractEnd.setFont(new Font("Arial", Font.PLAIN, 11));
 		dateChooserContractEnd.setPreferredSize(new Dimension(140, 20));
 		dateChooserContractEnd.setDateFormatString("yyyy-MM-dd");
 		dateChooserContractEnd.setDate(new Date());
@@ -279,6 +322,7 @@ public class EditPOItemHard extends PopUp implements ActionListener, FocusListen
 		panContract.add(dateChooserContractEnd, gbc_dateChooserContractEnd);
 		
 		lblMaintenance = new JLabel("Maintenance Cost :");
+		lblMaintenance.setFont(new Font("Arial", Font.PLAIN, 11));
 		GridBagConstraints gbc_lblMaintenance = new GridBagConstraints();
 		gbc_lblMaintenance.anchor = GridBagConstraints.EAST;
 		gbc_lblMaintenance.insets = new Insets(0, 0, 5, 5);
@@ -287,6 +331,7 @@ public class EditPOItemHard extends PopUp implements ActionListener, FocusListen
 		panContract.add(lblMaintenance, gbc_lblMaintenance);
 		
 		txtMaintenance = new JTextField();
+		txtMaintenance.setFont(new Font("Arial", Font.PLAIN, 11));
 		txtMaintenance.setMinimumSize(new Dimension(150, 20));
 		txtMaintenance.setPreferredSize(new Dimension(150, 20));
 		txtMaintenance.setColumns(10);
@@ -316,6 +361,7 @@ public class EditPOItemHard extends PopUp implements ActionListener, FocusListen
 		panCenter.add(panSubmit, BorderLayout.SOUTH);
 		
 		btnSubmit = new JButton("Submit");
+		btnSubmit.setFont(new Font("Arial", Font.PLAIN, 11));
 		btnSubmit.addActionListener(this);
 		btnSubmit.setForeground(Color.WHITE);
 		btnSubmit.setBackground(new Color(32, 130, 213));

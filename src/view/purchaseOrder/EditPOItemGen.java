@@ -43,6 +43,10 @@ public class EditPOItemGen extends PopUp implements ActionListener, FocusListene
 	private JComboBox cmbAssignee;
 	private JDateChooser dateChooserDelivery;
 	private JFrame parent;
+	private JLabel lblLocation;
+	private JComboBox cbxLocation;
+	private JLabel lblStatus;
+	private JComboBox comboBox;
 	
 	public EditPOItemGen(JFrame parent,  PurchaseOrderController poController) 
 	{
@@ -63,7 +67,7 @@ public class EditPOItemGen extends PopUp implements ActionListener, FocusListene
 		panContent = new JPanel();
 		panContent.setBackground(Color.white);
 		panCenter.add(panContent, BorderLayout.CENTER);
-		panContent.setLayout(new MigLayout("", "[grow][188.00,grow][][][]", "[][][45.00][37.00][][][-44.00]"));
+		panContent.setLayout(new MigLayout("", "[grow][188.00,grow][][][]", "[][][45.00][37.00][][][][][][][][-44.00]"));
 		
 		lblInvoice = new JLabel("Invoice #:");
 		lblInvoice.setFont(new Font("Arial", Font.PLAIN, 18));
@@ -88,28 +92,48 @@ public class EditPOItemGen extends PopUp implements ActionListener, FocusListene
 		});
 		
 		
+		String[] types={"IT Asset", "Non-IT Asset"};
+		
+		lblLocation = new JLabel("Location :");
+		lblLocation.setFont(new Font("Arial", Font.PLAIN, 18));
+		panContent.add(lblLocation, "cell 0 2,alignx left");
+		
+		cbxLocation = new JComboBox();
+		cbxLocation.setBackground(Color.WHITE);
+		cbxLocation.setModel(new DefaultComboBoxModel(new String[] {"1WS", "DAO"}));
+		cbxLocation.setFont(new Font("Arial", Font.PLAIN, 18));
+		panContent.add(cbxLocation, "cell 1 2,alignx left");
+		
+		lblStatus = new JLabel("Status :");
+		lblStatus.setFont(new Font("Arial", Font.PLAIN, 18));
+		panContent.add(lblStatus, "cell 0 3,alignx left");
+		
+		comboBox = new JComboBox();
+		comboBox.setBackground(Color.WHITE);
+		comboBox.setModel(new DefaultComboBoxModel(new String[] {"Assigned", "Unassigned"}));
+		comboBox.setFont(new Font("Arial", Font.PLAIN, 18));
+		panContent.add(comboBox, "cell 1 3,alignx left");
+		
+		
 		lblDeliveryDate = new JLabel("Delivery Date :");
 		lblDeliveryDate.setFont(new Font("Arial", Font.PLAIN, 18));
-		panContent.add(lblDeliveryDate, "cell 0 2,alignx left");
+		panContent.add(lblDeliveryDate, "cell 0 4,alignx left");
 		
 		dateChooserDelivery = new JDateChooser();
 		dateChooserDelivery.setDate(new Date());
 		dateChooserDelivery.setDateFormatString("yyyy-MM-dd");
 		dateChooserDelivery.setFont(new Font("Arial", Font.PLAIN, 18));
-		panContent.add(dateChooserDelivery, "cell 1 2,growx");
-		
-		
-		String[] types={"IT Asset", "Non-IT Asset"};
+		panContent.add(dateChooserDelivery, "cell 1 4,growx");
 		
 		lblAssiginee = new JLabel("Assginee :");
 		lblAssiginee.setFont(new Font("Arial", Font.PLAIN, 18));
-		panContent.add(lblAssiginee, "cell 0 3,alignx left");
+		panContent.add(lblAssiginee, "cell 0 5,alignx left");
 		cmbAssignee = new JComboBox(types);
 		cmbAssignee.setModel(new DefaultComboBoxModel(new String[] {"none"}));
 		cmbAssignee.setFont(new Font("Arial", Font.PLAIN, 18));
 		cmbAssignee.setPreferredSize(new Dimension(185, 32));
 		cmbAssignee.setBackground(Color.WHITE);
-		panContent.add(cmbAssignee, "cell 1 3,alignx left");
+		panContent.add(cmbAssignee, "cell 1 5,alignx left");
 		
 		panSubmit = new JPanel();
 		panSubmit.setBackground(Color.white);
