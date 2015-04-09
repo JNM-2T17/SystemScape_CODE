@@ -66,6 +66,9 @@ public class EditPOItem extends PopUp implements ActionListener, FocusListener{
 	private String type;
 	private JLabel lblVat;
 	private JCheckBox checkBox;
+        private PurchaseOrderController purchaseOrderController;
+        private ItemData itemData;
+        private PurchaseOrder po;
 	
 	public EditPOItem(JFrame parent,ItemData i, PurchaseOrder po,  PurchaseOrderController poController) 
 	{
@@ -74,10 +77,11 @@ public class EditPOItem extends PopUp implements ActionListener, FocusListener{
 		this.parent = parent;
 		this.poController = poController;
 		this.type = po.getType();
-		
+		itemData = i;
+                this.po = po;
 		this.addFocusListener(this);
 //		this.setUndecorated(true);
-		
+		purchaseOrderController = poController;
 		panCenter = new JPanel();
 		panCenter.setBackground(Color.white);
 		panCenter.setLayout(new BorderLayout(0, 0));
@@ -234,6 +238,7 @@ public class EditPOItem extends PopUp implements ActionListener, FocusListener{
 		}
 		
 		this.setVisible(true);
+                
 	}
 
 	@Override
@@ -250,12 +255,16 @@ public class EditPOItem extends PopUp implements ActionListener, FocusListener{
 			String error = checkFields();
 			if(error.equals("") == true)
 			{
-				String item = txtItem.getText();
+                                String item = txtItem.getText();
 				String description = txtDescription.getText();
 				int quantity = parseStringInt(txtQuantity.getText());
 				float price = (float) parseStringFloat(txtPrice.getText());
 				
 				/***insert code statements here to edit the PO item***/
+                                System.out.println("Item: "+item+" "+description+" "+price);
+                                ItemData id = new ItemData(item, description, price);
+                                System.out.println("ITEMZATA :"+itemData.getName());
+                                purchaseOrderController.editItem(id, quantity, itemData);
 				
 				this.setVisible(false); 
 				this.dispose();	

@@ -87,6 +87,11 @@ public class PurchaseOrder {
     public int getQuantity(ItemData itemData) {
         return item.get(itemData);
     }
+    
+    
+    public void deleteItem(ItemData id){
+        item.remove(id);
+    }
 
     public Supplier getSupplier() {
         return supplier;

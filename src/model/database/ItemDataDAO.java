@@ -124,25 +124,29 @@ public class ItemDataDAO implements IDBCUD {
     public void add(Object object) {
         Connection con = DBConnection.getConnection();
         ItemData itemData = (ItemData) object;
-
-        try {
-            String query = "INSERT INTO itemdata (name, description, unitPrice)\n" + 
-            			   "VALUES(?,?,?)";
-            PreparedStatement preparedStatement = con.prepareStatement(query);
-            preparedStatement.setString(1, itemData.getName());
-            preparedStatement.setString(2, itemData.getDescription());
-            preparedStatement.setFloat(3, itemData.getUnitPrice());
-            preparedStatement.execute();
-        } catch (SQLException sqlException) {
-            sqlException.printStackTrace();
-        }finally {
+        Object check = get(itemData.getName());
+        if(check==null){
             try {
-                if (con != null) {
-                    con.close();
+                String query = "INSERT INTO itemdata (name, description, unitPrice)\n" + 
+                                       "VALUES(?,?,?)";
+                PreparedStatement preparedStatement = con.prepareStatement(query);
+                preparedStatement.setString(1, itemData.getName());
+                preparedStatement.setString(2, itemData.getDescription());
+                preparedStatement.setFloat(3, itemData.getUnitPrice());
+                preparedStatement.execute();
+            } catch (SQLException sqlException) {
+                sqlException.printStackTrace();
+            }finally {
+                try {
+                    if (con != null) {
+                        con.close();
+                    }
+                } catch (SQLException sqlee) {
+                    sqlee.printStackTrace();
                 }
-            } catch (SQLException sqlee) {
-                sqlee.printStackTrace();
             }
+        }else{
+            update(itemData, itemData.getName());
         }
 
     }

@@ -32,28 +32,32 @@ public class PurchaseOrderController implements Subject, PurchaseOrderInterface,
         po = new PurchaseOrder();
         observerList = new ArrayList();
     }
-    
-    public void init(){
+
+    public void init() {
         po = new PurchaseOrder();
     }
-    
+
     public static PurchaseOrderController getInstance() {
         if (instance == null) {
             instance = new PurchaseOrderController();
         }
         return instance;
     }
-    
-    public Iterator filter(Iterator conditions){
-            return dao.filter("PurchaseOrder", conditions);
-        }
-    
+
+    public Iterator filter(Iterator conditions) {
+        return dao.filter("PurchaseOrder", conditions);
+    }
+
     public float computeAmount(ItemData i) {
         return po.computeTotal(i);
     }
 
     public PurchaseOrder getPurchaseOrder() {
         return po;
+    }
+
+    public void setPurchaseOrder(PurchaseOrder po) {
+        this.po = po;
     }
 
     @Override
@@ -75,8 +79,8 @@ public class PurchaseOrderController implements Subject, PurchaseOrderInterface,
             o.update();
         }
     }
-    
-    public Iterator getAll(){
+
+    public Iterator getAll() {
         return dao.get("PurchaseOrder");
     }
 
@@ -84,44 +88,60 @@ public class PurchaseOrderController implements Subject, PurchaseOrderInterface,
     public void addItem(ItemData item, int qty) {
         // TODO Auto-generated method stub
         po.addItem(item.getName(), item.getDescription(), item.getUnitPrice(), qty);
-        editPurchaseOrder(po);
+        //editPurchaseOrder(po);
         notifyObserver();
     }
 
     @Override
-    public void editItem(ItemData item, int qty) {
-		// TODO Auto-generated method stub
-
+    public void editItem(ItemData item, int qty, ItemData key) {
+        // TODO Auto-generated method stub
+        po.deleteItem(key);
+        po.addItem(item.getName(), item.getDescription(), item.getUnitPrice(), qty);
+        notifyObserver();
     }
 
-    public float computeGrandTotal()
-    {
-    	float total = 0;
-    	total = po.computeGrandTotal();
-    	//System.out.println("TOTAL ISIDE PO CONTROLLER: "+ total);
-    	return total;
+    public float computeGrandTotal() {
+        float total = 0;
+        total = po.computeGrandTotal();
+        //System.out.println("TOTAL ISIDE PO CONTROLLER: "+ total);
+        return total;
     }
-    
+
     @Override
     public void addPurchaseOrder(PurchaseOrder purchaseOrder) {
-		// TODO Auto-generated method stub
+        // TODO Auto-generated method stub
         // Supplier supplier = (Supplier) dao.get("Supplier", supplierName);
         po.setDate(purchaseOrder.getDate());
         po.setIdNo(purchaseOrder.getIdNo());
         po.setType(purchaseOrder.getType());
         po.setSupplier(purchaseOrder.getSupplier());
 
-        for(Iterator<ItemData> i = po.getItems(); i.hasNext();) 
+        for (Iterator<ItemData> i = po.getItems(); i.hasNext();) {
             dao.add("ItemData", i.next());
-   
-        
-        //dao.add("PurchaseOrder", po);
+        }
+
+        dao.add("PurchaseOrder", po);
         notifyObserver();
+    }
+
+    public boolean checkItemExists(String itemName) {
+        Iterator<ItemData> items = po.getItems();
+        ItemData id = null;
+        while (items.hasNext()) {
+            id = items.next();
+            if (itemName.equals(id.getName())) {
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override
     public void editPurchaseOrder(PurchaseOrder purchaseOrder) {
-		dao.update("purchaseorder", purchaseOrder, "" + purchaseOrder.getIdNo());
-
+        for (Iterator<ItemData> i = purchaseOrder.getItems(); i.hasNext();) {
+            dao.add("ItemData", i.next());
+        }
+        dao.update("purchaseorder", purchaseOrder, "" + purchaseOrder.getIdNo());
+        notifyObserver();
     }
 }

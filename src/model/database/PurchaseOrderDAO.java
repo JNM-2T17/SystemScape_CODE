@@ -54,7 +54,7 @@ public class PurchaseOrderDAO implements IDBCUD {
             }
         } catch (SQLException sqlException) {
             sqlException.printStackTrace();
-        }finally {
+        } finally {
             try {
                 if (con != null) {
                     con.close();
@@ -70,15 +70,13 @@ public class PurchaseOrderDAO implements IDBCUD {
     public Object get(String key) {
         Connection con = DBConnection.getConnection();
         try {
-            String[] keys = key.split(",");
             String query = "SELECT p.date, p.no,  p.type, s.name, s.country, s.state, s.city, p.invoiceNo\n"
                     + "FROM purchaseorder p\n"
                     + "INNER JOIN supplier s\n"
                     + "ON s.name=p.supplier\n"
-                    + "WHERE p.no = ? AND p.type = ?";
+                    + "WHERE p.no = ? ";
             PreparedStatement preparedStatement = con.prepareStatement(query);
-            preparedStatement.setString(1, keys[0]);
-            preparedStatement.setString(2, keys[1]);
+            preparedStatement.setString(1, key);
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
                 Supplier s = new Supplier(resultSet.getString("name"), resultSet.getString("country"), resultSet.getString("state"), resultSet.getString("city"));
@@ -92,12 +90,13 @@ public class PurchaseOrderDAO implements IDBCUD {
                 PreparedStatement preparedStatement2 = con.prepareStatement(query2);
                 ResultSet resultSet2 = preparedStatement2.executeQuery();
                 while (resultSet2.next()) {
-                    purchaseorder.addItem(resultSet2.getString("name"), resultSet2.getString("description"), resultSet2.getFloat("unitPrice"), resultSet2.getInt("quantity"));
+                    purchaseorder.addItem(resultSet2.getString("name"), resultSet2.getString("description"), resultSet2.getFloat("unitPrice"), resultSet2.getInt("quantityOrdered"));
                 }
 
                 try {
-                    if(con!=null)
+                    if (con != null) {
                         con.close();
+                    }
                 } catch (SQLException ex) {
                     ex.printStackTrace();
                 }
@@ -106,7 +105,7 @@ public class PurchaseOrderDAO implements IDBCUD {
             }
         } catch (SQLException sqlException) {
             sqlException.printStackTrace();
-        }finally {
+        } finally {
             try {
                 if (con != null) {
                     con.close();
@@ -159,7 +158,7 @@ public class PurchaseOrderDAO implements IDBCUD {
             }
         } catch (SQLException sqlException) {
             sqlException.printStackTrace();
-        }finally {
+        } finally {
             try {
                 if (con != null) {
                     con.close();
@@ -190,7 +189,7 @@ public class PurchaseOrderDAO implements IDBCUD {
             return results.iterator();
         } catch (Exception exeption) {
             exeption.printStackTrace();
-        }finally {
+        } finally {
             try {
                 if (con != null) {
                     con.close();
@@ -214,7 +213,7 @@ public class PurchaseOrderDAO implements IDBCUD {
             }
         } catch (SQLException sqlException) {
             sqlException.printStackTrace();
-        }finally {
+        } finally {
             try {
                 if (con != null) {
                     con.close();
@@ -267,7 +266,7 @@ public class PurchaseOrderDAO implements IDBCUD {
             }
         } catch (SQLException sqlException) {
             sqlException.printStackTrace();
-        }finally {
+        } finally {
             try {
                 if (con != null) {
                     con.close();
@@ -276,69 +275,49 @@ public class PurchaseOrderDAO implements IDBCUD {
                 sqlee.printStackTrace();
             }
         }
-
     }
 
     public void update(Object object, String key) {
-        PurchaseOrder purchaseorder = (PurchaseOrder) object;
+        PurchaseOrder currentPO = (PurchaseOrder) object;
         Connection con = DBConnection.getConnection();
         Map.Entry es;
-        Iterator iterator = purchaseorder.getItems();
+        Iterator currItems = currentPO.getItemData();
         ItemData itemData;
-        try {
-            String query = /*"BEGIN transaction "
-                    + */"UPDATE purchaseorder SET date = ?, no = ?, type = ?, supplier = ? "
-                    + "WHERE no = ? ";
-                    /*+ "UPDATE supplier SET name = ?, country = ?, state = ?, city = ? "
-                    + "FROM purchaseorder p, supplier s "
-                    + "WHERE p.supplier = s.supplier "
-                    + "AND p.supplier = ? "
-                    + "COMMIT";*/
-            PreparedStatement preparedStatement = con.prepareStatement(query);
-            java.sql.Date sqlDate = new java.sql.Date(purchaseorder.getDate().getTime());
-            preparedStatement.setDate(1, sqlDate);
-            preparedStatement.setInt(2, purchaseorder.getIdNo());
-            preparedStatement.setString(3, purchaseorder.getType());
-            preparedStatement.setString(4, purchaseorder.getSupplier().getName());
-            preparedStatement.setString(5, key);
-            /*preparedStatement.setString(6, purchaseorder.getSupplier().getName());
-            preparedStatement.setString(7, purchaseorder.getSupplier().getCountry());
-            preparedStatement.setString(8, purchaseorder.getSupplier().getState());
-            preparedStatement.setString(9, purchaseorder.getSupplier().getCity());
-            preparedStatement.setString(10, purchaseorder.getSupplier().getName());
-            */preparedStatement.execute();
-            
-            while (iterator.hasNext()) {
-                es = (Map.Entry) iterator.next();
-                itemData = (ItemData) es.getKey();
-                String stmt2 = "BEGIN transaction\n\n"
-                        + "UPDATE poitem SET type = ?, no = ?, itemname = ?, quantity = ?\n"
-                        + "FROM purchaseorder po, poitem pi\n"
-                        + "WHERE po.type = pi.type AND po.no = po.type\n"
-                        + "AND po.type = ? AND po.no = ?\n\n"
-                        + "UPDATE itemdata SET name = ?, description = ?, unitPrice = ?\n"
-                        + "FROM poitem p, itemdata i\n"
-                        + "WHERE po.itemname = i.name\n"
-                        + "AND i.name = ?\n\n"
-                        + "COMMIT";
 
-                PreparedStatement preparedStatement2 = con
-                        .prepareStatement(stmt2);
-                preparedStatement2.setString(1, purchaseorder.getType());
-                preparedStatement2.setString(2, "" + purchaseorder.getIdNo());
-                preparedStatement2.setString(3, itemData.getName());
-                preparedStatement2.setString(4, "" + (Integer) es.getValue());
-                preparedStatement2.setString(5, purchaseorder.getType());
-                preparedStatement2.setString(6, "" + purchaseorder.getIdNo());
-                preparedStatement2.setString(7, itemData.getName());
-                preparedStatement2.setString(8, itemData.getDescription());
-                preparedStatement2.setString(9, "" + itemData.getUnitPrice());
-                preparedStatement2.setString(10, itemData.getName());
-                preparedStatement2.execute();
+        try {
+            String query = "UPDATE purchaseorder SET date = ?, type = ?, supplier = ? "
+                    + "WHERE no = ? ";
+            PreparedStatement preparedStatement = con.prepareStatement(query);
+            java.sql.Date sqlDate = new java.sql.Date(currentPO.getDate().getTime());
+            preparedStatement.setDate(1, sqlDate);
+            preparedStatement.setString(2, currentPO.getType());
+            preparedStatement.setString(3, currentPO.getSupplier().getName());
+            preparedStatement.setString(4, key);
+            preparedStatement.execute();
+
+            
+            query = "DELETE FROM poitem WHERE type = ? AND no = ? ;";
+            preparedStatement = con.prepareStatement(query);
+            preparedStatement.setString(1, currentPO.getType());
+            preparedStatement.setInt(2, currentPO.getIdNo());
+            preparedStatement.execute();
+            
+            while (currItems.hasNext()) {
+                es = (Map.Entry) currItems.next();
+                itemData = (ItemData) es.getKey();
+                System.out.println("ADDING TO POITEM: "+itemData.getName());
+                query = "INSERT INTO poitem  VALUES(?,?,?,?,?);";
+                preparedStatement = con.prepareStatement(query);
+                preparedStatement.setString(1, currentPO.getType());
+                preparedStatement.setInt(2, currentPO.getIdNo());
+                preparedStatement.setString(3, itemData.getName());
+                preparedStatement.setInt(4, currentPO.getQuantity(itemData));
+                preparedStatement.setInt(5, currentPO.getQuantity(itemData));
+                preparedStatement.execute();
             }
         } catch (SQLException sqlException) {
             sqlException.printStackTrace();
-        }finally {
+        } finally {
             try {
                 if (con != null) {
                     con.close();
@@ -361,7 +340,7 @@ public class PurchaseOrderDAO implements IDBCUD {
             preparedStatement.execute();
         } catch (SQLException sqlException) {
             sqlException.printStackTrace();
-        }finally {
+        } finally {
             try {
                 if (con != null) {
                     con.close();
