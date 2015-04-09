@@ -147,7 +147,6 @@ public class ItemTileITField extends ItemPanelDecorator implements ItemPanelPart
 		return infoList.iterator();
 	}
 
-	@Override
 	public void setDeliveryDate(Date date)
 	{
 		deliveryDateChooser.setDate(date);
@@ -163,9 +162,9 @@ public class ItemTileITField extends ItemPanelDecorator implements ItemPanelPart
 			else if(cbType.getSelectedItem().equals("Non-IT Assets"))
 				InventoryItemDisplayManager.getInstance().overrideContentPanel("Non-IT");
 			else if(cbType.getSelectedItem().equals("Software"))
-				InventoryItemDisplayManager.getInstance().overrideContentPanel("Software");
+				InventoryItemDisplayManager.getInstance().overrideContentPanel("Soft");
 			else if(cbType.getSelectedItem().equals("Others"))
-				InventoryItemDisplayManager.getInstance().overrideContentPanel("General");
+				InventoryItemDisplayManager.getInstance().overrideContentPanel("Others");
 		}
 	}
 
@@ -188,16 +187,10 @@ public class ItemTileITField extends ItemPanelDecorator implements ItemPanelPart
 	@Override
 	public void loadPresets(Iterator iter) {
 		// TODO Auto-generated method stub
-            
-                if(iter.hasNext())
-                    deliveryDateChooser.setDate((Date) iter.next());
-                if(iter.hasNext())
-                    cbAssignee.setSelectedItem(iter.next().toString());
-                if(iter.hasNext())
-                    tfAssetTag.setText(iter.next().toString());
-                if(iter.hasNext()){
-                    tfServiceTag.setText(iter.next().toString());
-                }
+		if(iter.hasNext()) deliveryDateChooser.setDate((Date) iter.next());
+		if(iter.hasNext()) cbAssignee.setSelectedItem(iter.next().toString());
+		if(iter.hasNext()) tfAssetTag.setText(iter.next().toString());
+		if(iter.hasNext()) tfServiceTag.setText(iter.next().toString());
 	}
 
 	@Override

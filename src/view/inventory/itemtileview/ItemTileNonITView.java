@@ -37,10 +37,8 @@ public class ItemTileNonITView extends ItemPanelDecorator implements ItemPanelPa
 
 	private JPanel panNonIT;
 	private JLabel lblType;
-	private JLabel lblDeliveryDate;
 	private JLabel lblAssignee;
 	private JLabel lblTypeText;
-	private JLabel lblDeliveryDateText;
 	private JLabel lblAssigneeText;
 	
 	
@@ -64,12 +62,6 @@ public class ItemTileNonITView extends ItemPanelDecorator implements ItemPanelPa
 		
 		lblTypeText = new JLabel("");
 		panNonIT.add(lblTypeText, "cell 3 1 5 1");
-		
-		lblDeliveryDate = new JLabel("Delivery Date:");
-		panNonIT.add(lblDeliveryDate, "flowx,cell 1 3 4 1");
-		
-		lblDeliveryDateText = new JLabel("");
-		panNonIT.add(lblDeliveryDateText, "cell 5 3 3 1");
 		
 		lblAssignee = new JLabel("Assignee: ");
 		panNonIT.add(lblAssignee, "cell 1 5 2 1");
@@ -105,11 +97,6 @@ public class ItemTileNonITView extends ItemPanelDecorator implements ItemPanelPa
 		lblTypeText = new JLabel("");
 		panNonIT.add(lblTypeText, "cell 3 1 5 1");
 		
-		lblDeliveryDate = new JLabel("Delivery Date:");
-		panNonIT.add(lblDeliveryDate, "flowx,cell 1 3 4 1");
-		
-		lblDeliveryDateText = new JLabel("");
-		panNonIT.add(lblDeliveryDateText, "cell 5 3 3 1");
 		
 		lblAssignee = new JLabel("Assignee: ");
 		panNonIT.add(lblAssignee, "cell 1 5 2 1");
@@ -143,24 +130,11 @@ public class ItemTileNonITView extends ItemPanelDecorator implements ItemPanelPa
 	@Override
 	public void loadPresets(Iterator iter) {
 		// TODO Auto-generated method stub
-            if(iter.hasNext())
-		lblAssigneeText.setText(iter.next().toString());
-            if(iter.hasNext()){
-		SimpleDateFormat formatter=new SimpleDateFormat("yyyy-MM-dd");
-		String formattedDate = formatter.format(iter.next().toString());
-		lblDeliveryDateText.setText(formattedDate);
-            }
+		if(iter.hasNext()) lblAssigneeText.setText(iter.next().toString());
 	}
 	@Override
 	public void setType(String type) {
 		lblType.setText(type);
-	}
-
-	@Override
-	public void setDeliveryDate(Date date) {
-		SimpleDateFormat formatter=new SimpleDateFormat("yyyy-MM-dd");
-		String formattedDate = formatter.format(date);
-		lblDeliveryDateText.setText(formattedDate);
 	}
 	
 }

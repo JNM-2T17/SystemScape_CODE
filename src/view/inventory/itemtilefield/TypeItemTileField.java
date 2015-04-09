@@ -18,5 +18,4 @@ public interface TypeItemTileField {
 	 * Sets the delivery date in the JDateChooser
 	 * @param date
 	 */
-	public void setDeliveryDate(Date date);
 }

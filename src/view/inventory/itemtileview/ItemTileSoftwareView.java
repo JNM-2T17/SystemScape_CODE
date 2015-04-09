@@ -41,13 +41,11 @@ public class ItemTileSoftwareView extends ItemPanelDecorator implements ItemPane
 	private JPanel panSoftware;
 	private JLabel lblType;
 	private JLabel lblLicenseKey;
-	private JLabel lblDeliveryDate;
 	private JLabel lblAssignee;
 	
 	private JFrame parent;
 	private JLabel lblTypeText;
 	private JLabel lblLicenseKeyText;
-	private JLabel lblDeliveryDateText;
 	private JLabel lblAssigneeText;
 	
 	public ItemTileSoftwareView(JFrame parent, ItemPanelTemplate addItemPanelReference) {
@@ -76,12 +74,6 @@ public class ItemTileSoftwareView extends ItemPanelDecorator implements ItemPane
 		
 		lblLicenseKeyText = new JLabel("");
 		panSoftware.add(lblLicenseKeyText, "cell 5 3 3 1");
-		
-		lblDeliveryDate = new JLabel("Delivery Date:");
-		panSoftware.add(lblDeliveryDate, "flowx,cell 1 5 4 1,alignx right");
-		
-		lblDeliveryDateText = new JLabel("");
-		panSoftware.add(lblDeliveryDateText, "cell 5 5 3 1");
 		
 		lblAssignee = new JLabel("Assignee:");
 		panSoftware.add(lblAssignee, "flowx,cell 1 7 3 1");
@@ -124,12 +116,6 @@ public class ItemTileSoftwareView extends ItemPanelDecorator implements ItemPane
 				lblLicenseKeyText = new JLabel("");
 				panSoftware.add(lblLicenseKeyText, "cell 5 3 3 1");
 				
-				lblDeliveryDate = new JLabel("Delivery Date:");
-				panSoftware.add(lblDeliveryDate, "flowx,cell 1 5 4 1,alignx right");
-				
-				lblDeliveryDateText = new JLabel("");
-				panSoftware.add(lblDeliveryDateText, "cell 5 5 3 1");
-				
 				lblAssignee = new JLabel("Assignee:");
 				panSoftware.add(lblAssignee, "flowx,cell 1 7 3 1");
 				
@@ -158,20 +144,11 @@ public class ItemTileSoftwareView extends ItemPanelDecorator implements ItemPane
 	@Override
 	public void loadPresets(Iterator iter) {
 		// TODO Auto-generated method stub
-            if(iter.hasNext())
-		lblAssigneeText.setText(iter.next().toString());
-            if(iter.hasNext())
-		lblLicenseKeyText.setText(iter.next().toString());
+		
+		if(iter.hasNext()) lblAssigneeText.setText(iter.next().toString());
+		if(iter.hasNext()) lblLicenseKeyText.setText(iter.next().toString());
 	}
 	
-	@Override
-	public void setDeliveryDate(Date date)
-	{
-		SimpleDateFormat formatter=new SimpleDateFormat("yyyy-MM-dd");
-		String formattedDate = formatter.format(date);
-		lblDeliveryDateText.setText(formattedDate);
-	}
-
 	@Override
 	public void loadAssigneeList(Iterator iter) {
 		

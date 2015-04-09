@@ -36,7 +36,6 @@ public class ItemTileWarrantyView extends ItemPanelDecorator implements ItemPane
 	private JLabel lblWarranty;
 	private JLabel lblStart;
 	private JLabel lblEnd;
-	private JLabel lblDeliveryDate;
 	
 	private JFrame parent;
 	private JLabel lblStartText;
@@ -54,9 +53,6 @@ public class ItemTileWarrantyView extends ItemPanelDecorator implements ItemPane
 		
 		lblWarranty = new JLabel("Warranty:");
 		panWarranty.add(lblWarranty, "cell 0 0,alignx left");
-		
-		lblDeliveryDate = new JLabel("Start:");
-		panWarranty.add(lblDeliveryDate, "flowx,cell 1 1");
 		
 		lblStartText = new JLabel("");
 		panWarranty.add(lblStartText, "cell 2 1 2 1");
@@ -86,9 +82,6 @@ public class ItemTileWarrantyView extends ItemPanelDecorator implements ItemPane
 		
 		lblWarranty = new JLabel("Warranty:");
 		panWarranty.add(lblWarranty, "cell 0 0,alignx left");
-		
-		lblDeliveryDate = new JLabel("Start:");
-		panWarranty.add(lblDeliveryDate, "flowx,cell 1 1");
 		
 		lblStartText = new JLabel("");
 		panWarranty.add(lblStartText, "cell 2 1 2 1");
@@ -140,18 +133,18 @@ public class ItemTileWarrantyView extends ItemPanelDecorator implements ItemPane
 	@Override
 	public void loadPresets(Iterator iter) {
 		// TODO Auto-generated method stub
-            SimpleDateFormat formatter;
-            String formattedDate;
-            if(iter.hasNext()){
-		formatter =new SimpleDateFormat("yyyy-MM-dd");
-		formattedDate = formatter.format(iter.next().toString());
+		if(iter.hasNext()) {
+		SimpleDateFormat formatter=new SimpleDateFormat("yyyy-MM-dd");
+		String formattedDate = formatter.format(iter.next().toString());
 		lblStartText.setText(formattedDate);
-            }
-            if(iter.hasNext()){
-		formatter = new SimpleDateFormat("yyyy-MM-dd");
-		formattedDate = formatter.format(iter.next().toString());
+		}
+		
+		if(iter.hasNext()){ 
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+		String formattedDate = formatter.format(iter.next().toString());
 		lblEndText.setText(formattedDate);
-            }
+		}
+		
 	}
 	
 	

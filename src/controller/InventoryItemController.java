@@ -54,6 +54,11 @@ public class InventoryItemController implements InventoryItemInterface, Subject 
 	dao.update("InventoryItem", inventoryItem, origKey);
 	notifyObserver();
     }
+    
+    public void deleteInventoryItem(InventoryItem inventoryItem){
+    	dao.delete("InventoryItem", inventoryItem);
+    	notifyObserver();
+    }
 
     public Iterator getAll() {
         return dao.get("InventoryItem");

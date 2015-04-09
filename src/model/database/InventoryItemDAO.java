@@ -42,15 +42,15 @@ public class InventoryItemDAO implements IDBCUD {
                 InventoryItem inventoryItem = null;
                 String itemClass = resultSet.getString("classification");
 
-                if (itemClass.equalsIgnoreCase("hardware")) {
-                    inventoryItem = new HardwareItem(resultSet.getInt("ID"), resultSet.getString("name"),
+                if (itemClass.equalsIgnoreCase("Non-IT")) {
+                    inventoryItem = new NonITAsset(resultSet.getInt("ID"), resultSet.getString("name"),
                             resultSet.getString("description"),
                             resultSet.getFloat("unitPrice"),
                             resultSet.getString("invoiceNo"),
                             resultSet.getString("location"),
                             resultSet.getString("status"),
                             resultSet.getString("classification"));
-                } else if (itemClass.equalsIgnoreCase("software")) {
+                } else if (itemClass.equalsIgnoreCase("Soft")) {
                     inventoryItem = new SoftwareItem(resultSet.getInt("ID"), resultSet.getString("name"),
                             resultSet.getString("description"),
                             resultSet.getFloat("unitPrice"),

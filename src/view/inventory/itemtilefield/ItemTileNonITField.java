@@ -40,7 +40,6 @@ public class ItemTileNonITField extends ItemPanelDecorator implements ItemPanelP
 	private JLabel lblAssignee;
 	
 	private JComboBox cbType;
-	private JDateChooser deliveryDateChooser;
 	private JComboBox cbAssignee;
 	
 	
@@ -74,9 +73,6 @@ public class ItemTileNonITField extends ItemPanelDecorator implements ItemPanelP
 		lblType = new JLabel("Type:");
 		panNonIT.add(lblType, "cell 1 1 2 1,alignx left");
 		
-		lblDeliveryDate = new JLabel("Delivery Date:");
-		panNonIT.add(lblDeliveryDate, "flowx,cell 1 3 4 1");
-		
 		/* Type Combo Box */
 		
 		cbType = new JComboBox(typeStrings);
@@ -85,23 +81,12 @@ public class ItemTileNonITField extends ItemPanelDecorator implements ItemPanelP
 		cbType.addActionListener(this);
 		panNonIT.add(cbType, "cell 3 1 5 1,growx");
 		
-
-		
-		deliveryDateChooser = new JDateChooser();
-		deliveryDateChooser.setOpaque(false);
-		deliveryDateChooser.setDate(new Date());
-		deliveryDateChooser.setBorder(null);
-		deliveryDateChooser.setDateFormatString("yyyy-MM-dd");
-		deliveryDateChooser.setBackground(Color.WHITE);
-		deliveryDateChooser.setPreferredSize(new Dimension(150, 30));
-		panNonIT.add(deliveryDateChooser, "cell 5 3 3 1,growx,aligny center");
-		
 		lblAssignee = new JLabel("Assignee: ");
 		panNonIT.add(lblAssignee, "cell 1 5 2 1");
 		
 		cbAssignee = new JComboBox();
 		cbAssignee.setModel(new DefaultComboBoxModel(new String[] { "Shayane Tan",
-				"Rissa Quindoza", "Gio Velez" }));
+				"Rissa Quindoza", "Gio Velez" }));	
 		cbAssignee.setBackground(Color.WHITE);
 		panNonIT.add(cbAssignee, "cell 3 5 5 1,growx");
 		addItemPanelReference.assignToQuad(panNonIT, 1);
@@ -126,9 +111,9 @@ public class ItemTileNonITField extends ItemPanelDecorator implements ItemPanelP
 			else if(cbType.getSelectedItem().equals("Non-IT Assets"))
 				InventoryItemDisplayManager.getInstance().overrideContentPanel("Non-IT");
 			else if(cbType.getSelectedItem().equals("Software"))
-				InventoryItemDisplayManager.getInstance().overrideContentPanel("Software");
+				InventoryItemDisplayManager.getInstance().overrideContentPanel("Soft");
 			else if(cbType.getSelectedItem().equals("Others"))
-				InventoryItemDisplayManager.getInstance().overrideContentPanel("General");
+				InventoryItemDisplayManager.getInstance().overrideContentPanel("Others");
 		}
 	}
 
@@ -150,19 +135,11 @@ public class ItemTileNonITField extends ItemPanelDecorator implements ItemPanelP
 	@Override
 	public void loadPresets(Iterator iter) {
 		// TODO Auto-generated method stub
-            if(iter.hasNext())
-		cbAssignee.setSelectedItem(iter.next().toString());
-            if(iter.hasNext())
-		deliveryDateChooser.setDate((Date) iter.next());
+		if(iter.hasNext()) cbAssignee.setSelectedItem(iter.next().toString());
 	}
 	@Override
 	public void setType(String type) {
 		cbType.setSelectedItem(type);
-	}
-
-	@Override
-	public void setDeliveryDate(Date date) {
-		deliveryDateChooser.setDate(date);
 	}
 	
 }

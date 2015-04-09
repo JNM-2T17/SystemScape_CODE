@@ -47,7 +47,6 @@ public class ItemTileSoftwareField extends ItemPanelDecorator implements ItemPan
 	private JComboBox cbAssignee;
 	
 	private JTextField tfLicenseKey;
-	private JDateChooser deliveryDateChooser;
 	
 	private JFrame parent;
 	
@@ -86,15 +85,6 @@ public class ItemTileSoftwareField extends ItemPanelDecorator implements ItemPan
 		lblDeliveryDate = new JLabel("Delivery Date:");
 		panSoftware.add(lblDeliveryDate, "flowx,cell 1 5 4 1,alignx right");
 		
-		deliveryDateChooser = new JDateChooser();
-		deliveryDateChooser.setOpaque(false);
-		deliveryDateChooser.setDate(new Date());
-		deliveryDateChooser.setBorder(null);
-		deliveryDateChooser.setDateFormatString("yyyy-MM-dd");
-		deliveryDateChooser.setBackground(Color.WHITE);
-		deliveryDateChooser.setPreferredSize(new Dimension(150, 30));
-		panSoftware.add(deliveryDateChooser, "cell 5 5 3 1,growx,aligny center");
-		
 		lblAssignee = new JLabel("Assignee:");
 		panSoftware.add(lblAssignee, "flowx,cell 1 7 3 1");
 		
@@ -124,7 +114,6 @@ public class ItemTileSoftwareField extends ItemPanelDecorator implements ItemPan
 	public Iterator retrieveInformation() {
 		// TODO Auto-generated method stub
 		ArrayList infoList = new ArrayList(); 
-		infoList.add(deliveryDateChooser.getDate());
 		infoList.add(cbAssignee.getSelectedItem().toString());
 		infoList.add(tfLicenseKey.getText());
 		return infoList.iterator();
@@ -140,9 +129,9 @@ public class ItemTileSoftwareField extends ItemPanelDecorator implements ItemPan
 			else if(cbType.getSelectedItem().equals("Non-IT Assets"))
 				InventoryItemDisplayManager.getInstance().overrideContentPanel("Non-IT");
 			else if(cbType.getSelectedItem().equals("Software"))
-				InventoryItemDisplayManager.getInstance().overrideContentPanel("Software");
+				InventoryItemDisplayManager.getInstance().overrideContentPanel("Soft");
 			else if(cbType.getSelectedItem().equals("Others"))
-				InventoryItemDisplayManager.getInstance().overrideContentPanel("General");
+				InventoryItemDisplayManager.getInstance().overrideContentPanel("Others");
 		}
 	}
 
@@ -158,18 +147,10 @@ public class ItemTileSoftwareField extends ItemPanelDecorator implements ItemPan
 	@Override
 	public void loadPresets(Iterator iter) {
 		// TODO Auto-generated method stub
-            if(iter.hasNext())
-		cbAssignee.setSelectedItem(iter.next().toString());
-            if(iter.hasNext())
-		tfLicenseKey.setText(iter.next().toString());
+		if(iter.hasNext()) cbAssignee.setSelectedItem(iter.next().toString());
+		if(iter.hasNext()) tfLicenseKey.setText(iter.next().toString());
 	}
 	
-	@Override
-	public void setDeliveryDate(Date date)
-	{
-		deliveryDateChooser.setDate(date);
-	}
-
 	@Override
 	public void loadAssigneeList(Iterator iter) {
 		 ArrayList<String> assigneeList = new ArrayList();

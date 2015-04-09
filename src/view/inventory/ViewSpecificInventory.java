@@ -7,7 +7,7 @@ import javax.swing.JPanel;
 import model.InventoryItem;
 import view.ViewSpecificTemplate;
 
-public class ViewSpecificInventory extends ViewSpecificTemplate {
+public class ViewSpecificInventory extends ViewSpecificTemplate implements ItemPanelTemplate {
 	private TabInventory tab;
 	private ViewInventoryItemLinkedList viewList;
 	private BasicViewSpecificItem template; 
@@ -57,10 +57,21 @@ public class ViewSpecificInventory extends ViewSpecificTemplate {
 		// TODO Auto-generated method stub
 		
 	}
-	
-	public ItemPanelTemplate getBasicViewSpecificItem()
-	{
-		return template;
+
+	@Override
+	public void renderPanel() {
+		// TODO Auto-generated method stub
+		template.renderPanel();
+		revalidate();
+		repaint();
+		
+	}
+
+	@Override
+	public void assignToQuad(JPanel panel, int quadNo) {
+		// TODO Auto-generated method stub
+		template.assignToQuad(panel, quadNo);
+		
 	}
 
 }

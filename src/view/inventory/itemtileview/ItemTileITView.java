@@ -157,7 +157,6 @@ public class ItemTileITView extends ItemPanelDecorator implements ItemPanelParti
 		return null;
 	}
 
-	@Override
 	public void setDeliveryDate(Date date)
 	{
 		SimpleDateFormat formatter=new SimpleDateFormat("yyyy-MM-dd");
@@ -178,17 +177,15 @@ public class ItemTileITView extends ItemPanelDecorator implements ItemPanelParti
 	@Override
 	public void loadPresets(Iterator iter) {
 		// TODO Auto-generated method stub
-            if(iter.hasNext()){
+		if(iter.hasNext()) {
 		SimpleDateFormat formatter=new SimpleDateFormat("yyyy-MM-dd");
 		String formattedDate = formatter.format(iter.next().toString());
 		lblDeliveryDateText.setText(formattedDate);
-            }
-            if(iter.hasNext())
-		lblAssigneeText.setText(iter.next().toString());
-            if(iter.hasNext())
-		lblAssetTagText.setText(iter.next().toString());
-            if(iter.hasNext())
-		lblServiceTagText.setText(iter.next().toString());
+		}
+		
+		if(iter.hasNext()) lblAssigneeText.setText(iter.next().toString());
+		if(iter.hasNext()) lblAssetTagText.setText(iter.next().toString());
+		if(iter.hasNext()) lblServiceTagText.setText(iter.next().toString());
 	}
 
 	@Override

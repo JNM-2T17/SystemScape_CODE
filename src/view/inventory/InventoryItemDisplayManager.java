@@ -53,6 +53,7 @@ public class InventoryItemDisplayManager {
 	private InventoryItemDisplayManager()
 	{
 		panelRegistry = new PanelRegistry();
+		viewList = new ViewInventoryItemLinkedList();
 	}
 	
 	public void setTabInventory(TabInventory tab)
@@ -93,38 +94,34 @@ public class InventoryItemDisplayManager {
 	}
 	
 	
-	public JPanel buildContent(InventoryItem ii, String mode) {
+	public JPanel buildContentEdit(InventoryItem ii, String type) {
 		// TODO Auto-generated method stub
-		if(mode.equals("add") || mode.equals("edit"))
-		{
-                        System.out.println("Swing out " + ii.getClassification());
-			if(ii.getClassification().equalsIgnoreCase("IT"))
+			System.out.println("PassEDIT");
+			if(ii.getClassification().equals("IT"))
 			{
-                                System.out.println("Le IT " + ii.getClassification() + " in the Dark");
 				return displayITField(ii);
 			}
-			else if(ii.getClassification().equalsIgnoreCase("Non-IT"))
+			else if(ii.getClassification().equals("Non-IT"))
 			{
-                                System.out.println("Le Non " + ii.getClassification() + " in the Dark");
 				return displayNonITField(ii);
 			}
-			else if(ii.getClassification().equalsIgnoreCase("Software"))
+			else if(ii.getClassification().contains("Soft"))
 			{
-                                System.out.println("Le Soft " + ii.getClassification() + " in the Dark");
 				return displaySoftwareField(ii);
 			}
-			else if(ii.getClassification().equalsIgnoreCase("Other"))
+			else if(ii.getClassification().equals("Others"))
 			{
-                                System.out.println("Le other " + ii.getClassification() + " in the Dark");
 				return displayGeneralField(ii);
 			}
 			
-			/*if(ii != null)
+			if(ii != null)
 				return displayITField(ii);
-			else return displayITField();*/
-		}
-		else if(mode.equals("viewSpec"))
-		{
+			else return displayITField();
+	}
+	
+	public JPanel buildContentView(InventoryItem ii, String type)
+	{
+			System.out.println("PassVIEW");
 			if(ii.getClassification().equals("IT"))
 			{
 				return displayITView(ii);
@@ -133,25 +130,20 @@ public class InventoryItemDisplayManager {
 			{
 				return displayNonITView(ii);
 			}
-			else if(ii.getClassification().equals("Software"))
+			else if(ii.getClassification().equals("Soft"))
 			{
 				return displaySoftwareView(ii);
 			}
-			else if(ii.getClassification().equals("Other"))
+			else if(ii.getClassification().equals("Others"))
 			{
 				return displayGeneralView(ii);
 			}
 			return displayITView(ii);
-		}
-		
-		return null;
-		
-		
 	}
 	
-	public JPanel buildContent(String type, String mode) {
+	public JPanel buildContentAdd(String type) {
 		// TODO Auto-generated method stub
-		
+		System.out.println("Mode IN ADD");
 		if(type.equals("IT"))
 		{
 			return displayITField();
@@ -160,13 +152,15 @@ public class InventoryItemDisplayManager {
 		{
 			return displayNonITField();
 		}
-		else if(type.equals("Software"))
+		else if(type.equals("Soft"))
 		{
 			return displaySoftwareField();
 		}
-		else if(type.equals("General"))
+		else if(type.equals("Others"))
 		{
+			System.out.println("buildContentAdd Others BUILD");
 			return displayGeneralField();
+		
 		}
 		
 		return displayITField();
@@ -199,7 +193,11 @@ public class InventoryItemDisplayManager {
 		panelRegistry.registerParticipant(itemTileITField);
 		panelRegistry.registerParticipant(itemTileWarrantyField);
 		panelRegistry.registerParticipant(itemTileContractField);
-		panelRegistry.setEditToCurrentSet(ii);
+		
+		panelRegistry.isAdd(false);
+		System.out.println("Passes setEdit");
+		panelRegistry.setCurrentInventoryItem(ii);
+		panelRegistry.setEditToCurrentSet();
 		
 		return template;
 	}
@@ -229,7 +227,11 @@ public class InventoryItemDisplayManager {
 		panelRegistry.registerParticipant(itemTileWarrantyField);
 		panelRegistry.registerParticipant(itemTileContractField);
 
-		panelRegistry.setEditToCurrentSet(ii);
+		panelRegistry.isAdd(false);
+		System.out.println("Passes setEdit");
+		panelRegistry.setCurrentInventoryItem(ii);
+		panelRegistry.setEditToCurrentSet();
+		
 		
 		return template;
 	}
@@ -256,7 +258,13 @@ public class InventoryItemDisplayManager {
 		panelRegistry.registerParticipant(itemTileGenInfoField);
 		panelRegistry.registerParticipant(itemTileSoftwareField);
 		
-		panelRegistry.setEditToCurrentSet(ii);
+		panelRegistry.isAdd(false);
+		
+		System.out.println("Passes setEdit");
+		panelRegistry.setCurrentInventoryItem(ii);
+		panelRegistry.setEditToCurrentSet();
+		
+		
 		
 		return template;
 	}
@@ -272,19 +280,23 @@ public class InventoryItemDisplayManager {
 		}
 		panelRegistry.clearParticipants();
 		BasicItemField template = new BasicItemField();
-		itemTileWarrantyField = new ItemTileWarrantyField(gui, template);
-		itemTileGeneralField = new ItemTileGeneralField(gui, template);
-		itemTileGenInfoField = new ItemTileGenInfoField(gui, itemTileGeneralField);
-		ItemPanelDecorator dec = itemTileGenInfoField;
+		itemTileGenInfoField = new ItemTileGenInfoField(gui, template);
+		itemTileGeneralField = new ItemTileGeneralField(gui, itemTileGenInfoField);
+		ItemPanelDecorator dec = itemTileGeneralField;
 		
 		dec.renderPanel();
 		dec.repaint();
 		dec.revalidate();
-
+		
 		panelRegistry.registerParticipant(itemTileGenInfoField);
 		panelRegistry.registerParticipant(itemTileGeneralField);
-		panelRegistry.setEditToCurrentSet(ii);
-                
+		
+		panelRegistry.isAdd(false);
+		
+		System.out.println("Passes setEdit");
+		panelRegistry.setCurrentInventoryItem(ii);
+		panelRegistry.setEditToCurrentSet();
+		
 		return template;
 	}
 	
@@ -315,6 +327,8 @@ public class InventoryItemDisplayManager {
 		panelRegistry.registerParticipant(itemTileWarrantyField);
 		panelRegistry.registerParticipant(itemTileContractField);
 		
+		panelRegistry.isAdd(true);
+		
 		return template;
 	}
 	
@@ -344,6 +358,8 @@ public class InventoryItemDisplayManager {
 		panelRegistry.registerParticipant(itemTileWarrantyField);
 		panelRegistry.registerParticipant(itemTileContractField);
 		
+		panelRegistry.isAdd(true);
+		
 		return template;
 	}	
 	
@@ -369,6 +385,8 @@ public class InventoryItemDisplayManager {
 		panelRegistry.registerParticipant(itemTileGenInfoField);
 		panelRegistry.registerParticipant(itemTileSoftwareField);
 		
+		panelRegistry.isAdd(true);
+
 		
 		return template;
 	}
@@ -385,18 +403,24 @@ public class InventoryItemDisplayManager {
 		}
 		panelRegistry.clearParticipants();
 		BasicItemField template = new BasicItemField();
-		itemTileWarrantyField = new ItemTileWarrantyField(gui, template);
-		itemTileGeneralField = new ItemTileGeneralField(gui, itemTileWarrantyField);
-		itemTileGenInfoField = new ItemTileGenInfoField(gui, itemTileGeneralField);
-		ItemPanelDecorator dec = itemTileGenInfoField;
+		itemTileGenInfoField = new ItemTileGenInfoField(gui, template);
+		itemTileGeneralField = new ItemTileGeneralField(gui, itemTileGenInfoField);
+		ItemPanelDecorator dec = itemTileGeneralField;
 		
 		dec.renderPanel();
 		dec.repaint();
 		dec.revalidate();
-
+		
 		panelRegistry.registerParticipant(itemTileGenInfoField);
 		panelRegistry.registerParticipant(itemTileGeneralField);
 		
+		panelRegistry.isAdd(true);
+		
+		System.out.println("Pass");
+		if(template == null)
+		{
+			System.out.println("NULL template");
+		}
 		
 		return template;
 	}
@@ -415,7 +439,7 @@ public class InventoryItemDisplayManager {
 		createNewViewList();
 		viewList.jumpToItem(ii);
 		ViewSpecificInventory template = new ViewSpecificInventory(tab, viewList);
-		itemTileContractView = new ItemTileContractView(gui, template.getBasicViewSpecificItem());
+		itemTileContractView = new ItemTileContractView(gui, template);
 		itemTileWarrantyView = new ItemTileWarrantyView(gui, itemTileContractField);
 		itemTileITView = new ItemTileITView(gui, itemTileWarrantyField);
 		itemTileGenInfoView = new ItemTileGenInfoView(gui, itemTileITField);
@@ -430,7 +454,10 @@ public class InventoryItemDisplayManager {
 		panelRegistry.registerParticipant(itemTileWarrantyView);
 		panelRegistry.registerParticipant(itemTileContractView);
 		
-		panelRegistry.setViewToCurrentSet(ii);
+		panelRegistry.setCurrentInventoryItem(viewList.pCurr());
+		panelRegistry.setViewToCurrentSet();
+		
+		
 		return template;
 	}
 	
@@ -447,7 +474,7 @@ public class InventoryItemDisplayManager {
 		createNewViewList();
 		viewList.jumpToItem(ii);
 		ViewSpecificInventory template = new ViewSpecificInventory(tab, viewList);
-		itemTileContractView = new ItemTileContractView(gui, template.getBasicViewSpecificItem());
+		itemTileContractView = new ItemTileContractView(gui, template);
 		itemTileWarrantyView = new ItemTileWarrantyView(gui, itemTileContractView);
 		itemTileNonITView = new ItemTileNonITView(gui, itemTileWarrantyView);
 		itemTileGenInfoView = new ItemTileGenInfoView(gui, itemTileNonITView);
@@ -462,7 +489,8 @@ public class InventoryItemDisplayManager {
 		panelRegistry.registerParticipant(itemTileWarrantyView);
 		panelRegistry.registerParticipant(itemTileContractView);
 		
-		panelRegistry.setViewToCurrentSet(ii);
+		panelRegistry.setCurrentInventoryItem(viewList.pCurr());
+		panelRegistry.setViewToCurrentSet();
 		return template;
 	}	
 	
@@ -479,7 +507,7 @@ public class InventoryItemDisplayManager {
 		createNewViewList();
 		viewList.jumpToItem(ii);
 		ViewSpecificInventory template = new ViewSpecificInventory(tab, viewList);
-		itemTileSoftwareView = new ItemTileSoftwareView(gui, template.getBasicViewSpecificItem());
+		itemTileSoftwareView = new ItemTileSoftwareView(gui, template);
 		itemTileGenInfoView = new ItemTileGenInfoView(gui, itemTileSoftwareView);
 		ItemPanelDecorator dec = itemTileGenInfoView;	
 		
@@ -490,7 +518,8 @@ public class InventoryItemDisplayManager {
 		panelRegistry.registerParticipant(itemTileGenInfoView);
 		panelRegistry.registerParticipant(itemTileSoftwareView);
 		
-		panelRegistry.setViewToCurrentSet(ii);
+		panelRegistry.setCurrentInventoryItem(viewList.pCurr());
+		panelRegistry.setViewToCurrentSet();
 		return template;
 	}
 	
@@ -508,10 +537,9 @@ public class InventoryItemDisplayManager {
 		createNewViewList();
 		viewList.jumpToItem(ii);
 		ViewSpecificInventory template = new ViewSpecificInventory(tab, viewList);
-		itemTileWarrantyView = new ItemTileWarrantyView(gui, template.getBasicViewSpecificItem());
-		itemTileGeneralView = new ItemTileGeneralView(gui, itemTileWarrantyView);
-		itemTileGenInfoView = new ItemTileGenInfoView(gui, itemTileGeneralView);
-		ItemPanelDecorator dec = itemTileGenInfoView;
+		itemTileGenInfoView = new ItemTileGenInfoView(gui, template);
+		itemTileGeneralView = new ItemTileGeneralView(gui, itemTileGenInfoView);
+		ItemPanelDecorator dec = itemTileGeneralView;
 		
 		dec.renderPanel();
 		dec.repaint();
@@ -520,18 +548,21 @@ public class InventoryItemDisplayManager {
 		panelRegistry.registerParticipant(itemTileGenInfoView);
 		panelRegistry.registerParticipant(itemTileGeneralView);
 		
-		panelRegistry.setViewToCurrentSet(ii);
+		panelRegistry.setCurrentInventoryItem(viewList.pCurr());
+		panelRegistry.setViewToCurrentSet();
 		return template;
 	}
 	
 	public void overrideContentPanel(String type)
 	{
+		System.out.println("TYPE IN OVERRIDE: " + type);
 		tab.setAdd(type);
 	}
 	
 	public void setEditToCurrentSet(InventoryItem ii) {
 		// TODO Auto-generated method stub
-		panelRegistry.setEditToCurrentSet(ii);
+		panelRegistry.setCurrentInventoryItem(viewList.pCurr());
+		panelRegistry.setViewToCurrentSet();
 	}
 	
 	public void retrieveInformation() {
@@ -553,7 +584,7 @@ public class InventoryItemDisplayManager {
 	}
 	
 	public void callDeleteInventoryItem() {
-//		panelRegistry.deleteInventoryItem();
+		panelRegistry.deleteInventoryItem(viewList.pCurr());
 	}
 
 	public void requestBuildIT() {
@@ -563,17 +594,17 @@ public class InventoryItemDisplayManager {
 	
 	public void requestBuildNonIT() {
 		// TODO Auto-generated method stub
-		tab.setAdd("NonIT");
+		tab.setAdd("Non-IT");
 	}
 	
 	public void requestBuildSoftware() {
 		// TODO Auto-generated method stub
-		tab.setAdd("Software");
+		tab.setAdd("Soft");
 	}
 
 	public void requestBuildGeneral() {
 		// TODO Auto-generated method stub
-		tab.setAdd("General");
+		tab.setAdd("Others");
 	}
 
 	

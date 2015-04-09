@@ -77,7 +77,8 @@ public class TabInventory extends JPanel implements ActionListener{
 	 * @param ii
 	 */
 	public void setEdit(InventoryItem ii){
-		Content temp=new Content.ContentBuilder().caption("Edit Item").back(true).delete(true).content(displayManager.buildContent(ii,"edit")).build();
+		System.out.println("Edit");
+		Content temp=new Content.ContentBuilder().caption("Edit Item").back(true).delete(true).content(displayManager.buildContentEdit(ii,ii.getClassification())).build();
 		temp.getBtnBack().addActionListener(this);
 		temp.getBtnDelete().addActionListener(this);
 		this.add(temp, "edit");
@@ -86,12 +87,14 @@ public class TabInventory extends JPanel implements ActionListener{
 		cl.show(this, "edit");
 		repaint();
 		revalidate();
+		
+		System.out.println("SET EDIT PASS CHK1");
 	}
 	
 	public void setView(InventoryItem ii){
-		
+		System.out.println("View");
 		displayManager.createNewViewList();
-		Content temp=new Content.ContentBuilder().caption("View Specific Item").back(true).content(displayManager.buildContent(ii.getClassification(),"viewspec")).build();
+		Content temp=new Content.ContentBuilder().caption("View Specific Item").back(true).content(displayManager.buildContentView(ii,ii.getClassification())).build();
 		
 		temp.getBtnBack().addActionListener(this);
 		this.add(temp, "viewspec");
@@ -100,11 +103,15 @@ public class TabInventory extends JPanel implements ActionListener{
 		cl.show(this, "viewspec");
 		repaint();
 		revalidate();
+		
+		System.out.println("SET VIEW PASS CHK1");
 	}
 	
 	public void setAdd(String type)
-	{
-		Content temp=new Content.ContentBuilder().caption("Add Item").back(true).content(displayManager.buildContent(type,"add")).build();
+	{	
+		System.out.println("Add");
+		System.out.println("STRING TYPE IN SET ADD: " + type);
+		Content temp=new Content.ContentBuilder().caption("Add Item").back(true).content(displayManager.buildContentAdd(type)).build();
 		
 		temp.getBtnBack().addActionListener(this);
 		this.add(temp, "add");
@@ -113,10 +120,13 @@ public class TabInventory extends JPanel implements ActionListener{
 		cl.show(this, "add");
 		repaint();
 		revalidate();
+		
+		System.out.println("SET ADD PASS CHK1");
 	}
 	
 	public void setDelete()
 	{
+		System.out.println("Delete");
 		displayManager.callDeleteInventoryItem();
 		System.out.println("Deleting... ");
 	}

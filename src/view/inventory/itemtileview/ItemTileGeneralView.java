@@ -104,12 +104,6 @@ public class ItemTileGeneralView extends ItemPanelDecorator implements ItemPanel
 				lblTypeText = new JLabel("");
 				panGeneral.add(lblTypeText, "cell 3 1 7 1");
 				
-				lblDeliveryDate = new JLabel("Delivery Date:");
-				panGeneral.add(lblDeliveryDate, "flowx,cell 1 3 6 1,alignx right");
-				
-				lblDeliveryDateText = new JLabel("");
-				panGeneral.add(lblDeliveryDateText, "cell 7 3 3 1");
-				
 				lblAssignee = new JLabel("Assignee:");
 				panGeneral.add(lblAssignee, "flowx,cell 1 5 4 1");
 				addItemPanelReference.assignToQuad(panGeneral, 1);
@@ -143,22 +137,12 @@ public class ItemTileGeneralView extends ItemPanelDecorator implements ItemPanel
 
 	@Override
 	public void loadPresets(Iterator iter) {
-            if(iter.hasNext())
-		lblAssigneeText.setText(iter.next().toString());
-		//deliveryDateChooser.setDate((Date) iter.next());
+		if(iter.hasNext()) lblAssigneeText.setText(iter.next().toString());
 	}
 	
 	@Override
 	public void setType(String type) {
 		lblTypeText.setText(type);
-	}
-
-	@Override
-	public void setDeliveryDate(Date date) {
-		SimpleDateFormat formatter=new SimpleDateFormat("yyyy-MM-dd");
-		String formattedDate = formatter.format(date);
-		lblDeliveryDate.setText(formattedDate);
-		
 	}
 	
 

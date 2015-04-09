@@ -127,9 +127,9 @@ public class ItemTileGeneralField extends ItemPanelDecorator implements ItemPane
 			else if(cbType.getSelectedItem().equals("Non-IT Assets"))
 				InventoryItemDisplayManager.getInstance().overrideContentPanel("Non-IT");
 			else if(cbType.getSelectedItem().equals("Software"))
-				InventoryItemDisplayManager.getInstance().overrideContentPanel("Software");
+				InventoryItemDisplayManager.getInstance().overrideContentPanel("Soft");
 			else if(cbType.getSelectedItem().equals("Others"))
-				InventoryItemDisplayManager.getInstance().overrideContentPanel("General");
+				InventoryItemDisplayManager.getInstance().overrideContentPanel("Others");
 		}
 	}
 
@@ -150,10 +150,8 @@ public class ItemTileGeneralField extends ItemPanelDecorator implements ItemPane
 
 	@Override
 	public void loadPresets(Iterator iter) {
-            if(iter.hasNext())
-		cbAssignee.setSelectedItem(iter.next().toString());
-            if(iter.hasNext())
-		deliveryDateChooser.setDate((Date) iter.next());
+		if(iter.hasNext()) cbAssignee.setSelectedItem(iter.next().toString());
+		if(iter.hasNext()) deliveryDateChooser.setDate((Date) iter.next());
 	}
 	
 	@Override
@@ -161,11 +159,6 @@ public class ItemTileGeneralField extends ItemPanelDecorator implements ItemPane
 		cbType.setSelectedItem(type);
 	}
 
-	@Override
-	public void setDeliveryDate(Date date) {
-		deliveryDateChooser.setDate(date);
-		
-	}
 	
 
 	
