@@ -280,7 +280,7 @@ public class AddSupplier extends JPanel implements ActionListener {
 				checkSupplier = (Supplier) supplierController
 						.getObject(supplier.getName());
 
-				if (checkSupplier != null) {
+				if (checkSupplier == null) {
 					for (int i = 0; i < list.size(); i++) {
 						System.out.println("RISSA: "+i);
 						supplier.addSupplierContact(txtSupp.getText(), list
