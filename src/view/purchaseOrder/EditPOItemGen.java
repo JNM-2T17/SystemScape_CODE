@@ -9,6 +9,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.util.Date;
+import java.util.Iterator;
 
 import javax.swing.BorderFactory;
 import javax.swing.DefaultComboBoxModel;
@@ -27,9 +28,11 @@ import view.Message;
 import view.PopUp;
 
 import com.toedter.calendar.JDateChooser;
-import controller.InventoryItemController;
 
+import controller.EmployeeController;
+import controller.InventoryItemController;
 import controller.PurchaseOrderController;
+import model.Employee;
 import model.InventoryItem;
 import model.NonITAsset;
 import model.SoftwareItem;
@@ -135,7 +138,7 @@ public class EditPOItemGen extends PopUp implements ActionListener, FocusListene
         lblAssiginee.setFont(new Font("Arial", Font.PLAIN, 18));
         panContent.add(lblAssiginee, "cell 0 5,alignx left");
         cmbAssignee = new JComboBox(types);
-        cmbAssignee.setModel(new DefaultComboBoxModel(new String[]{"none"}));
+        populateCmbEmployee();
         cmbAssignee.setFont(new Font("Arial", Font.PLAIN, 18));
         cmbAssignee.setPreferredSize(new Dimension(185, 32));
         cmbAssignee.setBackground(Color.WHITE);
@@ -157,7 +160,20 @@ public class EditPOItemGen extends PopUp implements ActionListener, FocusListene
 
         this.setVisible(true);
     }
-
+    
+    public void populateCmbEmployee()
+   	{
+   		cmbAssignee.addItem("None");
+   		EmployeeController ec = EmployeeController.getInstance();
+   		Iterator<Employee> eList = ec.getAll();
+   		while(eList.hasNext())
+   		{
+   			Employee e = eList.next();
+   			cmbAssignee.addItem(e.getName());
+   		}
+   	}
+       
+    
     public String checkFields() {
         String error = "";
         Border border = BorderFactory.createLineBorder(Color.RED, 2);
@@ -188,7 +204,7 @@ public class EditPOItemGen extends PopUp implements ActionListener, FocusListene
                  * software item**
                  */
                 InventoryItem ii = new NonITAsset(0, itemData.getName(), itemData.getDescription(), itemData.getUnitPrice(), txtInvoice.getText(),
-                        (String) cbxLocation.getSelectedItem(), (String) cbxStatus.getSelectedItem(), "Hard");
+                        (String) cbxLocation.getSelectedItem(), (String) cbxStatus.getSelectedItem(), "Others");
                 inventoryItemController.addInventoryItem(ii);
                 this.setVisible(false);
                 this.dispose();

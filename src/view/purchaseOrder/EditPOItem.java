@@ -268,6 +268,7 @@ public class EditPOItem extends PopUp implements ActionListener, FocusListener{
 				
 				this.setVisible(false); 
 				this.dispose();	
+				clearFields();
 			}
 			else if(error.equals("") == false)
 			{

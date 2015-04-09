@@ -317,12 +317,13 @@ public class EditPO extends JPanel implements ActionListener, Observer {
                 po.setType(cmbClass.getSelectedItem().toString());
                 poController.editPurchaseOrder(po);// dev
                 Message msg = new Message(parent, Message.SUCCESS, "Purchase Order edited successfully.");
+                clear();
             } else {
                 JOptionPane.showMessageDialog(null, "No date");
 
             }
 
-            clear();
+            
         }
 
     }
@@ -330,21 +331,15 @@ public class EditPO extends JPanel implements ActionListener, Observer {
     /**
      * * reset the purchase order form **
      */
-    public void clear() {
-//        cmbSupplier.setSelectedIndex(0);
-//        cmbClass.setSelectedIndex(0);
-//        lblGrandValue.setText("");
-//        dateChooser.setDate(new Date());
-//        for (int i = 0; i < table.getModel().getRowCount(); i++) {
-//            for (int j = 0; j < table.getModel().getRowCount(); j++) {
-//                table.getModel().setValueAt(null, i, j);
-//            }
-//        }
-//
-//        //poTableModel.setRowCount(0);
-//        poController.init();
-
-    }
+	public void clear() {
+		cmbSupplier.setSelectedIndex(0);
+		cmbClass.setSelectedIndex(0);
+		lblGrandValue.setText("");
+		dateChooser.setDate(new Date());
+		clearTable();
+		poController.init();
+	}
+	
 
     /**
      * * check for empty fields **
@@ -382,10 +377,10 @@ public class EditPO extends JPanel implements ActionListener, Observer {
         String headers[] = {"Item", "Description", "Quantity", "Unit Price",
             "Amount", "Quantity Received", "Delivered", "Edit"};
         model.setColumnIdentifiers(headers);
-        table.getColumnModel().getColumn(0).setPreferredWidth(100);
-        table.getColumnModel().getColumn(1).setPreferredWidth(100);
+        table.getColumnModel().getColumn(0).setPreferredWidth(150);
+        table.getColumnModel().getColumn(1).setPreferredWidth(150);
 
-        table.getColumnModel().getColumn(2).setPreferredWidth(90);
+        table.getColumnModel().getColumn(2).setPreferredWidth(40);
         table.getColumnModel().getColumn(2).setCellRenderer(rightRenderer);
 
         table.getColumnModel().getColumn(3).setPreferredWidth(90);
