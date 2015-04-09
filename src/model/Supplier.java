@@ -79,8 +79,8 @@ public class Supplier {
         return contacts.iterator();
     }
 
-    public void addSupplierContact(String supplier, String type, int value) {
-        contacts.add(new SupplierContact(supplier, type, value));
+    public void addSupplierContact(String supplier, String type, String info) {
+        contacts.add(new SupplierContact(supplier, type, info));
     }
 
     public void setSupplierContactList(Iterator contacts) {
