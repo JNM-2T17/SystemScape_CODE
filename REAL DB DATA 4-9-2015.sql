@@ -104,6 +104,7 @@ CREATE TABLE `employee` (
 
 LOCK TABLES `employee` WRITE;
 /*!40000 ALTER TABLE `employee` DISABLE KEYS */;
+INSERT INTO `employee` VALUES (1,'Karen Sicat'),(2,'Joey Murillo'),(3,'Elenita Cunanan'),(4,'Ryan Que'),(5,'Dan Martin');
 /*!40000 ALTER TABLE `employee` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -177,7 +178,7 @@ CREATE TABLE `inventoryitem` (
   PRIMARY KEY (`ID`),
   KEY `inventoryitemfk_1` (`itemData`),
   CONSTRAINT `inventoryitemfk_1` FOREIGN KEY (`itemData`) REFERENCES `itemdata` (`name`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -186,7 +187,7 @@ CREATE TABLE `inventoryitem` (
 
 LOCK TABLES `inventoryitem` WRITE;
 /*!40000 ALTER TABLE `inventoryitem` DISABLE KEYS */;
-INSERT INTO `inventoryitem` VALUES (1,'Latitude D610','Unassigned','Hard','98712','1WS');
+INSERT INTO `inventoryitem` VALUES (1,'Latitude D610','Unassigned','Hard','98712','1WS'),(2,'Crystal Report 9 Developer Ed 5 Users FD','Unassigned','Hard','210011453','1WS');
 /*!40000 ALTER TABLE `inventoryitem` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -266,7 +267,7 @@ CREATE TABLE `itemdata` (
 
 LOCK TABLES `itemdata` WRITE;
 /*!40000 ALTER TABLE `itemdata` DISABLE KEYS */;
-INSERT INTO `itemdata` VALUES ('Latitude D610','Laptop',116000),('Latitude D612','Laptop',116000);
+INSERT INTO `itemdata` VALUES ('Adobe Robohelp Office X5','Software',18667),('Adobe Robohelp V6','Software',66000),('Crystal Report 9 Developer Ed 5 Users FD','Software',142242),('Latitude D610','Laptop',11333),('Latitude D612','Laptop',116000);
 /*!40000 ALTER TABLE `itemdata` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -296,7 +297,7 @@ CREATE TABLE `poitem` (
 
 LOCK TABLES `poitem` WRITE;
 /*!40000 ALTER TABLE `poitem` DISABLE KEYS */;
-INSERT INTO `poitem` VALUES ('Hard',1,'Latitude D612',3,3);
+INSERT INTO `poitem` VALUES ('Hard',1,'Latitude D610',2,2),('Hard',1,'Latitude D612',3,3),('Soft',2,'Adobe Robohelp Office X5',3,3),('Soft',2,'Adobe Robohelp V6',1,1),('Soft',2,'Crystal Report 9 Developer Ed 5 Users FD',1,1);
 /*!40000 ALTER TABLE `poitem` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -321,6 +322,7 @@ CREATE TABLE `project` (
 
 LOCK TABLES `project` WRITE;
 /*!40000 ALTER TABLE `project` DISABLE KEYS */;
+INSERT INTO `project` VALUES ('Code all the things','2015-01-07','2015-04-27'),('Confirm Hoenn','2002-11-21','2014-11-21'),('Woodstock','1994-10-27','2000-03-13');
 /*!40000 ALTER TABLE `project` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -368,7 +370,7 @@ CREATE TABLE `purchaseorder` (
   UNIQUE KEY `invoiceNo` (`invoiceNo`),
   KEY `PurchaseOrderidx_1` (`supplier`),
   CONSTRAINT `PurchaseOrderfk_1` FOREIGN KEY (`supplier`) REFERENCES `supplier` (`name`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -377,7 +379,7 @@ CREATE TABLE `purchaseorder` (
 
 LOCK TABLES `purchaseorder` WRITE;
 /*!40000 ALTER TABLE `purchaseorder` DISABLE KEYS */;
-INSERT INTO `purchaseorder` VALUES ('Hard',1,'2015-04-09','Supplier 2','iv0');
+INSERT INTO `purchaseorder` VALUES ('Hard',1,'2015-04-09','Supplier 2','iv0'),('Soft',2,'2015-04-09','Supplier 3','iv1');
 /*!40000 ALTER TABLE `purchaseorder` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -402,6 +404,7 @@ CREATE TABLE `softwareitem` (
 
 LOCK TABLES `softwareitem` WRITE;
 /*!40000 ALTER TABLE `softwareitem` DISABLE KEYS */;
+INSERT INTO `softwareitem` VALUES (2,'12234GG');
 /*!40000 ALTER TABLE `softwareitem` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -554,4 +557,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-04-09 22:45:23
+-- Dump completed on 2015-04-09 23:29:15
