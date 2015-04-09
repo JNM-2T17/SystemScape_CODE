@@ -193,7 +193,7 @@ public class AddPOItem extends PopUp implements ActionListener, FocusListener {
                         
 			String error = checkFields();
 			if (error.equals("") == true) {
-                            if(poController.checkItemExists(txtItem.getText())){
+                            if(!poController.checkItemExists(txtItem.getText())){
 				String item = txtItem.getText();
 				String description = txtDescription.getText();
 				int quantity = parseStringInt(txtQuantity.getText());
