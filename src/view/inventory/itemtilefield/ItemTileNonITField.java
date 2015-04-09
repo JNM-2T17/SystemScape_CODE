@@ -120,9 +120,9 @@ public class ItemTileNonITField extends ItemPanelDecorator implements ItemPanelP
 		// TODO Auto-generated method stub
 		if(e.getSource() == cbType)
 		{
-			if(cbType.getSelectedItem().equals("IT Assets"))
+			if(cbType.getSelectedItem().equals("IT Asset"))
 				InventoryItemDisplayManager.getInstance().overrideContentPanel("IT");
-			else if(cbType.getSelectedItem().equals("Non-IT Assets"))
+			else if(cbType.getSelectedItem().equals("Non-IT Asset"))
 				InventoryItemDisplayManager.getInstance().overrideContentPanel("Non-IT");
 			else if(cbType.getSelectedItem().equals("Software"))
 				InventoryItemDisplayManager.getInstance().overrideContentPanel("Soft");
