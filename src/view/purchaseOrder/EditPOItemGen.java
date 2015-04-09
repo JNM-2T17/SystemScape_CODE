@@ -46,7 +46,7 @@ public class EditPOItemGen extends PopUp implements ActionListener, FocusListene
 	private JLabel lblLocation;
 	private JComboBox cbxLocation;
 	private JLabel lblStatus;
-	private JComboBox comboBox;
+	private JComboBox cbxStatus;
 	
 	public EditPOItemGen(JFrame parent,  PurchaseOrderController poController) 
 	{
@@ -108,11 +108,11 @@ public class EditPOItemGen extends PopUp implements ActionListener, FocusListene
 		lblStatus.setFont(new Font("Arial", Font.PLAIN, 18));
 		panContent.add(lblStatus, "cell 0 3,alignx left");
 		
-		comboBox = new JComboBox();
-		comboBox.setBackground(Color.WHITE);
-		comboBox.setModel(new DefaultComboBoxModel(new String[] {"Assigned", "Unassigned"}));
-		comboBox.setFont(new Font("Arial", Font.PLAIN, 18));
-		panContent.add(comboBox, "cell 1 3,alignx left");
+		cbxStatus = new JComboBox();
+		cbxStatus.setBackground(Color.WHITE);
+		cbxStatus.setModel(new DefaultComboBoxModel(new String[] {"Assigned", "Unassigned"}));
+		cbxStatus.setFont(new Font("Arial", Font.PLAIN, 18));
+		panContent.add(cbxStatus, "cell 1 3,alignx left");
 		
 		
 		lblDeliveryDate = new JLabel("Delivery Date :");

@@ -48,7 +48,7 @@ public class EditPOItemSoft extends PopUp implements ActionListener, FocusListen
 	private JLabel lblStatus;
 	private JComboBox cbxStatus;
 	private JLabel lblLocation;
-	private JComboBox comboBox;
+	private JComboBox cbxLocation;
 	
 	public EditPOItemSoft(JFrame parent,  PurchaseOrderController poController) 
 	{
@@ -111,11 +111,11 @@ public class EditPOItemSoft extends PopUp implements ActionListener, FocusListen
 		lblLocation.setFont(new Font("Arial", Font.PLAIN, 18));
 		panContent.add(lblLocation, "cell 0 3,alignx left");
 		
-		comboBox = new JComboBox();
-		comboBox.setBackground(Color.WHITE);
-		comboBox.setModel(new DefaultComboBoxModel(new String[] {"1WS", "DAO"}));
-		comboBox.setFont(new Font("Arial", Font.PLAIN, 18));
-		panContent.add(comboBox, "cell 1 3,alignx left");
+		cbxLocation = new JComboBox();
+		cbxLocation.setBackground(Color.WHITE);
+		cbxLocation.setModel(new DefaultComboBoxModel(new String[] {"1WS", "DAO"}));
+		cbxLocation.setFont(new Font("Arial", Font.PLAIN, 18));
+		panContent.add(cbxLocation, "cell 1 3,alignx left");
 		
 		lblStatus = new JLabel("Status :");
 		lblStatus.setFont(new Font("Arial", Font.PLAIN, 18));
