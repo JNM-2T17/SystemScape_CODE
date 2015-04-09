@@ -36,6 +36,7 @@ public class ViewInventoryItemLinkedList {
 	public InventoryItem pNext()
 	{
 		currIndex++;
+		System.out.println(currIndex);
 		if(nodeMap.get(currIndex) != null)
 		{
 			return nodeMap.get(currIndex);
@@ -47,6 +48,7 @@ public class ViewInventoryItemLinkedList {
 	public InventoryItem pPrev()
 	{
 		currIndex--;
+		System.out.println(currIndex);
 		if(nodeMap.get(currIndex) != null || currIndex >= 0)
 		{
 			return nodeMap.get(currIndex);
@@ -55,17 +57,22 @@ public class ViewInventoryItemLinkedList {
 		return null;
 	}
 	
-	public InventoryItem jumpToItem(InventoryItem ii)
+	public void jumpToItem(InventoryItem ii)
 	{
 		for(int i = 0 ; i < nodeMap.size(); i++)
 		{
-			if(nodeMap.get(i) == ii)
+			if(nodeMap.get(i).getID() == ii.getID())
 			{
 				currIndex = i;
-				return ii;
+				System.out.println("EUREKA");
+				break;
 			}
 		}
-		return null;
+	}
+	
+	public int getCount()
+	{
+		return nodeMap.size();
 	}
 
 }

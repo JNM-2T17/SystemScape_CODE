@@ -91,7 +91,7 @@ public class ItemTileGeneralField extends ItemPanelDecorator implements ItemPane
 		/* Type Combo Box */
 		
 		cbType = new JComboBox(typeStrings);
-		cbType.setSelectedItem("General");
+		cbType.setSelectedItem("Others");
 		cbType.setBackground(Color.white);
 		cbType.addItemListener(this);
 		panGeneral.add(cbType, "cell 3 1 5 1,growx");
@@ -100,8 +100,8 @@ public class ItemTileGeneralField extends ItemPanelDecorator implements ItemPane
 		
 		cbAssignee = new JComboBox();
 		cbAssignee.setBackground(Color.white);
-		cbAssignee.setModel(new DefaultComboBoxModel(new String[] { "Shayane Tan",
-				"Rissa Quindoza", "Gio Velez" }));
+//		cbAssignee.setModel(new DefaultComboBoxModel(new String[] { "Shayane Tan",
+//				"Rissa Quindoza", "Gio Velez" }));
 		panGeneral.add(cbAssignee, "cell 4 5 4 1,growx");
 		addItemPanelReference.assignToQuad(panGeneral, 1);
 

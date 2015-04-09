@@ -85,8 +85,8 @@ public class ItemTileNonITField extends ItemPanelDecorator implements ItemPanelP
 		panNonIT.add(lblAssignee, "cell 1 5 2 1");
 		
 		cbAssignee = new JComboBox();
-		cbAssignee.setModel(new DefaultComboBoxModel(new String[] { "Shayane Tan",
-				"Rissa Quindoza", "Gio Velez" }));	
+//		cbAssignee.setModel(new DefaultComboBoxModel(new String[] { "Shayane Tan",
+//				"Rissa Quindoza", "Gio Velez" }));	
 		cbAssignee.setBackground(Color.WHITE);
 		panNonIT.add(cbAssignee, "cell 3 5 5 1,growx");
 		addItemPanelReference.assignToQuad(panNonIT, 1);

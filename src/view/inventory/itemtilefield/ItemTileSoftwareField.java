@@ -103,8 +103,8 @@ public class ItemTileSoftwareField extends ItemPanelDecorator implements ItemPan
 		
 		cbAssignee = new JComboBox();
 		cbAssignee.setBackground(Color.white);
-		cbAssignee.setModel(new DefaultComboBoxModel(new String[] { "Shayane Tan",
-				"Rissa Quindoza", "Gio Velez" }));
+//		cbAssignee.setModel(new DefaultComboBoxModel(new String[] { "Shayane Tan",
+//				"Rissa Quindoza", "Gio Velez" }));
 		panSoftware.add(cbAssignee, "cell 4 7 4 1,growx");
 		
 		addItemPanelReference.assignToQuad(panSoftware, 1);

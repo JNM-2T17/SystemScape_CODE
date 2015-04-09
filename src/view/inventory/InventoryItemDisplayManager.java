@@ -437,13 +437,15 @@ public class InventoryItemDisplayManager {
 		
 		panelRegistry.clearParticipants();
 		createNewViewList();
+		System.out.println("VIEW LIST - COUNT: " + viewList.getCount());
 		viewList.jumpToItem(ii);
 		ViewSpecificInventory template = new ViewSpecificInventory(tab, viewList);
-		itemTileContractView = new ItemTileContractView(gui, template);
-		itemTileWarrantyView = new ItemTileWarrantyView(gui, itemTileContractField);
-		itemTileITView = new ItemTileITView(gui, itemTileWarrantyField);
-		itemTileGenInfoView = new ItemTileGenInfoView(gui, itemTileITField);
-		ItemPanelDecorator dec = itemTileGenInfoView;
+		itemTileGenInfoView = new ItemTileGenInfoView(gui, template);
+		itemTileContractView = new ItemTileContractView(gui, itemTileGenInfoView);
+		itemTileWarrantyView = new ItemTileWarrantyView(gui, itemTileContractView);
+		itemTileITView = new ItemTileITView(gui, itemTileWarrantyView);
+		
+		ItemPanelDecorator dec = itemTileITView;
 		
 		dec.renderPanel();
 		dec.repaint();
@@ -474,11 +476,11 @@ public class InventoryItemDisplayManager {
 		createNewViewList();
 		viewList.jumpToItem(ii);
 		ViewSpecificInventory template = new ViewSpecificInventory(tab, viewList);
-		itemTileContractView = new ItemTileContractView(gui, template);
-		itemTileWarrantyView = new ItemTileWarrantyView(gui, itemTileContractView);
-		itemTileNonITView = new ItemTileNonITView(gui, itemTileWarrantyView);
-		itemTileGenInfoView = new ItemTileGenInfoView(gui, itemTileNonITView);
-		ItemPanelDecorator dec = itemTileGenInfoView;
+		itemTileGenInfoView = new ItemTileGenInfoView(gui, template);
+		itemTileNonITView = new ItemTileNonITView(gui, itemTileGenInfoView);
+		itemTileWarrantyView = new ItemTileWarrantyView(gui, itemTileNonITView);
+		itemTileContractView = new ItemTileContractView(gui, itemTileWarrantyView);
+		ItemPanelDecorator dec = itemTileContractView;
 		
 		dec.renderPanel();
 		dec.repaint();
@@ -507,9 +509,9 @@ public class InventoryItemDisplayManager {
 		createNewViewList();
 		viewList.jumpToItem(ii);
 		ViewSpecificInventory template = new ViewSpecificInventory(tab, viewList);
-		itemTileSoftwareView = new ItemTileSoftwareView(gui, template);
-		itemTileGenInfoView = new ItemTileGenInfoView(gui, itemTileSoftwareView);
-		ItemPanelDecorator dec = itemTileGenInfoView;	
+		itemTileGenInfoView = new ItemTileGenInfoView(gui, template);
+		itemTileSoftwareView = new ItemTileSoftwareView(gui, itemTileGenInfoView);
+		ItemPanelDecorator dec = itemTileSoftwareView;	
 		
 		dec.renderPanel();
 		dec.repaint();

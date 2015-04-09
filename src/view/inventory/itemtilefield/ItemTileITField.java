@@ -127,10 +127,9 @@ public class ItemTileITField extends ItemPanelDecorator implements ItemPanelPart
 		
 		cbAssignee = new JComboBox();
 		cbAssignee.setBackground(Color.white);
-		cbAssignee.setModel(new DefaultComboBoxModel(new String[] { "Shayane Tan",
-				"Rissa Quindoza", "Gio Velez" }));
+//		cbAssignee.setModel(new DefaultComboBoxModel(new String[] { "Shayane Tan",
+//				"Rissa Quindoza", "Gio Velez" }));
 		panIT.add(cbAssignee, "cell 4 9 4 1,growx");
-		
 		addItemPanelReference.assignToQuad(panIT, 1);
 
 	}
