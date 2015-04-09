@@ -57,6 +57,7 @@ public class EditSupplier extends JPanel implements ActionListener {
 	private JComboBox type;
 	
 	private Supplier supp;
+	private String prevKey;
 
 	public EditSupplier(JFrame parent, Supplier supp) {
 		this.parent = parent;
@@ -79,6 +80,7 @@ public class EditSupplier extends JPanel implements ActionListener {
 		txtSupp.addFocusListener(ErrorListenerFactory.getListener(txtSupp));
 		panContent.add(txtSupp, "cell 2 0,grow");
 		txtSupp.setColumns(10);
+		prevKey = supp.getName();
 
 		JLabel lblAddress = new JLabel("Address:");
 		panContent.add(lblAddress, "cell 0 1,alignx left,growy");
@@ -301,12 +303,13 @@ public class EditSupplier extends JPanel implements ActionListener {
 		} else if (e.getSource() == btnSubmit) {
 			String text=checkInput();System.out.println(text);
 			if (text.equals("")) {
+				
 				Supplier checkSupplier;
 				Supplier supplier = new Supplier(txtSupp.getText(),
-						(String) cmbCountry.getText(),
-						(String) cmbState.getText(), (String) cmbCity.getText());
+						 cmbCountry.getText(),
+						cmbState.getText(), cmbCity.getText());
 				// supplier.setSupplierContactList(contacts);
-
+				
 				checkSupplier = (Supplier) supplierController
 						.getObject(supplier.getName());
 
@@ -317,14 +320,14 @@ public class EditSupplier extends JPanel implements ActionListener {
 								.get(i).getType().toString(), list.get(i).getValue());
 					}
 
-					supplierController.addSupplier(supplier);
-
 					Message msg = new Message(parent, Message.SUCCESS,
 							"Supplier added successfully.");
 				} else {
 					Message msg = new Message(parent, Message.ERROR,
 							"Supplier already exists!");
 				}
+				supplierController.editSupplier(supplier, prevKey);
+				System.out.println("Putaaaa");
 				supplierController.init();
 				//clear();
 			}

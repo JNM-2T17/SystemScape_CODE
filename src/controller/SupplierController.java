@@ -7,6 +7,7 @@ package controller;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+
 import model.Supplier;
 import model.SupplierContact;
 import model.database.DAO;
@@ -41,19 +42,22 @@ public class SupplierController implements SupplierInterface, Subject {
         supplier = new Supplier();
     }
     
-    public void editSupplier(Supplier supp){
+    public void editSupplier(Supplier supp, String key){
+    	
+    	System.out.println("boom punit "+supp.getName());
         supplier.setName(supp.getName());
         supplier.setCountry(supp.getCountry());
         supplier.setState(supp.getState());
         supplier.setCity(supp.getCity());
-        dao.update("Supplier", supplier, supp.getName());
         dao.delete("suppliercontact" ,supp.getName());
+        dao.update("Supplier", supplier, key);
+        
 
         Iterator i = supp.getSupplierContactList();
         while (i.hasNext()) {
             dao.add("SupplierContact", (SupplierContact) i.next());
         }
-
+        System.out.println("SHIT" + SupplierController.getInstance().supplier.getName());
         notifyObserver();
     }
     
@@ -68,6 +72,7 @@ public class SupplierController implements SupplierInterface, Subject {
     @Override
     public void addSupplier(Supplier supp) {
         // TODO Auto-generated method stub
+    	supplier = new Supplier();
         supplier.setName(supp.getName());
         supplier.setCountry(supp.getCountry());
         supplier.setState(supp.getState());
@@ -101,6 +106,10 @@ public class SupplierController implements SupplierInterface, Subject {
     @Override
     public void unregisterObserver(Observer o) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    
+    public Supplier getSupplier() {
+    	return supplier;
     }
 
     @Override
