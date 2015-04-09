@@ -24,6 +24,8 @@ public interface IDBCUD extends IDBGet
 	* @param object new values of object
 	* @param origKey original key of object
 	*/
+	public void incrementQuantityReceived(String key, String itemName);
+	
 	public void update( Object object, String origKey );
 	
 	/**

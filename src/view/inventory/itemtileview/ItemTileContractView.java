@@ -1,33 +1,16 @@
 package view.inventory.itemtileview;
 
-import javafx.util.converter.DateStringConverter;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Alignment;
-import javax.swing.border.LineBorder;
-
-import net.miginfocom.swing.MigLayout;
-
-import javax.swing.JLabel;
-
 import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Font;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 
-import javax.swing.JTextField;
-import javax.swing.JTextArea;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.border.LineBorder;
 
-import com.toedter.calendar.JDateChooser;
-
-import javax.swing.JComboBox;
-
-import view.Message;
+import net.miginfocom.swing.MigLayout;
 import view.inventory.ItemPanelDecorator;
 import view.inventory.ItemPanelParticipant;
 import view.inventory.ItemPanelTemplate;
