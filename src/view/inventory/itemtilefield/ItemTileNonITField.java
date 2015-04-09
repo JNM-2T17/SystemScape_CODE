@@ -66,7 +66,7 @@ public class ItemTileNonITField extends ItemPanelDecorator implements ItemPanelP
 		panNonIT.setBorder(new LineBorder(new Color(30, 144, 255), 3, true));
 		panNonIT.setBackground(Color.WHITE);
 		/* Layout */
-		String typeStrings[] = {"IT Assets","Non-IT Assets","Software","Others"};
+		String typeStrings[] = {"IT Asset","Non-IT Asset","Software","Others"};
 		
 		panNonIT.setLayout(new MigLayout("", "[46.00][38.00][38.00][38.00,grow][38.00,grow][100,grow][100][100][31.00]", "[][][17][][17][][]"));
 		

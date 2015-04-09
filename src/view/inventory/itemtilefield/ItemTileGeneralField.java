@@ -70,7 +70,7 @@ public class ItemTileGeneralField extends ItemPanelDecorator implements ItemPane
 		
 		panGeneral.setLayout(new MigLayout("", "[46.00][38.00][38.00][38.00][38.00,grow][100,grow][100][100][31.00]", "[][][17.00][][9.00][39.00][11.00][grow][17][][]"));
 		
-		String typeStrings[] = {"IT Assets","Non-IT Assets","Software","Others"};
+		String typeStrings[] = {"IT Asset","Non-IT Asset","Software","Others"};
 		
 		/* Labels */
 		lblType = new JLabel("Type:");
