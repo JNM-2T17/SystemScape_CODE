@@ -5,6 +5,7 @@ import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.border.LineBorder;
 
+import model.Employee;
 import net.miginfocom.swing.MigLayout;
 
 import javax.swing.JLabel;
@@ -31,6 +32,8 @@ import view.inventory.ItemPanelTemplate;
 import view.inventory.PanelRegistry;
 
 import com.toedter.calendar.JDateChooser;
+
+import controller.EmployeeController;
 
 public class ItemTileNonITField extends ItemPanelDecorator implements ItemPanelParticipant,TypeItemTileField, ActionListener{
 
@@ -85,12 +88,23 @@ public class ItemTileNonITField extends ItemPanelDecorator implements ItemPanelP
 		panNonIT.add(lblAssignee, "cell 1 5 2 1");
 		
 		cbAssignee = new JComboBox();
-//		cbAssignee.setModel(new DefaultComboBoxModel(new String[] { "Shayane Tan",
-//				"Rissa Quindoza", "Gio Velez" }));	
+		populateCbxEmployee();
 		cbAssignee.setBackground(Color.WHITE);
 		panNonIT.add(cbAssignee, "cell 3 5 5 1,growx");
 		addItemPanelReference.assignToQuad(panNonIT, 1);
 		
+	}
+	
+	public void populateCbxEmployee()
+	{
+		cbAssignee.addItem("None");
+		EmployeeController ec = EmployeeController.getInstance();
+		Iterator<Employee> eList = ec.getAll();
+		while(eList.hasNext())
+		{
+			Employee e = eList.next();
+			cbAssignee.addItem(e.getName());
+		}
 	}
 
 	@Override
