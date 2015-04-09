@@ -341,7 +341,6 @@ public class InventoryItemDAO implements IDBCUD {
                 preparedStatement = con.prepareStatement(query);
                 preparedStatement.setInt(1, id);
                 preparedStatement.setString(2, ((SoftwareItem) inventoryItem).getLicenseKey());
-                System.out.println("License Key in DAO: " + ((SoftwareItem) inventoryItem).getLicenseKey());
                 preparedStatement.execute();
             }
 
@@ -365,7 +364,6 @@ public class InventoryItemDAO implements IDBCUD {
         try {
             int id = Integer.parseInt(origKey);
             InventoryItem previous = (InventoryItem) get(origKey);
-            System.out.println("PANZERKAMPFWAGEN " + previous.getID());
             InventoryItem current = (InventoryItem) object;
             String query = "UPDATE inventoryitem SET itemData = ?, "
                     + "status= ?, classification = ?, invoiceNo=?, location=? WHERE ID = ?;";
@@ -443,7 +441,6 @@ public class InventoryItemDAO implements IDBCUD {
                 preparedStatement = con.prepareStatement(query);
                 preparedStatement.setInt(1, id);
                 preparedStatement.setString(2, ((SoftwareItem) inventoryItem).getLicenseKey());
-                System.out.println("License Key in DAO: " + ((SoftwareItem) inventoryItem).getLicenseKey());
                 preparedStatement.execute();
             }
             

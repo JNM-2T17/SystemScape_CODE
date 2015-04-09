@@ -48,20 +48,12 @@ public class SupplierController implements SupplierInterface, Subject {
         supplier.setCity(supp.getCity());
         dao.update("Supplier", supplier, supp.getName());
         dao.delete("suppliercontact" ,supp.getName());
-        
-        
-       
-//        dao.add("SupplierContact", sc);
-//        Iterator<SupplierContact> i = supplier.getSupplierContactList(); 
-//        System.out.println("SUPPLIER CONTACT "+ sc);
+
         Iterator i = supp.getSupplierContactList();
         while (i.hasNext()) {
             dao.add("SupplierContact", (SupplierContact) i.next());
-//            System.out.println("HI PUMASOK NA: "+i.next().toString());
-            System.out.println("WILL NOTIFY OBSERVER oh yeah");
         }
-        System.out.println("WILL NOTIFY OBSERVER");
-        
+
         notifyObserver();
     }
     
@@ -82,19 +74,13 @@ public class SupplierController implements SupplierInterface, Subject {
         supplier.setCity(supp.getCity());
         dao.add("Supplier", supplier);
         
-        
-       
-//        dao.add("SupplierContact", sc);
-//        Iterator<SupplierContact> i = supplier.getSupplierContactList(); 
-//        System.out.println("SUPPLIER CONTACT "+ sc);
+
         Iterator i = supp.getSupplierContactList();
         while (i.hasNext()) {
             dao.add("SupplierContact", (SupplierContact) i.next());
-//            System.out.println("HI PUMASOK NA: "+i.next().toString());
-            System.out.println("WILL NOTIFY OBSERVER oh yeah");
+
         }
-        System.out.println("WILL NOTIFY OBSERVER");
-        
+
         notifyObserver();
     }
 
@@ -108,10 +94,8 @@ public class SupplierController implements SupplierInterface, Subject {
 
     @Override
     public void registerObserver(Observer o) {
-        System.out.println("may nagregister start");
         o.update();
-        observerList.add(o);
-        System.out.println("may nagregister end");
+        observerList.add(o); 
     }
 
     @Override
@@ -120,11 +104,9 @@ public class SupplierController implements SupplierInterface, Subject {
     }
 
     @Override
-    public void notifyObserver() {
-        System.out.println("NOTIFY BERI HARD" + observerList.size());
+    public void notifyObserver() { 
         for (Observer o : observerList) {
-            o.update();
-            System.out.println("PUMASOK NOTIFY");
+            o.update();  
         }
     }
 

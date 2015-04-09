@@ -36,7 +36,7 @@ public class SupplierDAO implements IDBCUD {
                 ResultSet resultSet2 = preparedStatement2.executeQuery();
 
                 while (resultSet2.next()) {
-                    supplier.addSupplierContact(resultSet2.getString("supplier"), resultSet2.getString("type"), resultSet2.getInt("value"));
+                    supplier.addSupplierContact(resultSet2.getString("supplier"), resultSet2.getString("type"), resultSet2.getString("value"));
                 }
                 suppliers.add(supplier);
             }
@@ -69,7 +69,7 @@ public class SupplierDAO implements IDBCUD {
                 ResultSet resultSet2 = preparedStatement2.executeQuery();
 
                 while (resultSet2.next()) {
-                    supplier.addSupplierContact(resultSet2.getString("supplier"), resultSet2.getString("type"), resultSet2.getInt("value"));
+                    supplier.addSupplierContact(resultSet2.getString("supplier"), resultSet2.getString("type"), resultSet2.getString("value"));
                 }
 
                 try {
@@ -112,7 +112,7 @@ public class SupplierDAO implements IDBCUD {
                 PreparedStatement preparedStatement2 = con.prepareStatement(query2);
                 ResultSet resultSet2 = preparedStatement2.executeQuery();
                 while (resultSet2.next()) {
-                    supplier.addSupplierContact(resultSet2.getString("supplier"), resultSet2.getString("type"), resultSet2.getInt("value"));
+                    supplier.addSupplierContact(resultSet2.getString("supplier"), resultSet2.getString("type"), resultSet2.getString("value"));
                 }
                 suppliers.add(supplier);
             }
@@ -146,7 +146,7 @@ public class SupplierDAO implements IDBCUD {
                 PreparedStatement preparedStatement2 = con.prepareStatement(query2);
                 ResultSet resultSet2 = preparedStatement2.executeQuery();
                 while (resultSet2.next()) {
-                    supplier.addSupplierContact(resultSet2.getString("supplier"), resultSet2.getString("type"), resultSet2.getInt("value"));
+                    supplier.addSupplierContact(resultSet2.getString("supplier"), resultSet2.getString("type"), resultSet2.getString("value"));
                 }
                 suppliers.add(supplier);
             }

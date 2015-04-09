@@ -35,7 +35,6 @@ public class InventoryQuantityDAO implements IDBGet {
 			e.printStackTrace();
 		}
 
-		System.out.println(inventoryItems);
 		return inventoryItems.iterator();
 	}
 

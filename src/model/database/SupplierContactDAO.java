@@ -29,7 +29,7 @@ public class SupplierContactDAO implements IDBCUD {
 
             while (resultSet.next()) {
 
-                SupplierContact supplierContact = new SupplierContact(resultSet.getString("supplier"), resultSet.getString("type"), resultSet.getInt("value"));
+                SupplierContact supplierContact = new SupplierContact(resultSet.getString("supplier"), resultSet.getString("type"), resultSet.getString("value"));
                 supplierContacts.add(supplierContact);
 
             }
@@ -59,7 +59,7 @@ public class SupplierContactDAO implements IDBCUD {
             ResultSet resultSet = preparedStatement.executeQuery();
 
             if (resultSet.next()) {
-                supplierContacts = new SupplierContact(resultSet.getString("supplier"), resultSet.getString("type"), resultSet.getInt("value"));
+                supplierContacts = new SupplierContact(resultSet.getString("supplier"), resultSet.getString("type"), resultSet.getString("value"));
 
                 try {
                     if (con != null) {
@@ -102,7 +102,7 @@ public class SupplierContactDAO implements IDBCUD {
 
             while (resultSet.next()) {
 
-                SupplierContact supplierContact = new SupplierContact(resultSet.getString("supplier"), resultSet.getString("type"), resultSet.getInt("value"));
+                SupplierContact supplierContact = new SupplierContact(resultSet.getString("supplier"), resultSet.getString("type"), resultSet.getString("value"));
                 supplierContacts.add(supplierContact);
 
             }
@@ -129,7 +129,7 @@ public class SupplierContactDAO implements IDBCUD {
             PreparedStatement preparedStatement = con.prepareStatement(query);
             preparedStatement.setString(1, supplierContacts.getSupplier());
             preparedStatement.setString(2, supplierContacts.getType());
-            preparedStatement.setInt(3, supplierContacts.getValue());
+            preparedStatement.setString(3, supplierContacts.getValue());
             preparedStatement.execute();
         } catch (SQLException sqlException) {
             sqlException.printStackTrace();
@@ -155,7 +155,7 @@ public class SupplierContactDAO implements IDBCUD {
             PreparedStatement preparedStatement = con.prepareStatement(query);
             preparedStatement.setString(1, supplierContacts.getSupplier());
             preparedStatement.setString(2, supplierContacts.getType());
-            preparedStatement.setInt(3, supplierContacts.getValue());
+            preparedStatement.setString(3, supplierContacts.getValue());
             preparedStatement.setString(4, key);
             preparedStatement.execute();
         } catch (SQLException sqlException) {

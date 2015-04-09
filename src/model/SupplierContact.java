@@ -13,9 +13,9 @@ public class SupplierContact {
 
 	private String supplier;
 	private String type;
-	private int value;
+	private String value;
 
-	public SupplierContact(String supplier, String type, int value) {
+	public SupplierContact(String supplier, String type, String value) {
 		setSupplier(supplier);
 		setType(type);
 		setValue(value);
@@ -37,11 +37,11 @@ public class SupplierContact {
 		this.type = type;
 	}
 
-	public int getValue() {
+	public String getValue() {
 		return value;
 	}
 
-	public void setValue(int value) {
+	public void setValue(String value) {
 		this.value = value;
 	}
         
