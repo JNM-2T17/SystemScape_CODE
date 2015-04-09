@@ -36,7 +36,7 @@ public class ViewInventoryItemLinkedList {
 	public InventoryItem pNext()
 	{
 		currIndex++;
-		System.out.println(currIndex);
+		System.out.println("Current Index: " + currIndex);
 		if(nodeMap.get(currIndex) != null)
 		{
 			return nodeMap.get(currIndex);
@@ -48,7 +48,7 @@ public class ViewInventoryItemLinkedList {
 	public InventoryItem pPrev()
 	{
 		currIndex--;
-		System.out.println(currIndex);
+		System.out.println("Current Index: " + currIndex);
 		if(nodeMap.get(currIndex) != null || currIndex >= 0)
 		{
 			return nodeMap.get(currIndex);
