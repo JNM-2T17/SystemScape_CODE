@@ -229,6 +229,9 @@ public class EditSupplier extends JPanel implements ActionListener {
 		if (value.equals("")) {
 			this.value.setBorder(BorderFactory.createLineBorder(Color.RED, 1));
 			new Message(parent, Message.ERROR, "Please set contact value.");
+		} else if (contactError(value)) {
+			new Message(parent, Message.ERROR,
+					"Contact value can only be composed of numbers.");
 		} else {
 			JButton close = new Button.ButtonBuilder().img(
 					"src/assets/Round/Delete.png", 30, 30).build();
@@ -269,7 +272,7 @@ public class EditSupplier extends JPanel implements ActionListener {
 		cmbCity.setText("");
 		panClose.removeAll();
 
-		//Contact pan = (Contact) panContact.getComponent(1);
+		Contact pan = (Contact) panContact.getComponent(1);
 		this.repaint();
 		this.revalidate();
 	}
@@ -315,7 +318,7 @@ public class EditSupplier extends JPanel implements ActionListener {
 						System.out.println("RISSA: "+i);
 						supplier.addSupplierContact(txtSupp.getText(), list
 								.get(i).getType().toString(),
-								list.get(i).getValue());
+								Integer.parseInt(list.get(i).getValue()));
 					}
 
 					supplierController.addSupplier(supplier);
