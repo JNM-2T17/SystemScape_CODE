@@ -124,8 +124,8 @@ public class ItemTileITField extends ItemPanelDecorator implements ItemPanelPart
 		panIT.add(tfServiceTag, "cell 5 5 3 1,growx");
 		
 		/* Assignee Combo Boxes */
-		
-		cbAssignee = new JComboBox();
+		String typeAssignees[] = {"none"};
+		cbAssignee = new JComboBox(typeAssignees);
 		cbAssignee.setBackground(Color.white);
 //		cbAssignee.setModel(new DefaultComboBoxModel(new String[] { "Shayane Tan",
 //				"Rissa Quindoza", "Gio Velez" }));
