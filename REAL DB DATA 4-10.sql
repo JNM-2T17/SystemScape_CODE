@@ -64,7 +64,7 @@ CREATE TABLE `contract` (
 
 LOCK TABLES `contract` WRITE;
 /*!40000 ALTER TABLE `contract` DISABLE KEYS */;
-INSERT INTO `contract` VALUES (1,'2015-09-17','2015-04-09',34500);
+INSERT INTO `contract` VALUES (1,'2015-09-17','2015-04-09',34500),(3,'2015-04-10','2015-11-26',345678),(4,'2015-04-10','2015-09-30',67890),(5,'2015-04-10','2015-10-13',56789);
 /*!40000 ALTER TABLE `contract` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -128,7 +128,7 @@ CREATE TABLE `hardwareitem` (
 
 LOCK TABLES `hardwareitem` WRITE;
 /*!40000 ALTER TABLE `hardwareitem` DISABLE KEYS */;
-INSERT INTO `hardwareitem` VALUES (1);
+INSERT INTO `hardwareitem` VALUES (1),(3),(4),(5);
 /*!40000 ALTER TABLE `hardwareitem` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -178,7 +178,7 @@ CREATE TABLE `inventoryitem` (
   PRIMARY KEY (`ID`),
   KEY `inventoryitemfk_1` (`itemData`),
   CONSTRAINT `inventoryitemfk_1` FOREIGN KEY (`itemData`) REFERENCES `itemdata` (`name`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -187,7 +187,7 @@ CREATE TABLE `inventoryitem` (
 
 LOCK TABLES `inventoryitem` WRITE;
 /*!40000 ALTER TABLE `inventoryitem` DISABLE KEYS */;
-INSERT INTO `inventoryitem` VALUES (1,'Latitude D610','Unassigned','Hard','98712','1WS'),(2,'Crystal Report 9 Developer Ed 5 Users FD','Unassigned','Hard','210011453','1WS');
+INSERT INTO `inventoryitem` VALUES (1,'Latitude D610','Unassigned','IT','98712','1WS'),(2,'Crystal Report 9 Developer Ed 5 Users FD','Unassigned','IT','210011453','1WS'),(3,'OptiPlex 745','Assigned','IT','210015772','1WS'),(4,'Latitude D610','Assigned','IT ','2323','1WS'),(5,'OptiPlex 745','Unassigned','IT','210014501','1WS');
 /*!40000 ALTER TABLE `inventoryitem` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -214,7 +214,7 @@ CREATE TABLE `itasset` (
 
 LOCK TABLES `itasset` WRITE;
 /*!40000 ALTER TABLE `itasset` DISABLE KEYS */;
-INSERT INTO `itasset` VALUES (1,900047,'34N1J1S','2015-04-10');
+INSERT INTO `itasset` VALUES (1,900047,'34N1J1S','2015-04-10'),(3,900561,'3HVNQ1s','2015-04-10'),(4,900522,'F4N1J1S','2015-04-10'),(5,900566,'91GHQ1S','2015-04-10');
 /*!40000 ALTER TABLE `itasset` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -267,7 +267,7 @@ CREATE TABLE `itemdata` (
 
 LOCK TABLES `itemdata` WRITE;
 /*!40000 ALTER TABLE `itemdata` DISABLE KEYS */;
-INSERT INTO `itemdata` VALUES ('Adobe Robohelp Office X5','Software',18667),('Adobe Robohelp V6','Software',66000),('Crystal Report 9 Developer Ed 5 Users FD','Software',142242),('Latitude D610','Laptop',11333),('Latitude D612','Laptop',116000);
+INSERT INTO `itemdata` VALUES ('Adobe Robohelp Office X5','Software',18667),('Adobe Robohelp V6','Software',66000),('Crystal Report 9 Developer Ed 5 Users FD','Software',142242),('Latitude D610','Laptop',99500),('Latitude D612','Laptop',116000),('Latitude D620','Laptop',87900),('OptiPlex','Desktop',54509),('OptiPlex 745','Desktop',54509);
 /*!40000 ALTER TABLE `itemdata` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -297,7 +297,7 @@ CREATE TABLE `poitem` (
 
 LOCK TABLES `poitem` WRITE;
 /*!40000 ALTER TABLE `poitem` DISABLE KEYS */;
-INSERT INTO `poitem` VALUES ('Hard',1,'Latitude D610',2,2),('Hard',1,'Latitude D612',3,3),('Soft',2,'Adobe Robohelp Office X5',3,3),('Soft',2,'Adobe Robohelp V6',1,1),('Soft',2,'Crystal Report 9 Developer Ed 5 Users FD',1,1);
+INSERT INTO `poitem` VALUES ('Hard',1,'Latitude D610',2,2),('Hard',1,'Latitude D612',3,3),('Hard',3,'Latitude D610',1,1),('Hard',3,'Latitude D620',1,1),('Hard',4,'OptiPlex 745',1,1),('Soft',2,'Adobe Robohelp Office X5',3,3),('Soft',2,'Adobe Robohelp V6',1,1),('Soft',2,'Crystal Report 9 Developer Ed 5 Users FD',1,1);
 /*!40000 ALTER TABLE `poitem` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -370,7 +370,7 @@ CREATE TABLE `purchaseorder` (
   UNIQUE KEY `invoiceNo` (`invoiceNo`),
   KEY `PurchaseOrderidx_1` (`supplier`),
   CONSTRAINT `PurchaseOrderfk_1` FOREIGN KEY (`supplier`) REFERENCES `supplier` (`name`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -379,7 +379,7 @@ CREATE TABLE `purchaseorder` (
 
 LOCK TABLES `purchaseorder` WRITE;
 /*!40000 ALTER TABLE `purchaseorder` DISABLE KEYS */;
-INSERT INTO `purchaseorder` VALUES ('Hard',1,'2015-04-09','Supplier 2','iv0'),('Soft',2,'2015-04-09','Supplier 3','iv1');
+INSERT INTO `purchaseorder` VALUES ('Hard',1,'2015-04-09','Supplier 2','iv0'),('Hard',3,'2015-04-10','Supplier 2','iv2'),('Hard',4,'2015-04-10','Supplier 4','iv3'),('Soft',2,'2015-04-09','Supplier 3','iv1');
 /*!40000 ALTER TABLE `purchaseorder` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -456,7 +456,7 @@ CREATE TABLE `suppliercontact` (
 
 LOCK TABLES `suppliercontact` WRITE;
 /*!40000 ALTER TABLE `suppliercontact` DISABLE KEYS */;
-INSERT INTO `suppliercontact` VALUES ('Supplier 1','Telephone','7889765'),('Supplier 2','Cellphone','09909878765'),('Supplier 3','Telephone','18008159387'),('Supplier 4','Telephone','861082025838');
+INSERT INTO `suppliercontact` VALUES ('Supplier 1','Telephone','7889765'),('Supplier 2','Cellphone','09909878765'),('Supplier 3','Telephone','18008159387');
 /*!40000 ALTER TABLE `suppliercontact` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -506,7 +506,7 @@ CREATE TABLE `warranty` (
 
 LOCK TABLES `warranty` WRITE;
 /*!40000 ALTER TABLE `warranty` DISABLE KEYS */;
-INSERT INTO `warranty` VALUES (1,'2015-04-09','2015-07-17');
+INSERT INTO `warranty` VALUES (1,'2015-04-09','2015-07-17'),(3,'2015-04-10','2015-11-26'),(4,'2015-04-10','2015-08-19'),(5,'2015-04-10','2015-12-31');
 /*!40000 ALTER TABLE `warranty` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -557,4 +557,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-04-09 23:29:15
+-- Dump completed on 2015-04-10  3:18:08

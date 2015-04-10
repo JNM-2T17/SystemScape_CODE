@@ -139,6 +139,12 @@ public class DAO {
 	 *            primary key
 	 * @return the specific object with key as a primary key
 	 */
+	public void incrementQuantityReceived(String table, String key, String itemName)
+    {
+		if (table.equalsIgnoreCase("purchaseorder"))
+			return data.get(0).incrementQuantityReceived(key,itemName);
+    }
+	
 	public Object get(String table, String key) {
 		if (table.equalsIgnoreCase("purchaseorder"))
 			return data.get(0).get(key);

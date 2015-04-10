@@ -376,14 +376,15 @@ public class InventoryItemDAO implements IDBCUD {
             preparedStatement.setString(5, current.getLocation());
             preparedStatement.setInt(6, previous.getID());
             preparedStatement.execute();
-
-            String type = "";
-            if (previous.getClassification().equalsIgnoreCase("hardware") || previous.getClassification().equalsIgnoreCase("IT")) {
-                type = type + "hardwareitem";
-            } else if (previous.getClassification().equalsIgnoreCase("software")) {
-                type = type + "softwareitem";
-            }
-            query = "DELETE FROM " + type + " WHERE ID = ?;";
+            
+            
+            String type = previous.getClassification();
+            if(type.equalsIgnoreCase("Non-IT")||type.equalsIgnoreCase("IT"))
+                query = "DELETE FROM hardwareitem WHERE ID = ?";
+            else if(type.equalsIgnoreCase("software"))
+                query = "DELETE FROM softwareitem WHERE ID = ?";
+            
+            System.out.println(query + "\n");
             preparedStatement = con.prepareStatement(query);
             preparedStatement.setInt(1, previous.getID());
             preparedStatement.execute();

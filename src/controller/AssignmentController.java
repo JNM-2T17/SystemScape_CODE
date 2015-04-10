@@ -7,6 +7,7 @@ package controller;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import model.Assignment;
 import model.Employee;
 import model.ITAsset;
 import model.Supplier;
@@ -37,9 +38,23 @@ public class AssignmentController implements Subject {
         }
         return instance;
     }
-
-    public Iterator filter(Iterator conditions) {
-        return dao.filter("ITAsset", conditions);
+    
+    public void add(Assignment assignment){
+        dao.add("assignment", assignment);
+        notifyObserver();
+    }
+    
+     public void delete(Assignment assignment){
+        dao.delete("assignment", assignment);
+        notifyObserver();
+    }
+     
+    public void update(Assignment assignment){
+        dao.delete("assignment", assignment);
+        notifyObserver();
+    }
+    public Iterator filter(String key) {
+        return dao.search("assignment", key);
     }
     
     public Iterator getDistinct(String string){

@@ -5,6 +5,7 @@ import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.border.LineBorder;
 
+import model.Employee;
 import net.miginfocom.swing.MigLayout;
 
 import javax.swing.JLabel;
@@ -31,6 +32,8 @@ import view.inventory.ItemPanelTemplate;
 import view.inventory.PanelRegistry;
 
 import com.toedter.calendar.JDateChooser;
+
+import controller.EmployeeController;
 
 public class ItemTileNonITField extends ItemPanelDecorator implements ItemPanelParticipant,TypeItemTileField, ActionListener{
 
@@ -63,7 +66,7 @@ public class ItemTileNonITField extends ItemPanelDecorator implements ItemPanelP
 		panNonIT.setBorder(new LineBorder(new Color(30, 144, 255), 3, true));
 		panNonIT.setBackground(Color.WHITE);
 		/* Layout */
-		String typeStrings[] = {"IT Assets","Non-IT Assets","Software","Others"};
+		String typeStrings[] = {"IT Asset","Non-IT Asset","Software","Others"};
 		
 		panNonIT.setLayout(new MigLayout("", "[46.00][38.00][38.00][38.00,grow][38.00,grow][100,grow][100][100][31.00]", "[][][17][][17][][]"));
 		
@@ -85,12 +88,23 @@ public class ItemTileNonITField extends ItemPanelDecorator implements ItemPanelP
 		panNonIT.add(lblAssignee, "cell 1 5 2 1");
 		
 		cbAssignee = new JComboBox();
-//		cbAssignee.setModel(new DefaultComboBoxModel(new String[] { "Shayane Tan",
-//				"Rissa Quindoza", "Gio Velez" }));	
+		populateCbxEmployee();
 		cbAssignee.setBackground(Color.WHITE);
 		panNonIT.add(cbAssignee, "cell 3 5 5 1,growx");
 		addItemPanelReference.assignToQuad(panNonIT, 1);
 		
+	}
+	
+	public void populateCbxEmployee()
+	{
+		cbAssignee.addItem("None");
+		EmployeeController ec = EmployeeController.getInstance();
+		Iterator<Employee> eList = ec.getAll();
+		while(eList.hasNext())
+		{
+			Employee e = eList.next();
+			cbAssignee.addItem(e.getName());
+		}
 	}
 
 	@Override
@@ -106,9 +120,9 @@ public class ItemTileNonITField extends ItemPanelDecorator implements ItemPanelP
 		// TODO Auto-generated method stub
 		if(e.getSource() == cbType)
 		{
-			if(cbType.getSelectedItem().equals("IT Assets"))
+			if(cbType.getSelectedItem().equals("IT Asset"))
 				InventoryItemDisplayManager.getInstance().overrideContentPanel("IT");
-			else if(cbType.getSelectedItem().equals("Non-IT Assets"))
+			else if(cbType.getSelectedItem().equals("Non-IT Asset"))
 				InventoryItemDisplayManager.getInstance().overrideContentPanel("Non-IT");
 			else if(cbType.getSelectedItem().equals("Software"))
 				InventoryItemDisplayManager.getInstance().overrideContentPanel("Soft");

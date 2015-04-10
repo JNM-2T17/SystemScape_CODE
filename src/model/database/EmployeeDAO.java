@@ -41,9 +41,10 @@ public class EmployeeDAO implements IDBCUD {
 
     public Object get(String key) {
         try {
-            String query = "SELECT * FROM employee WHERE ID = ?";
+            String query = "SELECT * FROM employee WHERE ID = ? OR name = ?";
             PreparedStatement preparedStatement = DBConnection.getConnection().prepareStatement(query);
             preparedStatement.setString(1, key);
+            preparedStatement.setString(2, key);
             ResultSet resultSet = preparedStatement.executeQuery();
 
             if (resultSet.next()) {

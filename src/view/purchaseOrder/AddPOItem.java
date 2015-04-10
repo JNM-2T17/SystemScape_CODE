@@ -2,60 +2,38 @@ package view.purchaseOrder;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
-import java.util.Locale;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
-import javax.swing.JFormattedTextField;
+import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import javax.swing.ScrollPaneConstants;
-import javax.swing.UIManager;
 import javax.swing.border.Border;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.text.AbstractDocument;
-import javax.swing.text.DefaultFormatter;
-import javax.swing.text.NumberFormatter;
 
 import model.ItemData;
 import net.miginfocom.swing.MigLayout;
-
-import javax.swing.JScrollBar;
-
-import view.Button;
-import view.Button.ButtonBuilder;
 import view.ErrorListenerFactory;
+import view.JTextFieldFilter;
 import view.Message;
 import view.PopUp;
-import view.JTextFieldFilter;
-import view.TextFieldError;
 import controller.PurchaseOrderController;
-
-import javax.swing.JComboBox;
-import javax.swing.JCheckBox;
 
 public class AddPOItem extends PopUp implements ActionListener, FocusListener {
 	private JPanel panHeader, panCenter, panClose, panContent, panFooter,
-			panWest, panEast, panSubmit;
+	panWest, panEast, panSubmit;
 	private JLabel lblItem, lblAmount, lblAmountValue, lblQuantity,
-			lblDescription, lblPrice;
+	lblDescription, lblPrice;
 	private JTextArea txtDescription;
 	private JTextField txtQuantity, txtPrice, txtItem;
 	private JButton btnSubmit;
@@ -190,23 +168,22 @@ public class AddPOItem extends PopUp implements ActionListener, FocusListener {
 			this.setVisible(false); // you can't see me! - LOL
 			this.dispose();
 		} else if (e.getSource() == btnSubmit) {
-                        
+
 			String error = checkFields();
 			if (error.equals("") == true) {
-                            if(!poController.checkItemExists(txtItem.getText())){
-				String item = txtItem.getText();
-				String description = txtDescription.getText();
-				int quantity = parseStringInt(txtQuantity.getText());
-				float price = (float) parseStringFloat(txtPrice.getText());
+				if(!poController.checkItemExists(txtItem.getText())){
+					String item = txtItem.getText();
+					String description = txtDescription.getText();
+					int quantity = parseStringInt(txtQuantity.getText());
+					float price = (float) parseStringFloat(txtPrice.getText());
 
-				poController.addItem(new ItemData(item, description, price),
-						quantity);
-                                this.setVisible(false); // you can't see me!
-				this.dispose();
-                            }else{
-                                Message msg = new Message(parent, Message.ERROR, "Item already exists!");
-                            }
-				
+					poController.addItem(new ItemData(item, description, price),quantity);
+					this.setVisible(false); // you can't see me!
+					this.dispose();
+				}else{
+					Message msg = new Message(parent, Message.ERROR, "Item already exists!");
+				}
+
 
 			} else if (error.equals("") == false) {
 				Message msg = new Message(parent, Message.ERROR, error);

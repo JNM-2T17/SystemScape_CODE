@@ -9,6 +9,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.util.Date;
+import java.util.Iterator;
 
 import javax.swing.BorderFactory;
 import javax.swing.DefaultComboBoxModel;
@@ -27,9 +28,11 @@ import view.Message;
 import view.PopUp;
 
 import com.toedter.calendar.JDateChooser;
-import controller.InventoryItemController;
 
+import controller.EmployeeController;
+import controller.InventoryItemController;
 import controller.PurchaseOrderController;
+import model.Employee;
 import model.InventoryItem;
 import model.SoftwareItem;
 
@@ -109,8 +112,6 @@ public class EditPOItemSoft extends PopUp implements ActionListener, FocusListen
         dateChooserDelivery.setFont(new Font("Arial", Font.PLAIN, 18));
         panContent.add(dateChooserDelivery, "cell 1 2,growx");
 
-        String[] types = {"IT Asset", "Non-IT Asset"};
-
         lblLocation = new JLabel("Location :");
         lblLocation.setFont(new Font("Arial", Font.PLAIN, 18));
         panContent.add(lblLocation, "cell 0 3,alignx left");
@@ -156,8 +157,8 @@ public class EditPOItemSoft extends PopUp implements ActionListener, FocusListen
         lblAssiginee = new JLabel("Assginee :");
         lblAssiginee.setFont(new Font("Arial", Font.PLAIN, 18));
         panContent.add(lblAssiginee, "cell 0 6,alignx left");
-        cmbAssignee = new JComboBox(types);
-        cmbAssignee.setModel(new DefaultComboBoxModel(new String[]{"none"}));
+        cmbAssignee = new JComboBox();
+        populateCmbEmployee();
         cmbAssignee.setFont(new Font("Arial", Font.PLAIN, 18));
         cmbAssignee.setPreferredSize(new Dimension(185, 32));
         cmbAssignee.setBackground(Color.WHITE);
@@ -180,6 +181,18 @@ public class EditPOItemSoft extends PopUp implements ActionListener, FocusListen
         this.setVisible(true);
     }
 
+    public void populateCmbEmployee()
+   	{
+   		cmbAssignee.addItem("None");
+   		EmployeeController ec = EmployeeController.getInstance();
+   		Iterator<Employee> eList = ec.getAll();
+   		while(eList.hasNext())
+   		{
+   			Employee e = eList.next();
+   			cmbAssignee.addItem(e.getName());
+   		}
+   	}
+       
     public String checkFields() {
         String error = "";
         Border border = BorderFactory.createLineBorder(Color.RED, 2);

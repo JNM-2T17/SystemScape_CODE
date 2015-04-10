@@ -249,7 +249,7 @@ public class AddPO extends JPanel implements ActionListener, Observer {
 
 			public boolean isCellSelectable(int rowIndex, int mColIndex) {
 				if (mColIndex == 5) {
-					System.out.println("CHECKBOX");
+					//System.out.println("CHECKBOX");
 					return true;
 				}
 				return false;
@@ -259,12 +259,14 @@ public class AddPO extends JPanel implements ActionListener, Observer {
 		scrollPane.setViewportView(table);
 		table.setCellSelectionEnabled(false);
 		table.getTableHeader().setReorderingAllowed(false);
+		//table.setAutoResizeMode(JTable.);
 		table.setRowHeight(55);
 		initializeModel();
 		
 		supplierController.registerObserver(this);// dev
 		poController.registerObserver(this);
-
+		
+		clear();
 	}
 	
 	/** initialize the table model **/
@@ -275,15 +277,15 @@ public class AddPO extends JPanel implements ActionListener, Observer {
 
 		String headers[] = { "Item", "Description", "Quantity", "Unit Price","Amount" };
 		model.setColumnIdentifiers(headers);
-		table.getColumnModel().getColumn(0).setPreferredWidth(100);
-		table.getColumnModel().getColumn(1).setPreferredWidth(100);
-		table.getColumnModel().getColumn(2).setPreferredWidth(100);
+		table.getColumnModel().getColumn(0).setPreferredWidth(150);
+		table.getColumnModel().getColumn(1).setPreferredWidth(150);
+		table.getColumnModel().getColumn(2).setPreferredWidth(40);
 		table.getColumnModel().getColumn(2).setCellRenderer(rightRenderer);
 
-		table.getColumnModel().getColumn(3).setPreferredWidth(100);
+		table.getColumnModel().getColumn(3).setPreferredWidth(90);
 		table.getColumnModel().getColumn(3).setCellRenderer(rightRenderer);
 
-		table.getColumnModel().getColumn(4).setPreferredWidth(100);
+		table.getColumnModel().getColumn(4).setPreferredWidth(90);
 		table.getColumnModel().getColumn(4).setCellRenderer(rightRenderer);
 	}
 
@@ -292,8 +294,7 @@ public class AddPO extends JPanel implements ActionListener, Observer {
 		// TODO Auto-generated method stub
 
 		if (event.getSource() == btnAddItem) {
-			AddPOItem i = new AddPOItem(parent,
-					(String) cmbClass.getSelectedItem(), poController);
+			AddPOItem i = new AddPOItem(parent,(String) cmbClass.getSelectedItem(), poController);
 		} else if (event.getSource() == btnSubmit) {
 
 			if(table.getRowCount() == 0)
@@ -306,14 +307,12 @@ public class AddPO extends JPanel implements ActionListener, Observer {
 				poController.addPurchaseOrder(new PurchaseOrder(selectedDate, 0,
 								cmbClass.getSelectedItem().toString(),supplier, ""));// dev
 				Message msg = new Message(parent, Message.SUCCESS,"Purchase Order added successfully.");
+				clear();
 			} else {
 				JOptionPane.showMessageDialog(null, "No date");
 
 			}
-
-			clear();
 		}
-
 	}
 
 	public void clear() {
@@ -323,8 +322,8 @@ public class AddPO extends JPanel implements ActionListener, Observer {
 		dateChooser.setDate(new Date());
 		clearTable();
 		poController.init();
-
 	}
+	
 	public void clearTable()
 	{
 		for (int i = 0; i < table.getModel().getRowCount(); i++) {
@@ -333,7 +332,6 @@ public class AddPO extends JPanel implements ActionListener, Observer {
 			}
 		}
 
-		//poTableModel.setRowCount(0);
 		model.setRowCount(0);
 	}
 	public boolean checkFields() {

@@ -32,6 +32,11 @@ public class PurchaseOrderController implements Subject, PurchaseOrderInterface,
         po = new PurchaseOrder();
         observerList = new ArrayList();
     }
+    
+    public void incrementQuantityReceived(String key, String itemName)
+    {
+		dao.incrementQuantityReceived(/***parameters here****/);
+    }
 
     public void init() {
         po = new PurchaseOrder();
