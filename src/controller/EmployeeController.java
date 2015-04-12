@@ -13,6 +13,7 @@ import model.Project;
 import model.Supplier;
 import model.SupplierContact;
 import model.database.DAO;
+import model.database.EmployeeDAO;
 import view.Observer;
 import view.Subject;
 
@@ -26,11 +27,13 @@ public class EmployeeController implements Subject {
     private DAO dao;
     private Employee employee;
     private ArrayList<Observer> observerList;
+    private EmployeeDAO employeeDAO;
 
     public EmployeeController() {
         dao = DAO.getInstance();
         observerList = new ArrayList();
         employee = new Employee();
+        employeeDAO = new EmployeeDAO();
     }
     
     public static EmployeeController getInstance() {
@@ -91,6 +94,10 @@ public class EmployeeController implements Subject {
         for (Observer o : observerList) {
             o.update();
         }
+    }
+    
+    public int getEmployeeID(){
+    	return employeeDAO.getID();
     }
 
 }

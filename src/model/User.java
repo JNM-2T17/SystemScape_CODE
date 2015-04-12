@@ -16,11 +16,19 @@ public class User {
 	boolean isManager;
 	
 	public User(String username, String password, boolean isManager) {
-		this.username = username;
-		this.password = password;
-		this.isManager = isManager;
+		setUsername(username);
+		setPassword(password);
+		setIsManager(isManager);
 
 	}
+	
+	public User() {
+		setUsername("");
+		setPassword("");
+		setIsManager(false);
+
+	}
+
 
 	public String getUsername() {
 		return username;
@@ -32,5 +40,18 @@ public class User {
 
 	public boolean isManager(){
 		return isManager;
+	}
+	
+	public void setUsername(String username) {
+		this.username = username;
+		
+	}
+	
+	public void setPassword(String password) {
+		this.password = password;
+	}
+	
+	public void setIsManager(boolean isManager) {
+		this.isManager = isManager;
 	}
 }

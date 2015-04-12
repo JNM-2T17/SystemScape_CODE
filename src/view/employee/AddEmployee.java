@@ -19,10 +19,14 @@ import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
+import model.Employee;
+import model.User;
 import net.miginfocom.swing.MigLayout;
 
 import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 
+import controller.EmployeeController;
+import controller.UserController;
 import view.ErrorListenerFactory;
 import view.Message;
 
@@ -37,6 +41,8 @@ public class AddEmployee extends JPanel implements ActionListener {
 	private JPanel panDetails;
 	
 	private JFrame parent;
+	private EmployeeController employeeController;
+	private UserController userController;
 
 	public AddEmployee(JFrame parent) {
 		this.setBackground(Color.WHITE);
@@ -135,6 +141,8 @@ public class AddEmployee extends JPanel implements ActionListener {
 		btnSubmit.addActionListener(this);
 		
 		panDetails.setVisible(false);
+		employeeController = EmployeeController.getInstance();
+		userController = UserController.getInstance();
 	}
 	
 	public void toggle(boolean stat){
@@ -153,6 +161,12 @@ public class AddEmployee extends JPanel implements ActionListener {
 				txtUsername.setBorder(BorderFactory.createLineBorder(Color.RED, 1));
 				text+="Please specify technician username.\n";
 			}
+			else if(!txtUsername.getText().equals("")){
+				boolean exists = userController.checkExistingUser(txtUsername.getText());
+				if(exists == true){
+					text+="Username already exists.\n";
+				}
+			}
 			if(txtPassword.getPassword().length==0){
 				txtPassword.setBorder(BorderFactory.createLineBorder(Color.RED, 1));
 				text+="Please specify technician password.\n";
@@ -162,7 +176,7 @@ public class AddEmployee extends JPanel implements ActionListener {
 				text+="Passwords do not match.\n";
 			}
 		}
-		return text;
+		return text; 
 	}
 	
 	@Override
@@ -172,11 +186,25 @@ public class AddEmployee extends JPanel implements ActionListener {
 			String text=checkInput();
 			if(text.equals("")){
 				
+				Employee employee = new Employee(employeeController.getInstance().getEmployeeID()+1, txtName.getText(), (String)cmbStatus.getSelectedItem());;
+				employeeController.addEmployee(employee);
+				String pass = String.valueOf(txtPassword.getPassword());
+				if(rdTechnician.isSelected() == true){
+					User user = new User(txtUsername.getText(), pass, false);
+					userController.addUser(user);
+					
+				}
+				
+				Message msg = new Message(parent, Message.SUCCESS,
+						"Employee added successfully.");
+
 			}
 			else{
-				new Message(parent, Message.ERROR,
+				Message msg = new Message(parent, Message.ERROR,
 						text);
 			}
+			
+			employeeController.init();
 		}
 		else if(e.getSource()==rdEmployee){
 			if(rdEmployee.isSelected()) 
@@ -185,7 +213,10 @@ public class AddEmployee extends JPanel implements ActionListener {
 			
 		}
 		else if(e.getSource()==rdTechnician){
-			if(rdTechnician.isSelected()) toggle(true);
+			if(rdTechnician.isSelected()){
+				toggle(true);
+				
+			}
 		}
 	}
 }

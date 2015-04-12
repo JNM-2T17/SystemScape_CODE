@@ -51,6 +51,23 @@ public class EmployeeDAO implements IDBCUD {
         }
         return employees.iterator();
     }
+    
+    public int getID(){
+    	int id = 0;
+    	try {
+            String query = "SELECT MAX(id) FROM employee";
+            PreparedStatement preparedStatement = DBConnection.getConnection().prepareStatement(query);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                id = resultSet.getInt("MAX(id)");
+                
+            }
+        } catch (SQLException sqlException) {
+            sqlException.printStackTrace();
+        
+        }
+        return id;
+    }
 
     public Object get(String key) {
     	Date startDate, endDate;
@@ -151,7 +168,7 @@ public class EmployeeDAO implements IDBCUD {
         Employee employee = (Employee) object;
         try {
 
-            String query = "INSERT INTO employee VALUES(?,?);";
+            String query = "INSERT INTO employee VALUES(?,?,?);";
             Connection connection = DBConnection.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(query);
             preparedStatement.setInt(1, employee.getID());

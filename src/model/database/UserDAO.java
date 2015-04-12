@@ -6,6 +6,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Iterator;
+
+import model.Employee;
 import model.User;
 
 /**
@@ -33,6 +35,32 @@ public class UserDAO implements IDBGet {
                 } else {
                     user = new User(resultSet.getString("username"), resultSet.getString("password"), false);
                 }
+                users.add(user);
+            }
+        } catch (SQLException sqlException) {
+            sqlException.printStackTrace();
+        }
+
+        try {
+            DBConnection.getConnection().close();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+
+        return users.iterator();
+    }
+    
+    public Iterator getUsers() {
+        ArrayList<User> users = new ArrayList();
+        User user;
+
+        try {
+            String query = "SELECT * FROM user";
+            PreparedStatement preparedStatement = DBConnection.getConnection().prepareStatement(query);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                user = new User(resultSet.getString("username"), resultSet.getString("password"), false);
                 users.add(user);
             }
         } catch (SQLException sqlException) {
@@ -115,6 +143,24 @@ public class UserDAO implements IDBGet {
             sqlException.printStackTrace();
         }
         return users.iterator();
+
+    }
+    
+    public void add(Object object) {
+
+        User user = (User) object;
+        try {
+
+            String query = "INSERT INTO user VALUES(?,?);";
+            Connection connection = DBConnection.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setString(1, user.getUsername());
+            preparedStatement.setString(2, user.getPassword());
+           
+            preparedStatement.execute();
+        } catch (SQLException sqlException) {
+            sqlException.printStackTrace();
+        }
 
     }
 
