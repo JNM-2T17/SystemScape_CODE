@@ -97,19 +97,19 @@ public class InventoryItemDisplayManager {
 	public JPanel buildContentEdit(InventoryItem ii, String type) {
 		// TODO Auto-generated method stub
 			System.out.println("PassEDIT");
-			if(ii.getClassification().equals("IT"))
+			if(ii.getClassification().equalsIgnoreCase("IT"))
 			{
 				return displayITField(ii);
 			}
-			else if(ii.getClassification().equals("Non-IT"))
+			else if(ii.getClassification().equalsIgnoreCase("Non-IT"))
 			{
 				return displayNonITField(ii);
 			}
-			else if(ii.getClassification().contains("Soft"))
+			else if(ii.getClassification().equalsIgnoreCase("Soft"))
 			{
 				return displaySoftwareField(ii);
 			}
-			else if(ii.getClassification().equals("Others"))
+			else if(ii.getClassification().equalsIgnoreCase("Others"))
 			{
 				return displayGeneralField(ii);
 			}
@@ -122,19 +122,19 @@ public class InventoryItemDisplayManager {
 	public JPanel buildContentView(InventoryItem ii, String type)
 	{
 			System.out.println("PassVIEW");
-			if(ii.getClassification().equals("IT"))
+			if(ii.getClassification().equalsIgnoreCase("IT"))
 			{
 				return displayITView(ii);
 			}
-			else if(ii.getClassification().equals("Non-IT"))
+			else if(ii.getClassification().equalsIgnoreCase("Non-IT"))
 			{
 				return displayNonITView(ii);
 			}
-			else if(ii.getClassification().equals("Soft"))
+			else if(ii.getClassification().equalsIgnoreCase("Soft"))
 			{
 				return displaySoftwareView(ii);
 			}
-			else if(ii.getClassification().equals("Others"))
+			else if(ii.getClassification().equalsIgnoreCase("Others"))
 			{
 				return displayGeneralView(ii);
 			}
@@ -144,19 +144,19 @@ public class InventoryItemDisplayManager {
 	public JPanel buildContentAdd(String type) {
 		// TODO Auto-generated method stub
 		System.out.println("Mode IN ADD");
-		if(type.equals("IT"))
+		if(type.equalsIgnoreCase("IT"))
 		{
 			return displayITField();
 		}
-		else if(type.equals("Non-IT"))
+		else if(type.equalsIgnoreCase("Non-IT"))
 		{
 			return displayNonITField();
 		}
-		else if(type.equals("Soft"))
+		else if(type.equalsIgnoreCase("Soft"))
 		{
 			return displaySoftwareField();
 		}
-		else if(type.equals("Others"))
+		else if(type.equalsIgnoreCase("Others"))
 		{
 			System.out.println("buildContentAdd Others BUILD");
 			return displayGeneralField();
@@ -559,6 +559,7 @@ public class InventoryItemDisplayManager {
 	{
 		System.out.println("TYPE IN OVERRIDE: " + type);
 		tab.setAdd(type);
+                panelRegistry.setCurrentType(type);
 	}
 	
 	public void setEditToCurrentSet(InventoryItem ii) {

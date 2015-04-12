@@ -45,7 +45,7 @@ public class ItemTileSoftwareField extends ItemPanelDecorator implements ItemPan
 	private JLabel lblLicenseKey;
 	private JLabel lblDeliveryDate;
 	private JLabel lblAssignee;
-	
+	asdsa
 	private JComboBox cbType;
 	private JComboBox cbAssignee;
 	
@@ -85,8 +85,8 @@ public class ItemTileSoftwareField extends ItemPanelDecorator implements ItemPan
 		lblLicenseKey = new JLabel("License Key:");
 		panSoftware.add(lblLicenseKey, "cell 2 3 3 1,alignx right");
 		
-		lblDeliveryDate = new JLabel("Delivery Date:");
-		panSoftware.add(lblDeliveryDate, "flowx,cell 1 5 4 1,alignx right");
+		//lblDeliveryDate = new JLabel("Delivery Date:");
+		//panSoftware.add(lblDeliveryDate, "flowx,cell 1 5 4 1,alignx right");
 		
 		lblAssignee = new JLabel("Assignee:");
 		panSoftware.add(lblAssignee, "flowx,cell 1 7 3 1");

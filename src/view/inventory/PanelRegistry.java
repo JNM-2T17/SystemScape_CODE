@@ -162,17 +162,11 @@ public class PanelRegistry implements PanelRegistration {
 	{       	
 		InventoryItem inventoryItem = null;
 		float unitPrice = Float.parseFloat(generalInfo.get(2).toString());
-		System.out.println(typeInfo.get(0).toString());
-		Date deliveryDate = null;
-                String string = "January 2, 2010";
-                DateFormat format = new SimpleDateFormat("MMMM d, yyyy", Locale.ENGLISH);
+		System.out.println(typeInfo.get(0).getClass() + "\n");
                 int assigneeNo = 0;
-                try{
-                    deliveryDate = format.parse(typeInfo.get(0).toString());
-                }catch(Exception e){
-                    
-                }
-		
+		int ID = InventoryItemController.getInstance().getID();
+                ID++;
+                System.out.println(ID + "company");
 		if (type.equalsIgnoreCase("IT")) {
 
 			int assetTag = Integer.parseInt(typeInfo.get(2).toString());
@@ -190,6 +184,7 @@ public class PanelRegistry implements PanelRegistration {
 			}
 
 			ITAsset itAsset = new ITAsset.ITAssetBuilder()
+                                        .addID(ID)
 					.addName(generalInfo.get(0).toString())
 					.addDescription(generalInfo.get(1).toString())
 					.addUnitPrice(unitPrice)
@@ -199,7 +194,7 @@ public class PanelRegistry implements PanelRegistration {
 					.addClassification("IT")
 					.addAssetTag(assetTag)
 					.addServiceTag(typeInfo.get(3).toString())
-					.addDeliveryDate(deliveryDate)
+					.addDeliveryDate((Date)typeInfo.get(0))
 					.addContract(
 							new Contract(0, (Date) contractInfo.get(1),
 									(Date) contractInfo.get(2),
@@ -211,8 +206,9 @@ public class PanelRegistry implements PanelRegistration {
 			inventoryItem = itAsset;
 
 		} else if (type.equalsIgnoreCase("Non-IT")) {
-
+                       
 			NonITAsset nonItAsset = new NonITAsset.NonITAssetBuilder()
+                                        .addID(ID)
 					.addName(generalInfo.get(0).toString())
 					.addDescription(generalInfo.get(1).toString())
 					.addUnitPrice(unitPrice)
@@ -224,8 +220,9 @@ public class PanelRegistry implements PanelRegistration {
 			inventoryItem = nonItAsset;
 			
 		} else if (type.equalsIgnoreCase("Soft")) {
-
+                        
 			SoftwareItem software = new SoftwareItem.SoftwareBuilder()
+                                        .addID(ID)
 					.addName(generalInfo.get(0).toString())
 					.addDescription(generalInfo.get(1).toString())
 					.addUnitPrice(unitPrice)
@@ -233,12 +230,14 @@ public class PanelRegistry implements PanelRegistration {
 					.addLocation(generalInfo.get(4).toString())
 					.addStatus(generalInfo.get(5).toString())
 					.addClassification("Soft")
-					.addLicenseKey(typeInfo.get(2).toString()).build();
+					.addLicenseKey(typeInfo.get(1).toString()).build();
 			
 			inventoryItem = software;
 			
 		} else if (type.equalsIgnoreCase("Others")) {
+                        assigneeNo = 1;
 			InventoryItem general = new InventoryItem.InventoryItemBuilder()
+                                        .addID(ID)
 					.addName(generalInfo.get(0).toString())
 					.addDescription(generalInfo.get(1).toString())
 					.addUnitPrice(unitPrice)
@@ -257,12 +256,13 @@ public class PanelRegistry implements PanelRegistration {
 		System.out.println(inventoryItem.getLocation());
 		System.out.println(inventoryItem.getInvoiceNo());
 		
-		System.out.println(generalInfo.get(6).toString());
 		if(isAdd){
                     InventoryItemController.getInstance().addInventoryItem(inventoryItem);
                     Employee employee = (Employee)employeeController.getObject(typeInfo.get(assigneeNo).toString());
+                    
                     if(!typeInfo.get(assigneeNo).toString().equals("None")){
-                        Assignment assignment = (Assignment)assignmentController.getObject(generalInfo.get(6).toString() + " " + employee.getID());
+                        System.out.println(employee.getName() + " Karen\n");
+                        Assignment assignment = new Assignment(inventoryItem.getID(), employee);
                         assignmentController.add(assignment);
                     }
                 }
@@ -310,19 +310,20 @@ public class PanelRegistry implements PanelRegistration {
 
 	public void setCurrentType(String type) {
 		System.out.println("Passed setCurrentType");
-		if (type.equalsIgnoreCase("IT Assets")) {
+		if (type.equalsIgnoreCase("IT")) {
 			this.type = "IT";
 			//displayManager.displayITField();
-		} else if (type.equalsIgnoreCase("Non-IT Assets")) {
+		} else if (type.equalsIgnoreCase("Non-IT")) {
 			this.type = "Non-IT";
 			//displayManager.displayNonITField();
-		} else if (type.equalsIgnoreCase("Software")) {
+		} else if (type.equalsIgnoreCase("Soft")) {
 			this.type = "Soft";
 			//displayManager.displaySoftwareField();
 		} else if (type.equalsIgnoreCase("Others")) {
 			this.type = "Others";
 			//displayManager.displayGeneralField();
 		}
+                System.out.println(this.type + " tips\n");
 	}
 	
 	/**

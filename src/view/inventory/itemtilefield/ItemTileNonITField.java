@@ -34,8 +34,10 @@ import view.inventory.PanelRegistry;
 import com.toedter.calendar.JDateChooser;
 
 import controller.EmployeeController;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 
-public class ItemTileNonITField extends ItemPanelDecorator implements ItemPanelParticipant,TypeItemTileField, ActionListener{
+public class ItemTileNonITField extends ItemPanelDecorator implements ItemPanelParticipant,TypeItemTileField, ItemListener{
 
 	private JPanel panNonIT;
 	private JLabel lblType;
@@ -79,11 +81,11 @@ public class ItemTileNonITField extends ItemPanelDecorator implements ItemPanelP
 		/* Type Combo Box */
 		
 		cbType = new JComboBox(typeStrings);
-		cbType.setSelectedItem("Non-IT Assets");
+		cbType.setSelectedItem("Non-IT Asset");
 		cbType.setBackground(Color.white);
-		cbType.addActionListener(this);
+		cbType.addItemListener(this);
 		panNonIT.add(cbType, "cell 3 1 5 1,growx");
-		
+                
 		lblAssignee = new JLabel("Assignee: ");
 		panNonIT.add(lblAssignee, "cell 1 5 2 1");
 		
@@ -92,6 +94,8 @@ public class ItemTileNonITField extends ItemPanelDecorator implements ItemPanelP
 		cbAssignee.setBackground(Color.WHITE);
 		panNonIT.add(cbAssignee, "cell 3 5 5 1,growx");
 		addItemPanelReference.assignToQuad(panNonIT, 1);
+                
+                
 		
 	}
 	
@@ -116,7 +120,7 @@ public class ItemTileNonITField extends ItemPanelDecorator implements ItemPanelP
 	}
 
 	@Override
-	public void actionPerformed(ActionEvent e) {
+	public void itemStateChanged(ItemEvent e) {
 		// TODO Auto-generated method stub
 		if(e.getSource() == cbType)
 		{

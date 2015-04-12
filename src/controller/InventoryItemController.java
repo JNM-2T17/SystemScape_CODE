@@ -10,6 +10,7 @@ import java.util.Iterator;
 import model.InventoryItem;
 import model.ItemData;
 import model.database.DAO;
+import model.database.InventoryItemDAO;
 import view.Observer;
 import view.Subject;
 
@@ -23,11 +24,13 @@ public class InventoryItemController implements InventoryItemInterface, Subject 
     private DAO dao;
     private ArrayList<Observer> observerList;
     private InventoryItem inventoryItem;
+    private InventoryItemDAO inventoryItemDAO;
     //InventoryItemView view;
 
     public InventoryItemController() {
         dao = DAO.getInstance();
         observerList = new ArrayList();
+        inventoryItemDAO = new InventoryItemDAO();
     }
     
     public static InventoryItemController getInstance() {
@@ -89,4 +92,8 @@ public class InventoryItemController implements InventoryItemInterface, Subject 
 	public Iterator getAllQuantity() {
 		return dao.get("InventoryItemQuantity");
 	}
+    
+    public int getID(){
+        return inventoryItemDAO.getID();
+    }
 }

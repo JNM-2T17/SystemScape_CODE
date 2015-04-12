@@ -357,7 +357,24 @@ public class InventoryItemDAO implements IDBCUD {
         }
 
     }
-
+    
+    public int getID(){
+    	int id = 0;
+    	try {
+            String query = "SELECT MAX(ID) FROM inventoryitem";
+            PreparedStatement preparedStatement = DBConnection.getConnection().prepareStatement(query);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                id = resultSet.getInt("MAX(id)");
+                
+            }
+        } catch (SQLException sqlException) {
+            sqlException.printStackTrace();
+        
+        }
+        return id;
+    }
+    
     public void update(Object object, String origKey) {
         InventoryItem inventoryItem = (InventoryItem) object;
         Connection con = DBConnection.getConnection();
