@@ -32,6 +32,11 @@ public class PurchaseOrderController implements Subject, PurchaseOrderInterface,
         po = new PurchaseOrder();
         observerList = new ArrayList();
     }
+    
+//    public void incrementQuantityReceived(String key, String itemName)
+//    {
+//		dao.incrementQuantityReceived(/***parameters here****/);
+//    }
 
     public void init() {
         po = new PurchaseOrder();
@@ -85,9 +90,9 @@ public class PurchaseOrderController implements Subject, PurchaseOrderInterface,
     }
 
     @Override
-    public void addItem(ItemData item, int qty, int qtyRcvd) {
+    public void addItem(ItemData item, int qty) {
         // TODO Auto-generated method stub
-        po.addItem(item.getName(), item.getDescription(), item.getUnitPrice(), qty, qtyRcvd);
+        po.addItem(item.getName(), item.getDescription(), item.getUnitPrice(), qty);
         //editPurchaseOrder(po);
         notifyObserver();
     }
@@ -96,7 +101,7 @@ public class PurchaseOrderController implements Subject, PurchaseOrderInterface,
     public void editItem(ItemData item, int qty, ItemData key) {
         // TODO Auto-generated method stub
         po.deleteItem(key);
-        po.addItem(item.getName(), item.getDescription(), item.getUnitPrice(), qty, po.getQuantityRcvd(item));
+        po.addItem(item.getName(), item.getDescription(), item.getUnitPrice(), qty);
         notifyObserver();
     }
 
@@ -134,10 +139,6 @@ public class PurchaseOrderController implements Subject, PurchaseOrderInterface,
             }
         }
         return false;
-    }
-    
-    public void incQtyRcvd(ItemData itemData){
-        po.incQtyRcvd(itemData);
     }
 
     @Override
