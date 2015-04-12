@@ -34,7 +34,7 @@ public class AssignmentDAO implements IDBCUD {
             while (resultSet.next()) {
 
             	Assignment assignment = new Assignment(resultSet.getInt("itemID"), 
-						new Employee( resultSet.getInt("employeeID"), resultSet.getString("name") ) );
+						new Employee( resultSet.getInt("employeeID"), resultSet.getString("name"), resultSet.getString("status") ) );
                 assignments.add(assignment);
 
             }
@@ -57,7 +57,7 @@ public class AssignmentDAO implements IDBCUD {
 
             if (resultSet.next()) {
                 return new Assignment(resultSet.getInt("itemID"), 
-						new Employee( resultSet.getInt("employeeID"), resultSet.getString("name") ) );
+						new Employee( resultSet.getInt("employeeID"), resultSet.getString("name"), resultSet.getString("status") ) );
             }
 
         } catch (SQLException sqlException) {
@@ -81,7 +81,7 @@ public class AssignmentDAO implements IDBCUD {
 
             while (resultSet.next()) {
                 
-                Assignment assignment = new Assignment(resultSet.getInt("itemID"), new Employee( resultSet.getInt("employeeID"), resultSet.getString("name") ) );
+                Assignment assignment = new Assignment(resultSet.getInt("itemID"), new Employee( resultSet.getInt("employeeID"), resultSet.getString("name"), resultSet.getString("status") ) );
                 assignments.add(assignment);
             }
         } catch (SQLException sqlException) {
