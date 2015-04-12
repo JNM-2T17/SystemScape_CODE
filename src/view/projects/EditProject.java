@@ -47,11 +47,30 @@ public class EditProject extends JPanel implements ActionListener {
 		add(panMain, BorderLayout.CENTER);
 		panMain.setLayout(new BorderLayout(0, 0));
 
-		JPanel panContent = new JPanel();
+		JPanel panContent = new JPanel() {
+			public boolean isOptimizedDrawingEnabled() {
+				return false;
+			}
+		};
 		panMain.add(panContent, BorderLayout.CENTER);
 		panContent.setBackground(Color.WHITE);
 		SpringLayout sl_panContent = new SpringLayout();
 		panContent.setLayout(sl_panContent);
+
+		dateStart = new JDateChooser(project.getStartDate());
+		dateStart.getCalendarButton().addActionListener(this);
+		sl_panContent.putConstraint(SpringLayout.EAST, dateStart, -464,
+				SpringLayout.EAST, panContent);
+		dateStart.setBackground(Color.WHITE);
+
+		panContent.add(dateStart);
+
+		dateEnd = new JDateChooser(project.getEndDate());
+		dateEnd.getCalendarButton().addActionListener(this);
+		sl_panContent.putConstraint(SpringLayout.EAST, dateEnd, -464,
+				SpringLayout.EAST, panContent);
+		dateEnd.setBackground(Color.WHITE);
+		panContent.add(dateEnd);
 
 		JLabel lblProject = new JLabel("Project:");
 		sl_panContent.putConstraint(SpringLayout.NORTH, lblProject, 45,
@@ -59,6 +78,8 @@ public class EditProject extends JPanel implements ActionListener {
 		panContent.add(lblProject);
 
 		txtProjects = new JTextField(project.getName());
+		sl_panContent.putConstraint(SpringLayout.WEST, txtProjects, 0,
+				SpringLayout.WEST, dateStart);
 		sl_panContent.putConstraint(SpringLayout.SOUTH, txtProjects, 0,
 				SpringLayout.SOUTH, lblProject);
 		sl_panContent.putConstraint(SpringLayout.EAST, txtProjects, -464,
@@ -66,7 +87,7 @@ public class EditProject extends JPanel implements ActionListener {
 		panContent.add(txtProjects);
 		txtProjects.setBackground(Color.WHITE);
 
-		JLabel lblAll = new JLabel("List of Employees:");
+		JLabel lblAll = new JLabel("List of Employeessssssss:");
 		sl_panContent.putConstraint(SpringLayout.WEST, lblProject, 0,
 				SpringLayout.WEST, lblAll);
 		sl_panContent.putConstraint(SpringLayout.NORTH, lblAll, 140,
@@ -76,6 +97,8 @@ public class EditProject extends JPanel implements ActionListener {
 		panContent.add(lblAll);
 
 		btnRight = new JButton(">");
+		sl_panContent.putConstraint(SpringLayout.NORTH, btnRight, 140,
+				SpringLayout.SOUTH, dateEnd);
 		btnRight.setForeground(Color.white);
 		btnRight.setBackground(new Color(32, 130, 213));
 		panContent.add(btnRight);
@@ -118,9 +141,13 @@ public class EditProject extends JPanel implements ActionListener {
 		panContent.add(btnDblLeft);
 
 		listAll = new List();
-		sl_panContent.putConstraint(SpringLayout.EAST, listAll, 350, SpringLayout.WEST, panContent);
-		sl_panContent.putConstraint(SpringLayout.WEST, btnRight, 20, SpringLayout.EAST, listAll);
-		sl_panContent.putConstraint(SpringLayout.EAST, btnRight, 70, SpringLayout.EAST, listAll);
+		// listAll.setIgnoreRepaint(true);
+		sl_panContent.putConstraint(SpringLayout.EAST, listAll, 350,
+				SpringLayout.WEST, panContent);
+		sl_panContent.putConstraint(SpringLayout.WEST, btnRight, 20,
+				SpringLayout.EAST, listAll);
+		sl_panContent.putConstraint(SpringLayout.EAST, btnRight, 70,
+				SpringLayout.EAST, listAll);
 		sl_panContent.putConstraint(SpringLayout.WEST, listAll, 110,
 				SpringLayout.WEST, panContent);
 		sl_panContent.putConstraint(SpringLayout.SOUTH, listAll, 325,
@@ -129,23 +156,32 @@ public class EditProject extends JPanel implements ActionListener {
 				SpringLayout.SOUTH, lblAll);
 		panContent.add(listAll);
 
-		JLabel lblEmp = new JLabel("List of Project Employees:");
+		JLabel lblEmp = new JLabel("List of Project Employeessssss:");
 		sl_panContent.putConstraint(SpringLayout.NORTH, lblEmp, 0,
 				SpringLayout.NORTH, lblAll);
-		sl_panContent.putConstraint(SpringLayout.WEST, lblEmp, 249, SpringLayout.EAST, lblAll);
-		sl_panContent.putConstraint(SpringLayout.EAST, lblEmp, -235, SpringLayout.EAST, panContent);
+		sl_panContent.putConstraint(SpringLayout.WEST, lblEmp, 249,
+				SpringLayout.EAST, lblAll);
+		sl_panContent.putConstraint(SpringLayout.EAST, lblEmp, -235,
+				SpringLayout.EAST, panContent);
 		panContent.add(lblEmp);
 
 		listEmp = new List();
-		sl_panContent.putConstraint(SpringLayout.NORTH, listEmp, 0, SpringLayout.NORTH, listAll);
+		// listEmp.setIgnoreRepaint(true);
+		sl_panContent.putConstraint(SpringLayout.NORTH, listEmp, 0,
+				SpringLayout.NORTH, listAll);
 		sl_panContent.putConstraint(SpringLayout.WEST, listEmp, 20,
 				SpringLayout.EAST, btnRight);
-		sl_panContent.putConstraint(SpringLayout.SOUTH, listEmp, 0, SpringLayout.SOUTH, listAll);
+		sl_panContent.putConstraint(SpringLayout.SOUTH, listEmp, 0,
+				SpringLayout.SOUTH, listAll);
 		sl_panContent.putConstraint(SpringLayout.EAST, listEmp, 260,
 				SpringLayout.EAST, btnRight);
 		panContent.add(listEmp);
 
 		JLabel lblStartDate = new JLabel("Start Date:");
+		sl_panContent.putConstraint(SpringLayout.WEST, dateStart, 14,
+				SpringLayout.EAST, lblStartDate);
+		sl_panContent.putConstraint(SpringLayout.SOUTH, dateStart, 0,
+				SpringLayout.SOUTH, lblStartDate);
 		sl_panContent.putConstraint(SpringLayout.NORTH, lblStartDate, 77,
 				SpringLayout.NORTH, panContent);
 		sl_panContent.putConstraint(SpringLayout.SOUTH, lblProject, -15,
@@ -155,34 +191,15 @@ public class EditProject extends JPanel implements ActionListener {
 		panContent.add(lblStartDate);
 
 		JLabel lblEndDate = new JLabel("End Date:");
+		sl_panContent.putConstraint(SpringLayout.WEST, dateEnd, 20,
+				SpringLayout.EAST, lblEndDate);
+		sl_panContent.putConstraint(SpringLayout.SOUTH, dateEnd, 0,
+				SpringLayout.SOUTH, lblEndDate);
 		sl_panContent.putConstraint(SpringLayout.NORTH, lblEndDate, 15,
 				SpringLayout.SOUTH, lblStartDate);
 		sl_panContent.putConstraint(SpringLayout.WEST, lblEndDate, 0,
 				SpringLayout.WEST, lblProject);
 		panContent.add(lblEndDate);
-
-		dateStart = new JDateChooser(project.getStartDate());
-		sl_panContent.putConstraint(SpringLayout.WEST, dateStart, 14,
-				SpringLayout.EAST, lblStartDate);
-		sl_panContent.putConstraint(SpringLayout.EAST, dateStart, -464,
-				SpringLayout.EAST, panContent);
-		sl_panContent.putConstraint(SpringLayout.WEST, txtProjects, 0,
-				SpringLayout.WEST, dateStart);
-		sl_panContent.putConstraint(SpringLayout.SOUTH, dateStart, 0,
-				SpringLayout.SOUTH, lblStartDate);
-		dateStart.setBackground(Color.WHITE);
-		panContent.add(dateStart);
-
-		dateEnd = new JDateChooser(project.getEndDate());
-		sl_panContent.putConstraint(SpringLayout.NORTH, btnRight, 140, SpringLayout.SOUTH, dateEnd);
-		sl_panContent.putConstraint(SpringLayout.WEST, dateEnd, 20,
-				SpringLayout.EAST, lblEndDate);
-		sl_panContent.putConstraint(SpringLayout.SOUTH, dateEnd, 0,
-				SpringLayout.SOUTH, lblEndDate);
-		sl_panContent.putConstraint(SpringLayout.EAST, dateEnd, -464,
-				SpringLayout.EAST, panContent);
-		dateEnd.setBackground(Color.WHITE);
-		panContent.add(dateEnd);
 
 		JPanel panFooter = new JPanel();
 		panFooter.setBorder(new EmptyBorder(0, 0, 50, 0));
@@ -200,7 +217,7 @@ public class EditProject extends JPanel implements ActionListener {
 		btnSubmit.setFont(new Font("Arial", Font.PLAIN, 18));
 		btnSubmit.addActionListener(this);
 	}
-	
+
 	public String checkInput() {
 		String text = "";
 		if (txtProjects.getText().equals("")) {
@@ -219,16 +236,16 @@ public class EditProject extends JPanel implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
-		if(e.getSource()==btnSubmit){
-			String text=checkInput();
-			if(text.equals("")){
-				
-				
+		if (e.getSource() == btnSubmit) {
+			String text = checkInput();
+			if (text.equals("")) {
+
+			} else {
+				new Message(parent, Message.ERROR, text);
 			}
-			else{
-				new Message(parent, Message.ERROR,
-						text);
-			}
+		} else {
+			this.repaint();
+			this.revalidate();
 		}
 	}
 }
