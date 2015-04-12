@@ -177,7 +177,7 @@ public class AddPOItem extends PopUp implements ActionListener, FocusListener {
 					int quantity = parseStringInt(txtQuantity.getText());
 					float price = (float) parseStringFloat(txtPrice.getText());
 
-					poController.addItem(new ItemData(item, description, price),quantity);
+					poController.addItem(new ItemData(item, description, price),quantity, 0);
 					this.setVisible(false); // you can't see me!
 					this.dispose();
 				}else{

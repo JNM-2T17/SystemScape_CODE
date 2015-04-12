@@ -20,6 +20,7 @@ public class PurchaseOrder {
     private String type;
     private Supplier supplier;
     private HashMap<ItemData, Integer> item;
+    private HashMap<ItemData, Integer> itemRcvd;
     private String invoiceNo;
 
     public PurchaseOrder() {
@@ -27,6 +28,7 @@ public class PurchaseOrder {
         setIdNo(0);
         setType("");
         item = new HashMap<ItemData, Integer>();
+        itemRcvd = new HashMap<ItemData, Integer>();
         setSupplier(null);
     }
 
@@ -36,6 +38,7 @@ public class PurchaseOrder {
         setType(type);
         setInvoiceNo(invoiceNo);
         item = new HashMap<ItemData, Integer>();
+        itemRcvd = new HashMap<ItemData, Integer>();
         setSupplier(supplier);
     }
     
@@ -71,9 +74,10 @@ public class PurchaseOrder {
         type = string;
     }
 
-    public void addItem(String name, String description, float unitPrice, int qty) {
+    public void addItem(String name, String description, float unitPrice, int qty, int qtyRcvd) {
         ItemData itemData = new ItemData(name, description, unitPrice);
         item.put(itemData, qty);
+        itemRcvd.put(itemData, qtyRcvd);
     }
 
     public Iterator getItems() {
@@ -88,6 +92,13 @@ public class PurchaseOrder {
         return item.get(itemData);
     }
     
+    public void incQtyRcvd(ItemData itemData){
+        itemRcvd.put(itemData, itemRcvd.get(itemData)+1);
+    }
+    
+    public int getQuantityRcvd(ItemData itemData) {
+        return itemRcvd.get(itemData);
+    }
     
     public void deleteItem(ItemData id){
         item.remove(id);

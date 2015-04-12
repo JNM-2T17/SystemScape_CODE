@@ -425,12 +425,14 @@ public class EditPO extends JPanel implements ActionListener, Observer {
             table.getColumnModel()
                     .getColumn(table.getColumnCount() - 1)
                     .setCellEditor(new POItemCellEdit(new JCheckBox(), parent, item, po, poController));
+            
             table.getColumnModel()
                     .getColumn(table.getColumnCount() - 2)
                     .setCellRenderer(new POItemCellDelivered(new JCheckBox(), parent, item, po, poController));
             table.getColumnModel()
                     .getColumn(table.getColumnCount() - 2)
                     .setCellEditor(new POItemCellDelivered(new JCheckBox(), parent, item, po, poController));
+            
 
             /**
              * * populate the table **
@@ -444,9 +446,11 @@ public class EditPO extends JPanel implements ActionListener, Observer {
             /**
              * ******DEV INSERT QUANTITY RECEIVED HERE*********
              */
-            model.setValueAt("QUANTITY RECEIVED", model.getRowCount() - 1, 5);
+            model.setValueAt(po.getQuantityRcvd(item), model.getRowCount() - 1, 5);
+            if(po.getQuantity(item) != po.getQuantityRcvd(item)){
             model.setValueAt(new POItemCellDelivered(new JCheckBox(), parent, item,
                     po, poController), model.getRowCount() - 1, 6);
+            }
             model.setValueAt(new POItemCellEdit(new JCheckBox(), parent, item,
                     po, poController), model.getRowCount() - 1, 7);
         }

@@ -14,7 +14,6 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 import model.ItemData;
 import model.PurchaseOrder;
 import model.Supplier;
@@ -42,14 +41,14 @@ public class PurchaseOrderDAO implements IDBCUD {
                 Supplier s = new Supplier(resultSet.getString("name"), resultSet.getString("country"), resultSet.getString("state"), resultSet.getString("city"));
                 PurchaseOrder purchaseorder = new PurchaseOrder(resultSet.getDate("date"), resultSet.getInt("no"), resultSet.getString("type"), s, resultSet.getString("invoiceNo"));
 
-                String query2 = "SELECT i.name, i.description, i.unitPrice, pi.quantityOrdered\n"
+                String query2 = "SELECT i.name, i.description, i.unitPrice, pi.quantityOrdered, pi.quantityReceived\n"
                         + "FROM itemdata i\n"
                         + "INNER JOIN poitem pi\n"
                         + "ON pi.itemname=i.name AND  pi.type=\"" + resultSet.getString("type") + "\" AND pi.no=\"" + resultSet.getInt("no") + "\" ";
                 PreparedStatement preparedStatement2 = con.prepareStatement(query2);
                 ResultSet resultSet2 = preparedStatement2.executeQuery();
                 while (resultSet2.next()) {
-                    purchaseorder.addItem(resultSet2.getString("name"), resultSet2.getString("description"), resultSet2.getFloat("unitPrice"), resultSet2.getInt("quantityOrdered"));
+                    purchaseorder.addItem(resultSet2.getString("name"), resultSet2.getString("description"), resultSet2.getFloat("unitPrice"), resultSet2.getInt("quantityOrdered"), resultSet2.getInt("quantityReceived"));
                 }
                 purchaseOrders.add(purchaseorder);
             }
@@ -68,49 +67,6 @@ public class PurchaseOrderDAO implements IDBCUD {
         return purchaseOrders.iterator();
     }
 
-    public void incrementQuantityReceived(String key, String itemName)
-    {
-    	PurchaseOrder po = (PurchaseOrder) get(key);
-    	Connection con = DBConnection.getConnection();
-    	ItemData iResult = null;
-    	int quantityReceived = -1;
-    
-    	Iterator<ItemData> iList = po.getItemData();
-    	while(iList.hasNext())
-    	{
-    		ItemData i = (ItemData)iList.next();
-    		if(i.getName().equals(itemName))
-    		{
-    			quantityReceived = po.getQuantity(i);
-    			iResult = i;
-    		}
-    	}
-    	
-		String query = "UPDATE poitem"
-					 + "SET  quanityReceived = ?"
-				     + "WHERE itemname = ? AND no = ? AND type = ?";
-		try 
-		{
-			PreparedStatement statement = con.prepareStatement(query);
-			statement.setInt(1, quantityReceived + 1);
-			statement.setString(2, iResult.getName());
-			statement.setInt(3, po.getIdNo());
-			statement.setString(4, po.getType());
-			statement.execute();
-			con.close();
-		
-		} catch (SQLException e) {
-	
-			System.out.println("Update Error");
-			e.printStackTrace();
-			try {
-				con.close();
-			} catch (SQLException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-		}
-    }
     public Object get(String key) {
         Connection con = DBConnection.getConnection();
         try {
@@ -126,7 +82,7 @@ public class PurchaseOrderDAO implements IDBCUD {
                 Supplier s = new Supplier(resultSet.getString("name"), resultSet.getString("country"), resultSet.getString("state"), resultSet.getString("city"));
                 PurchaseOrder purchaseorder = new PurchaseOrder(resultSet.getDate("date"), resultSet.getInt("no"), resultSet.getString("type"), s, resultSet.getString("invoiceNo"));
 
-                String query2 = "SELECT i.name, i.description, i.unitPrice, pi.quantityReceived\n"
+                String query2 = "SELECT i.name, i.description, i.unitPrice, pi.quantityOrdered, pi.quantityReceived\n"
                         + "FROM itemdata i\n"
                         + "INNER JOIN poitem pi\n"
                         + "ON pi.itemname=i.name AND  pi.type=\"" + resultSet.getString("type") + "\" AND pi.no=\"" + resultSet.getInt("no") + "\" ";
@@ -134,7 +90,7 @@ public class PurchaseOrderDAO implements IDBCUD {
                 PreparedStatement preparedStatement2 = con.prepareStatement(query2);
                 ResultSet resultSet2 = preparedStatement2.executeQuery();
                 while (resultSet2.next()) {
-                    purchaseorder.addItem(resultSet2.getString("name"), resultSet2.getString("description"), resultSet2.getFloat("unitPrice"), resultSet2.getInt("quantityOrdered"));
+                    purchaseorder.addItem(resultSet2.getString("name"), resultSet2.getString("description"), resultSet2.getFloat("unitPrice"), resultSet2.getInt("quantityOrdered"), resultSet2.getInt("quantityReceived"));
                 }
 
                 try {
@@ -188,7 +144,7 @@ public class PurchaseOrderDAO implements IDBCUD {
                 Supplier s = new Supplier(resultSet.getString("name"), resultSet.getString("country"), resultSet.getString("state"), resultSet.getString("city"));
                 PurchaseOrder purchaseorder = new PurchaseOrder(resultSet.getDate("date"), resultSet.getInt("no"), resultSet.getString("type"), s, resultSet.getString("invoiceNo"));
 
-                String query2 = "SELECT i.name, i.description, i.unitPrice, pi.quantityrReceived \n"
+                String query2 = "SELECT i.name, i.description, i.unitPrice, pi.quantityOrdered, pi.quantityReceived \n"
                         + "FROM itemdata i\n"
                         + "INNER JOIN poitem pi\n"
                         + "ON pi.itemname=i.name AND  pi.type=\"" + resultSet.getString("type") + "\" AND pi.no=\"" + resultSet.getInt("no") + "\" ";
@@ -196,7 +152,7 @@ public class PurchaseOrderDAO implements IDBCUD {
                 PreparedStatement preparedStatement2 = con.prepareStatement(query2);
                 ResultSet resultSet2 = preparedStatement2.executeQuery();
                 while (resultSet2.next()) {
-                    purchaseorder.addItem(resultSet2.getString("name"), resultSet2.getString("description"), resultSet2.getFloat("unitPrice"), resultSet2.getInt("quantity"));
+                    purchaseorder.addItem(resultSet2.getString("name"), resultSet2.getString("description"), resultSet2.getFloat("unitPrice"), resultSet2.getInt("quantityOrdered"), resultSet2.getInt("quantityReceived"));
                 }
                 purchaseOrders.add(purchaseorder);
             }
@@ -270,7 +226,6 @@ public class PurchaseOrderDAO implements IDBCUD {
         return results.iterator();
     }
 
-   
     public void add(Object object) {
         PurchaseOrder purchaseorder = (PurchaseOrder) object;
         Connection con = DBConnection.getConnection();
@@ -306,7 +261,7 @@ public class PurchaseOrderDAO implements IDBCUD {
                 preparedStatement.setInt(2, resultSet.getInt(1));
                 preparedStatement.setString(3, itemData.getName());
                 preparedStatement.setInt(4, purchaseorder.getQuantity(itemData));
-                preparedStatement.setInt(5, 0);//temppo
+                preparedStatement.setInt(5, purchaseorder.getQuantityRcvd(itemData));//temppo
                 preparedStatement.execute();
             }
         } catch (SQLException sqlException) {
@@ -350,13 +305,14 @@ public class PurchaseOrderDAO implements IDBCUD {
             while (currItems.hasNext()) {
                 es = (Map.Entry) currItems.next();
                 itemData = (ItemData) es.getKey();
+                System.out.println("ADDING TO POITEM: "+itemData.getName());
                 query = "INSERT INTO poitem  VALUES(?,?,?,?,?);";
                 preparedStatement = con.prepareStatement(query);
                 preparedStatement.setString(1, currentPO.getType());
                 preparedStatement.setInt(2, currentPO.getIdNo());
                 preparedStatement.setString(3, itemData.getName());
                 preparedStatement.setInt(4, currentPO.getQuantity(itemData));
-                preparedStatement.setInt(5, currentPO.getQuantity(itemData));
+                preparedStatement.setInt(5, currentPO.getQuantityRcvd(itemData));
                 preparedStatement.execute();
             }
         } catch (SQLException sqlException) {
@@ -370,6 +326,7 @@ public class PurchaseOrderDAO implements IDBCUD {
                 sqlee.printStackTrace();
             }
         }
+        System.out.println("update shouldve happened");
     }
 
     public void delete(Object object) {
