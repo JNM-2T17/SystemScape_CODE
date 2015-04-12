@@ -73,8 +73,8 @@ public class DAO {
 			return ((SupplierDAO) data.get(1)).filter(conditions);
 		else if (table.equalsIgnoreCase("inventoryitem"))
 			return ((InventoryItemDAO) data.get(2)).filter(conditions);
-		else if (table.equalsIgnoreCase("employee"))
-			return ((EmployeeDAO) data.get(5)).filter(conditions);
+//		else if (table.equalsIgnoreCase("employee"))
+//			return ((EmployeeDAO) data.get(5)).filter(conditions);
 		return null;
 	}
 
@@ -139,7 +139,16 @@ public class DAO {
 	 *            primary key
 	 * @return the specific object with key as a primary key
 	 */
+<<<<<<< HEAD
 	
+=======
+//	public void incrementQuantityReceived(String table, String key, String itemName)
+//    {
+//		if (table.equalsIgnoreCase("purchaseorder"))
+//			return data.get(0).incrementQuantityReceived(key,itemName);
+//    }
+//	
+>>>>>>> 378f623683cc0a94a3683c994e1de989b3268e33
 	public Object get(String table, String key) {
 		if (table.equalsIgnoreCase("purchaseorder"))
 			return data.get(0).get(key);

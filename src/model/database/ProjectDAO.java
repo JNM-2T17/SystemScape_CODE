@@ -26,7 +26,7 @@ public class ProjectDAO implements IDBCUD {
             while (resultSet.next()) {
                 startDate = new java.util.Date(resultSet.getDate("startDate").getTime());
                 endDate = new java.util.Date(resultSet.getDate("endDate").getTime());
-                Project project = new Project(resultSet.getString("name"), startDate, endDate);
+                Project project = new Project(resultSet.getString("name"), startDate, endDate, resultSet.getString("employee"));
                 projects.add(project);
             }
         } catch (SQLException sqlException) {
@@ -57,7 +57,7 @@ public class ProjectDAO implements IDBCUD {
             if (resultSet.next()) {
             	startDate = new java.util.Date(resultSet.getDate("startDate").getTime());
                 endDate = new java.util.Date(resultSet.getDate("endDate").getTime());
-            	Project project = new Project(resultSet.getString("name"), startDate, endDate);
+            	Project project = new Project(resultSet.getString("name"), startDate, endDate, resultSet.getString("employee"));
                 
 
                 try {
@@ -112,7 +112,7 @@ public class ProjectDAO implements IDBCUD {
             while (resultSet.next()) {
                 startDate = new java.util.Date(resultSet.getDate("startDate").getTime());
                 endDate = new java.util.Date(resultSet.getDate("endDate").getTime());
-                Project project = new Project(resultSet.getString("name"), startDate, endDate);
+                Project project = new Project(resultSet.getString("name"), startDate, endDate, resultSet.getString("employee"));
                 projects.add(project);
             }
         } catch (SQLException sqlException) {
@@ -135,11 +135,12 @@ public class ProjectDAO implements IDBCUD {
         Project project = (Project) object;
         try {
 
-            String query = "INSERT INTO project VALUES(?,?,?);";
+            String query = "INSERT INTO project VALUES(?,?,?,?);";
             PreparedStatement preparedStatement = con.prepareStatement(query);
             preparedStatement.setString(1, project.getName());
             preparedStatement.setDate(2, new java.sql.Date(project.getStartDate().getTime()));
             preparedStatement.setDate(3, new java.sql.Date(project.getEndDate().getTime()));
+            preparedStatement.setString(4, project.getEmployee());
          
             preparedStatement.execute();
 
@@ -168,7 +169,7 @@ public class ProjectDAO implements IDBCUD {
             preparedStatement.setString(1, project.getName());
             preparedStatement.setDate(2, new java.sql.Date(project.getStartDate().getTime()));
             preparedStatement.setDate(3, new java.sql.Date(project.getEndDate().getTime()));
-         
+            preparedStatement.setString(4, project.getEmployee());
             preparedStatement.execute();
         } catch (SQLException sqlException) {
             sqlException.printStackTrace();

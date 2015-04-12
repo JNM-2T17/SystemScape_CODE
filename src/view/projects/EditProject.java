@@ -223,6 +223,7 @@ public class EditProject extends JPanel implements ActionListener {
 			String text=checkInput();
 			if(text.equals("")){
 				
+				
 			}
 			else{
 				new Message(parent, Message.ERROR,

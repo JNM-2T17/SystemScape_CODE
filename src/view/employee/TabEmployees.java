@@ -5,6 +5,7 @@ import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
+import controller.EmployeeController;
 import view.Content;
 import view.Gui;
 import view.Content.ContentBuilder;
@@ -20,6 +21,7 @@ public class TabEmployees extends JPanel implements ActionListener{
 	private CardLayout cl;
 	private ArrayList<Content> list;
 	private Gui gui;
+	private EmployeeController employeeController;
 	public TabEmployees(Gui gui) {
 		cl=new CardLayout();
 		list=new ArrayList<Content>();
@@ -27,7 +29,7 @@ public class TabEmployees extends JPanel implements ActionListener{
 		this.setBackground(Color.WHITE);
 		setLayout(cl);
 		
-		Content temp=new Content.ContentBuilder().caption("View Employees").add(true).filter(true).content(new ViewEmployee()).build();
+		Content temp=new Content.ContentBuilder().caption("View Employees").add(true).filter(true).content(new ViewEmployee(gui, this)).build();
 		temp.getBtnAdd().addActionListener(this);
 		temp.getBtnFilter().addActionListener(this);
 		this.add(temp, "view");
@@ -44,6 +46,7 @@ public class TabEmployees extends JPanel implements ActionListener{
 		list.add(temp);
 		
 		cl.show(this, "view");
+		employeeController.getInstance();
 	}
 	@Override
 	public void actionPerformed(ActionEvent e) {

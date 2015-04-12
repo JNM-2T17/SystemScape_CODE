@@ -142,7 +142,7 @@ public class AddEmployee extends JPanel implements ActionListener {
 	}
 	
 	public String checkInput(){
-		String text="";
+		String text="";	
 		if(txtName.getText().equals("")){
 			txtName.setBorder(BorderFactory.createLineBorder(Color.RED, 1));
 			if(rdTechnician.isSelected()) text+="Please specify technician name.\n";
@@ -164,7 +164,7 @@ public class AddEmployee extends JPanel implements ActionListener {
 		}
 		return text;
 	}
-
+	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
@@ -179,7 +179,10 @@ public class AddEmployee extends JPanel implements ActionListener {
 			}
 		}
 		else if(e.getSource()==rdEmployee){
-			if(rdEmployee.isSelected()) toggle(false);
+			if(rdEmployee.isSelected()) 
+				toggle(false);
+			
+			
 		}
 		else if(e.getSource()==rdTechnician){
 			if(rdTechnician.isSelected()) toggle(true);

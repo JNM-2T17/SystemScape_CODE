@@ -7,7 +7,9 @@ package controller;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+
 import model.Employee;
+import model.Project;
 import model.Supplier;
 import model.SupplierContact;
 import model.database.DAO;
@@ -20,7 +22,7 @@ import view.Subject;
  */
 public class EmployeeController implements Subject {
 
-    private static EmployeeController instance;
+    private static EmployeeController instance = null;
     private DAO dao;
     private Employee employee;
     private ArrayList<Observer> observerList;
@@ -28,6 +30,7 @@ public class EmployeeController implements Subject {
     public EmployeeController() {
         dao = DAO.getInstance();
         observerList = new ArrayList();
+        employee = new Employee();
     }
     
     public static EmployeeController getInstance() {
@@ -35,6 +38,10 @@ public class EmployeeController implements Subject {
             instance = new EmployeeController();
         }
         return instance;
+    }
+    
+    public void init(){
+    	employee = new Employee();
     }
 
     public Iterator filter(Iterator conditions) {
@@ -49,8 +56,14 @@ public class EmployeeController implements Subject {
         // TODO Auto-generated method stub
         employee.setName(emp.getName());
         employee.setID(emp.getID());
+        employee.setStatus(emp.getStatus());
 
         dao.add("Employee", employee);
+        
+        Iterator i = emp.getProjectList();
+        while(i.hasNext()){
+        	dao.add("Project", (Project) i.next());
+        }
         notifyObserver();
     }
 
