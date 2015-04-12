@@ -76,7 +76,7 @@ public class ProjectController implements Subject {
         this.project.setName(project.getName());
         this.project.setStartDate(project.getStartDate());
         this.project.setEndDate(project.getEndDate());
-
+        
         dao.add("project", this.project);
         notifyObserver();
     }
