@@ -54,6 +54,15 @@ public class TabEmployees extends JPanel implements ActionListener{
 
 		cl.show(this, "edit");
 	}
+	
+	public void setView(Employee emp){
+		Content temp=new Content.ContentBuilder().caption("View Specific Employee").back(true).content(new ViewListEmployee(this, gui, employeeController.getAll(), emp)).build();
+		temp.getBtnBack().addActionListener(this);
+		this.add(temp, "spec");
+		list.add(temp);
+
+		cl.show(this, "spec");
+	}
 	@Override
 	public void actionPerformed(ActionEvent e) {
 //		// TODO Auto-generated method stub
@@ -66,6 +75,10 @@ public class TabEmployees extends JPanel implements ActionListener{
 		else if(((JButton) e.getSource()).getActionCommand().equals("back")){
 			cl.show(this, "view");
 		}
+	}
+
+	public void setReturn() {
+		cl.show(this, "view");
 	}
 
 }

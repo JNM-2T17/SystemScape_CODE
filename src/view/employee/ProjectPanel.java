@@ -44,9 +44,14 @@ public class ProjectPanel extends JPanel {
 	}
 	
 	public void setButton(JButton btn){
-		this.remove(this.btn);
-		this.btn=btn;
-		this.add(btn);
+		if(btn!=null){
+			this.remove(this.btn);
+			this.btn=btn;
+			this.add(btn);
+		}
+		else{
+			this.btn.setVisible(false);
+		}
 		this.repaint();
 	}
 

@@ -44,8 +44,8 @@ class EmployeeCellEdit extends CellEdit implements ActionListener{
 			tab.setEdit(employee);
 		}
 		else if(e.getSource()==getBtnView()){
-			/*if(tab==null) System.out.println("ACT TAB NUUUUL");
-			tab.setView(employee);*/
+			/*if(tab==null) System.out.println("ACT TAB NUUUUL");*/
+			tab.setView(employee);
 		}
 		
 	}
