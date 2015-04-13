@@ -78,6 +78,10 @@ public class Employee {
 	public void setProjectList(Iterator project) {
 		while(project.hasNext()){
 			this.projects.add(((Project)project.next()));
-    }
-}
+		}
+	}
+	
+	public String toString(){
+		return name;
+	}
 }
