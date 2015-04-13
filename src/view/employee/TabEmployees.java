@@ -5,10 +5,12 @@ import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
+import model.Employee;
 import controller.EmployeeController;
 import view.Content;
 import view.Gui;
 import view.Content.ContentBuilder;
+import view.supplier.EditSupplier;
 
 import java.awt.CardLayout;
 import java.awt.Color;
@@ -39,14 +41,18 @@ public class TabEmployees extends JPanel implements ActionListener{
 		temp.getBtnBack().addActionListener(this);
 		this.add(temp, "add");
 		list.add(temp);
-		
-		temp=new Content.ContentBuilder().caption("Edit Employee").back(true).delete(true).content(new EditEmployee(gui)).build();
+
+		cl.show(this, "view");
+		employeeController = employeeController.getInstance();
+	}
+	
+	public void setEdit(Employee emp){
+		Content temp=new Content.ContentBuilder().caption("Edit Employee").back(true).delete(true).content(new EditEmployee(gui, emp)).build();
 		temp.getBtnBack().addActionListener(this);
 		this.add(temp, "edit");
 		list.add(temp);
-		
-		cl.show(this, "view");
-		employeeController.getInstance();
+
+		cl.show(this, "edit");
 	}
 	@Override
 	public void actionPerformed(ActionEvent e) {

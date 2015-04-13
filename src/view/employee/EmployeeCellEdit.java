@@ -16,8 +16,8 @@ import view.CellEdit;
  */
 class EmployeeCellEdit extends CellEdit implements ActionListener{
 
-    TabEmployees tab;
-    Employee employee;
+    private TabEmployees tab;
+    private Employee employee;
     
     public EmployeeCellEdit(Employee employee, TabEmployees tab){
 		super();
@@ -41,7 +41,7 @@ class EmployeeCellEdit extends CellEdit implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource()==getBtnEdit()){
 			if(tab==null) System.out.println("ACT TAB NUUUUL");
-//			tab.setEdit(employee);
+			tab.setEdit(employee);
 		}
 		else if(e.getSource()==getBtnView()){
 			/*if(tab==null) System.out.println("ACT TAB NUUUUL");

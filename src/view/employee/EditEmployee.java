@@ -9,9 +9,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -20,6 +22,8 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
+import model.Employee;
+import model.Project;
 import model.Supplier;
 import net.miginfocom.swing.MigLayout;
 
@@ -29,6 +33,8 @@ import javax.swing.border.EmptyBorder;
 
 import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 
+import controller.EmployeeController;
+import controller.ProjectController;
 import view.Button;
 import view.Message;
 import view.Button.ButtonBuilder;
@@ -45,9 +51,13 @@ public class EditEmployee extends JPanel implements ActionListener {
 	private JComboBox cmbProj;
 	private JButton btnAdd;
 	private JFrame parent;
+	private Employee emp;
+	private EmployeeController employeeController;
+	private ProjectController projectController;
 
-	public EditEmployee(JFrame parent) {
+	public EditEmployee(JFrame parent, Employee emp) {
 		this.parent=parent;
+		this.emp = emp;
 		this.setBackground(Color.WHITE);
 		list=new ArrayList<ProjectPanel>();
 		close= new ArrayList<JButton>();
@@ -62,7 +72,7 @@ public class EditEmployee extends JPanel implements ActionListener {
 		lblSupp.setBounds(157, 90, 93, 27);
 		panContent.add(lblSupp);
 
-		txtName = new JTextField();
+		txtName = new JTextField(emp.getName());
 		txtName.setBounds(251, 89, 372, 25);
 		panContent.add(txtName);
 		txtName.setColumns(10);
@@ -144,7 +154,48 @@ public class EditEmployee extends JPanel implements ActionListener {
 		btnAdmin.setBackground(new Color(32, 130, 213));
 		btnAdmin.setFont(new Font("Arial", Font.PLAIN, 18));
 		btnAdmin.addActionListener(this);
+		
+		employeeController = employeeController.getInstance();
+		projectController = projectController.getInstance();
+		init();
 	}
+	
+	public void init(){
+		Iterator it = emp.getProjectList();
+		while(it.hasNext()){
+			Project project = (Project) it.next();
+			JButton close = new Button.ButtonBuilder().img(
+					"src/assets/Round/Delete.png", 30, 30).build();
+			close.addActionListener(this);
+			this.close.add(close);
+			
+			ProjectPanel temp = new ProjectPanel();
+			temp.setButton(close);
+			temp.getBtn().setActionCommand("close");
+                        
+            DefaultComboBoxModel model = (DefaultComboBoxModel)cmbProj.getModel();
+            cmbProj.setSelectedIndex(model.getIndexOf(project.getName()));
+                        
+			temp.setValue(cmbProj.getSelectedItem().toString());            
+            cmbProj.removeItemAt(cmbProj.getSelectedIndex());
+            cmbProj.setSelectedIndex(0);
+                       
+			panClose.add(temp);
+			list.add(temp);
+			
+			if (!panClose.isVisible()) {
+				panClose.setVisible(true);
+			}
+			
+			panClose.setMaximumSize(new Dimension(360,
+					panClose.getComponentCount() * 37));
+			this.repaint();
+			this.revalidate();
+                        
+		}
+	}
+	
+	
 	
 	public void addProject(JComboBox pan){
 			JButton close = new Button.ButtonBuilder().img(
@@ -189,7 +240,17 @@ public class EditEmployee extends JPanel implements ActionListener {
 		if(e.getSource()==btnSubmit){
 			String text=checkInput();
 			if(text.equals("")){
+				Employee checkEmployee;
+				Employee employee = new Employee(employeeController.getEmployeeID(), txtName.getText(), (String)cmbStatus.getSelectedItem());
+			
+				ArrayList<Project> projects = new ArrayList<Project>();
+				Iterator projectList = projectController.getAll();
+				while(projectList.hasNext()){
+					projects.add((Project) projectList.next());
+				}
 				
+				
+			
 			}
 			else{
 				new Message(parent, Message.ERROR,
