@@ -10,9 +10,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
+
 import model.Employee;
-import model.Project;
 import model.builder.QueryFilterDirector;
 import model.builder.SupplierFilterQueryBuilder;
 
@@ -24,65 +25,34 @@ public class EmployeeDAO implements IDBCUD {
 
     public Iterator get() {
         ArrayList<Employee> employees = new ArrayList();
-
+        Date startDate, endDate;
         try {
             String query = "SELECT * FROM employee";
             PreparedStatement preparedStatement = DBConnection.getConnection().prepareStatement(query);
             ResultSet resultSet = preparedStatement.executeQuery();
-
+            
             while (resultSet.next()) {
                 Employee employee = new Employee(resultSet.getInt("ID"), resultSet.getString("name"), resultSet.getString("status"));
-                String query2 = "SELECT p.name, p.startDate, p.endDate" +
-                                " FROM project p, projectassignment pa" +
-                                " WHERE p.name = pa.project AND pa.employeeID = ?";
+                String query2 = "SELECT * from project WHERE employee =\"" + resultSet.getString("name") + "\"";
                 PreparedStatement preparedStatement2 = DBConnection.getConnection().prepareStatement(query2);
-                preparedStatement2.setInt(1, employee.getID());
                 ResultSet resultSet2 = preparedStatement2.executeQuery();
-                ArrayList<Project> projects= new ArrayList();
-                
-                while(resultSet2.next()){
-                    projects.add(new Project(resultSet2.getString("name"), resultSet2.getDate("startDate"), resultSet2.getDate("endDate"), resultSet.getString("name")));
+
+                while (resultSet2.next()) {
+                	startDate = new java.util.Date(resultSet.getDate("startDate").getTime());
+                    endDate = new java.util.Date(resultSet.getDate("endDate").getTime());
+                	employee.addProject(resultSet2.getString("name"), startDate, endDate, resultSet2.getString("employee"));
                 }
-                if(!projects.isEmpty())
-                    employee.setProjectList(projects.iterator());
                 employees.add(employee);
+                
+            
             }
         } catch (SQLException sqlException) {
             sqlException.printStackTrace();
         }
         return employees.iterator();
     }
-
-    public Object get(String key) {
-        try {
-            String query = "SELECT * FROM employee WHERE ID = ? OR name = ?";
-            PreparedStatement preparedStatement = DBConnection.getConnection().prepareStatement(query);
-            preparedStatement.setString(1, key);
-            preparedStatement.setString(2, key);
-            ResultSet resultSet = preparedStatement.executeQuery();
-
-            if (resultSet.next()) {
-                Employee employee = new Employee(resultSet.getInt("ID"), resultSet.getString("name"), resultSet.getString("status"));
-                String query2 = "SELECT p.name, p.startDate, p.endDate" +
-                                " FROM project p, projectassignment pa" +
-                                " WHERE p.name = pa.project AND pa.employeeID = ?";
-                PreparedStatement preparedStatement2 = DBConnection.getConnection().prepareStatement(query2);
-                preparedStatement2.setInt(1, employee.getID());
-                ResultSet resultSet2 = preparedStatement2.executeQuery();
-                ArrayList<Project> projects= new ArrayList();
-                while(resultSet2.next()){
-                    projects.add(new Project(resultSet2.getString("name"), resultSet2.getDate("startDate"), resultSet2.getDate("endDate"), resultSet.getString("name")));
-                }
-                employee.setProjectList(projects.iterator());
-                return employee;
-            }
-        } catch (SQLException sqlException) {
-            sqlException.printStackTrace();
-        }
-        return null;
-    }
     
-     public int getID(){
+    public int getID(){
     	int id = 0;
     	try {
             String query = "SELECT MAX(id) FROM employee";
@@ -99,29 +69,55 @@ public class EmployeeDAO implements IDBCUD {
         return id;
     }
 
+    public Object get(String key) {
+    	Date startDate, endDate;
+        try {
+            String query = "SELECT * FROM employee WHERE ID = ?";
+            PreparedStatement preparedStatement = DBConnection.getConnection().prepareStatement(query);
+            preparedStatement.setString(1, key);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                Employee employee = new Employee(resultSet.getInt("ID"), resultSet.getString("name"), resultSet.getString("status"));
+                String query2 = "SELECT * from project WHERE employee =\"" + resultSet.getString("employee") + "\"";
+                PreparedStatement preparedStatement2 = DBConnection.getConnection().prepareStatement(query2);
+                ResultSet resultSet2 = preparedStatement2.executeQuery();
+
+                while (resultSet2.next()) {
+                	startDate = new java.util.Date(resultSet.getDate("startDate").getTime());
+                    endDate = new java.util.Date(resultSet.getDate("endDate").getTime());
+                	employee.addProject(resultSet2.getString("name"), startDate, endDate, resultSet2.getString("employee"));
+                }
+                return employee;
+            }
+        } catch (SQLException sqlException) {
+            sqlException.printStackTrace();
+        }
+        return null;
+    }
+
     public Iterator search(String searchStr) {
 
         ArrayList<Employee> employees = new ArrayList<Employee>();
+        Date startDate, endDate;
         try {
 
-            String query = "SELECT * FROM employee WHERE name LIKE ? " + "ORDER BY 1";
+            String query = "SELECT * FROM employee WHERE ID LIKE ? " + "ORDER BY 1";
             Connection connection = DBConnection.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(query);
             preparedStatement.setString(1, "%" + searchStr + "%");
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 Employee employee = new Employee(resultSet.getInt("ID"), resultSet.getString("name"), resultSet.getString("status"));
-                String query2 = "SELECT p.name, p.startDate, p.endDate" +
-                                " FROM project p, projectassignment pa" +
-                                " WHERE p.name = pa.project AND pa.employeeID = ?";
+                String query2 = "SELECT * from project WHERE employee =\"" + resultSet.getString("employee") + "\"";
                 PreparedStatement preparedStatement2 = DBConnection.getConnection().prepareStatement(query2);
-                preparedStatement2.setInt(1, employee.getID());
                 ResultSet resultSet2 = preparedStatement2.executeQuery();
-                ArrayList<Project> projects= new ArrayList();
-                while(resultSet2.next()){
-                    projects.add(new Project(resultSet2.getString("name"), resultSet2.getDate("startDate"), resultSet2.getDate("endDate"), resultSet.getString("name")));
+
+                while (resultSet2.next()) {
+                	startDate = new java.util.Date(resultSet.getDate("startDate").getTime());
+                    endDate = new java.util.Date(resultSet.getDate("endDate").getTime());
+                	employee.addProject(resultSet2.getString("name"), startDate, endDate, resultSet2.getString("employee"));
                 }
-                employee.setProjectList(projects.iterator());
                 employees.add(employee);
             }
         } catch (SQLException sqlException) {
@@ -131,26 +127,26 @@ public class EmployeeDAO implements IDBCUD {
         return employees.iterator();
     }
     //under construction
-    public Iterator filter(Iterator conditions){
-        QueryFilterDirector director = new QueryFilterDirector(new SupplierFilterQueryBuilder());
-        ArrayList<String> results = new ArrayList<String>();
-        try {
-            String query = director.getQuery(conditions);
-            PreparedStatement preparedStatement = DBConnection.getConnection().prepareStatement(query);
-            ResultSet resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()) {
-                results.add(resultSet.getString("name"));
-                results.add(resultSet.getString("country"));
-                results.add(resultSet.getString("state"));
-                results.add(resultSet.getString("city"));
-                results.add(resultSet.getString("value"));
-            }
-            return results.iterator();
-        }catch(Exception exception){
-            exception.printStackTrace();
-        }
-        return null;
-   }
+//    public Iterator filter(Iterator conditions){
+//        QueryFilterDirector director = new QueryFilterDirector(new SupplierFilterQueryBuilder());
+//        ArrayList<String> results = new ArrayList<String>();
+//        try {
+//            String query = director.getQuery(conditions);
+//            PreparedStatement preparedStatement = DBConnection.getConnection().prepareStatement(query);
+//            ResultSet resultSet = preparedStatement.executeQuery();
+//            while (resultSet.next()) {
+//                results.add(resultSet.getString("name"));
+//                results.add(resultSet.getString("country"));
+//                results.add(resultSet.getString("state"));
+//                results.add(resultSet.getString("city"));
+//                results.add(resultSet.getString("value"));
+//            }
+//            return results.iterator();
+//        }catch(Exception exception){
+//            exception.printStackTrace();
+//        }
+//        return null;
+//   }
     
     public Iterator getDistinct(String string){
         ArrayList<String> results = new ArrayList<String>();
@@ -179,13 +175,6 @@ public class EmployeeDAO implements IDBCUD {
             preparedStatement.setString(2, employee.getName());
             preparedStatement.setString(3, employee.getStatus());
             preparedStatement.execute();
-            for(Iterator i = employee.getProjectList(); i.hasNext();){
-                query = "INSERT INTO projectassignment VALUES(?,?)";
-                preparedStatement = connection.prepareStatement(query);
-                preparedStatement.setInt(1, employee.getID());
-                preparedStatement.setString(2, ((Project)i.next()).getName());
-                preparedStatement.execute();
-            }
         } catch (SQLException sqlException) {
             sqlException.printStackTrace();
         }
@@ -196,11 +185,12 @@ public class EmployeeDAO implements IDBCUD {
         Employee employee = (Employee) object;
 
         try {
-            String query = "UPDATE employee SET ID = ?,name = ? WHERE ID = ?;";
+            String query = "UPDATE employee SET ID = ?,name = ?, status=? WHERE ID = ?;";
             PreparedStatement preparedStatement = DBConnection.getConnection().prepareStatement(query);
             preparedStatement.setInt(1, employee.getID());
             preparedStatement.setString(2, employee.getName());//not sure bout the address format
-            preparedStatement.setString(3, origKey);
+            preparedStatement.setString(3, employee.getStatus());
+            preparedStatement.setString(4, origKey);
             preparedStatement.execute();
         } catch (SQLException sqlException) {
             sqlException.printStackTrace();
@@ -216,12 +206,6 @@ public class EmployeeDAO implements IDBCUD {
             PreparedStatement preparedStatement = DBConnection.getConnection().prepareStatement(query);
             preparedStatement.setInt(1, employee.getID());
             preparedStatement.execute();
-            for(Iterator i = employee.getProjectList(); i.hasNext();){
-                query = "DELETE FROM projectassignment WHERE employeeID = ?";
-                preparedStatement = DBConnection.getConnection().prepareStatement(query);
-                preparedStatement.setInt(1, employee.getID());
-                preparedStatement.execute();
-            }
         } catch (SQLException sqlException) {
             sqlException.printStackTrace();
         }
