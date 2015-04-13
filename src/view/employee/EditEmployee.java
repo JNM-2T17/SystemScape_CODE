@@ -9,9 +9,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -20,6 +22,8 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
+import model.Employee;
+import model.Project;
 import model.Supplier;
 import net.miginfocom.swing.MigLayout;
 
@@ -29,6 +33,8 @@ import javax.swing.border.EmptyBorder;
 
 import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 
+import controller.EmployeeController;
+import controller.ProjectController;
 import view.Button;
 import view.Message;
 import view.Button.ButtonBuilder;
@@ -41,14 +47,20 @@ public class EditEmployee extends JPanel implements ActionListener {
 	private JPanel panContact, panClose;
 	private ArrayList<ProjectPanel> list;
 	private ArrayList<JButton> close;
+	private ArrayList<Project> projList;
 	private JPanel temp;
 	private JComboBox cmbProj;
 	private JButton btnAdd;
 	private JFrame parent;
+	private Employee emp;
+	private EmployeeController employeeController;
+	private ProjectController projectController;
 
-	public EditEmployee(JFrame parent) {
+	public EditEmployee(JFrame parent, Employee emp) {
 		this.parent=parent;
+		this.emp = emp;
 		this.setBackground(Color.WHITE);
+		projList=new ArrayList<Project>();
 		list=new ArrayList<ProjectPanel>();
 		close= new ArrayList<JButton>();
 		setLayout(new BorderLayout(0, 0));
@@ -62,7 +74,7 @@ public class EditEmployee extends JPanel implements ActionListener {
 		lblSupp.setBounds(157, 90, 93, 27);
 		panContent.add(lblSupp);
 
-		txtName = new JTextField();
+		txtName = new JTextField(emp.getName());
 		txtName.setBounds(251, 89, 372, 25);
 		panContent.add(txtName);
 		txtName.setColumns(10);
@@ -105,8 +117,7 @@ public class EditEmployee extends JPanel implements ActionListener {
 		scrollPane.setViewportView(panContact);
 		panClose.setVisible(false);
 		
-		String[] opt2={"sample", "sample2"};
-		cmbProj=new JComboBox(opt2);
+		cmbProj=new JComboBox();
 		cmbProj.setBackground(Color.white);
 		cmbProj.setPreferredSize(new Dimension(200, 25));
 		btnAdd = new Button.ButtonBuilder().img("src/assets/Round/Add.png", 30,
@@ -144,7 +155,58 @@ public class EditEmployee extends JPanel implements ActionListener {
 		btnAdmin.setBackground(new Color(32, 130, 213));
 		btnAdmin.setFont(new Font("Arial", Font.PLAIN, 18));
 		btnAdmin.addActionListener(this);
+		
+		employeeController = employeeController.getInstance();
+		projectController = projectController.getInstance();
+		cmbInit();
+		init();
 	}
+	
+	public void cmbInit(){
+		Iterator it=projectController.getAll();
+		while(it.hasNext()){
+			Project temp=(Project) it.next();
+			cmbProj.addItem(temp);
+		}
+	}
+	
+	public void init(){
+		Iterator it = emp.getProjectList();
+		while(it.hasNext()){
+			Project project = (Project) it.next();
+			JButton close = new Button.ButtonBuilder().img(
+					"src/assets/Round/Delete.png", 30, 30).build();
+			close.addActionListener(this);
+			this.close.add(close);
+			
+			ProjectPanel temp = new ProjectPanel();
+			temp.setButton(close);
+			temp.getBtn().setActionCommand("close");
+                        
+            DefaultComboBoxModel model = (DefaultComboBoxModel)cmbProj.getModel();
+            cmbProj.setSelectedIndex(model.getIndexOf(project.getName()));
+                        
+			temp.setValue(cmbProj.getSelectedItem().toString());            
+            cmbProj.removeItemAt(cmbProj.getSelectedIndex());
+            cmbProj.setSelectedIndex(0);
+                       
+			panClose.add(temp);
+			list.add(temp);
+			projList.add(project);
+			
+			if (!panClose.isVisible()) {
+				panClose.setVisible(true);
+			}
+			
+			panClose.setMaximumSize(new Dimension(360,
+					panClose.getComponentCount() * 37));
+			this.repaint();
+			this.revalidate();
+                        
+		}
+	}
+	
+	
 	
 	public void addProject(JComboBox pan){
 			JButton close = new Button.ButtonBuilder().img(
@@ -157,12 +219,13 @@ public class EditEmployee extends JPanel implements ActionListener {
 			temp.setButton(close);
 			temp.getBtn().setActionCommand("close");
 
-			temp.setValue((String) pan.getSelectedItem());
+			temp.setValue(((Project) pan.getSelectedItem()).getName());
 
 			pan.setSelectedIndex(0);
 
 			panClose.add(temp);
 			list.add(temp);
+			projList.add((Project) pan.getSelectedItem());
 			
 			if (!panClose.isVisible()) {
 				panClose.setVisible(true);
@@ -187,30 +250,43 @@ public class EditEmployee extends JPanel implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		if(e.getSource()==btnSubmit){
-			String text=checkInput();
-			if(text.equals("")){
-				
-			}
-			else{
-				new Message(parent, Message.ERROR,
-						text);
-			}
+			System.out.println(projList);
+//			String text=checkInput();
+//			if(text.equals("")){
+//				Employee checkEmployee;
+//				Employee employee = new Employee(employeeController.getEmployeeID(), txtName.getText(), (String)cmbStatus.getSelectedItem());
+//			
+//				ArrayList<Project> projects = new ArrayList<Project>();
+//				Iterator projectList = projectController.getAll();
+//				while(projectList.hasNext()){
+//					projects.add((Project) projectList.next());
+//				}
+//			}
+//			else{
+//				new Message(parent, Message.ERROR,
+//						text);
+//			}
 			
 		}
 		else if (e.getActionCommand().equals("add")) {
-//			System.out.println(((JPanel) panContact.getComponent(0)).getComponentCount());
-//			System.out.println(temp.getComponentCount());
 			addProject((JComboBox) temp.getComponent(0));
 			((JComboBox) temp.getComponent(0)).removeItem(((JComboBox) temp.getComponent(0)).getSelectedItem());
+			if(((JComboBox) temp.getComponent(0)).getItemCount()==0){
+				((JComboBox) temp.getComponent(0)).setVisible(false);
+				btnAdd.setVisible(false);
+			}
 		} else {
 			int index = close.indexOf(e.getSource());
 			
-			((JComboBox) temp.getComponent(0)).addItem(list.get(index).getValue());
+			((JComboBox) temp.getComponent(0)).addItem(projList.get(index));
 			close.remove(index);
 			panClose.remove(index);
 			list.remove(index);
+			projList.remove(index);
 			panClose.setMaximumSize(new Dimension(360,
 					panClose.getComponentCount() * 37));
+			((JComboBox) temp.getComponent(0)).setVisible(true);
+			btnAdd.setVisible(true);
 			this.repaint();
 			this.revalidate();
 		}

@@ -45,7 +45,6 @@ public class ItemTileSoftwareField extends ItemPanelDecorator implements ItemPan
 	private JLabel lblLicenseKey;
 	private JLabel lblDeliveryDate;
 	private JLabel lblAssignee;
-	asdsa
 	private JComboBox cbType;
 	private JComboBox cbAssignee;
 	
