@@ -281,6 +281,7 @@ public class PanelRegistry implements PanelRegistration {
                             assignment = new Assignment(Integer.parseInt(generalInfo.get(6).toString()), employee);
                             if(i.hasNext()){ //checks if item is currently assigned to an employee
                                 assignmentController.update(assignment);
+                                System.out.println("it should enter here\n");
                             }else{
                                 if(!typeInfo.get(assigneeNo).toString().equals("None")){
                                     assignmentController.add(assignment);

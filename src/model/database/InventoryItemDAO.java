@@ -382,6 +382,8 @@ public class InventoryItemDAO implements IDBCUD {
             int id = Integer.parseInt(origKey);
             InventoryItem previous = (InventoryItem) get(origKey);
             InventoryItem current = (InventoryItem) object;
+            
+            DAO.getInstance().update("itemdata", new ItemData(current.getName(), current.getDescription(), current.getUnitPrice()), previous.getName());
             String query = "UPDATE inventoryitem SET itemData = ?, "
                     + "status= ?, classification = ?, invoiceNo=?, location=? WHERE ID = ?;";
             PreparedStatement preparedStatement = con.prepareStatement(query);
@@ -398,7 +400,7 @@ public class InventoryItemDAO implements IDBCUD {
             String type = previous.getClassification();
             if(type.equalsIgnoreCase("Non-IT")||type.equalsIgnoreCase("IT"))
                 query = "DELETE FROM hardwareitem WHERE ID = ?";
-            else if(type.equalsIgnoreCase("software"))
+            else if(type.equalsIgnoreCase("Soft"))
                 query = "DELETE FROM softwareitem WHERE ID = ?";
             
             System.out.println(query + "\n");
