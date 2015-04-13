@@ -95,8 +95,9 @@ public class PurchaseOrderController implements Subject, PurchaseOrderInterface,
     @Override
     public void editItem(ItemData item, int qty, ItemData key) {
         // TODO Auto-generated method stub
+        
+        po.addItem(item.getName(), item.getDescription(), item.getUnitPrice(), qty, po.getQuantityRcvd(key));
         po.deleteItem(key);
-        po.addItem(item.getName(), item.getDescription(), item.getUnitPrice(), qty, po.getQuantityRcvd(item));
         notifyObserver();
     }
 
