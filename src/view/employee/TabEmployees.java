@@ -67,5 +67,18 @@ public class TabEmployees extends JPanel implements ActionListener{
 			cl.show(this, "view");
 		}
 	}
+	
+	public void setView(Employee emp){
+		Content temp=new Content.ContentBuilder().caption("View Specific Employee").back(true).content(new ViewListEmployee(this, gui, employeeController.getAll(), emp)).build();
+		temp.getBtnBack().addActionListener(this);
+		this.add(temp, "spec");
+		list.add(temp);
+
+		cl.show(this, "spec");
+	}
+	
+	public void setReturn() {
+		cl.show(this, "view");
+	}
 
 }
