@@ -10,6 +10,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.GregorianCalendar;
 import java.util.Iterator;
 
 import model.Assignment;
@@ -94,12 +95,14 @@ public class AssignmentDAO implements IDBCUD {
     public void add(Object object) {
 
         Assignment assignment = (Assignment) object;
-
+        GregorianCalendar calendar = new GregorianCalendar();
         try {
-            String query = "INSERT INTO itemassignment VALUES (?, ?, null, null);";
+            String query = "INSERT INTO itemassignment VALUES (?, ?, ?, ?);";
             PreparedStatement preparedStatement = DBConnection.getConnection().prepareStatement(query);
             preparedStatement.setInt(1, assignment.getID());
             preparedStatement.setInt(2, assignment.getEmployee().getID());
+            preparedStatement.setDate(3, new java.sql.Date(calendar.getTimeInMillis()));
+            preparedStatement.setDate(4, new java.sql.Date(calendar.getTimeInMillis()));
             preparedStatement.execute();
         } catch (SQLException sqlException) {
             sqlException.printStackTrace();
