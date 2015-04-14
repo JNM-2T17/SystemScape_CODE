@@ -20,6 +20,7 @@ import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 
 public class TabProject extends JPanel implements ActionListener{
@@ -80,7 +81,11 @@ public class TabProject extends JPanel implements ActionListener{
 			cl.show(this, "add");
 		}
 		else if(((JButton) e.getSource()).getActionCommand().equals("filter")){
-			FilterProject fs=new FilterProject(gui);
+			FilterProject fp=new FilterProject(gui);
+			if(!fp.isClosed()){
+				Iterator values = projectController.filter(fp.getValues());
+				((ViewProjects)list.get(0).getContent()).filterPopulate(values);
+			}
 		}
 		else if(((JButton) e.getSource()).getActionCommand().equals("back")){
 			cl.show(this, "view");
