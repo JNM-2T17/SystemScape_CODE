@@ -31,7 +31,7 @@ public class SupplierFilterQueryBuilder implements FilterQueryBuilder{
 
     public void addColumn(String column) {
         if (select.length() == 0) {
-            select = "SELECT " + column + ", ";
+            select = "SELECT " + column + ",";
         } else {
             select = select + " " + column + ",";
         }
@@ -39,7 +39,7 @@ public class SupplierFilterQueryBuilder implements FilterQueryBuilder{
 
     public void addTable(String table) {
         if (from.length() == 0) {
-            from = "FROM " + table + ", ";
+            from = "FROM " + table + ",";
         } else {
             from = from + " " + table + ",";
         }
@@ -49,24 +49,24 @@ public class SupplierFilterQueryBuilder implements FilterQueryBuilder{
         String temp;
         temp = (String) conditions.next();
         if (!temp.equals("")) {
-            where = where + "name = \"" + temp + "\"&&";
+            where = where + "name LIKE \"%" + temp + "%\"&& ";
         }
         temp = (String) conditions.next();
         if (!temp.equals("")) {
-            where = where + "country = \"" + temp + "\"&&";
+            where = where + "country LIKE \"%" + temp + "%\"&& " ;
         }
         temp = (String) conditions.next();
         if (!temp.equals("")) {
-            where = where + "state = \"" + temp + "\"&&";
+            where = where + "state LIKE \"%" + temp + "%\"&& ";
         }
         temp = (String) conditions.next();
         if (!temp.equals("")) {
-            where = where + "city = \"" + temp + "\"&&";
+            where = where + "city LIKE \"%" + temp + "%\"&& ";
         }
         temp = (String) conditions.next();
         if (!temp.equals("")) {
             String temp2 = (String) conditions.next();
-            where = where + "sc.supplier IN (SELECT supplier FROM suppliercontact WHERE value = \"" + temp + "\" && type = \""+temp2+"\")&&";   
+            where = where + "sc.supplier IN (SELECT supplier FROM suppliercontact WHERE value LIKE \"%" + temp + "%\" && type LIKE \"%"+temp2+"%\")&&";   
         }
         where = where + "s.name=sc.supplier &&";
     }

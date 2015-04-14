@@ -75,6 +75,8 @@ public class DAO {
 			return ((InventoryItemDAO) data.get(2)).filter(conditions);
 //		else if (table.equalsIgnoreCase("employee"))
 //			return ((EmployeeDAO) data.get(5)).filter(conditions);
+                else if (table.equalsIgnoreCase("project"))
+			return ((ProjectDAO) data.get(11)).filter(conditions);
 		return null;
 	}
 

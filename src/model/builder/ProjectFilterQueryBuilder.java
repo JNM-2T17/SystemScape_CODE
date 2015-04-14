@@ -6,13 +6,14 @@
 
 package model.builder;
 
+import java.util.Date;
 import java.util.Iterator;
 
 /**
  *
  * @author Christian Gabriel
  */
-public class POFilterQueryBuilder implements FilterQueryBuilder{
+public class ProjectFilterQueryBuilder implements FilterQueryBuilder{
     private String select;
 	private String from;
 	private String where;
@@ -20,7 +21,7 @@ public class POFilterQueryBuilder implements FilterQueryBuilder{
 	private String having;
 	private String orderBy;
 
-	public POFilterQueryBuilder() {
+	public ProjectFilterQueryBuilder() {
 		select="";
 		from=""; 
 		where="WHERE ";
@@ -47,20 +48,13 @@ public class POFilterQueryBuilder implements FilterQueryBuilder{
             String temp;
             temp= (String) conditions.next();
             if(!temp.equals(""))
-                where = where + "po.type LIKE \"%" + temp +"%\" && ";
-            temp= (String) conditions.next();
+                where = where + "p.name LIKE \"%" + temp +"%\" OR ";
+            temp= ((Date) conditions.next()).toString();
             if(!temp.equals(""))
-                where = where + "po.supplier LIKE \"%" + temp +"%\" && ";
-            temp= (String) conditions.next();
+                where = where + "p.startDate LIKE \"%" + temp +"%\" OR ";
+            temp= ((Date) conditions.next()).toString();
             if(!temp.equals(""))
-                where = where + "po.date LIKE \"%" + temp +"%\" && ";
-            temp= (String) conditions.next();
-            if(!temp.equals(""))
-                where = where + "pi.no LIKE \"%" + temp +"%\" && ";
-            temp= (String) conditions.next();
-            if(!temp.equals(""))
-                addGroupingCondition("Sum"+temp);
-            where = where + "po.no = pi.no && po.type = pi.type && pi.itemname = id.name && ";
+                where = where + "p.endDate LIKE \"%" + temp +"%\" OR ";
 	}
 
 	public void addGrouping(String group) {
@@ -85,17 +79,12 @@ public class POFilterQueryBuilder implements FilterQueryBuilder{
 	}
 
 	public String getQuery(Iterator conditions) {
-            addColumn("po.no");
-            addColumn("po.type");
-            addColumn("po.supplier");
-            addColumn("po.date");
-            addColumn("SUM(pi.quantityOrdered*id.unitPrice) AS Sum");
-            addTable("purchaseorder po");
-            addTable("poitem pi");
-            addTable("itemdata id");
-            addGrouping("po.no");
-            addGrouping("po.type");
+            addColumn("p.name");
+            addColumn("p.startDate");
+            addColumn("p.endDate");
+            addColumn("p.employee");
+            addTable("project p");
             addCondition(conditions);
-            return select.substring(0,(select.length()-2)) + " " +from.substring(0,from.length()-2) + " " + where.substring(0,where.length()-3)+" "+groupBy.substring(0,groupBy.length()-2)+" "+having.substring(0,having.length()-2);
+            return select.substring(0,(select.length()-2)) + " " +from.substring(0,from.length()-2) + " " + where.substring(0,where.length()-3);
 	}
 }

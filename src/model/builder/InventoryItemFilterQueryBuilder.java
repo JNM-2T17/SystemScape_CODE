@@ -53,25 +53,25 @@ public class InventoryItemFilterQueryBuilder implements FilterQueryBuilder{
             String temp;
             temp= (String) conditions.next();
             if(!temp.equals(""))
-                where = where + "ii.itemdata = \"" + temp +"\"&&";
+                where = where + "ii.itemdata LIKE \"%" + temp +"%\"&& ";
             temp= (String) conditions.next();
             if(!temp.equals(""))
-                where = where + "ii.classification = \"" + temp +"\"&&";
+                where = where + "ii.classification LIKE \"%" + temp +"%\"&& ";
             temp= (String) conditions.next();
             if(!temp.equals(""))
-                where = where + "ii.location = \"" + temp +"\"&&";
+                where = where + "ii.location LIKE \"%" + temp +"%\"&& ";
             temp= (String) conditions.next();
             if(!temp.equals(""))
-                where = where + "it.assetTag = \"" + temp +"\"&&";
+                where = where + "it.assetTag LIKE \"%" + temp +"%\"&& ";
             temp= (String) conditions.next();
             if(!temp.equals(""))
-                where = where + "it.serviceTag = \"" + temp +"\"&&";
+                where = where + "it.serviceTag LIKE \"%" + temp +"%\"&& ";
             temp= (String) conditions.next();
             if(!temp.equals(""))
-                where = where + "e.name = \"" + temp +"\"&&";
+                where = where + "e.name LIKE \"%" + temp +"%\"&& ";
             temp= (String) conditions.next();
             if(!temp.equals(""))
-                where = where + "pi.quantityReceived = \"" + temp +"\"&&";
+                where = where + "pi.quantityReceived LIKE \"%" + temp +"%\"&& ";
 	}
 
 	public void addGrouping(String group) {
