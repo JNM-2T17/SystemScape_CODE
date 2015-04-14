@@ -45,6 +45,9 @@ public class EditProject extends JPanel implements ActionListener {
 	private DefaultListModel allModel, empModel;
 	private JFrame parent;
 	private JDateChooser dateStart, dateEnd;
+	private ProjectController projectController;
+	private EmployeeController employeeController;
+	private String prevKey;
 
 	public EditProject(JFrame parent, Project project) {
 		this.parent = parent;
@@ -90,6 +93,7 @@ public class EditProject extends JPanel implements ActionListener {
 		panContent.add(lblProject);
 
 		txtProjects = new JTextField(project.getName());
+		prevKey = project.getName();
 		sl_panContent.putConstraint(SpringLayout.WEST, txtProjects, 0,
 				SpringLayout.WEST, dateStart);
 		sl_panContent.putConstraint(SpringLayout.SOUTH, txtProjects, 0,
@@ -236,12 +240,60 @@ public class EditProject extends JPanel implements ActionListener {
 		btnSubmit.setFont(new Font("Arial", Font.PLAIN, 18));
 		btnSubmit.addActionListener(this);
 		
+		projectController = projectController.getInstance();
+		employeeController = employeeController.getInstance();
 		
 		
-		Iterator it=EmployeeController.getInstance().getAll();
+		Iterator it=employeeController.getAll();
 		while(it.hasNext()){
 			Employee emp=(Employee) it.next();
-			allModel.addElement(emp);
+			
+			allModel.addElement(emp.getName());
+		}
+		
+		//init();
+	}
+	
+	public void init(){
+		
+		Iterator it = employeeController.getAll();
+		Project currProject = projectController.getProject();
+		Iterator i = projectController.getEmployees();
+		if(i != null){
+			System.out.println("Enter!");
+			int k = 0;
+//			Employee superTemp = (Employee) i.next();
+//			String superTempName = superTemp.getName();
+//			System.out.println("Super temp: "+superTempName);
+//			System.out.println();
+			while(i.hasNext()){
+				System.out.println("Enter again!");
+				Employee temp = (Employee) i.next();
+				empModel.addElement(temp.getName());
+				String empString = (String) empModel.get(k);
+				System.out.println("Employee in empmodel: "+empString);
+				k++;
+			}
+			int index = 0;
+			while(it.hasNext()){
+				Employee temp2 = (Employee) it.next();
+				
+				if(index< empModel.size()){
+					String temp3 = (String) empModel.get(index);
+					if(!temp2.equals(temp3)){
+						allModel.addElement(temp2.getName());
+					}
+				}
+				index++;
+			}
+		}
+		else{
+			System.out.println("Sesame!");
+			while(it.hasNext()){
+				Employee emp=(Employee) it.next();
+				
+				allModel.addElement(emp.getName());
+			}
 		}
 	}
 
@@ -266,23 +318,57 @@ public class EditProject extends JPanel implements ActionListener {
 		if (e.getSource() == btnSubmit) {
 			String text = checkInput();
 			if (text.equals("")) {
+				
+				Project project = new Project(txtProjects.getText(), dateStart.getDate(), dateEnd.getDate());
+				System.out.println("Project name: "+project.getName() + " Start Date: "+ project.getStartDate() + " End Date: "+project.getEndDate());
+				Iterator iterator = employeeController.getAll();
+				int i = 0;
+				int j = 0;
+				while(iterator.hasNext()){
+					Employee temp = (Employee) iterator.next();
+					if(j< empModel.size()){
+						String employeeModel = (String)empModel.get(i);
+						if(temp.getName().equals(employeeModel)){
+							project.addEmployee(temp);
+						}
+					System.out.println("Employee model: " + employeeModel);
+					}
+					i++;
+					j++;
+				}
+				
+				Iterator test = project.getEmployeeList();
+				while(test.hasNext()){
+					Employee testme = (Employee) test.next();
+					System.out.println("Employee test: "+testme.getName());
+				}
 
+				
+				projectController.editProject(project, prevKey);
+				Message msg = new Message(parent, Message.SUCCESS,
+						"Project added successfully.");
+				projectController.init();
+				
 			} else {
 				new Message(parent, Message.ERROR, text);
 			}
 		} else {
 			if(e.getSource()==btnRight){
-				Employee emp=(Employee) listAll.getSelectedValue();
-				if(emp!=null){
-					allModel.removeElement(emp);
-					empModel.addElement(emp);
+				//Employee emp=(Employee) listAll.getSelectedValue();
+				String empName = (String) listAll.getSelectedValue();
+				System.out.println("Add: "+empName);
+				if(empName!=null){
+					allModel.removeElement(empName);
+					empModel.addElement(empName);
 				}
 			}
 			if(e.getSource()==btnLeft){
-				Employee emp=(Employee) listEmp.getSelectedValue();
-				if(emp!=null){
-					empModel.removeElement(emp);
-					allModel.addElement(emp);
+				//Employee emp=(Employee) listEmp.getSelectedValue();
+				String empName = (String) listEmp.getSelectedValue();
+				System.out.println("Remove: "+empName);
+				if(empName!=null){
+					empModel.removeElement(empName);
+					allModel.addElement(empName);
 				}
 			}
 			if(e.getSource()==btnDblRight){

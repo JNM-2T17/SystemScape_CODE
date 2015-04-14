@@ -1,4 +1,4 @@
-package model.database;
+	package model.database;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -9,6 +9,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Iterator;
 
+import model.Employee;
 import model.Project;
 import model.builder.ProjectFilterQueryBuilder;
 import model.builder.QueryFilterDirector;
@@ -86,34 +87,7 @@ public class ProjectDAO implements IDBCUD {
 
         return null;
 	}
-        
-        public Iterator filter(Iterator conditions) {
-        Connection con = DBConnection.getConnection();
-        ArrayList<Project> projects = new ArrayList<Project>();
-        QueryFilterDirector director = new QueryFilterDirector(new ProjectFilterQueryBuilder());
-        try {
-            String query = director.getQuery(conditions);
-            System.out.println(query + " method\n");
-            PreparedStatement preparedStatement = con.prepareStatement(query);
-            ResultSet resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()) {
-                Project project = new Project(resultSet.getString("name"), resultSet.getDate("startDate"), resultSet.getDate("endDate"));
-                projects.add(project);
-            }
-        } catch (Exception Exception) {
-            Exception.printStackTrace();
-        } finally {
-            try {
-                if (con != null) {
-                    con.close();
-                }
-            } catch (SQLException sqlee) {
-                sqlee.printStackTrace();
-            }
-        }
-        return projects.iterator();
-    }
-        
+
 	@Override
 	public Iterator search(String searchStr) {
 		// TODO Auto-generated method stub
@@ -169,6 +143,7 @@ public class ProjectDAO implements IDBCUD {
             preparedStatement.setString(1, project.getName());
             preparedStatement.setDate(2, new java.sql.Date(project.getStartDate().getTime()));
             preparedStatement.setDate(3, new java.sql.Date(project.getEndDate().getTime()));
+            
          
             preparedStatement.execute();
 
@@ -192,11 +167,12 @@ public class ProjectDAO implements IDBCUD {
 		Project project = (Project) object;
         try {
             String query = "UPDATE project SET name = ?,startDate = ?, "
-                    + "endDate= ?";
+                    + "endDate= ? where name = ?";
             PreparedStatement preparedStatement = con.prepareStatement(query);
             preparedStatement.setString(1, project.getName());
             preparedStatement.setDate(2, new java.sql.Date(project.getStartDate().getTime()));
             preparedStatement.setDate(3, new java.sql.Date(project.getEndDate().getTime()));
+            preparedStatement.setString(4, origKey);
             preparedStatement.execute();
         } catch (SQLException sqlException) {
             sqlException.printStackTrace();
@@ -210,6 +186,33 @@ public class ProjectDAO implements IDBCUD {
             }
         }
 	}
+	
+	public Iterator filter(Iterator conditions) {
+        Connection con = DBConnection.getConnection();
+        ArrayList<Project> projects = new ArrayList<Project>();
+        QueryFilterDirector director = new QueryFilterDirector(new ProjectFilterQueryBuilder());
+        try {
+            String query = director.getQuery(conditions);
+            System.out.println(query + " method\n");
+            PreparedStatement preparedStatement = con.prepareStatement(query);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                Project project = new Project(resultSet.getString("name"), resultSet.getDate("startDate"), resultSet.getDate("endDate"));
+                projects.add(project);
+            }
+        } catch (Exception Exception) {
+            Exception.printStackTrace();
+        } finally {
+            try {
+                if (con != null) {
+                    con.close();
+                }
+            } catch (SQLException sqlee) {
+                sqlee.printStackTrace();
+            }
+        }
+        return projects.iterator();
+    }
 
 	@Override
 	public void delete(Object object) {
@@ -233,6 +236,49 @@ public class ProjectDAO implements IDBCUD {
             }
         }
     }
+	
+	public void deleteAssignment(Object object) {
+		Connection con = DBConnection.getConnection();
+        Project project = (Project) object;
+        try {
+            String query = "DELETE FROM projectassignment WHERE project = ?;";
+            PreparedStatement preparedStatement = con
+                    .prepareStatement(query);
+            preparedStatement.setString(1, project.getName());
+            preparedStatement.execute();
+        } catch (SQLException sqlException) {
+            sqlException.printStackTrace();
+        }finally {
+            try {
+                if (con != null) {
+                    con.close();
+                }
+            } catch (SQLException sqlee) {
+                sqlee.printStackTrace();
+            }
+        }
+    }
+	
+	public void addEmployees(Object object, Object object2){
+    	Employee employee = (Employee) object;
+    	Project project = (Project) object2;
+    	
+        String query = "INSERT IGNORE INTO projectassignment VALUES(?,?);";
+           
+            try {
+            	PreparedStatement preparedStatement = DBConnection.getConnection().prepareStatement(query);
+				preparedStatement.setString(1, project.getName());
+				preparedStatement.setInt(2, employee.getID());
+	            preparedStatement.execute();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+    }
+	
+	
+	
 	
 
 }

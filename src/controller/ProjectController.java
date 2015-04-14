@@ -3,9 +3,11 @@ package controller;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import model.Employee;
 import model.Project;
 import model.Supplier;
 import model.database.DAO;
+import model.database.ProjectDAO;
 import view.Observer;
 import view.Subject;
 
@@ -13,11 +15,13 @@ public class ProjectController implements Subject {
 	
 	private static ProjectController instance;
     private DAO dao;
+    private ProjectDAO projectDAO;
     private Project project;
     private ArrayList<Observer> observerList;
 
     public ProjectController() {
         dao = DAO.getInstance();
+        projectDAO = new ProjectDAO();
         project = new Project();
         observerList = new ArrayList();
     }
@@ -33,11 +37,7 @@ public class ProjectController implements Subject {
         project = new Project();
     }
     
-    public Iterator filter(Iterator conds){
-        return dao.filter("project", conds);
-    }
-    
-    public Iterator search(String searchStr){
+     public Iterator search(String searchStr){
         return dao.search("project", searchStr);
     }
     
@@ -84,11 +84,33 @@ public class ProjectController implements Subject {
         dao.add("project", this.project);
         notifyObserver();
     }
+    
+    public void editProject(Project project, String key){
+    	this.project.setName(project.getName());
+    	this.project.setStartDate(project.getStartDate());
+        this.project.setEndDate(project.getEndDate());
+        this.project.setEmployeeList(project.getEmployeeList());
+        projectDAO.deleteAssignment(project);
+        dao.update("Project", this.project, key);
+        Iterator i = project.getEmployeeList();
+        while(i.hasNext()){
+        	Employee ofthemonth = (Employee) i.next();
+        	System.out.println("Controller employee: "+ofthemonth.getName());
+        	projectDAO.addEmployees(ofthemonth, this.project);
+        }
+        
+        notifyObserver();
+    	
+    }
+    
+    public Iterator getEmployees(){
+    	return project.getEmployeeList();
+    }
+    
+    public void setEmployees(Iterator employees){
+    	this.project.setEmployeeList(employees);
+    }
 
     
-    public void editProject(Project project) {
-		// TODO Auto-generated method stub
-
-    }
 
 }

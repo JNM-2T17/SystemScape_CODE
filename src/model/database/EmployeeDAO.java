@@ -216,7 +216,7 @@ public class EmployeeDAO implements IDBCUD {
     	Employee employee = (Employee) object;
     	Project project = (Project) object2;
     	
-        String query = "INSERT INTO projectassignment VALUES(?,?)";
+        String query = "INSERT INTO projectassignment VALUES(?,?);";
            
             try {
             	PreparedStatement preparedStatement = DBConnection.getConnection().prepareStatement(query);
