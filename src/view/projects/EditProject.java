@@ -11,22 +11,17 @@ import javax.swing.SpringLayout;
 import java.awt.List;
 
 import javax.swing.BorderFactory;
-import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JComboBox;
 import javax.swing.JButton;
-import javax.swing.JList;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
-import model.Employee;
 import model.Project;
 
 import com.toedter.calendar.JDateChooser;
 
-import controller.EmployeeController;
-import controller.ProjectController;
 import view.Button;
 import view.Message;
 
@@ -35,23 +30,16 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import java.util.Iterator;
-import javax.swing.border.LineBorder;
 
 public class EditProject extends JPanel implements ActionListener {
 	private JButton btnSubmit, btnRight, btnLeft, btnDblRight, btnDblLeft;
 	private JTextField txtProjects;
-	private JList listAll, listEmp;
-	private DefaultListModel allModel, empModel;
+	private List listAll, listEmp;
 	private JFrame parent;
 	private JDateChooser dateStart, dateEnd;
 
 	public EditProject(JFrame parent, Project project) {
 		this.parent = parent;
-		
-		allModel=new DefaultListModel();
-		empModel=new DefaultListModel();
-		
 		setBackground(Color.WHITE);
 		setLayout(new BorderLayout(0, 0));
 
@@ -99,7 +87,7 @@ public class EditProject extends JPanel implements ActionListener {
 		panContent.add(txtProjects);
 		txtProjects.setBackground(Color.WHITE);
 
-		JLabel lblAll = new JLabel("List of Employees:");
+		JLabel lblAll = new JLabel("List of Employeessssssss:");
 		sl_panContent.putConstraint(SpringLayout.WEST, lblProject, 0,
 				SpringLayout.WEST, lblAll);
 		sl_panContent.putConstraint(SpringLayout.NORTH, lblAll, 140,
@@ -109,7 +97,6 @@ public class EditProject extends JPanel implements ActionListener {
 		panContent.add(lblAll);
 
 		btnRight = new JButton(">");
-		btnRight.addActionListener(this);
 		sl_panContent.putConstraint(SpringLayout.NORTH, btnRight, 140,
 				SpringLayout.SOUTH, dateEnd);
 		btnRight.setForeground(Color.white);
@@ -117,7 +104,6 @@ public class EditProject extends JPanel implements ActionListener {
 		panContent.add(btnRight);
 
 		btnLeft = new JButton("<");
-		btnLeft.addActionListener(this);
 		btnLeft.setForeground(Color.white);
 		btnLeft.setBackground(new Color(32, 130, 213));
 		sl_panContent.putConstraint(SpringLayout.NORTH, btnLeft, 5,
@@ -129,7 +115,6 @@ public class EditProject extends JPanel implements ActionListener {
 		panContent.add(btnLeft);
 
 		btnDblRight = new JButton(">>");
-		btnDblRight.addActionListener(this);
 		btnDblRight.setForeground(Color.white);
 		btnDblRight.setBackground(new Color(32, 130, 213));
 		sl_panContent.putConstraint(SpringLayout.WEST, btnDblRight, 0,
@@ -145,7 +130,6 @@ public class EditProject extends JPanel implements ActionListener {
 		panContent.add(btnDblRight);
 
 		btnDblLeft = new JButton("<<");
-		btnDblLeft.addActionListener(this);
 		btnDblLeft.setForeground(Color.white);
 		btnDblLeft.setBackground(new Color(32, 130, 213));
 		sl_panContent.putConstraint(SpringLayout.NORTH, btnDblLeft, 5,
@@ -156,9 +140,7 @@ public class EditProject extends JPanel implements ActionListener {
 				SpringLayout.EAST, btnRight);
 		panContent.add(btnDblLeft);
 
-		
-		listAll = new JList(allModel);
-		listAll.setBorder(new LineBorder(new Color(0, 0, 0)));
+		listAll = new List();
 		// listAll.setIgnoreRepaint(true);
 		sl_panContent.putConstraint(SpringLayout.EAST, listAll, 350,
 				SpringLayout.WEST, panContent);
@@ -174,7 +156,7 @@ public class EditProject extends JPanel implements ActionListener {
 				SpringLayout.SOUTH, lblAll);
 		panContent.add(listAll);
 
-		JLabel lblEmp = new JLabel("List of Project Employees:");
+		JLabel lblEmp = new JLabel("List of Project Employeessssss:");
 		sl_panContent.putConstraint(SpringLayout.NORTH, lblEmp, 0,
 				SpringLayout.NORTH, lblAll);
 		sl_panContent.putConstraint(SpringLayout.WEST, lblEmp, 249,
@@ -183,8 +165,7 @@ public class EditProject extends JPanel implements ActionListener {
 				SpringLayout.EAST, panContent);
 		panContent.add(lblEmp);
 
-		listEmp = new JList(empModel);
-		listEmp.setBorder(new LineBorder(new Color(0, 0, 0)));
+		listEmp = new List();
 		// listEmp.setIgnoreRepaint(true);
 		sl_panContent.putConstraint(SpringLayout.NORTH, listEmp, 0,
 				SpringLayout.NORTH, listAll);
@@ -235,14 +216,6 @@ public class EditProject extends JPanel implements ActionListener {
 		btnSubmit.setBackground(new Color(32, 130, 213));
 		btnSubmit.setFont(new Font("Arial", Font.PLAIN, 18));
 		btnSubmit.addActionListener(this);
-		
-		
-		
-		Iterator it=EmployeeController.getInstance().getAll();
-		while(it.hasNext()){
-			Employee emp=(Employee) it.next();
-			allModel.addElement(emp);
-		}
 	}
 
 	public String checkInput() {
@@ -271,32 +244,6 @@ public class EditProject extends JPanel implements ActionListener {
 				new Message(parent, Message.ERROR, text);
 			}
 		} else {
-			if(e.getSource()==btnRight){
-				Employee emp=(Employee) listAll.getSelectedValue();
-				if(emp!=null){
-					allModel.removeElement(emp);
-					empModel.addElement(emp);
-				}
-			}
-			if(e.getSource()==btnLeft){
-				Employee emp=(Employee) listEmp.getSelectedValue();
-				if(emp!=null){
-					empModel.removeElement(emp);
-					allModel.addElement(emp);
-				}
-			}
-			if(e.getSource()==btnDblRight){
-				for (int i = 0; i < allModel.getSize(); i++) {
-					empModel.addElement(allModel.get(i));
-				}
-				allModel.removeAllElements();
-			}
-			if(e.getSource()==btnDblLeft){
-				for (int i = 0; i < empModel.getSize(); i++) {
-					allModel.addElement(empModel.get(i));
-				}
-				empModel.removeAllElements();
-			}
 			this.repaint();
 			this.revalidate();
 		}
