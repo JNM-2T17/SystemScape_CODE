@@ -34,6 +34,7 @@ public class EmployeeController implements Subject {
         observerList = new ArrayList();
         employee = new Employee();
         employeeDAO = new EmployeeDAO();
+        
     }
     
     public static EmployeeController getInstance() {
@@ -69,11 +70,35 @@ public class EmployeeController implements Subject {
         }
         notifyObserver();
     }
+    
+    
+    public void editEmployee(Employee emp, String key) {
+    	employee.setName(emp.getName());
+    	employee.setID(emp.getID());
+    	employee.setStatus(emp.getStatus());
+    	employee.setProjectList(emp.getProjectList());
+    	System.out.println("Employee name: "+employee.getName());
+    	System.out.println("Employee id: "+employee.getID());
+    	System.out.println("Employee status: "+employee.getStatus());
+    	
+    	dao.update("Employee", employee, key);
+    	Iterator i = employee.getProjectList();
+    	while(i.hasNext()){
+    		Project pie = (Project) i.next();
+    		System.out.println("Project: "+pie);
+    		employeeDAO.addProjects(employee, pie);
+    	}
+    	
+    	notifyObserver();
+    }
 
     public Object getObject(String key) {
         return dao.get("Employee", key);
     }
-
+    
+    public Employee getEmployee(){
+    	return employee;
+    }
     public Iterator getAll() {
         return dao.get("Employee");
     }

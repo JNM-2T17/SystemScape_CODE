@@ -1,4 +1,4 @@
-package model.database;
+	package model.database;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -26,7 +26,7 @@ public class ProjectDAO implements IDBCUD {
             while (resultSet.next()) {
                 startDate = new java.util.Date(resultSet.getDate("startDate").getTime());
                 endDate = new java.util.Date(resultSet.getDate("endDate").getTime());
-                Project project = new Project(resultSet.getString("name"), startDate, endDate, resultSet.getString("employee"));
+                Project project = new Project(resultSet.getString("name"), startDate, endDate);
                 projects.add(project);
             }
         } catch (SQLException sqlException) {
@@ -57,7 +57,7 @@ public class ProjectDAO implements IDBCUD {
             if (resultSet.next()) {
             	startDate = new java.util.Date(resultSet.getDate("startDate").getTime());
                 endDate = new java.util.Date(resultSet.getDate("endDate").getTime());
-            	Project project = new Project(resultSet.getString("name"), startDate, endDate, resultSet.getString("employee"));
+            	Project project = new Project(resultSet.getString("name"), startDate, endDate);
                 
 
                 try {
@@ -112,7 +112,7 @@ public class ProjectDAO implements IDBCUD {
             while (resultSet.next()) {
                 startDate = new java.util.Date(resultSet.getDate("startDate").getTime());
                 endDate = new java.util.Date(resultSet.getDate("endDate").getTime());
-                Project project = new Project(resultSet.getString("name"), startDate, endDate, resultSet.getString("employee"));
+                Project project = new Project(resultSet.getString("name"), startDate, endDate);
                 projects.add(project);
             }
         } catch (SQLException sqlException) {
@@ -135,12 +135,12 @@ public class ProjectDAO implements IDBCUD {
         Project project = (Project) object;
         try {
 
-            String query = "INSERT INTO project VALUES(?,?,?,?);";
+            String query = "INSERT INTO project VALUES(?,?,?);";
             PreparedStatement preparedStatement = con.prepareStatement(query);
             preparedStatement.setString(1, project.getName());
             preparedStatement.setDate(2, new java.sql.Date(project.getStartDate().getTime()));
             preparedStatement.setDate(3, new java.sql.Date(project.getEndDate().getTime()));
-            preparedStatement.setString(4, project.getEmployee());
+            
          
             preparedStatement.execute();
 
@@ -164,12 +164,12 @@ public class ProjectDAO implements IDBCUD {
 		Project project = (Project) object;
         try {
             String query = "UPDATE project SET name = ?,startDate = ?, "
-                    + "endDate= ?";
+                    + "endDate= ? where name = ?";
             PreparedStatement preparedStatement = con.prepareStatement(query);
             preparedStatement.setString(1, project.getName());
             preparedStatement.setDate(2, new java.sql.Date(project.getStartDate().getTime()));
             preparedStatement.setDate(3, new java.sql.Date(project.getEndDate().getTime()));
-            preparedStatement.setString(4, project.getEmployee());
+            preparedStatement.setString(4, origKey);
             preparedStatement.execute();
         } catch (SQLException sqlException) {
             sqlException.printStackTrace();
@@ -206,6 +206,9 @@ public class ProjectDAO implements IDBCUD {
             }
         }
     }
+	
+	
+	
 	
 
 }

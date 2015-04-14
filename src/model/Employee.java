@@ -70,18 +70,19 @@ public class Employee {
 		return projects.iterator();
 	}
 	
+	public void delete(){
+		for(int i =0; i<projects.size(); i++)
+			projects.remove(i);
+	}
 	
-	public void addProject(String name, Date startDate, Date endDate, String employee) {
-		projects.add(new Project(name, startDate, endDate, employee));
+	public void addProject(String name, Date startDate, Date endDate) {
+		projects.add(new Project(name, startDate, endDate));
 	}
 
 	public void setProjectList(Iterator project) {
 		while(project.hasNext()){
 			this.projects.add(((Project)project.next()));
-		}
-	}
+    }
 	
-	public String toString(){
-		return name;
-	}
+}
 }

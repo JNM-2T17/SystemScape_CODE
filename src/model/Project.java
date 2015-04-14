@@ -7,19 +7,19 @@ public class Project {
 	private String name;
 	private Date startDate;
 	private Date endDate;
-	private String employee;
 	
-	public Project(String name, Date startDate, Date endDate, String employee){
+	public Project(String name, Date startDate, Date endDate){
 		setName(name);
 		setStartDate(startDate);
 		setEndDate(endDate);
-		setEmployee(employee);
+		
 	}
 	
 	public Project(){
 		setName("");
 		setStartDate(null);
 		setEndDate(null);
+		
 	}
 	
 	public void setName(String name){
@@ -44,14 +44,6 @@ public class Project {
 	
 	public Date getEndDate(){
 		return endDate;
-	}
-	
-	public void setEmployee(String employee){
-		this.employee = employee;
-	}
-	
-	public String getEmployee(){
-		return employee;
 	}
 	
 	public String toString(){

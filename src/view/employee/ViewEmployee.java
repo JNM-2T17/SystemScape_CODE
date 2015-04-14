@@ -97,14 +97,14 @@ public class ViewEmployee extends ViewTemplate implements Observer{
 			String projectsString = "";
 			String projectsDate = "";
 			int i = 0;
-			while(projectsIterator.hasNext()){
-				projectsString = projectsString + ((Project) projectsIterator.next()).toString() + ", ";
-				projectsList.add((Project) projectsIterator.next());
-				projectsDate = projectsDate + "StartDate: " + projectsList.get(i).getStartDate() + " EndDate: +" + projectsList.get(i).getEndDate() + ", ";
-				
-				i+=1;
-				System.out.println(projectsString);
-			}
+//			while(projectsIterator.hasNext()){
+//				projectsString = projectsString + ((Project) projectsIterator.next()).toString() + ", ";
+//				projectsList.add((Project) projectsIterator.next());
+//				projectsDate = projectsDate + "StartDate: " + projectsList.get(i).getStartDate() + " EndDate: +" + projectsList.get(i).getEndDate() + ", ";
+//				
+//				i+=1;
+//				System.out.println(projectsString);
+//			}
 			getModel().setRowCount(getModel().getRowCount() + 1);
             getModel().setValueAt(employee.getName(),
             getModel().getRowCount() - 1, 0);

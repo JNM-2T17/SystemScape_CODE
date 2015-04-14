@@ -9,6 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.Iterator;
 
 import javax.swing.BorderFactory;
@@ -52,9 +53,10 @@ public class EditEmployee extends JPanel implements ActionListener {
 	private JComboBox cmbProj;
 	private JButton btnAdd;
 	private JFrame parent;
-	private Employee emp;
+	private Employee emp, employee;
 	private EmployeeController employeeController;
 	private ProjectController projectController;
+	private String prevKey;
 
 	public EditEmployee(JFrame parent, Employee emp) {
 		this.parent=parent;
@@ -78,6 +80,7 @@ public class EditEmployee extends JPanel implements ActionListener {
 		txtName.setBounds(251, 89, 372, 25);
 		panContent.add(txtName);
 		txtName.setColumns(10);
+		//prevKey = Integer.toString(emp.getID());
 
 		JLabel lblStatus = new JLabel("Status:");
 		lblStatus.setBounds(158, 130, 92, 26);
@@ -249,23 +252,37 @@ public class EditEmployee extends JPanel implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
-		if(e.getSource()==btnSubmit){
+		if(e.getSource()==btnSubmit){	
 			System.out.println(projList);
-//			String text=checkInput();
-//			if(text.equals("")){
-//				Employee checkEmployee;
-//				Employee employee = new Employee(employeeController.getEmployeeID(), txtName.getText(), (String)cmbStatus.getSelectedItem());
-//			
-//				ArrayList<Project> projects = new ArrayList<Project>();
-//				Iterator projectList = projectController.getAll();
-//				while(projectList.hasNext()){
-//					projects.add((Project) projectList.next());
-//				}
-//			}
-//			else{
-//				new Message(parent, Message.ERROR,
-//						text);
-//			}
+			String text=checkInput();
+			if(text.equals("")){
+				
+				Employee checkEmployee;
+				employee = new Employee(emp.getID(), txtName.getText(), (String)cmbStatus.getSelectedItem());
+				
+				int employeeID = emp.getID();
+				System.out.println("Employee id selected: "+employeeID);
+				System.out.println("Employee status: "+employee.getStatus());
+				int i = 0;
+				System.out.println("ProjList size: "+projList.size());
+				for(i = 0; i<projList.size(); i++){
+					System.out.println("project k: "+projList.get(i).getName());
+					
+					employee.addProject(projList.get(i).getName(), projList.get(i).getStartDate(), projList.get(i).getEndDate());
+				}
+				prevKey = Integer.toString(employee.getID());
+				employeeController.editEmployee(employee, prevKey);
+				employeeController.init();
+				
+				Message msg = new Message(parent, Message.SUCCESS,
+						"Employee added successfully.");
+				
+			}else{
+				new Message(parent, Message.ERROR,
+						text);
+			}
+
+			
 			
 		}
 		else if (e.getActionCommand().equals("add")) {
@@ -274,7 +291,12 @@ public class EditEmployee extends JPanel implements ActionListener {
 			if(((JComboBox) temp.getComponent(0)).getItemCount()==0){
 				((JComboBox) temp.getComponent(0)).setVisible(false);
 				btnAdd.setVisible(false);
+				
 			}
+			
+			
+			
+			
 		} else {
 			int index = close.indexOf(e.getSource());
 			

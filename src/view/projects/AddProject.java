@@ -149,7 +149,7 @@ public class AddProject extends JPanel implements ActionListener {
 			if (text.equals("")) {
 				Project checkProject;
 				Project project = new Project(txtName.getText(),
-						dateStart.getDate(), dateEnd.getDate(), " ");
+						dateStart.getDate(), dateEnd.getDate());
 
 				projectController.addProject(project);
 				projectController.init();

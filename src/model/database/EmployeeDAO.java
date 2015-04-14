@@ -41,7 +41,7 @@ public class EmployeeDAO implements IDBCUD {
                 ArrayList<Project> projects= new ArrayList();
                 
                 while(resultSet2.next()){
-                    projects.add(new Project(resultSet2.getString("name"), resultSet2.getDate("startDate"), resultSet2.getDate("endDate"), resultSet.getString("name")));
+                    projects.add(new Project(resultSet2.getString("name"), resultSet2.getDate("startDate"), resultSet2.getDate("endDate")));
                 }
                 if(!projects.isEmpty())
                     employee.setProjectList(projects.iterator());
@@ -71,7 +71,7 @@ public class EmployeeDAO implements IDBCUD {
                 ResultSet resultSet2 = preparedStatement2.executeQuery();
                 ArrayList<Project> projects= new ArrayList();
                 while(resultSet2.next()){
-                    projects.add(new Project(resultSet2.getString("name"), resultSet2.getDate("startDate"), resultSet2.getDate("endDate"), resultSet.getString("name")));
+                    projects.add(new Project(resultSet2.getString("name"), resultSet2.getDate("startDate"), resultSet2.getDate("endDate")));
                 }
                 employee.setProjectList(projects.iterator());
                 return employee;
@@ -99,6 +99,7 @@ public class EmployeeDAO implements IDBCUD {
         return id;
     }
 
+
     public Iterator search(String searchStr) {
 
         ArrayList<Employee> employees = new ArrayList<Employee>();
@@ -119,7 +120,7 @@ public class EmployeeDAO implements IDBCUD {
                 ResultSet resultSet2 = preparedStatement2.executeQuery();
                 ArrayList<Project> projects= new ArrayList();
                 while(resultSet2.next()){
-                    projects.add(new Project(resultSet2.getString("name"), resultSet2.getDate("startDate"), resultSet2.getDate("endDate"), resultSet.getString("name")));
+                    projects.add(new Project(resultSet2.getString("name"), resultSet2.getDate("startDate"), resultSet2.getDate("endDate")));
                 }
                 employee.setProjectList(projects.iterator());
                 employees.add(employee);
@@ -182,8 +183,9 @@ public class EmployeeDAO implements IDBCUD {
             for(Iterator i = employee.getProjectList(); i.hasNext();){
                 query = "INSERT INTO projectassignment VALUES(?,?)";
                 preparedStatement = connection.prepareStatement(query);
-                preparedStatement.setInt(1, employee.getID());
-                preparedStatement.setString(2, ((Project)i.next()).getName());
+                preparedStatement.setString(1, ((Project)i.next()).getName());
+                preparedStatement.setInt(2, employee.getID());
+           
                 preparedStatement.execute();
             }
         } catch (SQLException sqlException) {
@@ -196,17 +198,40 @@ public class EmployeeDAO implements IDBCUD {
         Employee employee = (Employee) object;
 
         try {
-            String query = "UPDATE employee SET ID = ?,name = ? WHERE ID = ?;";
+            String query = "UPDATE employee SET ID = ?,name = ?, status=? WHERE ID = ?;";
             PreparedStatement preparedStatement = DBConnection.getConnection().prepareStatement(query);
             preparedStatement.setInt(1, employee.getID());
             preparedStatement.setString(2, employee.getName());//not sure bout the address format
-            preparedStatement.setString(3, origKey);
+            preparedStatement.setString(3, employee.getStatus());
+            preparedStatement.setString(4, origKey);
             preparedStatement.execute();
+            
         } catch (SQLException sqlException) {
             sqlException.printStackTrace();
         }
 
     }
+    
+    public void addProjects(Object object, Object object2){
+    	Employee employee = (Employee) object;
+    	Project project = (Project) object2;
+    	
+        String query = "INSERT INTO projectassignment VALUES(?,?)";
+           
+            try {
+            	PreparedStatement preparedStatement = DBConnection.getConnection().prepareStatement(query);
+				preparedStatement.setString(1, project.getName());
+				preparedStatement.setInt(2, employee.getID());
+	            preparedStatement.execute();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+            
+        
+    }
+    
+    
 
     public void delete(Object object) {
 
