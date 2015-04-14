@@ -97,10 +97,14 @@ public class ViewProjects extends ViewTemplate implements Observer {
 	public void filterPopulate(Iterator data) {
 		clearTable();
 		while (data.hasNext()) {
+                        Project project = (Project)data.next();
 			getModel().setRowCount(getModel().getRowCount() + 1);
-			getModel().setValueAt(data.next(), getModel().getRowCount() - 1, 0);
-			getModel().setValueAt(data.next(), getModel().getRowCount() - 1, 1);
-			getModel().setValueAt(data.next(), getModel().getRowCount() - 1, 2);
+			getModel().setValueAt(project.getName(), getModel().getRowCount() - 1, 0);
+			getModel().setValueAt(project.getStartDate(), getModel().getRowCount() - 1, 1);
+			getModel().setValueAt(project.getEndDate(), getModel().getRowCount() - 1, 2);
+                        getModel().setValueAt(new ProjectCellEdit(project, tab),
+    				getModel().getRowCount() - 1, 3);
+
 			
 		}
 	}

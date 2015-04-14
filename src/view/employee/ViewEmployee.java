@@ -61,8 +61,9 @@ public class ViewEmployee extends ViewTemplate implements Observer{
 			String projectsDate = "";
 			int i = 0;
 			while(projectsIterator.hasNext()){
-				projectsString = projectsString + ((Project) projectsIterator.next()).toString() + ", ";
-				projectsList.add((Project) projectsIterator.next());
+                                Project project = (Project)projectsIterator.next();
+				projectsString = projectsString + project.toString() + ", ";
+				projectsList.add(project);
 				projectsDate = projectsDate + "StartDate: " + projectsList.get(i).getStartDate() + " EndDate: +" + projectsList.get(i).getEndDate() + ", ";
 				
 				i+=1;

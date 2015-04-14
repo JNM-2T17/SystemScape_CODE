@@ -22,14 +22,17 @@ import com.toedter.calendar.JDateChooser;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 
 public class FilterProject extends PopUp implements ActionListener {
 	private JTextField txtName;
 	private JDateChooser dateStart;
 	private JDateChooser dateEnd;
 	private JButton btnFilter;
-
+        private boolean closed=true;
+        
 	public FilterProject(JFrame parent) {
 		super(parent);
 		JPanel panMain = new JPanel();
@@ -104,6 +107,7 @@ public class FilterProject extends PopUp implements ActionListener {
 
 		btnFilter = new JButton("Filter");
 		btnFilter.setFont(new Font("Arial", Font.PLAIN, 18));
+                btnFilter.addActionListener(this);
 		panFooter.add(btnFilter);
 		btnFilter.setForeground(Color.white);
 		btnFilter.setBackground(new Color(32, 130, 213));
@@ -117,11 +121,29 @@ public class FilterProject extends PopUp implements ActionListener {
 		this.repaint();
 		this.revalidate();
 	}
-
+        
+        public Iterator getValues(){
+		ArrayList list=new ArrayList();
+		
+		list.add(txtName.getText());
+		list.add(new java.sql.Date(dateStart.getDate().getTime()));
+		list.add(new java.sql.Date(dateEnd.getDate().getTime()));
+		
+		return list.iterator();
+	}
+        
+        public boolean isClosed(){
+		return closed;
+	}
+        
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		if (e.getSource() == getClose()) {
+			this.dispose();
+		} else if (e.getSource() == btnFilter) {
+                        System.out.println("misery");
+			closed=false;
 			this.dispose();
 		}
 	}

@@ -33,7 +33,11 @@ public class ProjectController implements Subject {
         project = new Project();
     }
     
-     public Iterator search(String searchStr){
+    public Iterator filter(Iterator conds){
+        return dao.filter("project", conds);
+    }
+    
+    public Iterator search(String searchStr){
         return dao.search("project", searchStr);
     }
     
