@@ -61,7 +61,7 @@ public class ExportPO extends PopUp implements ActionListener{
 		SpringLayout sl_panContent = new SpringLayout();
 		panContent.setLayout(sl_panContent);
 
-		JLabel lblName = new JLabel("Name:");
+		JLabel lblName = new JLabel("Filename:");
 		sl_panContent.putConstraint(SpringLayout.NORTH, lblName, 50,
 				SpringLayout.NORTH, panContent);
 		sl_panContent.putConstraint(SpringLayout.WEST, lblName, 50,
@@ -78,29 +78,32 @@ public class ExportPO extends PopUp implements ActionListener{
 		txtName = new JTextField();
 		sl_panContent.putConstraint(SpringLayout.NORTH, txtName, 50,
 				SpringLayout.NORTH, panContent);
-		sl_panContent.putConstraint(SpringLayout.WEST, txtName, 72,
-				SpringLayout.EAST, lblName);
-		sl_panContent.putConstraint(SpringLayout.EAST, txtName, -30,
-				SpringLayout.EAST, panContent);
 		panContent.add(txtName);
 		txtName.setColumns(10);
 
 		txtDest = new JTextField();
-		sl_panContent.putConstraint(SpringLayout.WEST, txtDest, 0, SpringLayout.WEST, txtName);
+		sl_panContent.putConstraint(SpringLayout.WEST, txtName, 0,
+				SpringLayout.WEST, txtDest);
+		sl_panContent.putConstraint(SpringLayout.EAST, txtName, 0,
+				SpringLayout.EAST, txtDest);
+		sl_panContent.putConstraint(SpringLayout.WEST, txtDest, 22, SpringLayout.EAST, lblDestination);
 		sl_panContent.putConstraint(SpringLayout.SOUTH, txtDest, 0, SpringLayout.SOUTH, lblDestination);
 		panContent.add(txtDest);
 		txtDest.setColumns(10);
 
 		btnBrowse = new JButton("Browse");
+		sl_panContent.putConstraint(SpringLayout.EAST, txtDest, -10, SpringLayout.WEST, btnBrowse);
+		sl_panContent.putConstraint(SpringLayout.EAST, btnBrowse, -30, SpringLayout.EAST, panContent);
 		btnBrowse.addActionListener(this);
 		btnBrowse.setBackground(Color.white);
-		sl_panContent.putConstraint(SpringLayout.EAST, txtDest, -6,
-				SpringLayout.WEST, btnBrowse);
 		sl_panContent.putConstraint(SpringLayout.SOUTH, btnBrowse, 0,
 				SpringLayout.SOUTH, lblDestination);
-		sl_panContent.putConstraint(SpringLayout.EAST, btnBrowse, 0,
-				SpringLayout.EAST, txtName);
 		panContent.add(btnBrowse);
+		
+		JLabel lblcsv = new JLabel(".csv");
+		sl_panContent.putConstraint(SpringLayout.WEST, lblcsv, 10, SpringLayout.EAST, txtName);
+		sl_panContent.putConstraint(SpringLayout.SOUTH, lblcsv, 0, SpringLayout.SOUTH, lblName);
+		panContent.add(lblcsv);
 		
 		setContent(panMain);
 		getClose().addActionListener(this);
