@@ -55,6 +55,7 @@ public class FilterEmployee extends PopUp implements ActionListener {
 
 		btnFilter = new JButton("Filter");
 		panFooter.add(btnFilter);
+		btnFilter.addActionListener(this);
 		btnFilter.setForeground(Color.white);
 		btnFilter.setBackground(new Color(32, 130, 213));
 		btnFilter.setFont(new Font("Arial", Font.PLAIN, 18));
@@ -117,8 +118,7 @@ public class FilterEmployee extends PopUp implements ActionListener {
 		panContent.add(cmbProject);
 
 		getClose().addActionListener(this);
-                
-                employeeController = EmployeeController.getInstance();
+        employeeController = EmployeeController.getInstance();
                 
 		setContent(panMain);
 		this.setVisible(true);

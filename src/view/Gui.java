@@ -33,7 +33,7 @@ public class Gui extends JFrame {
             protected boolean isWithinBorder(MouseEvent e) {
                 Point p = e.getPoint();
                 Component comp = e.getComponent();
-                return p.x < 10 || p.y < 10 || p.x > comp.getWidth() - 10 || p.y > comp.getHeight()  - 10;
+                return p.x < 10;
             }
 
             @Override

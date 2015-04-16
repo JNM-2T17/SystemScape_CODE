@@ -47,6 +47,7 @@ public class FilterInventory extends PopUp implements ActionListener {
 		panMain.add(panFooter, BorderLayout.SOUTH);
 
 		btnFilter = new JButton("Filter");
+		btnFilter.addActionListener(this);
 		panFooter.add(btnFilter);
 		btnFilter.setForeground(Color.white);
 		btnFilter.setBackground(new Color(32, 130, 213));
