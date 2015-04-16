@@ -38,11 +38,13 @@ public class FilterSupplier extends PopUp implements ActionListener {
 	private JButton btnFilter, btnRemoveFilter;
 	private JComboBox cmbContact;
 	private SupplierController supplierController;
+        private ArrayList list;
 
 	private boolean closed=true;
 
 	public FilterSupplier(JFrame parent) {
 		super(parent);
+                list=new ArrayList();
 		supplierController = SupplierController.getInstance();
 		JPanel panel = new JPanel();
 		panel.setPreferredSize(new Dimension(500, 350));
@@ -196,23 +198,16 @@ public class FilterSupplier extends PopUp implements ActionListener {
 	}
 
 	public Iterator getValues(){
-		ArrayList list=new ArrayList();
-
-		System.out.println("FS VALUES: ");
+            if(list!=null){
 		list.add((String)cmbSupplier.getSelectedItem());
-
-		System.out.println(cmbSupplier.getSelectedItem());
 		list.add(txtCountry.getText());
-		System.out.println(txtCountry.getText());
 		list.add(txtState.getText());
-		System.out.println(txtState.getText());
 		list.add(txtCity.getText());
-		System.out.println(txtCity.getText());
 		list.add(txtContact.getText());
-		System.out.println(txtContact.getText());
 		list.add((String)cmbContact.getSelectedItem());
-		System.out.println((String)cmbContact.getSelectedItem());
-		return list.iterator();
+                return list.iterator();
+            }
+            return null;
 	}
 
 	public boolean checkFields()
@@ -248,13 +243,17 @@ public class FilterSupplier extends PopUp implements ActionListener {
 			 * list to the original if not one of the fields is filled up/
 			 * All fields are empty
 			 *****/
-			this.dispose();
+                        list = null;
+                        closed = false;
+                        this.dispose();
 		}
 		else if (e.getSource() == btnRemoveFilter){
 			/***
 			 * DEV insert code statements here to remove the filter and set the view table to the original
 			 * meaning yung walang filter...
 			*****/
+                        list = null;
+                        closed = false;
 			this.dispose();
 		}
 	}

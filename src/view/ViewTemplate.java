@@ -5,9 +5,11 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 
 import javax.swing.BorderFactory;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JToggleButton;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
@@ -136,6 +138,12 @@ public abstract class ViewTemplate extends JPanel{
 		table.getColumnModel().getColumn(index).setPreferredWidth(width);
 	}
 	
+	public void setRightCellRenderer(int index)
+	{
+		DefaultTableCellRenderer rightRenderer = new DefaultTableCellRenderer();
+		rightRenderer.setHorizontalAlignment(JLabel.RIGHT);
+		table.getColumnModel().getColumn(index).setCellRenderer(rightRenderer);
+	}
 	public void setColRendEdit(TableCellRenderer rend, TableCellEditor edit){
 		table.getColumnModel().getColumn(table.getColumnCount()-1).setCellRenderer(rend);
 		table.getColumnModel().getColumn(table.getColumnCount()-1).setCellEditor(edit);

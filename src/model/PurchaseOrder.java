@@ -22,6 +22,7 @@ public class PurchaseOrder {
     private HashMap<ItemData, Integer> item;
     private HashMap<ItemData, Integer> itemRcvd;
     private String invoiceNo;
+    private String currency;
 
     public PurchaseOrder() {
         setDate(null);
@@ -32,7 +33,7 @@ public class PurchaseOrder {
         setSupplier(null);
     }
 
-    public PurchaseOrder(Date date, int idNo, String type, Supplier supplier, String invoiceNo) {
+    public PurchaseOrder(Date date, int idNo, String type, Supplier supplier, String invoiceNo, String currency) {
         setDate(date);
         setIdNo(idNo);
         setType(type);
@@ -48,6 +49,14 @@ public class PurchaseOrder {
     
     public void setInvoiceNo(String invoiceNo){
         this.invoiceNo = invoiceNo;
+    }
+    
+    public String getCurrency(){
+        return currency;
+    }
+    
+    public void setCurrency(String currency){
+        this.currency = currency;
     }
     
     public Date getDate() {

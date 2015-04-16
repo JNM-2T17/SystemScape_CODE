@@ -115,6 +115,7 @@ public class PurchaseOrderController implements Subject, PurchaseOrderInterface,
         po.setDate(purchaseOrder.getDate());
         po.setIdNo(purchaseOrder.getIdNo());
         po.setType(purchaseOrder.getType());
+        po.setCurrency(purchaseOrder.getCurrency());
         po.setSupplier(purchaseOrder.getSupplier());
 
         for (Iterator<ItemData> i = po.getItems(); i.hasNext();) {

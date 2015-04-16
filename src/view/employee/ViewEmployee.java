@@ -1,6 +1,8 @@
 package view.employee;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 
 import javax.swing.JFrame;
@@ -20,17 +22,16 @@ public class ViewEmployee extends ViewTemplate implements Observer{
 	EmployeeController employeeController;
 	private TabEmployees tab;
 	private JFrame parent;
+	private SimpleDateFormat dateFormat;
 	
 	public ViewEmployee(JFrame parent, TabEmployees tab){
 		super();
 		this.parent=parent;
 		this.tab = tab;
-		if (this.tab == null)
-			System.out.println("VIEW CONST TAB NULL");
-		else
-			System.out.println("Gio");
+		dateFormat = new SimpleDateFormat("MMMM dd, yyyy");
 		employeeController = EmployeeController.getInstance();
 		employeeController.registerObserver(this);
+		
 	}
 
 	@Override
@@ -59,12 +60,26 @@ public class ViewEmployee extends ViewTemplate implements Observer{
 			Iterator projectsIterator = employee.getProjectList();
 			String projectsString = "";
 			String projectsDate = "";
+			Date sDate = null;
+			Date eDate = null;
 			int i = 0;
 			while(projectsIterator.hasNext()){
                                 Project project = (Project)projectsIterator.next();
 				projectsString = projectsString + project.toString() + ", ";
 				projectsList.add(project);
-				projectsDate = projectsDate + "StartDate: " + projectsList.get(i).getStartDate() + " EndDate: +" + projectsList.get(i).getEndDate() + ", ";
+				sDate = projectsList.get(i).getStartDate();
+				eDate = projectsList.get(i).getEndDate();
+				if(sDate != null && eDate != null)
+				{
+					projectsDate = projectsDate + "StartDate: " + dateFormat.format(sDate) 
+							 + "\n EndDate: " + dateFormat.format(eDate) + ", ";
+				}
+				else
+				{
+					projectsDate = projectsDate + "StartDate: " + sDate 
+							 + "\n EndDate: " + eDate + ", ";
+				}
+		
 				
 				i+=1;
 				System.out.println(projectsString);
@@ -98,14 +113,7 @@ public class ViewEmployee extends ViewTemplate implements Observer{
 			String projectsString = "";
 			String projectsDate = "";
 			int i = 0;
-//			while(projectsIterator.hasNext()){
-//				projectsString = projectsString + ((Project) projectsIterator.next()).toString() + ", ";
-//				projectsList.add((Project) projectsIterator.next());
-//				projectsDate = projectsDate + "StartDate: " + projectsList.get(i).getStartDate() + " EndDate: +" + projectsList.get(i).getEndDate() + ", ";
-//				
-//				i+=1;
-//				System.out.println(projectsString);
-//			}
+
 			getModel().setRowCount(getModel().getRowCount() + 1);
             getModel().setValueAt(employee.getName(),
             getModel().getRowCount() - 1, 0);

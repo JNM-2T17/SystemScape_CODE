@@ -73,7 +73,8 @@ public class ViewSpecificPO extends JPanel {
 	private JLabel lblInclusive;
 
 	private DecimalFormat df; 
-
+	private SimpleDateFormat dateFormat;
+	private String sDate;
 	private JFrame parent;
 	public ViewSpecificPO(JFrame parent) {
 		setBackground(Color.WHITE);
@@ -81,6 +82,7 @@ public class ViewSpecificPO extends JPanel {
 		
 		df = new DecimalFormat("#,###,###,###,##0.00");
 		df.setMaximumFractionDigits(2);
+		dateFormat = new SimpleDateFormat("MMMM dd, yyyy");
 		
 		this.parent=parent;
 		poController = PurchaseOrderController.getInstance();
@@ -255,8 +257,7 @@ public class ViewSpecificPO extends JPanel {
 		cmbSupplier.setText(po.getSupplier().getName());
 		cmbClass.setText(po.getType());
 		
-		SimpleDateFormat dateFormat = new SimpleDateFormat("MMMM d, yyyy");
-		String sDate= dateFormat.format(po.getDate());
+		sDate = dateFormat.format(po.getDate());
 		dateChooser.setText(sDate);
 		
 		Iterator data = po.getItems();
@@ -273,7 +274,7 @@ public class ViewSpecificPO extends JPanel {
 			model.setValueAt(df.format(item.getUnitPrice()), model.getRowCount() - 1, 3);
 			model.setValueAt(df.format(po.computeTotal(item)), model.getRowCount() - 1, 4);
 			/********DEV INSERT QUANTITY RECEIVED HERE**********/
-			model.setValueAt("DEV INSERT QUANTITY", model.getRowCount() - 1, 5);
+			model.setValueAt(po.getQuantityRcvd(item), model.getRowCount() - 1, 5);
 		}
 		lblGrandValue.setText(String.valueOf(df.format(po.computeGrandTotal())));
 	}

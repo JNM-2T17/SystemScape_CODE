@@ -150,8 +150,9 @@ public class AddPO extends JPanel implements ActionListener, Observer {
 
 		lblCurrency = new JLabel("Currency :");
 		panCurrency.add(lblCurrency);
-
-		cmbCurrency = new JComboBox();
+                
+                String currencyTypes[]={"Australian Dollar", "Euro", "Php", "Yen" };
+		cmbCurrency = new JComboBox(currencyTypes);
 		cmbCurrency.setBackground(Color.white);
 		cmbCurrency.setPreferredSize(new Dimension(110, 30));
 		panCurrency.add(cmbCurrency);
@@ -305,7 +306,7 @@ public class AddPO extends JPanel implements ActionListener, Observer {
 				selectedDate = dateChooser.getDate();
 				Supplier supplier = (Supplier) supplierController.getObject((String) cmbSupplier.getSelectedItem());// dev
 				poController.addPurchaseOrder(new PurchaseOrder(selectedDate, 0,
-								cmbClass.getSelectedItem().toString(),supplier, ""));// dev
+								cmbClass.getSelectedItem().toString(),supplier, "",(String) cmbCurrency.getSelectedItem() ));// dev
 				Message msg = new Message(parent, Message.SUCCESS,"Purchase Order added successfully.");
 				clear();
 			} else {

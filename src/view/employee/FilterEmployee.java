@@ -26,7 +26,7 @@ import view.PopUp;
 
 public class FilterEmployee extends PopUp implements ActionListener {
 
-	private JButton btnFilter;
+	private JButton btnFilter, btnRemoveFilter;
 	private JComboBox cmbName;
 	private JComboBox cmbStatus, cmbProject;
         private EmployeeController employeeController;
@@ -61,6 +61,13 @@ public class FilterEmployee extends PopUp implements ActionListener {
 		btnFilter.setFont(new Font("Arial", Font.PLAIN, 18));
 		panFooter.add(btnFilter);
 
+		btnRemoveFilter = new JButton("Remove Filter");
+		btnRemoveFilter.setForeground(new Color(255, 255, 255));
+		btnRemoveFilter.setFont(new Font("Arial", Font.PLAIN, 18));
+		btnRemoveFilter.setBackground(new Color(32, 130, 213));
+		btnRemoveFilter.addActionListener(this);
+		panFooter.add(btnRemoveFilter);
+		
 		JPanel panContent = new JPanel();
 		panContent.setBackground(Color.WHITE);
 		panMain.add(panContent, BorderLayout.CENTER);
@@ -126,12 +133,45 @@ public class FilterEmployee extends PopUp implements ActionListener {
 		this.revalidate();
 	}
 
+	public boolean checkFields()
+	{
+		boolean isEmpty = false;
+		if(cmbName.getSelectedIndex() == 0 && cmbStatus.getSelectedIndex() == 0 &&
+		   cmbProject.getSelectedIndex() == 0)
+		{
+			isEmpty = true;
+		}
+		
+		return isEmpty;
+	}
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
-		if (e.getSource() == btnFilter) {
+		if (e.getSource() == getClose()) {
 			this.dispose();
-		} else if (e.getSource() == getClose()) {
+		} 
+		/****
+		 * DEV Insert Code statements here to filter the list of suppliers 
+		 * if at least one of the fields is not empty/ meaning may laman kahit isa sa fields
+		 * kung mern then proceed to filtering the list
+		 *****/
+		else if (checkFields() == false && e.getSource() == btnFilter) {
+			this.dispose();
+		}
+		else if (checkFields() == true && e.getSource() == btnFilter ){
+			/****
+			 * DEV Insert Code statements here to set the 
+			 * list to the original if not one of the fields is filled up/
+			 * meaning if All fields are empty wag mag filter but insetad revert it back to the original
+			 * list of suppliers
+			 *****/
+			this.dispose();
+		}
+		else if (e.getSource() == btnRemoveFilter){
+			/***
+			 * DEV insert code statements here to remove the filter and set the view table to the original
+			 * meaning yung walang filter...
+			*****/
 			this.dispose();
 		}
 	}
