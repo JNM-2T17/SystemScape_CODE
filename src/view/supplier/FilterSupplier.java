@@ -33,24 +33,24 @@ import model.Supplier;
 public class FilterSupplier extends PopUp implements ActionListener {
 	private SpringLayout spring;
 	private JComboBox cmbSupplier;
-	private JTextField cmbCountry, cmbCity, cmbState;
+	private JTextField txtCountry, txtCity, txtState;
 	private JTextField txtContact;
-	private JButton btnFilter;
-        private JComboBox cmbContact;
-        private SupplierController supplierController;
-	
+	private JButton btnFilter, btnRemoveFilter;
+	private JComboBox cmbContact;
+	private SupplierController supplierController;
+
 	private boolean closed=true;
 
 	public FilterSupplier(JFrame parent) {
 		super(parent);
-                supplierController = SupplierController.getInstance();
+		supplierController = SupplierController.getInstance();
 		JPanel panel = new JPanel();
 		panel.setPreferredSize(new Dimension(500, 350));
 		panel.setSize(new Dimension(500, 350));
 		getContentPane().add(panel);
 		panel.setLayout(new BorderLayout(0, 0));
 		setContent(panel);
-		
+
 		JPanel panHeader = new JPanel();
 		panHeader.setBackground(Color.WHITE);
 		panel.add(panHeader, BorderLayout.NORTH);
@@ -117,35 +117,35 @@ public class FilterSupplier extends PopUp implements ActionListener {
 				SpringLayout.WEST, lblSupplier);
 		panContent.add(lblContact);
 
-		cmbState = new JTextField();
-		cmbState.setBackground(Color.WHITE);
-		spring.putConstraint(SpringLayout.NORTH, cmbState, 0,
+		txtState = new JTextField();
+		txtState.setBackground(Color.WHITE);
+		spring.putConstraint(SpringLayout.NORTH, txtState, 0,
 				SpringLayout.NORTH, lblState);
-		spring.putConstraint(SpringLayout.WEST, cmbState, 0, SpringLayout.WEST,
+		spring.putConstraint(SpringLayout.WEST, txtState, 0, SpringLayout.WEST,
 				cmbSupplier);
-		spring.putConstraint(SpringLayout.EAST, cmbState, 0, SpringLayout.EAST,
+		spring.putConstraint(SpringLayout.EAST, txtState, 0, SpringLayout.EAST,
 				cmbSupplier);
-		panContent.add(cmbState);
+		panContent.add(txtState);
 
-		cmbCountry = new JTextField();
-		cmbCountry.setBackground(Color.WHITE);
-		spring.putConstraint(SpringLayout.NORTH, cmbCountry, 0,
+		txtCountry = new JTextField();
+		txtCountry.setBackground(Color.WHITE);
+		spring.putConstraint(SpringLayout.NORTH, txtCountry, 0,
 				SpringLayout.NORTH, lblCountry);
-		spring.putConstraint(SpringLayout.WEST, cmbCountry, 0,
+		spring.putConstraint(SpringLayout.WEST, txtCountry, 0,
 				SpringLayout.WEST, cmbSupplier);
-		spring.putConstraint(SpringLayout.EAST, cmbCountry, 0,
+		spring.putConstraint(SpringLayout.EAST, txtCountry, 0,
 				SpringLayout.EAST, cmbSupplier);
-		panContent.add(cmbCountry);
+		panContent.add(txtCountry);
 
-		cmbCity = new JTextField();
-		cmbCity.setBackground(Color.WHITE);
-		spring.putConstraint(SpringLayout.NORTH, cmbCity, 0,
+		txtCity = new JTextField();
+		txtCity.setBackground(Color.WHITE);
+		spring.putConstraint(SpringLayout.NORTH, txtCity, 0,
 				SpringLayout.NORTH, lblCity);
-		spring.putConstraint(SpringLayout.WEST, cmbCity, 0, SpringLayout.WEST,
+		spring.putConstraint(SpringLayout.WEST, txtCity, 0, SpringLayout.WEST,
 				cmbSupplier);
-		spring.putConstraint(SpringLayout.EAST, cmbCity, 0, SpringLayout.EAST,
+		spring.putConstraint(SpringLayout.EAST, txtCity, 0, SpringLayout.EAST,
 				cmbSupplier);
-		panContent.add(cmbCity);
+		panContent.add(txtCity);
 
 		txtContact = new JTextField();
 		spring.putConstraint(SpringLayout.NORTH, txtContact, -1,
@@ -156,8 +156,8 @@ public class FilterSupplier extends PopUp implements ActionListener {
 				SpringLayout.EAST, cmbSupplier);
 		panContent.add(txtContact);
 		txtContact.setColumns(10);
-		
-                String opt[]={"", "FAX", "Telephone", "Cellphone"};
+
+		String opt[] = {"","FAX", "Telephone", "Cellphone"};
 		cmbContact = new JComboBox(opt);
 		cmbContact.setForeground(Color.BLACK);
 		spring.putConstraint(SpringLayout.WEST, cmbContact, 6, SpringLayout.EAST, txtContact);
@@ -175,56 +175,94 @@ public class FilterSupplier extends PopUp implements ActionListener {
 		btnFilter.setForeground(Color.white);
 		btnFilter.setBackground(new Color(32, 130, 213));
 		btnFilter.setFont(new Font("Arial", Font.PLAIN, 18));
+		
+		btnRemoveFilter = new JButton("Remove Filter");
+		btnRemoveFilter.setForeground(new Color(255, 255, 255));
+		btnRemoveFilter.setFont(new Font("Arial", Font.PLAIN, 18));
+		btnRemoveFilter.setBackground(new Color(32, 130, 213));
+		btnRemoveFilter.addActionListener(this);
+		panFooter.add(btnRemoveFilter);
 
 		getClose().addActionListener(this);
 		btnFilter.addActionListener(this);
-                populateSupplierNames();
+		populateSupplierNames();
 		this.setVisible(true);
 		this.repaint();
 		this.revalidate();
 	}
-	
+
 	public boolean isClosed(){
 		return closed;
 	}
-	
+
 	public Iterator getValues(){
 		ArrayList list=new ArrayList();
-		
-                System.out.println("FS VALUES: ");
-//                if(cmbSupplier.getSelectedItem() == null)
-//                    list.add("");
-//                else
-                    list.add((String)cmbSupplier.getSelectedItem());
-                
-                System.out.println(cmbSupplier.getSelectedItem());
-		list.add(cmbCountry.getText());
-                System.out.println(cmbCountry.getText());
-		list.add(cmbState.getText());
-                System.out.println(cmbState.getText());
-		list.add(cmbCity.getText());
-                System.out.println(cmbCity.getText());
-                list.add(txtContact.getText());
-                System.out.println(txtContact.getText());
-                list.add((String)cmbContact.getSelectedItem());
+
+		System.out.println("FS VALUES: ");
+		list.add((String)cmbSupplier.getSelectedItem());
+
+		System.out.println(cmbSupplier.getSelectedItem());
+		list.add(txtCountry.getText());
+		System.out.println(txtCountry.getText());
+		list.add(txtState.getText());
+		System.out.println(txtState.getText());
+		list.add(txtCity.getText());
+		System.out.println(txtCity.getText());
+		list.add(txtContact.getText());
+		System.out.println(txtContact.getText());
+		list.add((String)cmbContact.getSelectedItem());
 		System.out.println((String)cmbContact.getSelectedItem());
 		return list.iterator();
 	}
 
+	public boolean checkFields()
+	{
+		boolean isEmpty = false;
+		
+		if(txtCountry.getText().equals("") && txtCity.getText().equals("") && 
+		   txtContact.getText().equals("") && txtState.getText().equals("") && 
+		   cmbContact.getSelectedIndex() == 0 && cmbSupplier.getSelectedIndex() == 0)
+		{
+			System.out.println("EMPTY FILEDS:");
+			isEmpty = true;
+		}
+		
+		return isEmpty;
+	}
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == getClose()) {
 			this.dispose();
-		} else if (e.getSource() == btnFilter) {
-			closed=false;
+		} 
+		/****
+		 * DEV Insert Code statements here to filter the list of suppliers 
+		 * if at least one of the fields is not empty
+		 *****/
+		else if (checkFields() == false && e.getSource() == btnFilter) {
+			closed = false;
+			this.dispose();
+		}
+		else if (checkFields() == true && e.getSource() == btnFilter ){
+			/****
+			 * DEV Insert Code statements here to set the 
+			 * list to the original if not one of the fields is filled up/
+			 * All fields are empty
+			 *****/
+			this.dispose();
+		}
+		else if (e.getSource() == btnRemoveFilter){
+			/***
+			 * DEV insert code statements here to remove the filter and set the view table to the original
+			 * meaning yung walang filter...
+			*****/
 			this.dispose();
 		}
 	}
-        
-        public void populateSupplierNames() {
+
+	public void populateSupplierNames() {
 		Iterator<Supplier> iterator = supplierController.getAll();
 		ArrayList<String> supplierNames = new ArrayList();
-                supplierNames.add("");
+		supplierNames.add("");
 		while (iterator.hasNext()) {
 			supplierNames.add(iterator.next().getName());
 		}
