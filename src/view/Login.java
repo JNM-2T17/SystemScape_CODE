@@ -12,6 +12,8 @@ import java.awt.Image;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -29,7 +31,7 @@ import view.projects.TabProject;
 import view.purchaseOrder.TabPO;
 import view.supplier.TabSupplier;
 
-public class Login extends JPanel implements ActionListener {
+public class Login extends JPanel implements ActionListener, KeyListener {
 
     private JPanel panMain;
     private JPanel panClose;
@@ -163,11 +165,13 @@ public class Login extends JPanel implements ActionListener {
         panContent.setLayout(null);
 
         txtUsername = new JTextField();
+        txtUsername.addKeyListener(this);
         txtUsername.setBounds(110, 25, 237, 30);
         panContent.add(txtUsername);
         txtUsername.setColumns(10);
 
         pwdPassword = new JPasswordField();
+        pwdPassword.addKeyListener(this);
         pwdPassword.setBounds(110, 66, 237, 30);
         panContent.add(pwdPassword);
 
@@ -236,4 +240,23 @@ public class Login extends JPanel implements ActionListener {
             System.exit(0);
         }
     }
+
+	@Override
+	public void keyPressed(KeyEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void keyTyped(KeyEvent e) {
+		if(e.getKeyChar()==KeyEvent.VK_ENTER){
+            btnLogin.doClick();
+        }
+	}
 }

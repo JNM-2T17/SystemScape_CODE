@@ -13,6 +13,11 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.Iterator;
 
 import javax.swing.JScrollPane;
@@ -79,9 +84,11 @@ public class ViewProjects extends ViewTemplate implements Observer {
             getModel().setValueAt(project.getName(),
             getModel().getRowCount() - 1, 0);
             
-            getModel().setValueAt(project.getStartDate().toString(), getModel().getRowCount() - 1, 1);
+            SimpleDateFormat df=new SimpleDateFormat("MMM dd, yyyy");
             
-            getModel().setValueAt(project.getEndDate().toString(), getModel().getRowCount() - 1, 2);
+            getModel().setValueAt(df.format(project.getStartDate()), getModel().getRowCount() - 1, 1);
+            
+            getModel().setValueAt(df.format(project.getEndDate()), getModel().getRowCount() - 1, 2);
             getModel().setValueAt(new ProjectCellEdit(project, tab),
     				getModel().getRowCount() - 1, 3);
 
@@ -97,11 +104,12 @@ public class ViewProjects extends ViewTemplate implements Observer {
 	public void filterPopulate(Iterator data) {
 		clearTable();
 		while (data.hasNext()) {
+			SimpleDateFormat df=new SimpleDateFormat("MMM dd, yyyy");
                         Project project = (Project)data.next();
 			getModel().setRowCount(getModel().getRowCount() + 1);
 			getModel().setValueAt(project.getName(), getModel().getRowCount() - 1, 0);
-			getModel().setValueAt(project.getStartDate(), getModel().getRowCount() - 1, 1);
-			getModel().setValueAt(project.getEndDate(), getModel().getRowCount() - 1, 2);
+			getModel().setValueAt(df.format(project.getStartDate()), getModel().getRowCount() - 1, 1);
+			getModel().setValueAt(df.format(project.getEndDate()), getModel().getRowCount() - 1, 2);
                         getModel().setValueAt(new ProjectCellEdit(project, tab),
     				getModel().getRowCount() - 1, 3);
 
