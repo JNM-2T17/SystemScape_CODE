@@ -274,7 +274,7 @@ public class ViewSpecificPO extends JPanel {
 			model.setValueAt(df.format(item.getUnitPrice()), model.getRowCount() - 1, 3);
 			model.setValueAt(df.format(po.computeTotal(item)), model.getRowCount() - 1, 4);
 			/********DEV INSERT QUANTITY RECEIVED HERE**********/
-			model.setValueAt("DEV INSERT QUANTITY", model.getRowCount() - 1, 5);
+			model.setValueAt(po.getQuantityRcvd(item), model.getRowCount() - 1, 5);
 		}
 		lblGrandValue.setText(String.valueOf(df.format(po.computeGrandTotal())));
 	}
