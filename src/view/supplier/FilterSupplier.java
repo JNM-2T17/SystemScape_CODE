@@ -15,6 +15,8 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
 
+import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
+
 import view.PopUp;
 
 import java.awt.Color;
@@ -27,8 +29,9 @@ import java.util.Iterator;
 
 public class FilterSupplier extends PopUp implements ActionListener {
 	private SpringLayout spring;
+	private JComboBox cmbSupplier;
 	private JTextField cmbCountry, cmbCity, cmbState;
-	private JTextField txtSupplier, txtContact;
+	private JTextField txtContact;
 	private JButton btnFilter;
         private JComboBox cmbContact;
 	
@@ -65,15 +68,15 @@ public class FilterSupplier extends PopUp implements ActionListener {
 				SpringLayout.WEST, panContent);
 		panContent.add(lblSupplier);
 
-		txtSupplier = new JTextField();
-		spring.putConstraint(SpringLayout.NORTH, txtSupplier, 0,
+		cmbSupplier = new JComboBox();
+		AutoCompleteDecorator.decorate(cmbSupplier);
+		spring.putConstraint(SpringLayout.NORTH, cmbSupplier, 0,
 				SpringLayout.NORTH, lblSupplier);
-		spring.putConstraint(SpringLayout.WEST, txtSupplier, 42,
+		spring.putConstraint(SpringLayout.WEST, cmbSupplier, 42,
 				SpringLayout.EAST, lblSupplier);
-		spring.putConstraint(SpringLayout.EAST, txtSupplier, -50,
+		spring.putConstraint(SpringLayout.EAST, cmbSupplier, -50,
 				SpringLayout.EAST, panContent);
-		panContent.add(txtSupplier);
-		txtSupplier.setColumns(10);
+		panContent.add(cmbSupplier);
 
 		JLabel lblAddress = new JLabel("Address:");
 		spring.putConstraint(SpringLayout.NORTH, lblAddress, 20,
@@ -115,9 +118,9 @@ public class FilterSupplier extends PopUp implements ActionListener {
 		spring.putConstraint(SpringLayout.NORTH, cmbState, 0,
 				SpringLayout.NORTH, lblState);
 		spring.putConstraint(SpringLayout.WEST, cmbState, 0, SpringLayout.WEST,
-				txtSupplier);
+				cmbSupplier);
 		spring.putConstraint(SpringLayout.EAST, cmbState, 0, SpringLayout.EAST,
-				txtSupplier);
+				cmbSupplier);
 		panContent.add(cmbState);
 
 		cmbCountry = new JTextField();
@@ -125,9 +128,9 @@ public class FilterSupplier extends PopUp implements ActionListener {
 		spring.putConstraint(SpringLayout.NORTH, cmbCountry, 0,
 				SpringLayout.NORTH, lblCountry);
 		spring.putConstraint(SpringLayout.WEST, cmbCountry, 0,
-				SpringLayout.WEST, txtSupplier);
+				SpringLayout.WEST, cmbSupplier);
 		spring.putConstraint(SpringLayout.EAST, cmbCountry, 0,
-				SpringLayout.EAST, txtSupplier);
+				SpringLayout.EAST, cmbSupplier);
 		panContent.add(cmbCountry);
 
 		cmbCity = new JTextField();
@@ -135,18 +138,18 @@ public class FilterSupplier extends PopUp implements ActionListener {
 		spring.putConstraint(SpringLayout.NORTH, cmbCity, 0,
 				SpringLayout.NORTH, lblCity);
 		spring.putConstraint(SpringLayout.WEST, cmbCity, 0, SpringLayout.WEST,
-				txtSupplier);
+				cmbSupplier);
 		spring.putConstraint(SpringLayout.EAST, cmbCity, 0, SpringLayout.EAST,
-				txtSupplier);
+				cmbSupplier);
 		panContent.add(cmbCity);
 
 		txtContact = new JTextField();
 		spring.putConstraint(SpringLayout.NORTH, txtContact, -1,
 				SpringLayout.NORTH, lblContact);
 		spring.putConstraint(SpringLayout.WEST, txtContact, 0,
-				SpringLayout.WEST, txtSupplier);
+				SpringLayout.WEST, cmbSupplier);
 		spring.putConstraint(SpringLayout.EAST, txtContact, -169,
-				SpringLayout.EAST, txtSupplier);
+				SpringLayout.EAST, cmbSupplier);
 		panContent.add(txtContact);
 		txtContact.setColumns(10);
 		
@@ -184,7 +187,7 @@ public class FilterSupplier extends PopUp implements ActionListener {
 	public Iterator getValues(){
 		ArrayList list=new ArrayList();
 		
-		list.add(txtSupplier.getText());
+		list.add(cmbSupplier.getSelectedItem());
 		list.add(cmbCountry.getText());
 		list.add(cmbState.getText());
 		list.add(cmbCity.getText());

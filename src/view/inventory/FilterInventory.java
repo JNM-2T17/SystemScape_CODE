@@ -18,13 +18,15 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
 
+import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
+
 import view.PopUp;
 
 public class FilterInventory extends PopUp implements ActionListener {
 
 	private JButton btnFilter;
 	private JComboBox cmbItem;
-	private JComboBox cmbClassification;
+	private JComboBox cmbClassification, cmbAssignee, cmbQuantity, cmbOffice;
 	private JTextField txtQuantity;
 	private JTextField txtService;
 	private JTextField txtAsset;
@@ -72,6 +74,7 @@ public class FilterInventory extends PopUp implements ActionListener {
 		panContent.add(lblClassification);
 
 		cmbItem = new JComboBox();
+		AutoCompleteDecorator.decorate(cmbItem);
 		sl_panContent.putConstraint(SpringLayout.SOUTH, cmbItem, 0, SpringLayout.SOUTH, lblItem);
 		sl_panContent.putConstraint(SpringLayout.EAST, cmbItem, -75,
 				SpringLayout.EAST, panContent);
@@ -79,6 +82,7 @@ public class FilterInventory extends PopUp implements ActionListener {
 		panContent.add(cmbItem);
 
 		cmbClassification = new JComboBox();
+		AutoCompleteDecorator.decorate(cmbClassification);
 		sl_panContent.putConstraint(SpringLayout.WEST, cmbItem, 0, SpringLayout.WEST, cmbClassification);
 		sl_panContent.putConstraint(SpringLayout.WEST, cmbClassification, 63, SpringLayout.EAST, lblClassification);
 		sl_panContent.putConstraint(SpringLayout.EAST, cmbClassification, -75, SpringLayout.EAST, panContent);
@@ -112,21 +116,22 @@ public class FilterInventory extends PopUp implements ActionListener {
 		sl_panContent.putConstraint(SpringLayout.WEST, lblQuantity, 0, SpringLayout.WEST, lblItem);
 		panContent.add(lblQuantity);
 		
-		JComboBox cmbOffice = new JComboBox();
+		cmbOffice = new JComboBox();
 		sl_panContent.putConstraint(SpringLayout.WEST, cmbOffice, 56, SpringLayout.EAST, lblOfficeLocation);
 		sl_panContent.putConstraint(SpringLayout.SOUTH, cmbOffice, 0, SpringLayout.SOUTH, lblOfficeLocation);
 		sl_panContent.putConstraint(SpringLayout.EAST, cmbOffice, -75, SpringLayout.EAST, panContent);
 		cmbOffice.setBackground(Color.WHITE);
 		panContent.add(cmbOffice);
 		
-		JComboBox cmbAssignee = new JComboBox();
+		cmbAssignee = new JComboBox();
+		AutoCompleteDecorator.decorate(cmbAssignee);
 		sl_panContent.putConstraint(SpringLayout.WEST, cmbAssignee, 0, SpringLayout.WEST, cmbItem);
 		sl_panContent.putConstraint(SpringLayout.SOUTH, cmbAssignee, 0, SpringLayout.SOUTH, lblAssignee);
 		sl_panContent.putConstraint(SpringLayout.EAST, cmbAssignee, 0, SpringLayout.EAST, cmbItem);
 		cmbAssignee.setBackground(Color.WHITE);
 		panContent.add(cmbAssignee);
 		
-		JComboBox cmbQuantity = new JComboBox();
+		cmbQuantity = new JComboBox();
 		sl_panContent.putConstraint(SpringLayout.WEST, cmbQuantity, 0, SpringLayout.WEST, cmbItem);
 		sl_panContent.putConstraint(SpringLayout.SOUTH, cmbQuantity, 0, SpringLayout.SOUTH, lblQuantity);
 		sl_panContent.putConstraint(SpringLayout.EAST, cmbQuantity, 52, SpringLayout.WEST, cmbItem);

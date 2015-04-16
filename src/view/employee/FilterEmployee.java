@@ -1,6 +1,7 @@
 package view.employee;
 
 import controller.EmployeeController;
+
 import javax.swing.JPanel;
 
 import java.awt.Dimension;
@@ -19,13 +20,15 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
 
+import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
+
 import view.PopUp;
 
 public class FilterEmployee extends PopUp implements ActionListener {
 
 	private JButton btnFilter;
 	private JComboBox cmbName;
-	private JComboBox cmbStatus;
+	private JComboBox cmbStatus, cmbProject;
         private EmployeeController employeeController;
 
 	public FilterEmployee(JFrame parent) {
@@ -78,6 +81,7 @@ public class FilterEmployee extends PopUp implements ActionListener {
 		panContent.add(lblStatus);
 
 		cmbName = new JComboBox();
+		AutoCompleteDecorator.decorate(cmbName);
 		sl_panContent.putConstraint(SpringLayout.WEST, cmbName, 30,
 				SpringLayout.EAST, lblName);
 		sl_panContent.putConstraint(SpringLayout.SOUTH, cmbName, 0, SpringLayout.SOUTH, lblName);
@@ -87,6 +91,8 @@ public class FilterEmployee extends PopUp implements ActionListener {
 		panContent.add(cmbName);
 
 		cmbStatus = new JComboBox();
+		cmbStatus.setEditable(true);
+		AutoCompleteDecorator.decorate(cmbStatus);
 		cmbStatus.setBackground(Color.WHITE);
 		sl_panContent.putConstraint(SpringLayout.WEST, cmbStatus, 0,
 				SpringLayout.WEST, cmbName);
@@ -101,7 +107,9 @@ public class FilterEmployee extends PopUp implements ActionListener {
 		sl_panContent.putConstraint(SpringLayout.WEST, lblProject, 0, SpringLayout.WEST, lblName);
 		panContent.add(lblProject);
 		
-		JComboBox cmbProject = new JComboBox();
+		cmbProject = new JComboBox();
+		cmbProject.setEditable(true);
+		AutoCompleteDecorator.decorate(cmbProject);
 		sl_panContent.putConstraint(SpringLayout.WEST, cmbProject, 0, SpringLayout.WEST, cmbName);
 		sl_panContent.putConstraint(SpringLayout.SOUTH, cmbProject, 0, SpringLayout.SOUTH, lblProject);
 		sl_panContent.putConstraint(SpringLayout.EAST, cmbProject, 0, SpringLayout.EAST, cmbName);

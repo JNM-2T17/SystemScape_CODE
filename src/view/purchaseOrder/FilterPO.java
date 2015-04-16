@@ -21,11 +21,17 @@ import javax.swing.JTextField;
 import view.PopUp;
 
 import com.toedter.calendar.JDateChooser;
+
 import controller.PurchaseOrderController;
 import controller.SupplierController;
+
 import java.util.ArrayList;
 import java.util.Iterator;
+
 import javax.swing.DefaultComboBoxModel;
+
+import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
+
 import model.Supplier;
 
 public class FilterPO extends PopUp implements ActionListener {
@@ -84,6 +90,7 @@ public class FilterPO extends PopUp implements ActionListener {
 		panContent.add(lblGrandTotal);
 
 		cmbItem = new JComboBox();
+		AutoCompleteDecorator.decorate(cmbItem);
 		sl_panContent.putConstraint(SpringLayout.EAST, cmbItem, -50,
 				SpringLayout.EAST, panContent);
 		cmbItem.setBackground(Color.white);
@@ -94,6 +101,7 @@ public class FilterPO extends PopUp implements ActionListener {
 		panContent.add(cmbItem);
 
 		cmbSupplier = new JComboBox();
+		AutoCompleteDecorator.decorate(cmbSupplier);
 		cmbSupplier.setBackground(Color.white);
 		sl_panContent.putConstraint(SpringLayout.NORTH, cmbSupplier, 0,
 				SpringLayout.NORTH, lblSupplier);

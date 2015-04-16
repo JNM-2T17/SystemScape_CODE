@@ -10,10 +10,13 @@ import javax.swing.JButton;
 
 import java.awt.Font;
 
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.SpringLayout;
 import javax.swing.JTextField;
+
+import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 
 import view.PopUp;
 
@@ -27,12 +30,12 @@ import java.util.Date;
 import java.util.Iterator;
 
 public class FilterProject extends PopUp implements ActionListener {
-	private JTextField txtName;
+	private JComboBox cmbName;
 	private JDateChooser dateStart;
 	private JDateChooser dateEnd;
 	private JButton btnFilter;
-        private boolean closed=true;
-        
+	private boolean closed = true;
+
 	public FilterProject(JFrame parent) {
 		super(parent);
 		JPanel panMain = new JPanel();
@@ -73,32 +76,32 @@ public class FilterProject extends PopUp implements ActionListener {
 				SpringLayout.WEST, lblProjectTitle);
 		panCenter.add(lblEndDate);
 
-		txtName = new JTextField();
-		sl_panCenter.putConstraint(SpringLayout.NORTH, txtName, 32,
+		cmbName = new JComboBox();
+		AutoCompleteDecorator.decorate(cmbName);
+		sl_panCenter.putConstraint(SpringLayout.NORTH, cmbName, 32,
 				SpringLayout.NORTH, panCenter);
-		sl_panCenter.putConstraint(SpringLayout.WEST, txtName, 15,
+		sl_panCenter.putConstraint(SpringLayout.WEST, cmbName, 15,
 				SpringLayout.EAST, lblProjectTitle);
-		sl_panCenter.putConstraint(SpringLayout.EAST, txtName, 285,
+		sl_panCenter.putConstraint(SpringLayout.EAST, cmbName, 285,
 				SpringLayout.EAST, lblProjectTitle);
-		panCenter.add(txtName);
-		txtName.setColumns(10);
+		panCenter.add(cmbName);
 
 		dateStart = new JDateChooser(new Date());
 		sl_panCenter.putConstraint(SpringLayout.WEST, dateStart, 0,
-				SpringLayout.WEST, txtName);
+				SpringLayout.WEST, cmbName);
 		sl_panCenter.putConstraint(SpringLayout.SOUTH, dateStart, 0,
 				SpringLayout.SOUTH, lblStartDate);
 		sl_panCenter.putConstraint(SpringLayout.EAST, dateStart, 0,
-				SpringLayout.EAST, txtName);
+				SpringLayout.EAST, cmbName);
 		panCenter.add(dateStart);
 
 		dateEnd = new JDateChooser(new Date());
 		sl_panCenter.putConstraint(SpringLayout.WEST, dateEnd, 0,
-				SpringLayout.WEST, txtName);
+				SpringLayout.WEST, cmbName);
 		sl_panCenter.putConstraint(SpringLayout.SOUTH, dateEnd, 0,
 				SpringLayout.SOUTH, lblEndDate);
 		sl_panCenter.putConstraint(SpringLayout.EAST, dateEnd, 0,
-				SpringLayout.EAST, txtName);
+				SpringLayout.EAST, cmbName);
 		panCenter.add(dateEnd);
 
 		JPanel panFooter = new JPanel();
@@ -107,7 +110,7 @@ public class FilterProject extends PopUp implements ActionListener {
 
 		btnFilter = new JButton("Filter");
 		btnFilter.setFont(new Font("Arial", Font.PLAIN, 18));
-                btnFilter.addActionListener(this);
+		btnFilter.addActionListener(this);
 		panFooter.add(btnFilter);
 		btnFilter.setForeground(Color.white);
 		btnFilter.setBackground(new Color(32, 130, 213));
@@ -121,29 +124,29 @@ public class FilterProject extends PopUp implements ActionListener {
 		this.repaint();
 		this.revalidate();
 	}
-        
-        public Iterator getValues(){
-		ArrayList list=new ArrayList();
-		
-		list.add(txtName.getText());
+
+	public Iterator getValues() {
+		ArrayList list = new ArrayList();
+
+		list.add(cmbName.getSelectedItem());
 		list.add(new java.sql.Date(dateStart.getDate().getTime()));
 		list.add(new java.sql.Date(dateEnd.getDate().getTime()));
-		
+
 		return list.iterator();
 	}
-        
-        public boolean isClosed(){
+
+	public boolean isClosed() {
 		return closed;
 	}
-        
+
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		if (e.getSource() == getClose()) {
 			this.dispose();
 		} else if (e.getSource() == btnFilter) {
-                        System.out.println("misery");
-			closed=false;
+			System.out.println("misery");
+			closed = false;
 			this.dispose();
 		}
 	}
