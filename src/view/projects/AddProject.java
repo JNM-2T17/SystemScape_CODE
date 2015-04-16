@@ -88,6 +88,7 @@ public class AddProject extends JPanel implements ActionListener {
 		txtName.setColumns(10);
 
 		dateStart = new JDateChooser(new Date());
+		dateStart.setDateFormatString("MMMM dd, yyyy");
 		dateStart.getDateEditor().getUiComponent().addFocusListener(ErrorListenerFactory.getListener(dateStart));
 		sl_panCenter.putConstraint(SpringLayout.WEST, dateStart, 0,
 				SpringLayout.WEST, txtName);
@@ -98,6 +99,7 @@ public class AddProject extends JPanel implements ActionListener {
 		panCenter.add(dateStart);
 
 		dateEnd = new JDateChooser(new Date());
+		dateEnd.setDateFormatString("MMMM dd, yyyy");
 		dateEnd.getDateEditor().getUiComponent().addFocusListener(ErrorListenerFactory.getListener(dateEnd));
 		sl_panCenter.putConstraint(SpringLayout.WEST, dateEnd, 0,
 				SpringLayout.WEST, txtName);
@@ -141,6 +143,12 @@ public class AddProject extends JPanel implements ActionListener {
 
 	}
 
+	public void clear()
+	{
+		txtName.setText("");
+		dateStart.setDate(new Date());
+		dateEnd.setDate(new Date());
+	}
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
@@ -157,6 +165,7 @@ public class AddProject extends JPanel implements ActionListener {
 				Message msg = new Message(parent, Message.SUCCESS,
 						"Project added successfully.");
 				System.out.println("Yey project: " + project.getName());
+				clear();
 			}
 			else{
 				new Message(parent, Message.ERROR,

@@ -11,6 +11,7 @@ import controller.ProjectController;
 import view.Content;
 import view.Gui;
 import view.Content.ContentBuilder;
+import view.projects.AddProject;
 import view.supplier.EditSupplier;
 import view.supplier.ViewSuppliers;
 
@@ -71,6 +72,7 @@ public class TabEmployees extends JPanel implements ActionListener{
 			}
 		}
 		else if(((JButton) e.getSource()).getActionCommand().equals("back")){
+			((AddEmployee) list.get(1).getContent()).clear();
 			cl.show(this, "view");
 		}
 	}
