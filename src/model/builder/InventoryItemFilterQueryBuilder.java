@@ -21,7 +21,7 @@ public class InventoryItemFilterQueryBuilder implements FilterQueryBuilder{
 	public InventoryItemFilterQueryBuilder() {
 		select="";
 		from=""; 
-		where="WHERE ";
+		where="";
 		groupBy="";
 		having="";
 		orderBy="";
@@ -50,6 +50,7 @@ public class InventoryItemFilterQueryBuilder implements FilterQueryBuilder{
         }
 
         public void addCondition(Iterator conditions) {
+            where = "WHERE ";
             String temp, temp2;
             temp= (String) conditions.next();
             if(!temp.equals(""))
@@ -70,11 +71,10 @@ public class InventoryItemFilterQueryBuilder implements FilterQueryBuilder{
             if(!temp.equals(""))
                 where = where + "e.name LIKE \"%" + temp +"%\"&& ";
             temp= (String) conditions.next();
-            if(!temp.equals("")){
-                temp2 = (String) conditions.next();
-                if(!temp2.equals(""))
+            temp2 = (String) conditions.next();
+            if(!temp2.equals("") && !temp.equals(""))
                     where = where + "pi.quantityReceived " + temp + " " + temp2 + " && ";
-            }
+            temp= (String) conditions.next();
             if(!temp.equals(""))
                 where = where + "ii.invoiceNo LIKE \"%" + temp +"%\"&& ";
 	}
