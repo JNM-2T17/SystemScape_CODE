@@ -1,5 +1,6 @@
 package view.inventory;
 
+import controller.EmployeeController;
 import javax.swing.JPanel;
 
 import java.awt.Dimension;
@@ -11,12 +12,18 @@ import javax.swing.JButton;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.Iterator;
+import javax.swing.DefaultComboBoxModel;
 
 import javax.swing.JFrame;
 import javax.swing.SpringLayout;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
+import model.Employee;
+import model.ItemData;
+import model.database.ItemDataDAO;
 
 import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 
@@ -31,10 +38,11 @@ public class FilterInventory extends PopUp implements ActionListener {
 	private JTextField txtService;
 	private JTextField txtAsset;
 	private JTextField txtInvoice;
-
+        private boolean isClosed;
+        
 	public FilterInventory(JFrame parent) {
 		super(parent);
-
+                this.isClosed = true;
 		JPanel panMain = new JPanel();
 		panMain.setBackground(Color.WHITE);
 		panMain.setPreferredSize(new Dimension(450, 380));
@@ -73,16 +81,17 @@ public class FilterInventory extends PopUp implements ActionListener {
 		sl_panContent.putConstraint(SpringLayout.WEST, lblClassification, 0,
 				SpringLayout.WEST, lblItem);
 		panContent.add(lblClassification);
-
-		cmbItem = new JComboBox();
+                
+                cmbItem = new JComboBox();
 		AutoCompleteDecorator.decorate(cmbItem);
 		sl_panContent.putConstraint(SpringLayout.SOUTH, cmbItem, 0, SpringLayout.SOUTH, lblItem);
 		sl_panContent.putConstraint(SpringLayout.EAST, cmbItem, -75,
 				SpringLayout.EAST, panContent);
 		cmbItem.setBackground(Color.white);
 		panContent.add(cmbItem);
-
-		cmbClassification = new JComboBox();
+                
+                String classifications[] = {"","IT Asset", "Non-IT Asset", "Software", "Other"};
+		cmbClassification = new JComboBox(classifications);
 		AutoCompleteDecorator.decorate(cmbClassification);
 		sl_panContent.putConstraint(SpringLayout.WEST, cmbItem, 0, SpringLayout.WEST, cmbClassification);
 		sl_panContent.putConstraint(SpringLayout.WEST, cmbClassification, 63, SpringLayout.EAST, lblClassification);
@@ -92,7 +101,7 @@ public class FilterInventory extends PopUp implements ActionListener {
 				SpringLayout.SOUTH, lblClassification);
 		panContent.add(cmbClassification);
 		
-		JLabel lblOfficeLocation = new JLabel("Office Location:");
+                JLabel lblOfficeLocation = new JLabel("Office Location:");
 		sl_panContent.putConstraint(SpringLayout.NORTH, lblOfficeLocation, 20, SpringLayout.SOUTH, lblClassification);
 		sl_panContent.putConstraint(SpringLayout.WEST, lblOfficeLocation, 0, SpringLayout.WEST, lblItem);
 		panContent.add(lblOfficeLocation);
@@ -117,7 +126,8 @@ public class FilterInventory extends PopUp implements ActionListener {
 		sl_panContent.putConstraint(SpringLayout.WEST, lblQuantity, 0, SpringLayout.WEST, lblItem);
 		panContent.add(lblQuantity);
 		
-		cmbOffice = new JComboBox();
+		String offices[] = {"","1WS", "DAO"};
+		cmbOffice = new JComboBox(offices);
 		sl_panContent.putConstraint(SpringLayout.WEST, cmbOffice, 56, SpringLayout.EAST, lblOfficeLocation);
 		sl_panContent.putConstraint(SpringLayout.SOUTH, cmbOffice, 0, SpringLayout.SOUTH, lblOfficeLocation);
 		sl_panContent.putConstraint(SpringLayout.EAST, cmbOffice, -75, SpringLayout.EAST, panContent);
@@ -132,7 +142,8 @@ public class FilterInventory extends PopUp implements ActionListener {
 		cmbAssignee.setBackground(Color.WHITE);
 		panContent.add(cmbAssignee);
 		
-		cmbQuantity = new JComboBox();
+                String operators[] = {"",">",">=","<","<="};
+		cmbQuantity = new JComboBox(operators);
 		sl_panContent.putConstraint(SpringLayout.WEST, cmbQuantity, 0, SpringLayout.WEST, cmbItem);
 		sl_panContent.putConstraint(SpringLayout.SOUTH, cmbQuantity, 0, SpringLayout.SOUTH, lblQuantity);
 		sl_panContent.putConstraint(SpringLayout.EAST, cmbQuantity, 52, SpringLayout.WEST, cmbItem);
@@ -173,20 +184,72 @@ public class FilterInventory extends PopUp implements ActionListener {
 		panContent.add(txtInvoice);
 
 		getClose().addActionListener(this);
-
+                
+                populateAssignees();
+                populateItemNames();  
+                        
 		setContent(panMain);
 		this.setVisible(true);
 		this.repaint();
 		this.revalidate();
 	}
-
+        
+        public boolean isClosed() {
+		return this.isClosed;
+	}
+        
+        public Iterator getValues() {
+		ArrayList<String> list = new ArrayList();
+		
+                list.add((String)cmbItem.getSelectedItem());
+                String classification = (String)cmbClassification.getSelectedItem();
+                if(classification.equalsIgnoreCase("IT Asset"))
+                    classification = "IT";
+                else if(classification.equalsIgnoreCase("Non-IT Asset"))
+                    classification = "Non-IT";
+                else if(classification.equalsIgnoreCase("Software"))
+                    classification = "Soft";
+                
+		list.add(classification);
+		list.add((String)cmbOffice.getSelectedItem());
+                list.add((String)txtAsset.getText());
+                list.add((String)txtService.getText());
+                list.add((String)cmbAssignee.getSelectedItem());
+                list.add((String)cmbQuantity.getSelectedItem());
+                list.add((String)txtQuantity.getText());
+                list.add((String)txtInvoice.getText());
+                
+                
+		return list.iterator();
+	}
+        
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		if (e.getSource() == btnFilter) {
+                        this.isClosed = false;
 			this.dispose();
 		} else if (e.getSource() == getClose()) {
 			this.dispose();
 		}
 	}
+        
+        public void populateAssignees(){
+		ArrayList<String> employeeNames = new ArrayList();
+		employeeNames.add("");
+		for(Iterator i = EmployeeController.getInstance().getAll();i.hasNext();){
+			employeeNames.add(((Employee)i.next()).getName());
+		}
+		cmbAssignee.setModel(new DefaultComboBoxModel(employeeNames.toArray()));
+        }
+        
+        public void populateItemNames(){
+		ArrayList<String> itemNames = new ArrayList();
+                ItemDataDAO itemDataDAO = new ItemDataDAO();
+		itemNames.add("");
+		for(Iterator i = itemDataDAO.get(); i.hasNext();){
+			itemNames.add(((ItemData)i.next()).getName());
+		}
+		cmbItem.setModel(new DefaultComboBoxModel(itemNames.toArray()));
+        }
 }

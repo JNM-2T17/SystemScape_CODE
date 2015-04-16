@@ -54,6 +54,11 @@ public class ItemTileITField extends ItemPanelDecorator implements ItemPanelPart
 	private JComboBox cbType;
 	private JComboBox cbAssignee;
 	
+	private JDateChooser startDateChooser;
+	private JDateChooser endDateChooser;
+        private JLabel lblStart;
+	private JLabel lblEnd;
+        
 	private JDateChooser deliveryDateChooser;
 	
 	private JFrame parent;
@@ -130,10 +135,35 @@ public class ItemTileITField extends ItemPanelDecorator implements ItemPanelPart
 		
 		cbAssignee = new JComboBox();
 		cbAssignee.setBackground(Color.white);
+                
 		populateCbxEmployee();
 		panIT.add(cbAssignee, "cell 4 9 4 1,growx");
 		addItemPanelReference.assignToQuad(panIT, 1);
-
+                
+                lblStart = new JLabel("Assign Start:");
+		panIT.add(lblStart, "cell 2 11,growx");
+		
+		startDateChooser = new JDateChooser();
+		startDateChooser.setOpaque(false);
+		startDateChooser.setDate(new Date());
+		startDateChooser.setBorder(null);
+		startDateChooser.setDateFormatString("yyyy-MM-dd");
+		startDateChooser.setBackground(Color.WHITE);
+		startDateChooser.setPreferredSize(new Dimension(150, 30));
+		panIT.add(startDateChooser, "cell 5 11,growx");
+		
+		lblEnd = new JLabel("Assign End:");
+		panIT.add(lblEnd, "cell 2 10,growx");
+		
+		endDateChooser = new JDateChooser();
+		endDateChooser.setOpaque(false);
+		endDateChooser.setDate(new Date());
+		endDateChooser.setBorder(null);
+		endDateChooser.setDateFormatString("yyyy-MM-dd");
+		endDateChooser.setBackground(Color.WHITE);
+		endDateChooser.setPreferredSize(new Dimension(150, 30));
+		panIT.add(endDateChooser, "cell 5 10,growx");
+                
 	}
 	
 	public void populateCbxEmployee()
@@ -157,6 +187,8 @@ public class ItemTileITField extends ItemPanelDecorator implements ItemPanelPart
 		infoList.add(cbAssignee.getSelectedItem().toString());
 		infoList.add(tfAssetTag.getText());
 		infoList.add(tfServiceTag.getText());
+                infoList.add(startDateChooser.getDate());
+		infoList.add(endDateChooser.getDate());
 		return infoList.iterator();
 	}
 

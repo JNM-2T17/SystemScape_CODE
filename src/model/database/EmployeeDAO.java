@@ -11,8 +11,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Iterator;
+
 import model.Employee;
 import model.Project;
+import model.builder.EmployeeFilterQueryBuilder;
 import model.builder.QueryFilterDirector;
 import model.builder.SupplierFilterQueryBuilder;
 
@@ -133,20 +135,18 @@ public class EmployeeDAO implements IDBCUD {
     }
     //under construction
     public Iterator filter(Iterator conditions){
-        QueryFilterDirector director = new QueryFilterDirector(new SupplierFilterQueryBuilder());
-        ArrayList<String> results = new ArrayList<String>();
+        QueryFilterDirector director = new QueryFilterDirector(new EmployeeFilterQueryBuilder());
+        ArrayList<Employee> employees = new ArrayList<Employee>();
         try {
             String query = director.getQuery(conditions);
             PreparedStatement preparedStatement = DBConnection.getConnection().prepareStatement(query);
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
-                results.add(resultSet.getString("name"));
-                results.add(resultSet.getString("country"));
-                results.add(resultSet.getString("state"));
-                results.add(resultSet.getString("city"));
-                results.add(resultSet.getString("value"));
+            	Employee employee = new Employee(resultSet.getInt("ID"), resultSet.getString("name"), resultSet.getString("status"));
+                employees.add(employee);
+           
             }
-            return results.iterator();
+            return employees.iterator();
         }catch(Exception exception){
             exception.printStackTrace();
         }

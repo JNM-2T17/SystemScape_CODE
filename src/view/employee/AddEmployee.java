@@ -178,7 +178,18 @@ public class AddEmployee extends JPanel implements ActionListener {
 		}
 		return text; 
 	}
-	
+	public void clear()
+	{
+		 txtName.setText("");
+		cmbStatus.setSelectedIndex(0);
+		txtUsername.setText("");
+		txtPassword.setText("");
+		txtConfirm.setText("");
+		rdEmployee.setSelected(true);
+		rdTechnician.setSelected(false);
+		toggle(false);
+		
+	}
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
@@ -194,10 +205,10 @@ public class AddEmployee extends JPanel implements ActionListener {
 					userController.addUser(user);
 					
 				}
-				
+				clear();
 				Message msg = new Message(parent, Message.SUCCESS,
 						"Employee added successfully.");
-
+				
 			}
 			else{
 				Message msg = new Message(parent, Message.ERROR,

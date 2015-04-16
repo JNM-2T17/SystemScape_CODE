@@ -2,10 +2,12 @@ package view.purchaseOrder;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.ComponentOrientation;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Date;
@@ -44,10 +46,11 @@ import view.Message;
 public class AddPO extends JPanel implements ActionListener, Observer {
 	private JPanel panDefinition, panLeft, panCenter, panRight, panSupplier,
 			panDate, panAddItem, panItemTable, panClass, panHeader, panFooter;
-	private JLabel lblSupplier, lblClass, lblDate, lblItem;
+	private JLabel lblSupplier, lblClass, lblDate, lblItem, lblVAT;
 	private JButton btnAddItem, btnSubmit;
 	private JComboBox cmbSupplier, cmbClass;
 	private DefaultTableModel model;
+	private JCheckBox checkBox;
 	//private POTableModel poTableModel;
 	private JTable table;
 	private JScrollPane scrollPane;
@@ -137,7 +140,7 @@ public class AddPO extends JPanel implements ActionListener, Observer {
 		dateChooser.setOpaque(false);
 		dateChooser.setDate(new Date());
 		dateChooser.setBorder(null);
-		dateChooser.setDateFormatString("yyyy-MM-dd");
+		dateChooser.setDateFormatString("MMMM dd, yyyy");
 		dateChooser.setBackground(Color.WHITE);
 		dateChooser.setPreferredSize(new Dimension(150, 30));
 
@@ -151,7 +154,7 @@ public class AddPO extends JPanel implements ActionListener, Observer {
 		lblCurrency = new JLabel("Currency :");
 		panCurrency.add(lblCurrency);
                 
-                String currencyTypes[]={"Australian Dollar", "Euro", "Php", "Yen" };
+        String currencyTypes[]={"AUD", "EUR", "PHP", "JPY","USD" };
 		cmbCurrency = new JComboBox(currencyTypes);
 		cmbCurrency.setBackground(Color.white);
 		cmbCurrency.setPreferredSize(new Dimension(110, 30));
@@ -231,6 +234,22 @@ public class AddPO extends JPanel implements ActionListener, Observer {
 		panItemTable.setBackground(Color.white);
 		panCenter.add(panItemTable, BorderLayout.CENTER);
 
+		panVAT = new JPanel();
+        panLeft.add(panVAT, BorderLayout.EAST);
+        panVAT.setBounds(new Rectangle(10, 0, 0, 0));
+        panVAT.setAlignmentX(Component.RIGHT_ALIGNMENT);
+        panVAT.setBackground(new Color(255, 255, 255));
+        panVAT.setLayout(new BorderLayout(0, 0));
+        
+        lblVAT = new JLabel("VAT :");
+        lblVAT.setBackground(new Color(255, 255, 255));
+        panVAT.add(lblVAT, BorderLayout.WEST);
+        
+        checkBox = new JCheckBox("");
+        panVAT.add(checkBox);
+        checkBox.setBackground(new Color(255, 255, 255));
+        panRight.add(panCurrency, BorderLayout.WEST);
+        
 		scrollPane = new JScrollPane();
 		scrollPane.getViewport().setBackground(Color.white);
 		scrollPane.setBackground(Color.WHITE);

@@ -186,6 +186,92 @@ ActionListener {
 
 		packTable();
 	}
+        
+        public void filterPopulate(Iterator data) {
+        clearTable();
+		InventoryItem inventoryItem;
+		ITAsset itAsset;
+		Contract contract;
+		Warranty warranty;
+		String employee;
+                Assignment assignment;
+                
+		while (data.hasNext()) {
+			Object object = data.next();
+			inventoryItem = (InventoryItem) object;
+			employee = null;
+			warranty = (Warranty) warrantyController.getObject(String
+					.valueOf(inventoryItem.getID()));
+			contract = (Contract) contractController.getObject(String
+					.valueOf(inventoryItem.getID()));
+			assignment = (Assignment)assignmentController.getObject(""+inventoryItem.getID());
+			if (assignment != null) {
+                                System.out.println("update "+assignment.getEmployee().getName());
+				employee = assignment.getEmployee().getName();
+			}
+
+			getModel().setRowCount(getModel().getRowCount() + 1);
+			getModel().setValueAt(inventoryItem.getName(),
+					getModel().getRowCount() - 1, 0);
+			getModel().setValueAt(inventoryItem.getDescription(),
+					getModel().getRowCount() - 1, 1);
+			getModel().setValueAt(inventoryItem.getClassification(),
+					getModel().getRowCount() - 1, 2);
+			// getModel().setValueAt(inventoryItem.getStatus(),
+			// getModel().getRowCount() - 1, 3);
+			getModel().setValueAt(inventoryItem.getLocation(),
+					getModel().getRowCount() - 1, 3);
+			getModel().setValueAt(inventoryItem.getInvoiceNo(),
+					getModel().getRowCount() - 1, 7);
+
+			if (object instanceof ITAsset) {
+				inventoryItem = (ITAsset) object;
+
+				getModel().setValueAt(((ITAsset) inventoryItem).getAssetTag(),
+						getModel().getRowCount() - 1, 4);
+				getModel().setValueAt(
+						((ITAsset) inventoryItem).getServiceTag(),
+						getModel().getRowCount() - 1, 5);
+				getModel().setValueAt(
+						((ITAsset) inventoryItem).getDeliveryDate(),
+						getModel().getRowCount() - 1, 8);
+			}
+			if (employee != null) {
+                                
+				getModel().setValueAt(employee,
+						getModel().getRowCount() - 1, 6);
+			}
+			if (contract != null && warranty != null) {
+				getModel().setValueAt(contract.getEndDate(),
+						getModel().getRowCount() - 1, 9);
+				getModel().setValueAt(warranty.getEndDate(),
+						getModel().getRowCount() - 1, 10);
+			}
+			getModel().setValueAt(new InventoryCellEdit(inventoryItem, tab), getModel().getRowCount() - 1,
+					11);
+		}
+
+		data = iiController.getAllQuantity();
+
+		for (int i = 0; i < tglModel.getRowCount(); i++) {
+			tglModel.removeRow(i);
+		}
+		tglModel.setRowCount(0);
+		while (data.hasNext()) {
+			inventoryItem = (InventoryItem) data.next();
+			tglModel.setRowCount(tglModel.getRowCount() + 1);
+			tglModel.setValueAt(inventoryItem.getName(), tglModel
+					.getRowCount() - 1, 0);
+			tglModel.setValueAt(inventoryItem.getDescription(), tglModel
+					.getRowCount() - 1, 1);
+			tglModel.setValueAt(inventoryItem.getClassification(), tglModel
+					.getRowCount() - 1, 2);
+			tglModel.setValueAt(inventoryItem.getQuantity(), tglModel
+					.getRowCount() - 1, 3);
+		}
+		
+		packTable();
+    }
 
 	@Override
 	public void actionPerformed(ActionEvent arg0) {

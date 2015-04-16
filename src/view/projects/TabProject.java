@@ -12,6 +12,7 @@ import model.Supplier;
 import view.Content;
 import view.Gui;
 import view.Content.ContentBuilder;
+import view.purchaseOrder.AddPO;
 import view.supplier.FilterSupplier;
 import view.supplier.ViewListSuppliers;
 
@@ -88,6 +89,7 @@ public class TabProject extends JPanel implements ActionListener{
 			}
 		}
 		else if(((JButton) e.getSource()).getActionCommand().equals("back")){
+			((AddProject) list.get(1).getContent()).clear();
 			cl.show(this, "view");
 		}
 	}

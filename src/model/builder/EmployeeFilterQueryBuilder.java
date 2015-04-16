@@ -1,27 +1,18 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package model.builder;
 
 import java.util.Date;
 import java.util.Iterator;
 
-/**
- *
- * @author Christian Gabriel
- */
-public class ProjectFilterQueryBuilder implements FilterQueryBuilder{
-    private String select;
+public class EmployeeFilterQueryBuilder implements FilterQueryBuilder {
+	
+	private String select;
 	private String from;
 	private String where;
 	private String groupBy;
 	private String having;
 	private String orderBy;
 
-	public ProjectFilterQueryBuilder() {
+	public EmployeeFilterQueryBuilder() {
 		select="";
 		from=""; 
 		where="WHERE ";
@@ -44,26 +35,21 @@ public class ProjectFilterQueryBuilder implements FilterQueryBuilder{
                 from = from + "" + table + ", ";
 	}
 
-    public void addCondition(Iterator conditions) {
-    	
-    	if(conditions!=null){
-        
+        public void addCondition(Iterator conditions) {
             String temp;
             temp= (String) conditions.next();
             if(!temp.equals(""))
+                where = where + "e.name LIKE \"%" + temp +"%\" OR ";
+            temp= conditions.next().toString();
+            if(!temp.equals(""))
+                where = where + "e.status LIKE \"%" + temp +"%\" OR ";
+            temp= conditions.next().toString();
+            if(!temp.equals(""))
                 where = where + "p.name LIKE \"%" + temp +"%\" OR ";
-            temp= ((Date) conditions.next()).toString();
-            if(!temp.equals(""))
-                where = where + "p.startDate LIKE \"%" + temp +"%\" OR ";
-            temp= ((Date) conditions.next()).toString();
-            if(!temp.equals(""))
-                where = where + "p.endDate LIKE \"%" + temp +"%\" OR ";
+           
+            where = where.substring(0, where.length()-3);
             
-            where = where.substring(0, where.length() - 2);
-    	}
-    	else
-    		where = "";
-    	
+            System.out.println("WHERE na you"+ where);
 	}
 
 	public void addGrouping(String group) {
@@ -86,16 +72,31 @@ public class ProjectFilterQueryBuilder implements FilterQueryBuilder{
             else		
                 orderBy = orderBy + ""+ orderCriteria +", ";
 	}
-
+        
+        public void addLeftJoin(String table){
+            from = from +"LEFT JOIN "+ table+" ";
+        }
+        
+        public void addOn(String condition){
+            from = from+"ON "+condition+" ";
+        }
+        
 	public String getQuery(Iterator conditions) {
+            addColumn("e.ID");
+            addColumn("e.name");
+            addColumn("e.status");
             addColumn("p.name");
             addColumn("p.startDate");
             addColumn("p.endDate");
-            addTable("project p");
+            addTable("employee e");
+            from = from.substring(0,from.length()-2) + " ";
+            addLeftJoin("projectassignment pa");
+            addOn("pa.employeeID = e.ID");
+            addLeftJoin("project p");
+            addOn("pa.project = p.name");
             addCondition(conditions);
-            if (groupBy.length() > 0) {
-                groupBy = groupBy.substring(0, groupBy.length() - 1);
-            }
-            return select.substring(0,(select.length()-2)) + " " +from.substring(0,from.length()-2) + " " + where.substring(0,where.length()-3);
+            System.out.println(select.substring(0,(select.length()-2)) + " " +from.substring(0,from.length()-1) + " " + where);
+            return select.substring(0,(select.length()-2)) + " " +from.substring(0,from.length()-1) + " " + where;
 	}
+
 }

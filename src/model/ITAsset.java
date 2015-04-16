@@ -154,6 +154,8 @@ public class ITAsset extends HardwareItem {
 		private Date deliveryDate;
 		private Contract contract;
                 private Warranty warranty;
+                private Date startDate;
+                private Date endDate;
                 
 		public ITAssetBuilder()
 		{
@@ -168,6 +170,8 @@ public class ITAsset extends HardwareItem {
 			assetTag = 0;
 			serviceTag = "";
 			deliveryDate = null;
+                        startDate = null;
+                        endDate = null;
 		}
 		
 		public ITAssetBuilder addID(int buildID)
@@ -233,6 +237,14 @@ public class ITAsset extends HardwareItem {
                 public ITAssetBuilder addWarranty(Warranty buildWarranty)
 		{
 			warranty = buildWarranty;
+			return this;
+		}
+                public ITAssetBuilder addStartDate(Date startingDate){
+			startDate = startingDate;
+			return this;
+		}
+                 public ITAssetBuilder addEndDate(Date endingDate){
+			endDate = endingDate;
 			return this;
 		}
 		public ITAsset build() {

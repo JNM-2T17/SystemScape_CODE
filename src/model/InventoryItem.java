@@ -20,6 +20,8 @@ public class InventoryItem {
     private String invoiceNo;
     private String location;
     private int quantity;
+    private Date startDate;
+    private Date endDate;
 
     public InventoryItem(int ID, String name, String description, float unitPrice, String invoiceNo, String location, String status, String classification) {
         itemData = new ItemData(name, description, unitPrice);
@@ -121,6 +123,22 @@ public class InventoryItem {
     	this.quantity=quantity;
     }
     
+    public void setStartDate(Date startDate){
+    	this.startDate = startDate;
+    }
+    
+    public void setEndDate(Date endDate){
+    	this.endDate = endDate;
+    }
+    
+    public Date getStartDate(){
+    	return startDate;
+    }
+    
+    public Date getEndDate(){
+    	return endDate;
+    }
+    
 public static class InventoryItemBuilder {
 		
 		private int ID;
@@ -132,6 +150,8 @@ public static class InventoryItemBuilder {
 		private String status;
 		private String classification;
 		private int quantity;
+                private Date startDate;
+                private Date endDate;
 		
 		public InventoryItemBuilder()
 		{
@@ -144,6 +164,8 @@ public static class InventoryItemBuilder {
 			status = "";
 			classification = "";
 			quantity=0;
+                        startDate = null;
+                        endDate = null;
 		}
 		
 		public InventoryItemBuilder addID(int buildID)
@@ -188,6 +210,14 @@ public static class InventoryItemBuilder {
 		}
 		public InventoryItemBuilder addQuantity(int buildQuantity){
 			quantity=buildQuantity;
+			return this;
+		}
+                public InventoryItemBuilder addStartDate(Date startingDate){
+			startDate = startingDate;
+			return this;
+		}
+                 public InventoryItemBuilder addEndDate(Date endingDate){
+			endDate = endingDate;
 			return this;
 		}
 		public InventoryItem build() {
