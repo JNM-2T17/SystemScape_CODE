@@ -7,16 +7,19 @@ import javax.swing.table.DefaultTableModel;
 
 import model.Employee;
 import controller.EmployeeController;
+import controller.ProjectController;
 import view.Content;
 import view.Gui;
 import view.Content.ContentBuilder;
 import view.supplier.EditSupplier;
+import view.supplier.ViewSuppliers;
 
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 
 public class TabEmployees extends JPanel implements ActionListener{
@@ -43,7 +46,7 @@ public class TabEmployees extends JPanel implements ActionListener{
 		list.add(temp);
 
 		cl.show(this, "view");
-		employeeController = employeeController.getInstance();
+		employeeController = EmployeeController.getInstance();
 	}
 	
 	public void setEdit(Employee emp){
@@ -61,7 +64,11 @@ public class TabEmployees extends JPanel implements ActionListener{
 			cl.show(this, "add");
 		}
 		else if(((JButton) e.getSource()).getActionCommand().equals("filter")){
-			new FilterEmployee(gui);
+			FilterEmployee fe = new FilterEmployee(gui);
+			if(!fe.isClosed()){
+				Iterator values = employeeController.filter(fe.getValues());
+				((ViewEmployee)list.get(0).getContent()).filterPopulate(values);
+			}
 		}
 		else if(((JButton) e.getSource()).getActionCommand().equals("back")){
 			cl.show(this, "view");
