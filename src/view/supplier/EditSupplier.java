@@ -41,7 +41,7 @@ import javax.swing.ScrollPaneConstants;
 
 public class EditSupplier extends JPanel implements ActionListener {
 
-	private JTextField txtSupp;
+	private JLabel txtSupp;
 	// private JComboBox cmbCountry, cmbState, cmbCity;
 	private JTextField cmbCountry, cmbState, cmbCity;
 	private JPanel temp;
@@ -76,10 +76,8 @@ public class EditSupplier extends JPanel implements ActionListener {
 		JLabel lblSupp = new JLabel("Supplier: ");
 		panContent.add(lblSupp, "cell 0 0,alignx left,growy");
 
-		txtSupp = new JTextField(supp.getName());
-		txtSupp.addFocusListener(ErrorListenerFactory.getListener(txtSupp));
+		txtSupp = new JLabel(supp.getName());
 		panContent.add(txtSupp, "cell 2 0,grow");
-		txtSupp.setColumns(10);
 		prevKey = supp.getName();
 
 		JLabel lblAddress = new JLabel("Address:");
@@ -279,10 +277,6 @@ public class EditSupplier extends JPanel implements ActionListener {
 	public String checkInput() {
 		String text="";
 
-		if (txtSupp.getText().equals("")) {
-			text+="Please specify the supplier.\n";
-			txtSupp.setBorder(BorderFactory.createLineBorder(Color.RED, 1));
-		}
 		if (cmbCountry.getText().equals("")
 				|| cmbState.getText().equals("")
 				|| cmbCity.getText().equals("")) {
