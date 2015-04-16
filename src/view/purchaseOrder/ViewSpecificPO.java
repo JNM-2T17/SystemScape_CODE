@@ -8,6 +8,8 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.swing.DefaultComboBoxModel;
@@ -70,11 +72,16 @@ public class ViewSpecificPO extends JPanel {
 	private JLabel lblVat;
 	private JLabel lblInclusive;
 
+	private DecimalFormat df; 
+
 	private JFrame parent;
 	public ViewSpecificPO(JFrame parent) {
 		setBackground(Color.WHITE);
 		setBorder(new EmptyBorder(30, 30, 30, 30));
-
+		
+		df = new DecimalFormat("#,###,###,###,##0.00");
+		df.setMaximumFractionDigits(2);
+		
 		this.parent=parent;
 		poController = PurchaseOrderController.getInstance();
 		supplierController = SupplierController.getInstance();
@@ -217,9 +224,6 @@ public class ViewSpecificPO extends JPanel {
 
 		model = new DefaultTableModel() {
 			public boolean isCellEditable(int rowIndex, int mColIndex) {
-				if (mColIndex == model.getColumnCount() - 1
-						|| mColIndex == model.getColumnCount() - 2)
-					return true;
 				return false;
 			}
 
@@ -229,7 +233,6 @@ public class ViewSpecificPO extends JPanel {
 
 			public boolean isCellSelectable(int rowIndex, int mColIndex) {
 				if (mColIndex == 5) {
-					//System.out.println("CHECKBOX");
 					return true;
 				}
 				return false;
@@ -247,12 +250,18 @@ public class ViewSpecificPO extends JPanel {
 	}
 	
 	public void setPO(PurchaseOrder po){
+		
+		
 		cmbSupplier.setText(po.getSupplier().getName());
 		cmbClass.setText(po.getType());
-		dateChooser.setText(po.getDate().toString());
+		
+		SimpleDateFormat dateFormat = new SimpleDateFormat("MMMM d, yyyy");
+		String sDate= dateFormat.format(po.getDate());
+		dateChooser.setText(sDate);
 		
 		Iterator data = po.getItems();
 		ItemData item;
+		
 		while (data.hasNext()) {
 			item = (ItemData) data.next();
 
@@ -261,12 +270,12 @@ public class ViewSpecificPO extends JPanel {
 			model.setValueAt(item.getName(), model.getRowCount() - 1, 0);
 			model.setValueAt(item.getDescription(), model.getRowCount() - 1, 1);
 			model.setValueAt(po.getQuantity(item), model.getRowCount() - 1, 2);
-			model.setValueAt(item.getUnitPrice(), model.getRowCount() - 1, 3);
-			model.setValueAt(po.computeTotal(item), model.getRowCount() - 1, 4);
+			model.setValueAt(df.format(item.getUnitPrice()), model.getRowCount() - 1, 3);
+			model.setValueAt(df.format(po.computeTotal(item)), model.getRowCount() - 1, 4);
 			/********DEV INSERT QUANTITY RECEIVED HERE**********/
-			model.setValueAt("QUANTITY RECEIVED", model.getRowCount() - 1, 5);
+			model.setValueAt("DEV INSERT QUANTITY", model.getRowCount() - 1, 5);
 		}
-		lblGrandValue.setText(String.valueOf(po.computeGrandTotal()));
+		lblGrandValue.setText(String.valueOf(df.format(po.computeGrandTotal())));
 	}
 
 
@@ -279,19 +288,10 @@ public class ViewSpecificPO extends JPanel {
 		String headers[] = { "Item", "Description", "Quantity", "Unit Price",
 							 "Amount","Quantity Received"};
 		model.setColumnIdentifiers(headers);
-//		table.getColumnModel().getColumn(0).setPreferredWidth(100);
-//		table.getColumnModel().getColumn(1).setPreferredWidth(100);
-		
-//		table.getColumnModel().getColumn(2).setPreferredWidth(90);
+
 		table.getColumnModel().getColumn(2).setCellRenderer(rightRenderer);
-
-//		table.getColumnModel().getColumn(3).setPreferredWidth(90);
 		table.getColumnModel().getColumn(3).setCellRenderer(rightRenderer);
-
-//		table.getColumnModel().getColumn(4).setPreferredWidth(90);
 		table.getColumnModel().getColumn(4).setCellRenderer(rightRenderer);
-		
-//		table.getColumnModel().getColumn(5).setPreferredWidth(90);
 		table.getColumnModel().getColumn(5).setCellRenderer(rightRenderer);
 
 
