@@ -170,11 +170,7 @@ public class AddSupplier extends JPanel implements ActionListener {
 		btnSubmit.addActionListener(this);
 
 		supplierController = SupplierController.getInstance();
-		// populate();
-		System.out.println("STUPID");
-		
-		
-		
+	
 		this.repaint();
 		this.revalidate();
 	}
@@ -279,7 +275,6 @@ public class AddSupplier extends JPanel implements ActionListener {
 
 				if (checkSupplier == null) {
 					for (int i = 0; i < list.size(); i++) {
-						System.out.println("RISSA: "+i);
 						supplier.addSupplierContact(txtSupp.getText(), list
 								.get(i).getType().toString(),
 								list.get(i).getValue());
@@ -294,7 +289,7 @@ public class AddSupplier extends JPanel implements ActionListener {
 							"Supplier already exists!");
 				}
 				supplierController.init();
-				//clear();
+				clear();
 			}
 			else{
 				new Message(parent, Message.ERROR,

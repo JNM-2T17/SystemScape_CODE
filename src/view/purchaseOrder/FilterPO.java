@@ -35,12 +35,10 @@ import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 import model.Supplier;
 
 public class FilterPO extends PopUp implements ActionListener {
-	private JButton btnFilter;
-	private JTextField txtTotal;
+	private JButton btnFilter, btnRemoveFilter;
 	private JDateChooser dateChooser;
 	private JComboBox cmbItem, cmbSupplier, cmbTotal, cmbUnit;
-	private JTextField txtInvoice;
-
+	private JTextField txtInvoice, txtTotal;
 	SupplierController supplierController;
 	PurchaseOrderController purchaseOrderController;
 
@@ -183,6 +181,13 @@ public class FilterPO extends PopUp implements ActionListener {
 		btnFilter.setForeground(Color.white);
 		btnFilter.setBackground(new Color(32, 130, 213));
 		panFooter.add(btnFilter);
+		
+		btnRemoveFilter = new JButton("Remove Filter");
+		btnRemoveFilter.setForeground(new Color(255, 255, 255));
+		btnRemoveFilter.setFont(new Font("Arial", Font.PLAIN, 18));
+		btnRemoveFilter.setBackground(new Color(32, 130, 213));
+		btnRemoveFilter.addActionListener(this);
+		panFooter.add(btnRemoveFilter);
 
 		JPanel panHeader = new JPanel();
 		panHeader.setBackground(Color.WHITE);
@@ -209,24 +214,59 @@ public class FilterPO extends PopUp implements ActionListener {
 	public void populate() {
 		Iterator iterator = supplierController.getAll();
 		ArrayList<String> data = new ArrayList();
+		data.add("");
 		while (iterator.hasNext()) {
 			data.add(((Supplier) iterator.next()).getName());
 		}
 		cmbSupplier.setModel(new DefaultComboBoxModel(data.toArray()));
 		data.removeAll(data);
 
-		cmbItem.setModel(new DefaultComboBoxModel(new String[] { "Hardware",
+		cmbItem.setModel(new DefaultComboBoxModel(new String[] {"","Hardware",
 				"Software", "Gen" }));
-		cmbUnit.setModel(new DefaultComboBoxModel(new String[] { ">", ">=",
+		cmbUnit.setModel(new DefaultComboBoxModel(new String[] {"", ">", ">=",
 				"<=", "<" }));
 	}
 
+	public boolean checkFields()
+	{
+		boolean isEmpty = false;
+		if(cmbSupplier.getSelectedIndex() == 0 && cmbItem.getSelectedIndex() == 0 &&
+		   cmbUnit.getSelectedIndex() == 0 && txtInvoice.getText().equals("") && 
+		   txtTotal.getText().equals("") && dateChooser.getDate() == null && cmbTotal.getSelectedIndex() == 0)
+		{
+			isEmpty = true;
+		}
+		
+		return isEmpty;
+	}
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
-		if (e.getSource() == btnFilter) {
+		if (e.getSource() == getClose()) {
 			this.dispose();
-		} else if (e.getSource() == getClose()) {
+		} 
+		/****
+		 * DEV Insert Code statements here to filter the list of suppliers 
+		 * if at least one of the fields is not empty/ meaning may laman kahit isa sa fields
+		 * kung mern then proceed to filtering the list
+		 *****/
+		else if (checkFields() == false && e.getSource() == btnFilter) {
+			this.dispose();
+		}
+		else if (checkFields() == true && e.getSource() == btnFilter ){
+			/****
+			 * DEV Insert Code statements here to set the 
+			 * list to the original if not one of the fields is filled up/
+			 * meaning if All fields are empty wag mag filter but insetad revert it back to the original
+			 * list of suppliers
+			 *****/
+			this.dispose();
+		}
+		else if (e.getSource() == btnRemoveFilter){
+			/***
+			 * DEV insert code statements here to remove the filter and set the view table to the original
+			 * meaning yung walang filter...
+			*****/
 			this.dispose();
 		}
 	}
