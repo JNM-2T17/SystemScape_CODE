@@ -41,10 +41,12 @@ public class FilterProject extends PopUp implements ActionListener {
 	private JButton btnFilter, btnRemoveFilter;
 	private boolean closed = true;
 	private ProjectController projectController;
+	private ArrayList list;
 	
 	public FilterProject(JFrame parent) {
 		super(parent);
 		projectController = ProjectController.getInstance();
+		list=new ArrayList();
 		JPanel panMain = new JPanel();
 		panMain.setLayout(new BorderLayout(0, 0));
 
@@ -119,7 +121,6 @@ public class FilterProject extends PopUp implements ActionListener {
 
 		btnFilter = new JButton("Filter");
 		btnFilter.setFont(new Font("Arial", Font.PLAIN, 18));
-		btnFilter.addActionListener(this);
 		panFooter.add(btnFilter);
 		btnFilter.setForeground(Color.white);
 		btnFilter.setBackground(new Color(32, 130, 213));
@@ -138,6 +139,7 @@ public class FilterProject extends PopUp implements ActionListener {
 		panMain.setSize(new Dimension(480, 250));
 		setContent(panMain);
 		getClose().addActionListener(this);
+		btnFilter.addActionListener(this);
 		populateProjectNames();
 		setVisible(true);
 		this.repaint();
@@ -147,13 +149,15 @@ public class FilterProject extends PopUp implements ActionListener {
 	}
 
 	public Iterator getValues() {
-		ArrayList list = new ArrayList();
 		
-        list.add((String)cmbName.getSelectedItem());
-		list.add(new java.sql.Date(dateStart.getDate().getTime()));
-		list.add(new java.sql.Date(dateEnd.getDate().getTime()));
-
-		return list.iterator();
+		if(list!=null){
+	        list.add((String)cmbName.getSelectedItem());
+			list.add(new java.sql.Date(dateStart.getDate().getTime()));
+			list.add(new java.sql.Date(dateEnd.getDate().getTime()));
+	
+			return list.iterator();
+		}
+		return null;
 	}
 
 	public boolean isClosed() {
@@ -192,6 +196,8 @@ public class FilterProject extends PopUp implements ActionListener {
 			 * meaning if All fields are empty wag mag filter but insetad revert it back to the original
 			 * list of suppliers
 			 *****/
+			list = null;
+            closed = false;
 			this.dispose();
 		}
 		else if (e.getSource() == btnRemoveFilter){
@@ -199,6 +205,8 @@ public class FilterProject extends PopUp implements ActionListener {
 			 * DEV insert code statements here to remove the filter and set the view table to the original
 			 * meaning yung walang filter...
 			*****/
+			list = null;
+            closed = false;
 			this.dispose();
 		}
 	}

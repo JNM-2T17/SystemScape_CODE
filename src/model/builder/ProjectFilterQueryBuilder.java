@@ -44,7 +44,10 @@ public class ProjectFilterQueryBuilder implements FilterQueryBuilder{
                 from = from + "" + table + ", ";
 	}
 
-        public void addCondition(Iterator conditions) {
+    public void addCondition(Iterator conditions) {
+    	
+    	if(conditions!=null){
+        
             String temp;
             temp= (String) conditions.next();
             if(!temp.equals(""))
@@ -55,6 +58,12 @@ public class ProjectFilterQueryBuilder implements FilterQueryBuilder{
             temp= ((Date) conditions.next()).toString();
             if(!temp.equals(""))
                 where = where + "p.endDate LIKE \"%" + temp +"%\" OR ";
+            
+            where = where.substring(0, where.length() - 2);
+    	}
+    	else
+    		where = "";
+    	
 	}
 
 	public void addGrouping(String group) {
@@ -84,6 +93,9 @@ public class ProjectFilterQueryBuilder implements FilterQueryBuilder{
             addColumn("p.endDate");
             addTable("project p");
             addCondition(conditions);
+            if (groupBy.length() > 0) {
+                groupBy = groupBy.substring(0, groupBy.length() - 1);
+            }
             return select.substring(0,(select.length()-2)) + " " +from.substring(0,from.length()-2) + " " + where.substring(0,where.length()-3);
 	}
 }
