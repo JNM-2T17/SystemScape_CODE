@@ -9,11 +9,13 @@ import controller.WarrantyController;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Iterator;
 
 import javax.swing.table.DefaultTableModel;
-import model.Assignment;
 
+import model.Assignment;
 import model.Contract;
 import model.Employee;
 import model.ITAsset;
@@ -25,7 +27,7 @@ import view.PanelCell;
 import view.ViewTemplate;
 
 public class ViewInventory extends ViewTemplate implements Observer,
-		ActionListener {
+ActionListener {
 
 	InventoryItemController iiController;
 	ITAssetController itAssetController;
@@ -36,6 +38,7 @@ public class ViewInventory extends ViewTemplate implements Observer,
 
 	private DefaultTableModel tglModel;
 	private TabInventory tab;
+	private SimpleDateFormat dateFormat;
 
 	public ViewInventory(TabInventory tab) {
 		super();
@@ -46,9 +49,9 @@ public class ViewInventory extends ViewTemplate implements Observer,
 		employeeController = EmployeeController.getInstance();
 		contractController = ContractController.getInstance();
 		warrantyController = WarrantyController.getInstance();
-
+		dateFormat = new SimpleDateFormat("MMMM dd, yyyy");
 		iiController.registerObserver(this);
-                assignmentController.registerObserver(this);
+		assignmentController.registerObserver(this);
 	}
 
 	@Override
@@ -58,9 +61,6 @@ public class ViewInventory extends ViewTemplate implements Observer,
 				"Asset Tag", "Service Tag", "Assignee", "Invoice#",
 				"Delivery Date", "End of Contract", "End of Warranty", "" };
 
-		// String headers[] = { "Item", "Description", "Type", "Quantity",
-		// "Location", "Asset Tag", "Service Tag", "Assignee", "Invoice#",
-		// "Delivery Date", "End of Contract", "End of Warranty", "" };
 		getModel().setColumnIdentifiers(headers);
 		setColRendEdit(new PanelCell(), new PanelCell());
 
@@ -100,8 +100,8 @@ public class ViewInventory extends ViewTemplate implements Observer,
 		Warranty warranty;
 		Iterator data = iiController.getAll();
 		String employee;
-                Assignment assignment;
-                
+		Assignment assignment;
+	
 		while (data.hasNext()) {
 			Object object = data.next();
 			inventoryItem = (InventoryItem) object;
@@ -112,7 +112,7 @@ public class ViewInventory extends ViewTemplate implements Observer,
 					.valueOf(inventoryItem.getID()));
 			assignment = (Assignment)assignmentController.getObject(""+inventoryItem.getID());
 			if (assignment != null) {
-                                System.out.println("update "+assignment.getEmployee().getName());
+				System.out.println("update "+assignment.getEmployee().getName());
 				employee = assignment.getEmployee().getName();
 			}
 
@@ -123,8 +123,7 @@ public class ViewInventory extends ViewTemplate implements Observer,
 					getModel().getRowCount() - 1, 1);
 			getModel().setValueAt(inventoryItem.getClassification(),
 					getModel().getRowCount() - 1, 2);
-			// getModel().setValueAt(inventoryItem.getStatus(),
-			// getModel().getRowCount() - 1, 3);
+
 			getModel().setValueAt(inventoryItem.getLocation(),
 					getModel().getRowCount() - 1, 3);
 			getModel().setValueAt(inventoryItem.getInvoiceNo(),
@@ -138,19 +137,28 @@ public class ViewInventory extends ViewTemplate implements Observer,
 				getModel().setValueAt(
 						((ITAsset) inventoryItem).getServiceTag(),
 						getModel().getRowCount() - 1, 5);
-				getModel().setValueAt(
-						((ITAsset) inventoryItem).getDeliveryDate(),
-						getModel().getRowCount() - 1, 8);
+				
+				Date deliveryDate = ((ITAsset) inventoryItem).getDeliveryDate();
+				if(deliveryDate != null)
+				{
+					getModel().setValueAt(dateFormat.format(deliveryDate),
+							getModel().getRowCount() - 1, 8);
+				}
+				else
+				{
+					getModel().setValueAt(deliveryDate,
+							getModel().getRowCount() - 1, 8);
+				}
 			}
 			if (employee != null) {
-                                
+
 				getModel().setValueAt(employee,
 						getModel().getRowCount() - 1, 6);
 			}
 			if (contract != null && warranty != null) {
-				getModel().setValueAt(contract.getEndDate(),
+				getModel().setValueAt(dateFormat.format(contract.getEndDate()),
 						getModel().getRowCount() - 1, 9);
-				getModel().setValueAt(warranty.getEndDate(),
+				getModel().setValueAt(dateFormat.format(warranty.getEndDate()),
 						getModel().getRowCount() - 1, 10);
 			}
 			getModel().setValueAt(new InventoryCellEdit(inventoryItem, tab), getModel().getRowCount() - 1,
@@ -175,7 +183,7 @@ public class ViewInventory extends ViewTemplate implements Observer,
 			tglModel.setValueAt(inventoryItem.getQuantity(), tglModel
 					.getRowCount() - 1, 3);
 		}
-		
+
 		packTable();
 	}
 

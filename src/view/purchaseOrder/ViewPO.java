@@ -2,9 +2,13 @@ package view.purchaseOrder;
 
 import controller.PurchaseOrderController;
 
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.Iterator;
 
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.table.DefaultTableCellRenderer;
 
 import model.ItemData;
 import model.PurchaseOrder;
@@ -18,11 +22,17 @@ public class ViewPO extends ViewTemplate implements Observer {
 	PurchaseOrderController poController;
 	private TabPO tab;
 	private JFrame parent;
+	private DecimalFormat df;
+	private SimpleDateFormat dateFormat; 
+	private String sDate;
 
 	public ViewPO(JFrame parent, TabPO tab) {
 		super();
 		this.parent=parent;
 		this.tab = tab;
+		df = new DecimalFormat("#,###,###,###,##0.00");
+		df.setMaximumFractionDigits(2);
+		dateFormat = new SimpleDateFormat("MMMM dd, yyyy");
 		poController = PurchaseOrderController.getInstance();
 		poController.registerObserver(this);
 
@@ -31,6 +41,7 @@ public class ViewPO extends ViewTemplate implements Observer {
 	@Override
 	public void initialize() {
 		// TODO Auto-generated method stub
+		
 		setColCount(6);
 		String headers[] = { "P.O. #", "Supplier", "Invoice#", "Date",
 				"Grand Total", "" };
@@ -40,6 +51,7 @@ public class ViewPO extends ViewTemplate implements Observer {
 		setColWidth(2, 80);
 		setColWidth(3, 100);
 		setColWidth(4, 150);
+	    setRightCellRenderer(4);
 		setColWidth(5, 15);
 		setColRendEdit(new POCell(), new POCell());
 	}
@@ -59,6 +71,9 @@ public class ViewPO extends ViewTemplate implements Observer {
 		while (data.hasNext()) {
 			// System.out.println("WE HERE BERI BERI BERI HARD");
 			purchaseOrder = (PurchaseOrder) data.next();
+			sDate = dateFormat.format(purchaseOrder.getDate());
+			
+			
 			getModel().setRowCount(getModel().getRowCount() + 1);
 			getModel().setValueAt(purchaseOrder.getIdNo(),
 					getModel().getRowCount() - 1, 0);
@@ -66,9 +81,9 @@ public class ViewPO extends ViewTemplate implements Observer {
 					getModel().getRowCount() - 1, 1);
 			getModel().setValueAt(purchaseOrder.getInvoiceNo(),
 					getModel().getRowCount() - 1, 2);
-			getModel().setValueAt(purchaseOrder.getDate(),
+			getModel().setValueAt(sDate,
 					getModel().getRowCount() - 1, 3);
-			getModel().setValueAt(purchaseOrder.computeGrandTotal(),
+			getModel().setValueAt(df.format(purchaseOrder.computeGrandTotal()),
 					getModel().getRowCount() - 1, 4);
 			getModel().setValueAt(new POCellEdit(parent, purchaseOrder, tab),
 					getModel().getRowCount() - 1, 5);

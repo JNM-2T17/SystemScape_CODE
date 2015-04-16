@@ -44,10 +44,6 @@ public class ViewProjects extends ViewTemplate implements Observer {
 		super();
 		this.parent=parent;
 		this.tab = tab;
-		if (this.tab == null)
-			System.out.println("VIEW CONST TAB NULL");
-		else
-			System.out.println("Gio");
 		projectController = ProjectController.getInstance();
 		projectController.registerObserver(this);
 		
@@ -76,15 +72,11 @@ public class ViewProjects extends ViewTemplate implements Observer {
 		while (data.hasNext()) {
 
             project = (Project) data.next();
-
-            System.out.println("Project THINGY" + project.getName());
-
-
             getModel().setRowCount(getModel().getRowCount() + 1);
             getModel().setValueAt(project.getName(),
             getModel().getRowCount() - 1, 0);
             
-            SimpleDateFormat df=new SimpleDateFormat("MMM dd, yyyy");
+            SimpleDateFormat df=new SimpleDateFormat("MMMM dd, yyyy");
             
             getModel().setValueAt(df.format(project.getStartDate()), getModel().getRowCount() - 1, 1);
             
