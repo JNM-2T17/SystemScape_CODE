@@ -41,6 +41,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import view.Message;
+import java.awt.Component;
+import java.awt.Rectangle;
 
 public class EditPO extends JPanel implements ActionListener, Observer {
 
@@ -71,6 +73,9 @@ public class EditPO extends JPanel implements ActionListener, Observer {
     private JPanel panVat;
     private JLabel lblVat;
     private JLabel lblInclusive;
+    private JLabel lblVAT;
+    private JCheckBox checkBox;
+    private JPanel panVAT;
 
     public EditPO(JFrame parent, PurchaseOrder po) {
 
@@ -139,10 +144,11 @@ public class EditPO extends JPanel implements ActionListener, Observer {
         panDate.add(lblDate);
 
         dateChooser = new JDateChooser();
+        dateChooser.getCalendarButton().setFont(new Font("Arial", Font.PLAIN, 11));
         dateChooser.setOpaque(false);
         dateChooser.setDate(po.getDate());
         dateChooser.setBorder(null);
-        dateChooser.setDateFormatString("yyyy-MM-dd");
+        dateChooser.setDateFormatString("MMMM dd, yyyy");
         dateChooser.setBackground(Color.WHITE);
         dateChooser.setPreferredSize(new Dimension(150, 30));
         panDate.add(dateChooser);
@@ -150,12 +156,28 @@ public class EditPO extends JPanel implements ActionListener, Observer {
         panCurrency = new JPanel();
         panCurrency.setBackground(Color.white);
         panLeft.setBackground(Color.white);
+        
+        panVAT = new JPanel();
+        panLeft.add(panVAT, BorderLayout.EAST);
+        panVAT.setBounds(new Rectangle(10, 0, 0, 0));
+        panVAT.setAlignmentX(Component.RIGHT_ALIGNMENT);
+        panVAT.setBackground(new Color(255, 255, 255));
+        panVAT.setLayout(new BorderLayout(0, 0));
+        
+        lblVAT = new JLabel("VAT :");
+        lblVAT.setBackground(new Color(255, 255, 255));
+        panVAT.add(lblVAT, BorderLayout.WEST);
+        
+        checkBox = new JCheckBox("");
+        panVAT.add(checkBox);
+        checkBox.setBackground(new Color(255, 255, 255));
         panRight.add(panCurrency, BorderLayout.WEST);
 
         lblCurrency = new JLabel("Currency :");
         panCurrency.add(lblCurrency);
 
-        cmbCurrency = new JComboBox();
+        String currencyTypes[]={"AUD", "EUR", "PHP", "JPY","USD" };
+		cmbCurrency = new JComboBox(currencyTypes);
         cmbCurrency.setBackground(Color.white);
         cmbCurrency.setPreferredSize(new Dimension(110, 30));
         panCurrency.add(cmbCurrency);

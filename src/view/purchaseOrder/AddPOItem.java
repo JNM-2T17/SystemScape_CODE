@@ -43,8 +43,6 @@ public class AddPOItem extends PopUp implements ActionListener, FocusListener {
 	private JLabel lblType;
 	private JComboBox cmbType;
 	private JFrame parent;
-	private JLabel lblVat;
-	private JCheckBox checkBox;
 
 	public AddPOItem(JFrame parent, String type,
 			PurchaseOrderController poController) {
@@ -127,13 +125,6 @@ public class AddPOItem extends PopUp implements ActionListener, FocusListener {
 
 		lblAmountValue = new JLabel("0.00");
 		panContent.add(lblAmountValue, "cell 1 8");
-
-		lblVat = new JLabel("VAT:");
-		panContent.add(lblVat, "cell 0 9");
-
-		checkBox = new JCheckBox("");
-		checkBox.setBackground(Color.WHITE);
-		panContent.add(checkBox, "cell 1 9");
 
 		panSubmit = new JPanel();
 		panSubmit.setBackground(Color.white);
