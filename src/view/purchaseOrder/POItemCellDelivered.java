@@ -18,6 +18,7 @@ import model.ItemData;
 import model.PurchaseOrder;
 import view.Button;
 import controller.PurchaseOrderController;
+import view.Message;
 
 public class POItemCellDelivered extends DefaultCellEditor implements TableCellRenderer, ActionListener {
 
@@ -97,17 +98,23 @@ public class POItemCellDelivered extends DefaultCellEditor implements TableCellR
         // TODO Auto-generated method stub
 
         if (a.getSource() == button) {
-            System.out.println("DEPUTEEEEEEE type: "+po.getType());
-            if (po.getType().equals("Hard")) {
-                System.out.println("Hard deputek");
-                EditPOItemHard eHard = new EditPOItemHard(parent, i, poController);
-            } else if (po.getType().equals("Soft")) {
-                System.out.println("Soft deputek");
-                EditPOItemSoft eSoft = new EditPOItemSoft(parent, i, poController);
-            } else if (po.getType().equals("Gen")) {
-                System.out.println("Gen deputek");
-                EditPOItemGen eGen = new EditPOItemGen(parent, i , poController);
+            if (po.getQuantity(i) != po.getQuantityRcvd(i)) {
+
+                System.out.println("DEPUTEEEEEEE type: " + po.getType());
+                if (po.getType().equals("Hard")) {
+                    System.out.println("Hard deputek");
+                    EditPOItemHard eHard = new EditPOItemHard(parent, i, poController);
+                } else if (po.getType().equals("Soft")) {
+                    System.out.println("Soft deputek");
+                    EditPOItemSoft eSoft = new EditPOItemSoft(parent, i, poController);
+                } else if (po.getType().equals("Gen")) {
+                    System.out.println("Gen deputek");
+                    EditPOItemGen eGen = new EditPOItemGen(parent, i, poController);
+                }
+            }else{
+                Message msg = new Message(parent, Message.ERROR, "All items already received!");
             }
+
         }
 
     }
