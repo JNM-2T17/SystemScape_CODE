@@ -148,7 +148,7 @@ public class Login extends JPanel implements ActionListener {
         gbl_panHeader.columnWeights = new double[]{1.0};
         panHeader.setLayout(gbl_panHeader);
 
-        lblLogIn = new JLabel("Log In");
+        lblLogIn = new JLabel("Sign In");
         lblLogIn.setForeground(Color.WHITE);
         lblLogIn.setFont(new Font("Arial", Font.PLAIN, 20));
         GridBagConstraints gbc_lblLogIn = new GridBagConstraints();
@@ -171,7 +171,7 @@ public class Login extends JPanel implements ActionListener {
         pwdPassword.setBounds(110, 66, 237, 30);
         panContent.add(pwdPassword);
 
-        btnLogin = new JButton("Login");
+        btnLogin = new JButton("Sign In");
         btnLogin.setForeground(Color.WHITE);
         btnLogin.setFont(new Font("Arial", Font.PLAIN, 16));
         btnLogin.setBackground(new Color(32, 130, 213));
