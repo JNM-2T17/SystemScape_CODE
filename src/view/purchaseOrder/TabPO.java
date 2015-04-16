@@ -13,6 +13,7 @@ import javax.swing.JPanel;
 
 import controller.PurchaseOrderController;
 import controller.SupplierController;
+import java.util.Iterator;
 import model.PurchaseOrder;
 import model.Supplier;
 import view.Content;
@@ -26,11 +27,13 @@ public class TabPO extends JPanel implements ActionListener{
 	private ArrayList<Content> list;
 	private CardLayout cl;
 	private Gui gui;
+        private PurchaseOrderController purchaseOrderController;
 	//private Content temp;
 	public TabPO(Gui gui)
 	{
 		setEnabled(false);
 		cl = new CardLayout();
+                purchaseOrderController = PurchaseOrderController.getInstance();
 		list = new ArrayList<Content>();
 		this.gui=gui;
 		this.setBackground(Color.WHITE);
@@ -76,7 +79,11 @@ public class TabPO extends JPanel implements ActionListener{
 			//			JOptionPane.showMessageDialog(null, "hi");
 		}
 		else if(((JButton) e.getSource()).getActionCommand().equals("filter")){
-			new FilterPO(gui);
+			FilterPO fs=new FilterPO(gui);
+			if(!fs.isClosed()){
+				Iterator values = purchaseOrderController.filter(fs.getValues());
+				((ViewPO)list.get(0).getContent()).filterPopulate(values);
+			}
 		}
 		else if(((JButton) e.getSource()).getActionCommand().equals("back")){
 			

@@ -90,5 +90,30 @@ public class ViewPO extends ViewTemplate implements Observer {
 		}
 		packTable();
 	}
+        
+        public void filterPopulate(Iterator data) {
+        clearTable();
+		PurchaseOrder purchaseOrder;
+		while (data.hasNext()) {
+			purchaseOrder = (PurchaseOrder) data.next();
+			sDate = dateFormat.format(purchaseOrder.getDate());
+			
+			
+			getModel().setRowCount(getModel().getRowCount() + 1);
+			getModel().setValueAt(purchaseOrder.getIdNo(),
+					getModel().getRowCount() - 1, 0);
+			getModel().setValueAt(purchaseOrder.getSupplier().getName(),
+					getModel().getRowCount() - 1, 1);
+			getModel().setValueAt(purchaseOrder.getInvoiceNo(),
+					getModel().getRowCount() - 1, 2);
+			getModel().setValueAt(sDate,
+					getModel().getRowCount() - 1, 3);
+			getModel().setValueAt(df.format(purchaseOrder.computeGrandTotal()),
+					getModel().getRowCount() - 1, 4);
+			getModel().setValueAt(new POCellEdit(parent, purchaseOrder, tab),
+					getModel().getRowCount() - 1, 5);
+		}
+		packTable();
+    }
 
 }

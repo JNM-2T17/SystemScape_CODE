@@ -24,6 +24,7 @@ import com.toedter.calendar.JDateChooser;
 
 import controller.PurchaseOrderController;
 import controller.SupplierController;
+import java.text.SimpleDateFormat;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -41,11 +42,12 @@ public class FilterPO extends PopUp implements ActionListener {
 	private JTextField txtInvoice, txtTotal;
 	SupplierController supplierController;
 	PurchaseOrderController purchaseOrderController;
-
+        private boolean closed=true;
+        private ArrayList list;
 	public FilterPO(JFrame parent) {
 
 		super(parent);
-
+                list = new ArrayList();
 		JPanel panMain = new JPanel();
 		panMain.setBackground(Color.white);
 		panMain.setSize(new Dimension(500, 350));
@@ -157,6 +159,7 @@ public class FilterPO extends PopUp implements ActionListener {
 		txtInvoice.setColumns(10);
 		panContent.add(txtInvoice);
 
+                
 		cmbUnit = new JComboBox();
 		sl_panContent.putConstraint(SpringLayout.EAST, cmbTotal, 75,
 				SpringLayout.EAST, cmbUnit);
@@ -210,6 +213,27 @@ public class FilterPO extends PopUp implements ActionListener {
 		this.setVisible(true);
 
 	}
+        
+        public Iterator getValues(){
+            if(list!=null){
+		list.add((String)cmbItem.getSelectedItem());
+		list.add((String)cmbSupplier.getSelectedItem());
+                if(dateChooser.getDate() == null)
+                    list.add("");
+                else{
+                    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                    dateFormat.format(dateChooser.getDate());
+                    list.add(""+dateFormat.format(dateChooser.getDate()));
+                    System.out.println("tryyyyy "+dateFormat.format(dateChooser.getDate()));
+                }
+                list.add((String)cmbUnit.getSelectedItem());
+                list.add((String)cmbTotal.getSelectedItem());
+		list.add(txtTotal.getText());
+		list.add(txtInvoice.getText());
+                return list.iterator();
+            }
+            return null;
+	}
 
 	public void populate() {
 		Iterator iterator = supplierController.getAll();
@@ -221,10 +245,11 @@ public class FilterPO extends PopUp implements ActionListener {
 		cmbSupplier.setModel(new DefaultComboBoxModel(data.toArray()));
 		data.removeAll(data);
 
-		cmbItem.setModel(new DefaultComboBoxModel(new String[] {"","Hardware",
-				"Software", "Gen" }));
+		cmbItem.setModel(new DefaultComboBoxModel(new String[] {"","Hard",
+				"Soft", "Gen" }));
 		cmbUnit.setModel(new DefaultComboBoxModel(new String[] {"", ">", ">=",
 				"<=", "<" }));
+                cmbTotal.setModel(new DefaultComboBoxModel(new String[]{"", "Australian Dollar", "Euro", "Php", "Yen" }));
 	}
 
 	public boolean checkFields()
@@ -239,35 +264,43 @@ public class FilterPO extends PopUp implements ActionListener {
 		
 		return isEmpty;
 	}
+        
+        
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
 		if (e.getSource() == getClose()) {
 			this.dispose();
 		} 
 		/****
 		 * DEV Insert Code statements here to filter the list of suppliers 
-		 * if at least one of the fields is not empty/ meaning may laman kahit isa sa fields
-		 * kung mern then proceed to filtering the list
+		 * if at least one of the fields is not empty
 		 *****/
 		else if (checkFields() == false && e.getSource() == btnFilter) {
+			closed = false;
 			this.dispose();
 		}
 		else if (checkFields() == true && e.getSource() == btnFilter ){
 			/****
 			 * DEV Insert Code statements here to set the 
 			 * list to the original if not one of the fields is filled up/
-			 * meaning if All fields are empty wag mag filter but insetad revert it back to the original
-			 * list of suppliers
+			 * All fields are empty
 			 *****/
-			this.dispose();
+                        list = null;
+                        closed = false;
+                        this.dispose();
 		}
 		else if (e.getSource() == btnRemoveFilter){
 			/***
 			 * DEV insert code statements here to remove the filter and set the view table to the original
 			 * meaning yung walang filter...
 			*****/
+                        list = null;
+                        closed = false;
 			this.dispose();
 		}
+	}
+        
+        public boolean isClosed(){
+		return closed;
 	}
 }
