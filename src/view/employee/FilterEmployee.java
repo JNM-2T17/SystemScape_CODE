@@ -1,6 +1,7 @@
 package view.employee;
 
 import controller.EmployeeController;
+import controller.ProjectController;
 
 import javax.swing.JPanel;
 
@@ -13,12 +14,18 @@ import javax.swing.JButton;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.Iterator;
 
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JFrame;
 import javax.swing.SpringLayout;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
+
+import model.Employee;
+import model.Project;
 
 import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 
@@ -29,9 +36,9 @@ public class FilterEmployee extends PopUp implements ActionListener {
 	private JButton btnFilter, btnRemoveFilter;
 	private JComboBox cmbName;
 	private JComboBox cmbStatus, cmbProject;
-        private boolean closed = true;
-    	private EmployeeController employeeController;
-    	private ProjectController projectController;
+    private boolean closed = true;
+    private EmployeeController employeeController;
+    private ProjectController projectController;
 
 	public FilterEmployee(JFrame parent) {
 		super(parent);
