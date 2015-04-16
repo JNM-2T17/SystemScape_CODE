@@ -45,8 +45,8 @@ public class ItemStorageSoftware implements ItemStorage, TypeItemStorage{
 	public Iterator loadList()
 	{
 		ArrayList compiledList = new ArrayList();
-		compiledList.add(assignee);
-		compiledList.add(deliveryDate);
+		/*compiledList.add(assignee);
+		compiledList.add(deliveryDate);*/
 		compiledList.add(licenseKey);
 		return compiledList.iterator();
 	}

@@ -555,6 +555,11 @@ public class InventoryItemDisplayManager {
 		return template;
 	}
 	
+	public void setAssigneeStatus(boolean stat)
+	{
+		panelRegistry.disableAssignee(stat);
+	}
+	
 	public void overrideContentPanel(String type)
 	{
 		System.out.println("TYPE IN OVERRIDE: " + type);

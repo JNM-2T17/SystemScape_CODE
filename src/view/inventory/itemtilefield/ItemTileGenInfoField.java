@@ -18,6 +18,8 @@ import javax.swing.JTextField;
 import javax.swing.JTextArea;
 
 import java.awt.Color;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -27,6 +29,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JComboBox;
 
 import view.Message;
+import view.inventory.InventoryItemDisplayManager;
 import view.inventory.ItemPanelDecorator;
 import view.inventory.ItemPanelParticipant;
 import view.inventory.ItemPanelTemplate;
@@ -35,7 +38,7 @@ import view.inventory.ItemPanelTemplate;
  * @author dovahkiin5
  *
  */
-public class ItemTileGenInfoField extends ItemPanelDecorator implements ItemPanelParticipant {
+public class ItemTileGenInfoField extends ItemPanelDecorator implements ItemPanelParticipant, ItemListener {
 
 	private JPanel panGeneral;
 	private JLabel lblName;
@@ -122,6 +125,7 @@ public class ItemTileGenInfoField extends ItemPanelDecorator implements ItemPane
 		panGeneral.add(lblStatus, "cell 0 5,alignx right");
 
 		cbStatus = new JComboBox();
+		cbStatus.addItemListener(this);
 		cbStatus.setBackground(Color.white);
 		cbStatus.setModel(new DefaultComboBoxModel(new String[] { "Assigned",
 				"Unassigned" }));
@@ -222,4 +226,23 @@ public class ItemTileGenInfoField extends ItemPanelDecorator implements ItemPane
 	     }
 	     cbStatus.setModel(new DefaultComboBoxModel(statusList.toArray()));
 	}
+
+	@Override
+	public void itemStateChanged(ItemEvent e) {
+		// TODO Auto-generated method stub
+		if(e.getSource() == cbStatus)
+		{
+			if(cbStatus.getSelectedItem().equals("Unassigned"))
+			{
+				InventoryItemDisplayManager.getInstance().setAssigneeStatus(false);
+			}
+			else if(cbStatus.getSelectedItem().equals("Assigned"))
+			{
+				InventoryItemDisplayManager.getInstance().setAssigneeStatus(true);
+			}
+		}
+	}
+	
+	
+	
 }

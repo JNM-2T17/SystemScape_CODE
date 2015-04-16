@@ -200,8 +200,8 @@ public class ItemTileITField extends ItemPanelDecorator implements ItemPanelPart
 	@Override
 	public void loadPresets(Iterator iter) {
 		// TODO Auto-generated method stub
-		if(iter.hasNext()) deliveryDateChooser.setDate((Date) iter.next());
-		if(iter.hasNext()) cbAssignee.setSelectedItem(iter.next().toString());
+		/*if(iter.hasNext()) deliveryDateChooser.setDate((Date) iter.next());
+		if(iter.hasNext()) cbAssignee.setSelectedItem(iter.next().toString());*/
 		if(iter.hasNext()) tfAssetTag.setText(iter.next().toString());
 		if(iter.hasNext()) tfServiceTag.setText(iter.next().toString());
 	}
@@ -228,6 +228,14 @@ public class ItemTileITField extends ItemPanelDecorator implements ItemPanelPart
 	public void setType(String type) {
 		// TODO Auto-generated method stub
 		cbType.setSelectedItem(type);
+	}
+	
+	@Override
+	public void setAssigneeVisible(boolean stat) {
+		// TODO Auto-generated method stub
+		cbAssignee.setVisible(stat);
+		lblAssignee.setVisible(stat);
+		cbAssignee.setSelectedItem("None");
 	}
 	
 	

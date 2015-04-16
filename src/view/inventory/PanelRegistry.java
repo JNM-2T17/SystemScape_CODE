@@ -469,6 +469,7 @@ public class PanelRegistry implements PanelRegistration {
 			((TypeItemTileField) participantList.get(1)).setType("Software");
 			participantList.get(1).loadPresets(
 					ItemStorageSoftware.getInstance()
+					//.saveAssignee(((SoftwareItem) inventoryItem).getAssignee(); Assignee
 					.saveLicenseKey(((SoftwareItem) inventoryItem).getLicenseKey())
 					.loadList()
 			);
@@ -694,6 +695,13 @@ public class PanelRegistry implements PanelRegistration {
 		InventoryItemController.getInstance().deleteInventoryItem(ii);
 		displayManager.setInventoryReturn();
 	}
+
+	public void disableAssignee(boolean stat) {
+		// TODO Auto-generated method stub
+		
+		((TypeItemTileField) participantList.get(1)).setAssigneeVisible(stat);
+	}
+
 
 
 }

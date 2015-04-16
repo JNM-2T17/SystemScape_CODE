@@ -172,6 +172,14 @@ public class ItemTileGeneralField extends ItemPanelDecorator implements ItemPane
 		cbType.setSelectedItem(type);
 	}
 
+	@Override
+	public void setAssigneeVisible(boolean stat) {
+		// TODO Auto-generated method stub
+		cbAssignee.setVisible(stat);
+		lblAssignee.setVisible(stat);
+		cbAssignee.setSelectedItem("None");
+	}
+
 	
 
 	

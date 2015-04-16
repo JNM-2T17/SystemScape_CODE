@@ -34,6 +34,7 @@ import view.inventory.PanelRegistry;
 import com.toedter.calendar.JDateChooser;
 
 import controller.EmployeeController;
+
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 
@@ -158,6 +159,14 @@ public class ItemTileNonITField extends ItemPanelDecorator implements ItemPanelP
 	@Override
 	public void setType(String type) {
 		cbType.setSelectedItem(type);
+	}
+	
+	@Override
+	public void setAssigneeVisible(boolean stat) {
+		// TODO Auto-generated method stub
+		cbAssignee.setVisible(stat);
+		lblAssignee.setVisible(stat);
+		cbAssignee.setSelectedItem("None");
 	}
 	
 }

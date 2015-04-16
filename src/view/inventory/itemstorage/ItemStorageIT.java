@@ -54,8 +54,8 @@ public class ItemStorageIT implements ItemStorage{
 	public Iterator loadList()
 	{
 		ArrayList compiledList = new ArrayList();
-		compiledList.add(deliveryDate);
-		compiledList.add(assignee);
+		/*compiledList.add(deliveryDate);
+		compiledList.add(assignee);*/
 		compiledList.add(assetTag);
 		compiledList.add(serviceTag);
 		

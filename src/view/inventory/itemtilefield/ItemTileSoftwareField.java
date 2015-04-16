@@ -159,7 +159,7 @@ public class ItemTileSoftwareField extends ItemPanelDecorator implements ItemPan
 	@Override
 	public void loadPresets(Iterator iter) {
 		// TODO Auto-generated method stub
-		if(iter.hasNext()) cbAssignee.setSelectedItem(iter.next().toString());
+		//if(iter.hasNext()) cbAssignee.setSelectedItem(iter.next().toString());
 		if(iter.hasNext()) tfLicenseKey.setText(iter.next().toString());
 	}
 	
@@ -177,4 +177,11 @@ public class ItemTileSoftwareField extends ItemPanelDecorator implements ItemPan
 		cbType.setSelectedItem(type);
 	}
 	
+	@Override
+	public void setAssigneeVisible(boolean stat) {
+		// TODO Auto-generated method stub
+		cbAssignee.setVisible(stat);
+		lblAssignee.setVisible(stat);
+		cbAssignee.setSelectedItem("None");
+	}
 }
