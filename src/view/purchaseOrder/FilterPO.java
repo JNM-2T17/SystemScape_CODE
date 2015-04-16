@@ -221,8 +221,8 @@ public class FilterPO extends PopUp implements ActionListener {
 		cmbSupplier.setModel(new DefaultComboBoxModel(data.toArray()));
 		data.removeAll(data);
 
-		cmbItem.setModel(new DefaultComboBoxModel(new String[] {"","Hardware",
-				"Software", "Gen" }));
+		cmbItem.setModel(new DefaultComboBoxModel(new String[] {"","Hard",
+				"Soft", "Gen" }));
 		cmbUnit.setModel(new DefaultComboBoxModel(new String[] {"", ">", ">=",
 				"<=", "<" }));
 	}
