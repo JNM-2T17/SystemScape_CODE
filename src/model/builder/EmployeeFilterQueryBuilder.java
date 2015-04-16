@@ -46,14 +46,9 @@ public class EmployeeFilterQueryBuilder implements FilterQueryBuilder {
             temp= conditions.next().toString();
             if(!temp.equals(""))
                 where = where + "p.name LIKE \"%" + temp +"%\" OR ";
-            temp= conditions.next().toString();
-            if (!temp.equals("")) 
-                where = where + "p.startDate LIKE \"%" + temp + "%\" OR ";
-            temp= conditions.next().toString();
-            if (!temp.equals("")) 
-                where = where + "p.endDate LIKE \"%" + temp + "%\" ";
-                
-            where = where + "&& pa.project = p.name && pa.employeeID = e.ID";
+           
+            where = where.substring(0, where.length()-3);
+            
             System.out.println("WHERE na you"+ where);
 	}
 
@@ -77,20 +72,31 @@ public class EmployeeFilterQueryBuilder implements FilterQueryBuilder {
             else		
                 orderBy = orderBy + ""+ orderCriteria +", ";
 	}
-
+        
+        public void addLeftJoin(String table){
+            from = from +"LEFT JOIN "+ table+" ";
+        }
+        
+        public void addOn(String condition){
+            from = from+"ON "+condition+" ";
+        }
+        
 	public String getQuery(Iterator conditions) {
-            //addColumn("e.id");
+            addColumn("e.ID");
             addColumn("e.name");
             addColumn("e.status");
             addColumn("p.name");
             addColumn("p.startDate");
             addColumn("p.endDate");
             addTable("employee e");
-            addTable("project p");
-            addTable("projectassignment pa");
+            from = from.substring(0,from.length()-2) + " ";
+            addLeftJoin("projectassignment pa");
+            addOn("pa.employeeID = e.ID");
+            addLeftJoin("project p");
+            addOn("pa.project = p.name");
             addCondition(conditions);
-            System.out.println(select.substring(0,(select.length()-2)) + " " +from.substring(0,from.length()-2) + " " + where.substring(0,where.length()-3));
-            return select.substring(0,(select.length()-2)) + " " +from.substring(0,from.length()-2) + " " + where.substring(0,where.length());
+            System.out.println(select.substring(0,(select.length()-2)) + " " +from.substring(0,from.length()-1) + " " + where);
+            return select.substring(0,(select.length()-2)) + " " +from.substring(0,from.length()-1) + " " + where;
 	}
 
 }

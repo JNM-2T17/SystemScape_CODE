@@ -148,7 +148,7 @@ public class FilterEmployee extends PopUp implements ActionListener {
 	public Iterator getValues() {
 		ArrayList list = new ArrayList();
 		
-        list.add((String)cmbName.getSelectedItem());
+                list.add((String)cmbName.getSelectedItem());
 		list.add((String)cmbStatus.getSelectedItem());
 		list.add((String)cmbProject.getSelectedItem());
 		return list.iterator();

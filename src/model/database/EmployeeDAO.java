@@ -142,7 +142,7 @@ public class EmployeeDAO implements IDBCUD {
             PreparedStatement preparedStatement = DBConnection.getConnection().prepareStatement(query);
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
-            	Employee employee = new Employee(resultSet.getInt("id"), resultSet.getString("name"), resultSet.getString("status"));
+            	Employee employee = new Employee(resultSet.getInt("ID"), resultSet.getString("name"), resultSet.getString("status"));
                 employees.add(employee);
            
             }
