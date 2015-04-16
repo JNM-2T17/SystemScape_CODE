@@ -31,7 +31,7 @@ public class PurchaseOrderDAO implements IDBCUD {
         ArrayList<PurchaseOrder> purchaseOrders = new ArrayList();
         PreparedStatement preparedStatement;
         try {
-            String query = "SELECT p.date, p.no,  p.type, s.name, s.country, s.state, s.city, p.invoiceNo\n"
+            String query = "SELECT p.date, p.no,  p.type, s.name, s.country, s.state, s.city, p.invoiceNo, p.currency\n"
                     + "FROM purchaseorder p\n"
                     + "INNER JOIN supplier s\n"
                     + "ON s.name=p.supplier";
@@ -39,7 +39,7 @@ public class PurchaseOrderDAO implements IDBCUD {
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 Supplier s = new Supplier(resultSet.getString("name"), resultSet.getString("country"), resultSet.getString("state"), resultSet.getString("city"));
-                PurchaseOrder purchaseorder = new PurchaseOrder(resultSet.getDate("date"), resultSet.getInt("no"), resultSet.getString("type"), s, resultSet.getString("invoiceNo"));
+                PurchaseOrder purchaseorder = new PurchaseOrder(resultSet.getDate("date"), resultSet.getInt("no"), resultSet.getString("type"), s, resultSet.getString("invoiceNo"), resultSet.getString("currency"));
 
                 String query2 = "SELECT i.name, i.description, i.unitPrice, pi.quantityOrdered, pi.quantityReceived\n"
                         + "FROM itemdata i\n"
@@ -70,7 +70,7 @@ public class PurchaseOrderDAO implements IDBCUD {
     public Object get(String key) {
         Connection con = DBConnection.getConnection();
         try {
-            String query = "SELECT p.date, p.no,  p.type, s.name, s.country, s.state, s.city, p.invoiceNo\n"
+            String query = "SELECT p.date, p.no,  p.type, s.name, s.country, s.state, s.city, p.invoiceNo, p.currency\n"
                     + "FROM purchaseorder p\n"
                     + "INNER JOIN supplier s\n"
                     + "ON s.name=p.supplier\n"
@@ -80,7 +80,7 @@ public class PurchaseOrderDAO implements IDBCUD {
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
                 Supplier s = new Supplier(resultSet.getString("name"), resultSet.getString("country"), resultSet.getString("state"), resultSet.getString("city"));
-                PurchaseOrder purchaseorder = new PurchaseOrder(resultSet.getDate("date"), resultSet.getInt("no"), resultSet.getString("type"), s, resultSet.getString("invoiceNo"));
+                PurchaseOrder purchaseorder = new PurchaseOrder(resultSet.getDate("date"), resultSet.getInt("no"), resultSet.getString("type"), s, resultSet.getString("invoiceNo"),resultSet.getString("currency"));
 
                 String query2 = "SELECT i.name, i.description, i.unitPrice, pi.quantityOrdered, pi.quantityReceived\n"
                         + "FROM itemdata i\n"
@@ -129,7 +129,7 @@ public class PurchaseOrderDAO implements IDBCUD {
         Connection con = DBConnection.getConnection();
         ArrayList<PurchaseOrder> purchaseOrders = new ArrayList<PurchaseOrder>();
         try {
-            String query = "SELECT p.date, p.no,  p.type, s.name, s.country, s.state, s.city, p.invoiceNo\n"
+            String query = "SELECT p.date, p.no,  p.type, s.name, s.country, s.state, s.city, p.invoiceNo, p.currency\n"
                     + "FROM purchaseorder p\n"
                     + "INNER JOIN supplier s\n"
                     + "ON s.name=p.supplier "
@@ -142,7 +142,7 @@ public class PurchaseOrderDAO implements IDBCUD {
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 Supplier s = new Supplier(resultSet.getString("name"), resultSet.getString("country"), resultSet.getString("state"), resultSet.getString("city"));
-                PurchaseOrder purchaseorder = new PurchaseOrder(resultSet.getDate("date"), resultSet.getInt("no"), resultSet.getString("type"), s, resultSet.getString("invoiceNo"));
+                PurchaseOrder purchaseorder = new PurchaseOrder(resultSet.getDate("date"), resultSet.getInt("no"), resultSet.getString("type"), s, resultSet.getString("invoiceNo"), resultSet.getString("currency"));
 
                 String query2 = "SELECT i.name, i.description, i.unitPrice, pi.quantityOrdered, pi.quantityReceived \n"
                         + "FROM itemdata i\n"
@@ -230,11 +230,12 @@ public class PurchaseOrderDAO implements IDBCUD {
         PurchaseOrder purchaseorder = (PurchaseOrder) object;
         Connection con = DBConnection.getConnection();
         try {
-            String query = "INSERT INTO purchaseorder  VALUES (?,NULL,?,?,?);";
+            String query = "INSERT INTO purchaseorder  VALUES (?,NULL,?,?,?,?,?);";
             PreparedStatement preparedStatement = con.prepareStatement(query);
             preparedStatement.setString(1, purchaseorder.getType());
             preparedStatement.setDate(2, new java.sql.Date(purchaseorder.getDate().getTime()));
             preparedStatement.setString(3, purchaseorder.getSupplier().getName());
+            preparedStatement.setString(5, purchaseorder.getCurrency());
 
             //
             String queryE = "SELECT MAX(no) FROM purchaseorder";
@@ -285,14 +286,15 @@ public class PurchaseOrderDAO implements IDBCUD {
         ItemData itemData;
 
         try {
-            String query = "UPDATE purchaseorder SET date = ?, type = ?, supplier = ? "
+            String query = "UPDATE purchaseorder SET date = ?, type = ?, supplier = ?, currency = ? "
                     + "WHERE no = ? ";
             PreparedStatement preparedStatement = con.prepareStatement(query);
             java.sql.Date sqlDate = new java.sql.Date(currentPO.getDate().getTime());
             preparedStatement.setDate(1, sqlDate);
             preparedStatement.setString(2, currentPO.getType());
             preparedStatement.setString(3, currentPO.getSupplier().getName());
-            preparedStatement.setString(4, key);
+            preparedStatement.setString(4, currentPO.getCurrency());
+            preparedStatement.setString(5, key);
             preparedStatement.execute();
 
             

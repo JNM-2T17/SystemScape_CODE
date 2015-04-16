@@ -11,7 +11,7 @@ import java.util.Iterator;
  *
  * @author Christian Gabriel
  */
-public class SupplierFilterQueryBuilder implements FilterQueryBuilder{
+public class SupplierFilterQueryBuilder implements FilterQueryBuilder {
 
     private String select;
     private String from;
@@ -46,29 +46,34 @@ public class SupplierFilterQueryBuilder implements FilterQueryBuilder{
     }
 
     public void addCondition(Iterator conditions) {
-        String temp;
-        temp = (String) conditions.next();
-        if (!temp.equals("")) {
-            where = where + "name LIKE \"%" + temp + "%\"&& ";
+        if (conditions != null) {
+            String temp;
+            temp = (String) conditions.next();
+            if (!temp.equals("")) {
+                where = where + "name LIKE \"%" + temp + "%\"&& ";
+            }
+            temp = (String) conditions.next();
+            if (!temp.equals("")) {
+                where = where + "country LIKE \"%" + temp + "%\"&& ";
+            }
+            temp = (String) conditions.next();
+            if (!temp.equals("")) {
+                where = where + "state LIKE \"%" + temp + "%\"&& ";
+            }
+            temp = (String) conditions.next();
+            if (!temp.equals("")) {
+                where = where + "city LIKE \"%" + temp + "%\"&& ";
+            }
+            temp = (String) conditions.next();
+            if (!temp.equals("")) {
+                String temp2 = (String) conditions.next();
+                where = where + "sc.supplier IN (SELECT supplier FROM suppliercontact WHERE value LIKE \"%" + temp + "%\" && type LIKE \"%" + temp2 + "%\")&&";
+            }
+            where = where + "s.name=sc.supplier &&";
+            where = where.substring(0, where.length() - 2);
+        }else{
+            where = "";
         }
-        temp = (String) conditions.next();
-        if (!temp.equals("")) {
-            where = where + "country LIKE \"%" + temp + "%\"&& " ;
-        }
-        temp = (String) conditions.next();
-        if (!temp.equals("")) {
-            where = where + "state LIKE \"%" + temp + "%\"&& ";
-        }
-        temp = (String) conditions.next();
-        if (!temp.equals("")) {
-            where = where + "city LIKE \"%" + temp + "%\"&& ";
-        }
-        temp = (String) conditions.next();
-        if (!temp.equals("")) {
-            String temp2 = (String) conditions.next();
-            where = where + "sc.supplier IN (SELECT supplier FROM suppliercontact WHERE value LIKE \"%" + temp + "%\" && type LIKE \"%"+temp2+"%\")&&";   
-        }
-        where = where + "s.name=sc.supplier &&";
     }
 
     public void addGrouping(String group) {
@@ -106,11 +111,12 @@ public class SupplierFilterQueryBuilder implements FilterQueryBuilder{
         addTable("suppliercontact sc");
         addCondition(conditions);
         addGrouping("s.name");
-        
-        if(groupBy.length()>0)
+
+        if (groupBy.length() > 0) {
             groupBy = groupBy.substring(0, groupBy.length() - 1);
-        
-        System.out.println(select.substring(0, select.length() - 1) + " " + from.substring(0, from.length() - 1) + " " + where.substring(0, where.length() - 2) + " " + groupBy.substring(0, groupBy.length() - 1));
-        return select.substring(0, select.length() - 1) + " " + from.substring(0, from.length() - 1) + " " + where.substring(0, where.length() - 2) + " " + groupBy.substring(0, groupBy.length() - 1);
+        }
+
+        //System.out.println(select.substring(0, select.length() - 1) + " " + from.substring(0, from.length() - 1) + " " + where.substring(0, where.length() - 2) + " " + groupBy.substring(0, groupBy.length() - 1));
+        return select.substring(0, select.length() - 1) + " " + from.substring(0, from.length() - 1) + " " + where + " " + groupBy.substring(0, groupBy.length() - 1);
     }
 }
