@@ -5,6 +5,8 @@
  */
 package model;
 
+import java.util.Date;
+
 
 /**
  *
@@ -43,6 +45,8 @@ public class SoftwareItem extends InventoryItem {
 		private String status;
 		private String classification;
 		private String licenseKey;
+                private Date startDate;
+                private Date endDate;
 		
 		public SoftwareBuilder()
 		{
@@ -55,6 +59,8 @@ public class SoftwareItem extends InventoryItem {
 			status = "";
 			classification = "";
 			licenseKey = "";
+                        startDate = null;
+                        endDate = null;
 		}
 		
 		public SoftwareBuilder addID(int buildID)
@@ -100,6 +106,14 @@ public class SoftwareItem extends InventoryItem {
 		public SoftwareBuilder addLicenseKey(String buildKey)
 		{
 			licenseKey = buildKey;
+			return this;
+		}
+                public SoftwareBuilder addStartDate(Date startingDate){
+			startDate = startingDate;
+			return this;
+		}
+                 public SoftwareBuilder addEndDate(Date endingDate){
+			endDate = endingDate;
 			return this;
 		}
 		public SoftwareItem build() {

@@ -32,6 +32,8 @@ public class NonITAsset extends HardwareItem{
 			private String location;
 			private String status;
 			private String classification;
+                        private Date startDate;
+                        private Date endDate;
 			
 			public NonITAssetBuilder()
 			{
@@ -43,6 +45,8 @@ public class NonITAsset extends HardwareItem{
 				location = "";
 				status = "";
 				classification = "";
+                                startDate = null;
+                                endDate = null;
 			}
 			
 			public NonITAssetBuilder addID(int buildID)
@@ -85,6 +89,14 @@ public class NonITAsset extends HardwareItem{
 				classification = buildClass;
 				return this;
 			}
+                        public NonITAssetBuilder addStartDate(Date startingDate){
+                            startDate = startingDate;
+                            return this;
+                        }
+                        public NonITAssetBuilder addEndDate(Date endingDate){
+                            endDate = endingDate;
+                            return this;
+                        }
 			public NonITAsset build() {
 				return new NonITAsset(this);
 			}

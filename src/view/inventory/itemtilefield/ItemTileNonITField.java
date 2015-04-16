@@ -44,7 +44,12 @@ public class ItemTileNonITField extends ItemPanelDecorator implements ItemPanelP
 	private JLabel lblType;
 	private JLabel lblDeliveryDate;
 	private JLabel lblAssignee;
-	
+        
+	private JDateChooser startDateChooser;
+	private JDateChooser endDateChooser;
+	private JLabel lblStart;
+	private JLabel lblEnd;
+        
 	private JComboBox cbType;
 	private JComboBox cbAssignee;
 	
@@ -96,6 +101,29 @@ public class ItemTileNonITField extends ItemPanelDecorator implements ItemPanelP
 		panNonIT.add(cbAssignee, "cell 3 5 5 1,growx");
 		addItemPanelReference.assignToQuad(panNonIT, 1);
                 
+                lblStart = new JLabel("Assign Start:");
+		panNonIT.add(lblStart, "cell 2 11,growx");
+		
+		startDateChooser = new JDateChooser();
+		startDateChooser.setOpaque(false);
+		startDateChooser.setDate(new Date());
+		startDateChooser.setBorder(null);
+		startDateChooser.setDateFormatString("yyyy-MM-dd");
+		startDateChooser.setBackground(Color.WHITE);
+		startDateChooser.setPreferredSize(new Dimension(150, 30));
+		panNonIT.add(startDateChooser, "cell 5 11,growx");
+		
+		lblEnd = new JLabel("Assign End:");
+		panNonIT.add(lblEnd, "cell 2 10,growx");
+		
+		endDateChooser = new JDateChooser();
+		endDateChooser.setOpaque(false);
+		endDateChooser.setDate(new Date());
+		endDateChooser.setBorder(null);
+		endDateChooser.setDateFormatString("yyyy-MM-dd");
+		endDateChooser.setBackground(Color.WHITE);
+		endDateChooser.setPreferredSize(new Dimension(150, 30));
+		panNonIT.add(endDateChooser, "cell 5 10,growx");
                 
 		
 	}
@@ -117,6 +145,8 @@ public class ItemTileNonITField extends ItemPanelDecorator implements ItemPanelP
 		// TODO Auto-generated method stub
 		ArrayList infoList = new ArrayList(); 
 		infoList.add(cbAssignee.getSelectedItem().toString());
+                infoList.add(startDateChooser.getDate());
+		infoList.add(endDateChooser.getDate());
 		return infoList.iterator();
 	}
 

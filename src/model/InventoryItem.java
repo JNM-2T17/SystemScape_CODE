@@ -150,6 +150,8 @@ public static class InventoryItemBuilder {
 		private String status;
 		private String classification;
 		private int quantity;
+                private Date startDate;
+                private Date endDate;
 		
 		public InventoryItemBuilder()
 		{
@@ -162,6 +164,8 @@ public static class InventoryItemBuilder {
 			status = "";
 			classification = "";
 			quantity=0;
+                        startDate = null;
+                        endDate = null;
 		}
 		
 		public InventoryItemBuilder addID(int buildID)
@@ -206,6 +210,14 @@ public static class InventoryItemBuilder {
 		}
 		public InventoryItemBuilder addQuantity(int buildQuantity){
 			quantity=buildQuantity;
+			return this;
+		}
+                public InventoryItemBuilder addStartDate(Date startingDate){
+			startDate = startingDate;
+			return this;
+		}
+                 public InventoryItemBuilder addEndDate(Date endingDate){
+			endDate = endingDate;
 			return this;
 		}
 		public InventoryItem build() {

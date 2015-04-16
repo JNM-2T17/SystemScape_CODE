@@ -195,6 +195,8 @@ public class PanelRegistry implements PanelRegistration {
 					.addAssetTag(assetTag)
 					.addServiceTag(typeInfo.get(3).toString())
 					.addDeliveryDate((Date)typeInfo.get(0))
+                                        .addStartDate((Date)typeInfo.get(4))
+                                        .addEndDate((Date)typeInfo.get(5))
 					.addContract(
 							new Contract(0, (Date) contractInfo.get(1),
 									(Date) contractInfo.get(2),
@@ -214,7 +216,9 @@ public class PanelRegistry implements PanelRegistration {
 					.addUnitPrice(unitPrice)
 					.addInvoiveNo(generalInfo.get(3).toString())
 					.addLocation(generalInfo.get(4).toString())
-					.addStatus(generalInfo.get(5).toString()) 
+					.addStatus(generalInfo.get(5).toString())
+                                        .addStartDate((Date)typeInfo.get(1))
+                                        .addEndDate((Date)typeInfo.get(2))
 					.addClassification("Non-IT").build();
 					
 			inventoryItem = nonItAsset;
@@ -230,7 +234,10 @@ public class PanelRegistry implements PanelRegistration {
 					.addLocation(generalInfo.get(4).toString())
 					.addStatus(generalInfo.get(5).toString())
 					.addClassification("Soft")
+                                        .addStartDate((Date)typeInfo.get(2))
+                                        .addEndDate((Date)typeInfo.get(3))
 					.addLicenseKey(typeInfo.get(1).toString()).build();
+                                        
 			
 			inventoryItem = software;
 			
@@ -244,6 +251,8 @@ public class PanelRegistry implements PanelRegistration {
 					.addInvoiveNo(generalInfo.get(3).toString())
 					.addLocation(generalInfo.get(4).toString())
 					.addStatus(generalInfo.get(5).toString())
+                                        .addStartDate((Date)typeInfo.get(2))
+                                        .addEndDate((Date)typeInfo.get(3))
 					.addClassification("Others").build();
 			
 			inventoryItem = general;
