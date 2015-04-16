@@ -105,15 +105,36 @@ public class ViewEmployee extends ViewTemplate implements Observer{
 		clearTable();
 		Employee employee;
 		ArrayList<Project> projectsList = new ArrayList<Project>();
-		
 		while(data.hasNext()){
 			employee = (Employee) data.next();
 			System.out.println("Employee THINGY " + employee.getName());
 			Iterator projectsIterator = employee.getProjectList();
 			String projectsString = "";
 			String projectsDate = "";
+			Date sDate = null;
+			Date eDate = null;
 			int i = 0;
-
+			while(projectsIterator.hasNext()){
+                                Project project = (Project)projectsIterator.next();
+				projectsString = projectsString + project.toString() + ", ";
+				projectsList.add(project);
+				sDate = projectsList.get(i).getStartDate();
+				eDate = projectsList.get(i).getEndDate();
+				if(sDate != null && eDate != null)
+				{
+					projectsDate = projectsDate + "StartDate: " + dateFormat.format(sDate) 
+							 + "\n EndDate: " + dateFormat.format(eDate) + ", ";
+				}
+				else
+				{
+					projectsDate = projectsDate + "StartDate: " + sDate 
+							 + "\n EndDate: " + eDate + ", ";
+				}
+		
+				
+				i+=1;
+				System.out.println(projectsString);
+			}
 			getModel().setRowCount(getModel().getRowCount() + 1);
             getModel().setValueAt(employee.getName(),
             getModel().getRowCount() - 1, 0);

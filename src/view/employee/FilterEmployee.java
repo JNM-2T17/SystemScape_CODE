@@ -29,11 +29,14 @@ public class FilterEmployee extends PopUp implements ActionListener {
 	private JButton btnFilter, btnRemoveFilter;
 	private JComboBox cmbName;
 	private JComboBox cmbStatus, cmbProject;
-        private EmployeeController employeeController;
+        private boolean closed = true;
+    	private EmployeeController employeeController;
+    	private ProjectController projectController;
 
 	public FilterEmployee(JFrame parent) {
 		super(parent);
-
+		employeeController = EmployeeController.getInstance();
+		projectController = ProjectController.getInstance();
 		JPanel panMain = new JPanel();
 		panMain.setBackground(Color.WHITE);
 		panMain.setPreferredSize(new Dimension(450, 250));
@@ -125,12 +128,27 @@ public class FilterEmployee extends PopUp implements ActionListener {
 		panContent.add(cmbProject);
 
 		getClose().addActionListener(this);
-        employeeController = EmployeeController.getInstance();
                 
 		setContent(panMain);
+		populateEmployeeNames();
+		populateEmployeeStatus();
+		populateEmployeeProjects();
 		this.setVisible(true);
 		this.repaint();
 		this.revalidate();
+	}
+
+	public Iterator getValues() {
+		ArrayList list = new ArrayList();
+		
+        list.add((String)cmbName.getSelectedItem());
+		list.add((String)cmbStatus.getSelectedItem());
+		list.add((String)cmbProject.getSelectedItem());
+		return list.iterator();
+	}
+
+	public boolean isClosed() {
+		return closed;
 	}
 
 	public boolean checkFields()
@@ -156,6 +174,7 @@ public class FilterEmployee extends PopUp implements ActionListener {
 		 * kung mern then proceed to filtering the list
 		 *****/
 		else if (checkFields() == false && e.getSource() == btnFilter) {
+			closed = false;
 			this.dispose();
 		}
 		else if (checkFields() == true && e.getSource() == btnFilter ){
@@ -165,6 +184,7 @@ public class FilterEmployee extends PopUp implements ActionListener {
 			 * meaning if All fields are empty wag mag filter but insetad revert it back to the original
 			 * list of suppliers
 			 *****/
+			closed = false;
 			this.dispose();
 		}
 		else if (e.getSource() == btnRemoveFilter){
@@ -172,7 +192,41 @@ public class FilterEmployee extends PopUp implements ActionListener {
 			 * DEV insert code statements here to remove the filter and set the view table to the original
 			 * meaning yung walang filter...
 			*****/
+			closed = false;
 			this.dispose();
 		}
+	}
+
+	public void populateEmployeeNames() {
+		Iterator<Employee> iterator = employeeController.getAll();
+		ArrayList<String> employeeNames = new ArrayList();
+		employeeNames.add("");
+		while (iterator.hasNext()) {
+			employeeNames.add(iterator.next().getName());
+		}
+		cmbName.setModel(new DefaultComboBoxModel(employeeNames.toArray()));
+	}
+	
+	public void populateEmployeeStatus() {
+		Iterator<Employee> iterator = employeeController.getAll();
+		ArrayList<String> employeeStatus = new ArrayList();
+		employeeStatus.add("");
+		while (iterator.hasNext()) {
+			String status = iterator.next().getStatus();
+			employeeStatus.add(status);
+			
+		}
+		cmbStatus.setModel(new DefaultComboBoxModel(employeeStatus.toArray()));
+	}
+	
+	public void populateEmployeeProjects() {
+		ArrayList<String> employeeProjects = new ArrayList();
+		employeeProjects.add("");
+		Iterator<Project> projectsIterator = projectController.getAll();
+		while (projectsIterator.hasNext()) {
+			employeeProjects.add(projectsIterator.next().getName());
+			
+		}
+		cmbProject.setModel(new DefaultComboBoxModel(employeeProjects.toArray()));
 	}
 }
