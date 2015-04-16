@@ -1,4 +1,5 @@
 package view.inventory;
+import controller.InventoryItemController;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -26,6 +27,8 @@ import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Iterator;
+import view.projects.ViewProjects;
 
 
 /**
@@ -39,6 +42,7 @@ public class TabInventory extends JPanel implements ActionListener{
 	private Content temp;
 	private ViewInventory viewInventory;
 	private InventoryItemDisplayManager displayManager;
+        private InventoryItemController inventoryItemController;
 	
 	public TabInventory(Gui gui) {
 		cl = new CardLayout();
@@ -65,7 +69,7 @@ public class TabInventory extends JPanel implements ActionListener{
 		displayManager.setContent(temp);
 		displayManager.setCardLayout(cl);
 	
-		
+		inventoryItemController = InventoryItemController.getInstance();
 		cl.show(this, "view");
 		
 		//cl.show(this, "add);
@@ -154,7 +158,11 @@ public class TabInventory extends JPanel implements ActionListener{
 			setAdd("IT");
 		}
 		else if(((JButton) e.getSource()).getActionCommand().equals("filter")){
-			new FilterInventory(gui);
+			FilterInventory fi = new FilterInventory(gui);
+                        if(!fi.isClosed()){
+				Iterator values = inventoryItemController.filter(fi.getValues());
+				((ViewInventory)list.get(0).getContent()).filterPopulate(values);
+			}
 		}
 		else if(((JButton) e.getSource()).getActionCommand().equals("export")){
 			new ExportInventory(gui);

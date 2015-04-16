@@ -222,18 +222,15 @@ public class InventoryItemDAO implements IDBCUD {
 
     public Iterator filter(Iterator conditions) {
         QueryFilterDirector director = new QueryFilterDirector(new InventoryItemFilterQueryBuilder());
-        ArrayList<String> results = new ArrayList<String>();
+        ArrayList<InventoryItem> results = new ArrayList<InventoryItem>();
         Connection con = DBConnection.getConnection();
         try {
             String query = director.getQuery(conditions);
             PreparedStatement preparedStatement = con.prepareStatement(query);
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
-                results.add(resultSet.getString("itemdata"));
-                results.add(resultSet.getString("description"));
-                results.add(resultSet.getString("status"));
-                results.add(resultSet.getString("classification"));
-                results.add(resultSet.getString("unitprice"));
+                InventoryItem inventoryItem = (InventoryItem)get(resultSet.getString("ID"));
+                results.add(inventoryItem);
             }
             return results.iterator();
         } catch (Exception exeption) {

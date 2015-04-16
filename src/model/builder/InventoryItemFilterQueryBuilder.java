@@ -29,16 +29,16 @@ public class InventoryItemFilterQueryBuilder implements FilterQueryBuilder{
 
 	public void addColumn(String column) {
 		if(select.length()==0)
-			select= "SELECT \""+column+"\", ";
+			select= "SELECT "+column+", ";
 		else
-			select = select + "\"" + column + "\", ";
+			select = select + column + ", ";
 	}
 
 	public void addTable(String table) {
             if(from.length()==0)
-                from= "FROM \""+table+"\", ";
+                from= "FROM "+table+", ";
             else
-                from = from + "\"" + table + "\", ";
+                from = from + table + ", ";
 	}
         
         public void addLeftJoin(String table){
@@ -50,13 +50,13 @@ public class InventoryItemFilterQueryBuilder implements FilterQueryBuilder{
         }
 
         public void addCondition(Iterator conditions) {
-            String temp;
+            String temp, temp2;
             temp= (String) conditions.next();
             if(!temp.equals(""))
                 where = where + "ii.itemdata LIKE \"%" + temp +"%\"&& ";
             temp= (String) conditions.next();
             if(!temp.equals(""))
-                where = where + "ii.classification LIKE \"%" + temp +"%\"&& ";
+                where = where + "ii.classification = \"" + temp +"\"&& ";
             temp= (String) conditions.next();
             if(!temp.equals(""))
                 where = where + "ii.location LIKE \"%" + temp +"%\"&& ";
@@ -70,67 +70,59 @@ public class InventoryItemFilterQueryBuilder implements FilterQueryBuilder{
             if(!temp.equals(""))
                 where = where + "e.name LIKE \"%" + temp +"%\"&& ";
             temp= (String) conditions.next();
+            if(!temp.equals("")){
+                temp2 = (String) conditions.next();
+                if(!temp2.equals(""))
+                    where = where + "pi.quantityReceived " + temp + " " + temp2 + " && ";
+            }
             if(!temp.equals(""))
-                where = where + "pi.quantityReceived LIKE \"%" + temp +"%\"&& ";
+                where = where + "ii.invoiceNo LIKE \"%" + temp +"%\"&& ";
 	}
 
 	public void addGrouping(String group) {
 		if(groupBy.length()==0)
-			groupBy = "GROUP BY \""+group+"\", ";
+			groupBy = "GROUP BY "+group+", ";
 		else
-			groupBy = groupBy + "\""+ group +"\", ";
+			groupBy = groupBy + group +", ";
 	}
 
 	public void addGroupingCondition(String groupCondition) {
             if(having.length()==0)
-                having = "HAVING \""+ groupCondition +"\", ";
+                having = "HAVING "+ groupCondition +", ";
             else
-                having = having +" \""+groupCondition+"\", ";
+                having = having +" "+groupCondition+", ";
 	}
 
 	public void addOrderCriteria(String orderCriteria) {
             if(orderBy.length()==0)
-                orderBy= "ORDER BY \""+ orderCriteria+"\", ";
+                orderBy= "ORDER BY "+ orderCriteria+", ";
             else		
-                orderBy = orderBy + "\""+ orderCriteria +"\", ";
+                orderBy = orderBy + ""+ orderCriteria +", ";
 	}
 
 	public String getQuery(Iterator conditions) {
             addColumn("ii.ID");
-            addColumn("ii.itemdata");
-            addColumn("id.description");
-            addColumn("ii.classification");
-            addColumn("pi.quantityReceived");
-            addColumn("ii.location");
-            addColumn("ii.invoiceNo");
-            addColumn("it.assetTag");
-            addColumn("it.serviceTag");
-            addColumn("e.name");
-            addColumn("it.deliveryDate");
-            addColumn("c.endDate");
-            addColumn("w.endDate");
             
             addTable("inventoryitem ii");
+            from = from.substring(0,from.length()-2) + " ";
             addLeftJoin("poitem pi");
             addOn("ii.itemdata = pi.itemname");
-            addLeftJoin("assetassignment aa");
-            addOn("aa.ID = ii.ID");
+            addLeftJoin("itemassignment ia");
+            addOn("ia.itemID = ii.ID");
             addLeftJoin("itasset it");
             addOn("it.ID = ii.ID");
             addLeftJoin("contract c");
             addOn("ii.ID = c.hardware");
             addLeftJoin("warranty w");
             addOn("ii.ID = w.hardware");
-            addLeftJoin("softwareassignment sa");
-            addOn("sa.ID = ii.ID");
             addLeftJoin("employee e");
-            addOn("(e.ID = aa.employee OR e.ID = sa.employee)");
+            addOn("e.ID = ia.employeeID");
             
             
             addCondition(conditions);
             
             addGrouping("ii.ID");
-	
-            return select.substring(0,select.length()-1) + " " +from.substring(0,from.length()-1) + " " + where.substring(0,where.length()-2)+" "+groupBy.substring(0,groupBy.length()-1)+" "+having.substring(0,having.length()-1);
+            System.out.println("huwaw\n" +select.substring(0,select.length()-2) + " " +from.substring(0,from.length()-1) + " " + where.substring(0,where.length()-3)+" "+groupBy.substring(0,groupBy.length()-2));
+            return select.substring(0,select.length()-2) + " " +from.substring(0,from.length()-1) + " " + where.substring(0,where.length()-3)+" "+groupBy.substring(0,groupBy.length()-2);
 	}
 }
