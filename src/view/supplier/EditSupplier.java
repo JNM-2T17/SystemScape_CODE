@@ -320,7 +320,7 @@ public class EditSupplier extends JPanel implements ActionListener {
 					}
 
 					Message msg = new Message(parent, Message.SUCCESS,
-							"Supplier added successfully.");
+							"Supplier edited successfully.");
 				
 				supplierController.editSupplier(supplier, prevKey);
 				System.out.println("Putaaaa");
