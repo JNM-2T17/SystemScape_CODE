@@ -20,6 +20,7 @@ import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
 import model.Employee;
+import model.Encryption;
 import model.User;
 import net.miginfocom.swing.MigLayout;
 
@@ -190,6 +191,7 @@ public class AddEmployee extends JPanel implements ActionListener {
 		toggle(false);
 		
 	}
+	@SuppressWarnings("null")
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
@@ -200,6 +202,15 @@ public class AddEmployee extends JPanel implements ActionListener {
 				Employee employee = new Employee(employeeController.getInstance().getEmployeeID()+1, txtName.getText(), (String)cmbStatus.getSelectedItem());;
 				employeeController.addEmployee(employee);
 				String pass = String.valueOf(txtPassword.getPassword());
+				Encryption encryption = new Encryption();
+				try {
+					pass = encryption.encryptString(pass);
+					String gg = encryption.decryptString(pass);
+					System.out.println("User pass:" +gg);
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 				if(rdTechnician.isSelected() == true){
 					User user = new User(txtUsername.getText(), pass, false);
 					userController.addUser(user);

@@ -24,6 +24,7 @@ import javax.swing.JTextField;
 import javax.swing.UIManager;
 import javax.swing.border.LineBorder;
 
+import model.Encryption;
 import model.User;
 import view.employee.TabEmployees;
 import view.inventory.TabInventory;
@@ -204,7 +205,7 @@ public class Login extends JPanel implements ActionListener, KeyListener {
         panRight.setBackground(new Color(32, 130, 213));
         add(panRight, BorderLayout.EAST);
 
-        userController = userController.getInstance();
+        userController = UserController.getInstance();
         parent.getRootPane().setDefaultButton(btnLogin);
 
 
@@ -214,9 +215,18 @@ public class Login extends JPanel implements ActionListener, KeyListener {
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == btnLogin) {
             User user = (User) userController.getUser(txtUsername.getText());
-  
+            Encryption decrypt = new Encryption();
+            String b = new String(pwdPassword.getPassword());
+            try {
+				b = decrypt.encryptString(b);
+				//String c = decrypt.decryptString(b);
+				//System.out.println("Decrypt: "+c);
+			} catch (Exception e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
             if (user != null) {
-                if (txtUsername.getText().equals(user.getUsername()) && new String(pwdPassword.getPassword()).equals(user.getPassword())) {
+                if (txtUsername.getText().equals(user.getUsername()) && new String(b).equals(user.getPassword())) {
                     MainPanel mp = new MainPanel(parent);
                     parent.register(mp, "main");
                     if (user.isManager()) {

@@ -1,0 +1,22 @@
+Right click your eclipse project. 
+
+Choose Properties
+
+Pick Java Compiler
+	then may expand button yun, choose errors/warnings
+	enable project specific settings
+
+	then may expand button yung deprecated and restricted API
+	makikita nyo yung FORBIDDEN reference (access rules), change it to WARNING
+
+	APPLY then OK
+
+
+(Must do for encryption to work) dont forget to import the latest jar file I added
+
+
+To add a new User, Use Add Employee, then choose Technician.
+Go to DB and insert a new user in admin table
+then VOILA
+
+ALSO HOT PIE IS THE ONLY ADMIN
