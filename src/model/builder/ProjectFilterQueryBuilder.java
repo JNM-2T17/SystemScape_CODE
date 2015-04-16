@@ -82,7 +82,6 @@ public class ProjectFilterQueryBuilder implements FilterQueryBuilder{
             addColumn("p.name");
             addColumn("p.startDate");
             addColumn("p.endDate");
-            addColumn("p.employee");
             addTable("project p");
             addCondition(conditions);
             return select.substring(0,(select.length()-2)) + " " +from.substring(0,from.length()-2) + " " + where.substring(0,where.length()-3);
