@@ -10,17 +10,22 @@ import javax.swing.JButton;
 
 import java.awt.Font;
 
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.SpringLayout;
 import javax.swing.JTextField;
 
+import model.Project;
+
 import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 
 import view.PopUp;
 
 import com.toedter.calendar.JDateChooser;
+
+import controller.ProjectController;
 
 import java.awt.Color;
 import java.awt.event.ActionEvent;
@@ -35,9 +40,11 @@ public class FilterProject extends PopUp implements ActionListener {
 	private JDateChooser dateEnd;
 	private JButton btnFilter;
 	private boolean closed = true;
-
+	private ProjectController projectController;
+	
 	public FilterProject(JFrame parent) {
 		super(parent);
+		projectController = ProjectController.getInstance();
 		JPanel panMain = new JPanel();
 		panMain.setLayout(new BorderLayout(0, 0));
 
@@ -120,15 +127,18 @@ public class FilterProject extends PopUp implements ActionListener {
 		panMain.setSize(new Dimension(480, 250));
 		setContent(panMain);
 		getClose().addActionListener(this);
+		populateProjectNames();
 		setVisible(true);
 		this.repaint();
 		this.revalidate();
+		
+	
 	}
 
 	public Iterator getValues() {
 		ArrayList list = new ArrayList();
-
-		list.add(cmbName.getSelectedItem());
+		
+        list.add((String)cmbName.getSelectedItem());
 		list.add(new java.sql.Date(dateStart.getDate().getTime()));
 		list.add(new java.sql.Date(dateEnd.getDate().getTime()));
 
@@ -149,5 +159,15 @@ public class FilterProject extends PopUp implements ActionListener {
 			closed = false;
 			this.dispose();
 		}
+	}
+	
+	public void populateProjectNames(){
+		Iterator<Project> iterator = projectController.getAll();
+		ArrayList<String> projectNames = new ArrayList();
+		projectNames.add("");
+		while(iterator.hasNext()){
+			projectNames.add(iterator.next().getName());
+		}
+		cmbName.setModel(new DefaultComboBoxModel(projectNames.toArray()));
 	}
 }

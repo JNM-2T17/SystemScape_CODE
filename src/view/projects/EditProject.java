@@ -251,50 +251,6 @@ public class EditProject extends JPanel implements ActionListener {
 			allModel.addElement(emp.getName());
 		}
 		
-		//init();
-	}
-	
-	public void init(){
-		
-		Iterator it = employeeController.getAll();
-		Project currProject = projectController.getProject();
-		Iterator i = projectController.getEmployees();
-		if(i != null){
-			System.out.println("Enter!");
-			int k = 0;
-//			Employee superTemp = (Employee) i.next();
-//			String superTempName = superTemp.getName();
-//			System.out.println("Super temp: "+superTempName);
-//			System.out.println();
-			while(i.hasNext()){
-				System.out.println("Enter again!");
-				Employee temp = (Employee) i.next();
-				empModel.addElement(temp.getName());
-				String empString = (String) empModel.get(k);
-				System.out.println("Employee in empmodel: "+empString);
-				k++;
-			}
-			int index = 0;
-			while(it.hasNext()){
-				Employee temp2 = (Employee) it.next();
-				
-				if(index< empModel.size()){
-					String temp3 = (String) empModel.get(index);
-					if(!temp2.equals(temp3)){
-						allModel.addElement(temp2.getName());
-					}
-				}
-				index++;
-			}
-		}
-		else{
-			System.out.println("Sesame!");
-			while(it.hasNext()){
-				Employee emp=(Employee) it.next();
-				
-				allModel.addElement(emp.getName());
-			}
-		}
 	}
 
 	public String checkInput() {
