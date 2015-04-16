@@ -1,5 +1,6 @@
 package view.supplier;
 
+import controller.SupplierController;
 import javax.swing.JPanel;
 
 import java.awt.BorderLayout;
@@ -26,6 +27,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Iterator;
+import javax.swing.DefaultComboBoxModel;
+import model.Supplier;
 
 public class FilterSupplier extends PopUp implements ActionListener {
 	private SpringLayout spring;
@@ -34,12 +37,13 @@ public class FilterSupplier extends PopUp implements ActionListener {
 	private JTextField txtContact;
 	private JButton btnFilter;
         private JComboBox cmbContact;
+        private SupplierController supplierController;
 	
 	private boolean closed=true;
 
 	public FilterSupplier(JFrame parent) {
 		super(parent);
-
+                supplierController = SupplierController.getInstance();
 		JPanel panel = new JPanel();
 		panel.setPreferredSize(new Dimension(500, 350));
 		panel.setSize(new Dimension(500, 350));
@@ -153,7 +157,7 @@ public class FilterSupplier extends PopUp implements ActionListener {
 		panContent.add(txtContact);
 		txtContact.setColumns(10);
 		
-                String opt[]={"FAX", "Telephone", "Cellphone"};
+                String opt[]={"", "FAX", "Telephone", "Cellphone"};
 		cmbContact = new JComboBox(opt);
 		cmbContact.setForeground(Color.BLACK);
 		spring.putConstraint(SpringLayout.WEST, cmbContact, 6, SpringLayout.EAST, txtContact);
@@ -174,7 +178,7 @@ public class FilterSupplier extends PopUp implements ActionListener {
 
 		getClose().addActionListener(this);
 		btnFilter.addActionListener(this);
-
+                populateSupplierNames();
 		this.setVisible(true);
 		this.repaint();
 		this.revalidate();
@@ -187,13 +191,23 @@ public class FilterSupplier extends PopUp implements ActionListener {
 	public Iterator getValues(){
 		ArrayList list=new ArrayList();
 		
-		list.add(cmbSupplier.getSelectedItem());
+                System.out.println("FS VALUES: ");
+//                if(cmbSupplier.getSelectedItem() == null)
+//                    list.add("");
+//                else
+                    list.add((String)cmbSupplier.getSelectedItem());
+                
+                System.out.println(cmbSupplier.getSelectedItem());
 		list.add(cmbCountry.getText());
+                System.out.println(cmbCountry.getText());
 		list.add(cmbState.getText());
+                System.out.println(cmbState.getText());
 		list.add(cmbCity.getText());
+                System.out.println(cmbCity.getText());
                 list.add(txtContact.getText());
+                System.out.println(txtContact.getText());
                 list.add((String)cmbContact.getSelectedItem());
-		
+		System.out.println((String)cmbContact.getSelectedItem());
 		return list.iterator();
 	}
 
@@ -205,5 +219,15 @@ public class FilterSupplier extends PopUp implements ActionListener {
 			closed=false;
 			this.dispose();
 		}
+	}
+        
+        public void populateSupplierNames() {
+		Iterator<Supplier> iterator = supplierController.getAll();
+		ArrayList<String> supplierNames = new ArrayList();
+                supplierNames.add("");
+		while (iterator.hasNext()) {
+			supplierNames.add(iterator.next().getName());
+		}
+		cmbSupplier.setModel(new DefaultComboBoxModel(supplierNames.toArray()));
 	}
 }
