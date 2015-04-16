@@ -40,6 +40,7 @@ public class PurchaseOrder {
         setInvoiceNo(invoiceNo);
         item = new HashMap<ItemData, Integer>();
         itemRcvd = new HashMap<ItemData, Integer>();
+        setCurrency(currency);
         setSupplier(supplier);
     }
     
@@ -126,7 +127,7 @@ public class PurchaseOrder {
     }
 
     public float computeGrandTotal() {
-        int total = 0;
+        float total = 0;
         for (Iterator<ItemData> i = item.keySet().iterator(); i.hasNext();) {
             ItemData key = i.next();
             total += computeTotal(key);

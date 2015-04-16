@@ -245,7 +245,7 @@ public class PurchaseOrderDAO implements IDBCUD {
         PurchaseOrder purchaseorder = (PurchaseOrder) object;
         Connection con = DBConnection.getConnection();
         try {
-            String query = "INSERT INTO purchaseorder  VALUES (?,NULL,?,?,?,?,?);";
+            String query = "INSERT INTO purchaseorder  VALUES (?,NULL,?,?,?,?);";
             PreparedStatement preparedStatement = con.prepareStatement(query);
             preparedStatement.setString(1, purchaseorder.getType());
             preparedStatement.setDate(2, new java.sql.Date(purchaseorder.getDate().getTime()));
