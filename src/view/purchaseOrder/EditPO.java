@@ -8,6 +8,8 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.swing.DefaultComboBoxModel;
@@ -41,6 +43,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import view.Message;
+
 import java.awt.Component;
 import java.awt.Rectangle;
 
@@ -76,15 +79,22 @@ public class EditPO extends JPanel implements ActionListener, Observer {
     private JLabel lblVAT;
     private JCheckBox checkBox;
     private JPanel panVAT;
-
+    private DecimalFormat df;
+	private SimpleDateFormat dateFormat; 
+	private String sDate;
     public EditPO(JFrame parent, PurchaseOrder po) {
 
         this.parent = parent;
         this.po = po;
+    	df = new DecimalFormat("#,###,###,###,##0.00");
+		df.setMaximumFractionDigits(2);
+		dateFormat = new SimpleDateFormat("MMMM dd, yyyy");
+		
         poController = PurchaseOrderController.getInstance();
         poController.setPurchaseOrder(po);
         supplierController = SupplierController.getInstance();
 
+        
         setLayout(new BorderLayout(0, 0));
 
         panDefinition = new JPanel();
@@ -178,6 +188,7 @@ public class EditPO extends JPanel implements ActionListener, Observer {
 
         String currencyTypes[]={"AUD", "EUR", "PHP", "JPY","USD" };
 		cmbCurrency = new JComboBox(currencyTypes);
+		setPOCurrency(po);
         cmbCurrency.setBackground(Color.white);
         cmbCurrency.setPreferredSize(new Dimension(110, 30));
         panCurrency.add(cmbCurrency);
@@ -292,6 +303,14 @@ public class EditPO extends JPanel implements ActionListener, Observer {
         
     }
 
+    public void setPOCurrency(PurchaseOrder po) {
+        for (int i = 0; i < cmbCurrency.getItemCount(); i++) {
+            if (cmbCurrency.getItemAt(i).equals(po.getCurrency())) {
+                cmbCurrency.setSelectedIndex(i);
+            }
+        }
+    }
+    
     public void setPOClassification(PurchaseOrder po) {
         for (int i = 0; i < cmbClass.getItemCount(); i++) {
             if (cmbClass.getItemAt(i).equals(po.getType())) {
@@ -463,8 +482,8 @@ public class EditPO extends JPanel implements ActionListener, Observer {
             model.setValueAt(item.getName(), model.getRowCount() - 1, 0);
             model.setValueAt(item.getDescription(), model.getRowCount() - 1, 1);
             model.setValueAt(po.getQuantity(item), model.getRowCount() - 1, 2);
-            model.setValueAt(item.getUnitPrice(), model.getRowCount() - 1, 3);
-            model.setValueAt(po.computeTotal(item), model.getRowCount() - 1, 4);
+            model.setValueAt(df.format(item.getUnitPrice()), model.getRowCount() - 1, 3);
+            model.setValueAt(df.format(po.computeTotal(item)), model.getRowCount() - 1, 4);
             /**
              * ******DEV INSERT QUANTITY RECEIVED HERE*********
              */
@@ -476,6 +495,6 @@ public class EditPO extends JPanel implements ActionListener, Observer {
             model.setValueAt(new POItemCellEdit(new JCheckBox(), parent, item,
                     po, poController), model.getRowCount() - 1, 7);
         }
-        lblGrandValue.setText(String.valueOf(po.computeGrandTotal()));
+        lblGrandValue.setText(String.valueOf(df.format(po.computeGrandTotal())));
     }
 }

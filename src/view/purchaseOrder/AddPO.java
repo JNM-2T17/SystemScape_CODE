@@ -10,6 +10,8 @@ import java.awt.Font;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.swing.DefaultComboBoxModel;
@@ -72,13 +74,17 @@ public class AddPO extends JPanel implements ActionListener, Observer {
 	private JPanel panVAT;
 	private JLabel lblVat;
 	private JLabel lblVatValue;
-
+	private DecimalFormat df;
+	private SimpleDateFormat dateFormat; 
+	private String sDate;
 	public AddPO(JFrame parent) {
 
 		this.parent = parent;
 		poController = PurchaseOrderController.getInstance();
 		//poTableModel = new POTableModel(poController);
-
+		df = new DecimalFormat("#,###,###,###,##0.00");
+		df.setMaximumFractionDigits(2);
+		dateFormat = new SimpleDateFormat("MMMM dd, yyyy");
 		supplierController = SupplierController.getInstance();
 
 		setLayout(new BorderLayout(0, 0));
@@ -257,9 +263,7 @@ public class AddPO extends JPanel implements ActionListener, Observer {
 		
 		model = new DefaultTableModel() {
 			public boolean isCellEditable(int rowIndex, int mColIndex) {
-				if (mColIndex == model.getColumnCount() - 1
-						|| mColIndex == model.getColumnCount() - 2)
-					return true;
+		
 				return false;
 			}
 
@@ -268,10 +272,7 @@ public class AddPO extends JPanel implements ActionListener, Observer {
 			}
 
 			public boolean isCellSelectable(int rowIndex, int mColIndex) {
-				if (mColIndex == 5) {
-					//System.out.println("CHECKBOX");
-					return true;
-				}
+		
 				return false;
 			}
 		};
@@ -342,6 +343,7 @@ public class AddPO extends JPanel implements ActionListener, Observer {
 		dateChooser.setDate(new Date());
 		clearTable();
 		poController.init();
+		cmbCurrency.setSelectedIndex(0);
 	}
 	
 	public void clearTable()
@@ -389,9 +391,9 @@ public class AddPO extends JPanel implements ActionListener, Observer {
 			model.setValueAt(item.getName(), model.getRowCount() - 1, 0);
 			model.setValueAt(item.getDescription(), model.getRowCount() - 1, 1);
 			model.setValueAt(po.getQuantity(item), model.getRowCount() - 1, 2);
-			model.setValueAt(item.getUnitPrice(), model.getRowCount() - 1, 3);
-			model.setValueAt(po.computeTotal(item), model.getRowCount() - 1, 4);
+			model.setValueAt(df.format(item.getUnitPrice()), model.getRowCount() - 1, 3);
+			model.setValueAt(df.format(po.computeTotal(item)), model.getRowCount() - 1, 4);
 		}
-		lblGrandValue.setText(String.valueOf(po.computeGrandTotal()));
+		lblGrandValue.setText(String.valueOf(df.format(po.computeGrandTotal())));
 	}
 }

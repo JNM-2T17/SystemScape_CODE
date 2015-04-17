@@ -110,7 +110,9 @@ public class FilterEmployee extends PopUp implements ActionListener {
         cmbName.setBackground(Color.white);
         panContent.add(cmbName);
 
-        cmbStatus = new JComboBox();
+        String[] opt={"Active", "On Leave"};
+
+		cmbStatus = new JComboBox(opt);
         cmbStatus.setEditable(true);
         AutoCompleteDecorator.decorate(cmbStatus);
         cmbStatus.setBackground(Color.WHITE);
@@ -140,7 +142,7 @@ public class FilterEmployee extends PopUp implements ActionListener {
 
         setContent(panMain);
         populateEmployeeNames();
-        populateEmployeeStatus();
+       // populateEmployeeStatus();
         populateEmployeeProjects();
         this.setVisible(true);
         this.repaint();
@@ -218,17 +220,17 @@ public class FilterEmployee extends PopUp implements ActionListener {
         cmbName.setModel(new DefaultComboBoxModel(employeeNames.toArray()));
     }
 
-    public void populateEmployeeStatus() {
-        Iterator<Employee> iterator = employeeController.getAll();
-        ArrayList<String> employeeStatus = new ArrayList();
-        employeeStatus.add("");
-        while (iterator.hasNext()) {
-            String status = iterator.next().getStatus();
-            employeeStatus.add(status);
-
-        }
-        cmbStatus.setModel(new DefaultComboBoxModel(employeeStatus.toArray()));
-    }
+//    public void populateEmployeeStatus() {
+//        Iterator<Employee> iterator = employeeController.getAll();
+//        ArrayList<String> employeeStatus = new ArrayList();
+//        employeeStatus.add("");
+//        while (iterator.hasNext()) {
+//            String status = iterator.next().getStatus();
+//            employeeStatus.add(status);
+//
+//        }
+//        cmbStatus.setModel(new DefaultComboBoxModel(employeeStatus.toArray()));
+//    }
 
     public void populateEmployeeProjects() {
         ArrayList<String> employeeProjects = new ArrayList();

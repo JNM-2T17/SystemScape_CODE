@@ -8,6 +8,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -43,7 +45,9 @@ public class AddPOItem extends PopUp implements ActionListener, FocusListener {
 	private JLabel lblType;
 	private JComboBox cmbType;
 	private JFrame parent;
-
+	private DecimalFormat df;
+	private SimpleDateFormat dateFormat; 
+	private String sDate;
 	public AddPOItem(JFrame parent, String type,
 			PurchaseOrderController poController) {
 
@@ -56,6 +60,9 @@ public class AddPOItem extends PopUp implements ActionListener, FocusListener {
 		panCenter = new JPanel();
 		getContentPane().add(panCenter, BorderLayout.CENTER);
 
+		df = new DecimalFormat("#,###,###,###,##0.00");
+		df.setMaximumFractionDigits(2);
+		dateFormat = new SimpleDateFormat("MMMM dd, yyyy");
 		panCenter.setBackground(Color.white);
 		panCenter.setLayout(new BorderLayout(0, 0));
 		panCenter.setSize(new Dimension(500, 400));
@@ -239,7 +246,7 @@ public class AddPOItem extends PopUp implements ActionListener, FocusListener {
 			int quantity = parseStringInt(txtQuantity.getText());
 			float price = (float) parseStringFloat(txtPrice.getText());
 			float result = quantity * price;
-			lblAmountValue.setText(String.valueOf(result));
+			lblAmountValue.setText(String.valueOf(df.format(result)));
 		}
 
 	}

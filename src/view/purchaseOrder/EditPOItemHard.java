@@ -133,7 +133,7 @@ public class EditPOItemHard extends PopUp implements ActionListener, FocusListen
         dateChooserDelivery.setFont(new Font("Arial", Font.PLAIN, 11));
         dateChooserDelivery.setPreferredSize(new Dimension(120, 20));
         dateChooserDelivery.setDate(new Date());
-        dateChooserDelivery.setDateFormatString("yyyy-MM-dd");
+        dateChooserDelivery.setDateFormatString("MMMM dd, yyyy");
         panContent.add(dateChooserDelivery, "cell 2 2,growx");
 
         lblAsset = new JLabel("Asset Tag :");
@@ -253,7 +253,7 @@ public class EditPOItemHard extends PopUp implements ActionListener, FocusListen
         dateChooserWarrantyStart = new JDateChooser();
         dateChooserWarrantyStart.setFont(new Font("Arial", Font.PLAIN, 11));
         dateChooserWarrantyStart.setPreferredSize(new Dimension(140, 20));
-        dateChooserWarrantyStart.setDateFormatString("yyyy-MM-dd");
+        dateChooserWarrantyStart.setDateFormatString("MMMM dd, yyyy");
         dateChooserWarrantyStart.setDate(new Date());
         GridBagConstraints gbc_dateChooserWarrantyStart = new GridBagConstraints();
         gbc_dateChooserWarrantyStart.insets = new Insets(0, 0, 5, 5);
@@ -274,7 +274,7 @@ public class EditPOItemHard extends PopUp implements ActionListener, FocusListen
         dateChooserWarrantyEnd.setFont(new Font("Arial", Font.PLAIN, 11));
         dateChooserWarrantyEnd.setPreferredSize(new Dimension(140, 20));
         dateChooserWarrantyEnd.setDate(new Date());
-        dateChooserWarrantyEnd.setDateFormatString("yyyy-MM-dd");
+        dateChooserWarrantyEnd.setDateFormatString("MMMM dd, yyyy");
         GridBagConstraints gbc_dateChooserWarrantyEnd = new GridBagConstraints();
         gbc_dateChooserWarrantyEnd.insets = new Insets(0, 0, 5, 5);
         gbc_dateChooserWarrantyEnd.fill = GridBagConstraints.BOTH;
@@ -313,7 +313,7 @@ public class EditPOItemHard extends PopUp implements ActionListener, FocusListen
         dateChooserContractStart = new JDateChooser();
         dateChooserContractStart.setFont(new Font("Arial", Font.PLAIN, 11));
         dateChooserContractStart.setPreferredSize(new Dimension(140, 20));
-        dateChooserContractStart.setDateFormatString("yyyy-MM-dd");
+        dateChooserContractStart.setDateFormatString("MMMM dd, yyyy");
         dateChooserContractStart.setDate(new Date());
         GridBagConstraints gbc_dateChooserContractStart = new GridBagConstraints();
         gbc_dateChooserContractStart.insets = new Insets(0, 0, 5, 5);
@@ -334,7 +334,7 @@ public class EditPOItemHard extends PopUp implements ActionListener, FocusListen
         dateChooserContractEnd = new JDateChooser();
         dateChooserContractEnd.setFont(new Font("Arial", Font.PLAIN, 11));
         dateChooserContractEnd.setPreferredSize(new Dimension(140, 20));
-        dateChooserContractEnd.setDateFormatString("yyyy-MM-dd");
+        dateChooserContractEnd.setDateFormatString("MMMM dd, yyyy");
         dateChooserContractEnd.setDate(new Date());
         GridBagConstraints gbc_dateChooserContractEnd = new GridBagConstraints();
         gbc_dateChooserContractEnd.insets = new Insets(0, 0, 5, 5);

@@ -256,7 +256,7 @@ public class ViewSpecificPO extends JPanel {
 		
 		cmbSupplier.setText(po.getSupplier().getName());
 		cmbClass.setText(po.getType());
-		
+		cmbCurrency.setText(po.getCurrency());
 		sDate = dateFormat.format(po.getDate());
 		dateChooser.setText(sDate);
 		

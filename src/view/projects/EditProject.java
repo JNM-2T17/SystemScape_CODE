@@ -73,6 +73,7 @@ public class EditProject extends JPanel implements ActionListener {
 		panContent.setLayout(sl_panContent);
 
 		dateStart = new JDateChooser(project.getStartDate());
+		dateStart.setDateFormatString("MMMM dd, yyyy\r\n");
 		dateStart.getCalendarButton().addActionListener(this);
 		sl_panContent.putConstraint(SpringLayout.EAST, dateStart, -464,
 				SpringLayout.EAST, panContent);
@@ -81,6 +82,7 @@ public class EditProject extends JPanel implements ActionListener {
 		panContent.add(dateStart);
 
 		dateEnd = new JDateChooser(project.getEndDate());
+		dateEnd.setDateFormatString("MMMM dd, yyyy");
 		dateEnd.getCalendarButton().addActionListener(this);
 		sl_panContent.putConstraint(SpringLayout.EAST, dateEnd, -464,
 				SpringLayout.EAST, panContent);

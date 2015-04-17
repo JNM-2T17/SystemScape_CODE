@@ -130,7 +130,7 @@ public class EditPOItemGen extends PopUp implements ActionListener, FocusListene
 
         dateChooserDelivery = new JDateChooser();
         dateChooserDelivery.setDate(new Date());
-        dateChooserDelivery.setDateFormatString("yyyy-MM-dd");
+        dateChooserDelivery.setDateFormatString("MMMM dd, yyyy");
         dateChooserDelivery.setFont(new Font("Arial", Font.PLAIN, 18));
         panContent.add(dateChooserDelivery, "cell 1 4,growx");
 

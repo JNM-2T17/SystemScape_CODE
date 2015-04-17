@@ -16,6 +16,7 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
 import java.util.Locale;
 
 import javax.swing.BorderFactory;
@@ -67,6 +68,9 @@ public class EditPOItem extends PopUp implements ActionListener, FocusListener{
 	private PurchaseOrderController purchaseOrderController;
 	private ItemData itemData;
 	private PurchaseOrder po;
+	 private DecimalFormat df;
+		private SimpleDateFormat dateFormat; 
+		private String sDate;
 
 	public EditPOItem(JFrame parent,ItemData i, PurchaseOrder po,  PurchaseOrderController poController) 
 	{
@@ -78,6 +82,10 @@ public class EditPOItem extends PopUp implements ActionListener, FocusListener{
 		itemData = i;
 		this.po = po;
 		this.addFocusListener(this);
+		
+		df = new DecimalFormat("#,###,###,###,##0.00");
+		df.setMaximumFractionDigits(2);
+		dateFormat = new SimpleDateFormat("MMMM dd, yyyy");
 		//		this.setUndecorated(true);
 		purchaseOrderController = poController;
 		panCenter = new JPanel();
@@ -180,7 +188,7 @@ public class EditPOItem extends PopUp implements ActionListener, FocusListener{
 		panContent.add(lblPrice, "cell 0 7");
 
 		/***set the unit price of the item****/
-		txtPrice = new JTextField(String.valueOf(i.getUnitPrice()));
+		txtPrice = new JTextField(String.valueOf(df.format(i.getUnitPrice())));
 
 		txtPrice.setPreferredSize(new Dimension(10, 25));
 		txtPrice.addActionListener(new TextAmountActionListener());
@@ -206,7 +214,7 @@ public class EditPOItem extends PopUp implements ActionListener, FocusListener{
 		panContent.add(lblAmount, "cell 0 8");
 
 		/***set the total amount of the item****/
-		lblAmountValue = new JLabel(String.valueOf(po.computeTotal(i)));
+		lblAmountValue = new JLabel(String.valueOf(df.format(po.computeTotal(i))));
 		panContent.add(lblAmountValue, "cell 1 8");
 
 		panSubmit = new JPanel();

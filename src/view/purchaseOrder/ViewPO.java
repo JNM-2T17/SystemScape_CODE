@@ -100,7 +100,7 @@ public class ViewPO extends ViewTemplate implements Observer {
 			
 			
 			getModel().setRowCount(getModel().getRowCount() + 1);
-			getModel().setValueAt(purchaseOrder.getIdNo(),
+			getModel().setValueAt(purchaseOrder.getType()+"-"+purchaseOrder.getIdNo(),
 					getModel().getRowCount() - 1, 0);
 			getModel().setValueAt(purchaseOrder.getSupplier().getName(),
 					getModel().getRowCount() - 1, 1);
