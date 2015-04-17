@@ -10,6 +10,8 @@ import java.awt.Font;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -44,16 +46,19 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import view.Message;
+import java.awt.GridBagLayout;
+import java.awt.GridBagConstraints;
+import java.awt.Insets;
+import javax.swing.JTextField;
 
 public class AddPO extends JPanel implements ActionListener, Observer {
 	private JPanel panDefinition, panLeft, panCenter, panRight, panSupplier,
-			panDate, panAddItem, panItemTable, panClass, panHeader, panFooter;
-	private JLabel lblSupplier, lblClass, lblDate, lblItem, lblVAT;
+	panDate, panAddItem, panItemTable, panClass, panHeader, panFooter;
+	private JLabel lblSupplier, lblClass, lblDate, lblItem;
 	private JButton btnAddItem, btnSubmit;
 	private JComboBox cmbSupplier, cmbClass;
 	private DefaultTableModel model;
-	private JCheckBox checkBox;
-	//private POTableModel poTableModel;
+
 	private JTable table;
 	private JScrollPane scrollPane;
 	private JPanel panSubmit;
@@ -70,13 +75,17 @@ public class AddPO extends JPanel implements ActionListener, Observer {
 
 	private JFrame parent;
 	private JLabel lblGrandValue;
-	private JPanel panDetails;
-	private JPanel panVAT;
-	private JLabel lblVat;
-	private JLabel lblVatValue;
 	private DecimalFormat df;
 	private SimpleDateFormat dateFormat; 
 	private String sDate;
+	private JPanel panSupplierAddress;
+	private JLabel lblAddress;
+	private JLabel lblAddressContent;
+	private JPanel panApproved;
+	private JLabel lblApproved;
+	private JLabel lblApprovedDate;
+	private JDateChooser approvedDateChooser;
+	private JTextField txtApprovedBy;
 	public AddPO(JFrame parent) {
 
 		this.parent = parent;
@@ -103,25 +112,59 @@ public class AddPO extends JPanel implements ActionListener, Observer {
 		panSupplier = new JPanel();
 		panSupplier.setBackground(Color.white);
 		panLeft.add(panSupplier, BorderLayout.NORTH);
+		GridBagLayout gbl_panSupplier = new GridBagLayout();
+		gbl_panSupplier.columnWidths = new int[]{45, 200, 0};
+		gbl_panSupplier.rowHeights = new int[]{30, 14, 0};
+		gbl_panSupplier.columnWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
+		gbl_panSupplier.rowWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
+		panSupplier.setLayout(gbl_panSupplier);
+
 
 		lblSupplier = new JLabel("Supplier :");
-		panSupplier.add(lblSupplier);
+		GridBagConstraints gbc_lblSupplier = new GridBagConstraints();
+		gbc_lblSupplier.anchor = GridBagConstraints.WEST;
+		gbc_lblSupplier.fill = GridBagConstraints.VERTICAL;
+		gbc_lblSupplier.insets = new Insets(0, 0, 5, 5);
+		gbc_lblSupplier.gridx = 0;
+		gbc_lblSupplier.gridy = 0;
+		panSupplier.add(lblSupplier, gbc_lblSupplier);
 
 		cmbSupplier = new JComboBox();
-		populateSupplierNames();
+		cmbSupplier.addItemListener(new ItemChangeListener());
 
-		panSupplier.add(cmbSupplier);
+		GridBagConstraints gbc_cmbSupplier = new GridBagConstraints();
+		gbc_cmbSupplier.anchor = GridBagConstraints.NORTHWEST;
+		gbc_cmbSupplier.insets = new Insets(0, 0, 5, 5);
+		gbc_cmbSupplier.gridx = 1;
+		gbc_cmbSupplier.gridy = 0;
+		panSupplier.add(cmbSupplier, gbc_cmbSupplier);
 		cmbSupplier.setBackground(Color.white);
 		cmbSupplier.setPreferredSize(new Dimension(200, 30));
+
+		lblAddress = new JLabel("Address :");
+		GridBagConstraints gbc_lblAddress = new GridBagConstraints();
+		gbc_lblAddress.insets = new Insets(0, 0, 0, 5);
+		gbc_lblAddress.gridx = 0;
+		gbc_lblAddress.gridy = 1;
+		panSupplier.add(lblAddress, gbc_lblAddress);
+
+		lblAddressContent = new JLabel("");
+		GridBagConstraints gbc_lblAddressContent = new GridBagConstraints();
+		gbc_lblAddressContent.anchor = GridBagConstraints.WEST;
+		gbc_lblAddressContent.insets = new Insets(0, 0, 0, 5);
+		gbc_lblAddressContent.gridx = 1;
+		gbc_lblAddressContent.gridy = 1;
+		panSupplier.add(lblAddressContent, gbc_lblAddressContent);
 
 		panClass = new JPanel();
 		panClass.setBackground(Color.white);
 		panLeft.add(panClass, BorderLayout.WEST);
+		panClass.setLayout(new BorderLayout(0, 0));
 
 		lblClass = new JLabel("Item Classification :");
 		lblClass.setHorizontalTextPosition(SwingConstants.LEFT);
 		lblClass.setHorizontalAlignment(SwingConstants.LEFT);
-		panClass.add(lblClass);
+		panClass.add(lblClass, BorderLayout.WEST);
 
 		cmbClass = new JComboBox();
 		cmbClass.setPreferredSize(new Dimension(100, 30));
@@ -159,8 +202,8 @@ public class AddPO extends JPanel implements ActionListener, Observer {
 
 		lblCurrency = new JLabel("Currency :");
 		panCurrency.add(lblCurrency);
-                
-        String currencyTypes[]={"AUD", "EUR", "PHP", "JPY","USD" };
+
+		String currencyTypes[]={"AUD", "EUR", "PHP", "JPY","USD" };
 		cmbCurrency = new JComboBox(currencyTypes);
 		cmbCurrency.setBackground(Color.white);
 		cmbCurrency.setPreferredSize(new Dimension(110, 30));
@@ -208,14 +251,10 @@ public class AddPO extends JPanel implements ActionListener, Observer {
 		btnSubmit.addActionListener(this);
 		panSubmit.add(btnSubmit);
 
-		panDetails = new JPanel();
-		panFooter.add(panDetails, BorderLayout.EAST);
-		panDetails.setLayout(new BorderLayout(0, 0));
-
 		panGrandTotal = new JPanel();
+		panFooter.add(panGrandTotal, BorderLayout.EAST);
 		FlowLayout flowLayout_1 = (FlowLayout) panGrandTotal.getLayout();
 		flowLayout_1.setAlignment(FlowLayout.LEADING);
-		panDetails.add(panGrandTotal, BorderLayout.SOUTH);
 		panGrandTotal.setBackground(Color.white);
 
 		lblGrandTotal = new JLabel("Grand Total :");
@@ -224,46 +263,64 @@ public class AddPO extends JPanel implements ActionListener, Observer {
 		lblGrandValue = new JLabel("0.00");
 		panGrandTotal.add(lblGrandValue);
 
-		panVAT = new JPanel();
-		FlowLayout flowLayout = (FlowLayout) panVAT.getLayout();
-		flowLayout.setAlignment(FlowLayout.LEADING);
-		panVAT.setBackground(Color.WHITE);
-		panDetails.add(panVAT, BorderLayout.NORTH);
+		panApproved = new JPanel();
+		panApproved.setBackground(Color.WHITE);
+		panFooter.add(panApproved, BorderLayout.WEST);
+		GridBagLayout gbl_panApproved = new GridBagLayout();
+		gbl_panApproved.columnWidths = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0};
+		gbl_panApproved.rowHeights = new int[]{0, 14, 0, 0};
+		gbl_panApproved.columnWeights = new double[]{0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gbl_panApproved.rowWeights = new double[]{0.0, 1.0, 0.0, Double.MIN_VALUE};
+		panApproved.setLayout(gbl_panApproved);
 
-		lblVat = new JLabel("VAT:");
-		panVAT.add(lblVat);
+		lblApproved = new JLabel("Approved By :");
+		GridBagConstraints gbc_lblApproved = new GridBagConstraints();
+		gbc_lblApproved.anchor = GridBagConstraints.EAST;
+		gbc_lblApproved.insets = new Insets(0, 0, 5, 5);
+		gbc_lblApproved.gridx = 0;
+		gbc_lblApproved.gridy = 1;
+		panApproved.add(lblApproved, gbc_lblApproved);
 
-		lblVatValue = new JLabel("Inclusive");
-		panVAT.add(lblVatValue);
+		lblApprovedDate = new JLabel("Date :");
+		GridBagConstraints gbc_lblApprovedDate = new GridBagConstraints();
+		gbc_lblApprovedDate.anchor = GridBagConstraints.WEST;
+		gbc_lblApprovedDate.insets = new Insets(0, 0, 5, 0);
+		gbc_lblApprovedDate.gridx = 7;
+		gbc_lblApprovedDate.gridy = 1;
+		panApproved.add(lblApprovedDate, gbc_lblApprovedDate);
+
+		txtApprovedBy = new JTextField();
+		GridBagConstraints gbc_txtApprovedBy = new GridBagConstraints();
+		gbc_txtApprovedBy.gridwidth = 5;
+		gbc_txtApprovedBy.insets = new Insets(0, 0, 0, 5);
+		gbc_txtApprovedBy.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txtApprovedBy.gridx = 0;
+		gbc_txtApprovedBy.gridy = 2;
+		panApproved.add(txtApprovedBy, gbc_txtApprovedBy);
+		txtApprovedBy.setColumns(10);
+
+		approvedDateChooser = new JDateChooser();
+		approvedDateChooser.setDateFormatString("MMMM dd, yyyy");
+		approvedDateChooser.setDate(new Date());
+		GridBagConstraints gbc_approvedDateChooser = new GridBagConstraints();
+		gbc_approvedDateChooser.fill = GridBagConstraints.BOTH;
+		gbc_approvedDateChooser.gridx = 7;
+		gbc_approvedDateChooser.gridy = 2;
+		panApproved.add(approvedDateChooser, gbc_approvedDateChooser);
 
 		panItemTable = new JPanel();
 		panItemTable.setBackground(Color.white);
 		panCenter.add(panItemTable, BorderLayout.CENTER);
+		panRight.add(panCurrency, BorderLayout.WEST);
 
-		panVAT = new JPanel();
-        panLeft.add(panVAT, BorderLayout.EAST);
-        panVAT.setBounds(new Rectangle(10, 0, 0, 0));
-        panVAT.setAlignmentX(Component.RIGHT_ALIGNMENT);
-        panVAT.setBackground(new Color(255, 255, 255));
-        panVAT.setLayout(new BorderLayout(0, 0));
-        
-        lblVAT = new JLabel("VAT :");
-        lblVAT.setBackground(new Color(255, 255, 255));
-        panVAT.add(lblVAT, BorderLayout.WEST);
-        
-        checkBox = new JCheckBox("");
-        panVAT.add(checkBox);
-        checkBox.setBackground(new Color(255, 255, 255));
-        panRight.add(panCurrency, BorderLayout.WEST);
-        
 		scrollPane = new JScrollPane();
 		scrollPane.getViewport().setBackground(Color.white);
 		scrollPane.setBackground(Color.WHITE);
 		panCenter.add(scrollPane);
-		
+
 		model = new DefaultTableModel() {
 			public boolean isCellEditable(int rowIndex, int mColIndex) {
-		
+
 				return false;
 			}
 
@@ -272,7 +329,7 @@ public class AddPO extends JPanel implements ActionListener, Observer {
 			}
 
 			public boolean isCellSelectable(int rowIndex, int mColIndex) {
-		
+
 				return false;
 			}
 		};
@@ -283,13 +340,13 @@ public class AddPO extends JPanel implements ActionListener, Observer {
 		//table.setAutoResizeMode(JTable.);
 		table.setRowHeight(55);
 		initializeModel();
-		
+		populateSupplierNames();
 		supplierController.registerObserver(this);// dev
 		poController.registerObserver(this);
-		
+
 		clear();
 	}
-	
+
 	/** initialize the table model **/
 	public void initializeModel() {
 		model.setColumnCount(5);
@@ -322,14 +379,19 @@ public class AddPO extends JPanel implements ActionListener, Observer {
 			{
 				Message msg = new Message(parent, Message.ERROR,"Purchase Order has no items!");
 			}
-			else if (checkFields() == false) {
+			else if (checkFields().equals("")) {
 				selectedDate = dateChooser.getDate();
 				Supplier supplier = (Supplier) supplierController.getObject((String) cmbSupplier.getSelectedItem());// dev
 				poController.addPurchaseOrder(new PurchaseOrder(selectedDate, 0,
-								cmbClass.getSelectedItem().toString(),supplier, "",(String) cmbCurrency.getSelectedItem() ));// dev
+						cmbClass.getSelectedItem().toString(),supplier, "",(String) cmbCurrency.getSelectedItem() ));// dev
 				Message msg = new Message(parent, Message.SUCCESS,"Purchase Order added successfully.");
 				clear();
-			} else {
+			} 
+			else if(checkFields().equals(""))
+			{
+				Message msg = new Message(parent, Message.SUCCESS,checkFields());
+			}
+			else {
 				JOptionPane.showMessageDialog(null, "No date");
 
 			}
@@ -341,11 +403,14 @@ public class AddPO extends JPanel implements ActionListener, Observer {
 		cmbClass.setSelectedIndex(0);
 		lblGrandValue.setText("");
 		dateChooser.setDate(new Date());
+		approvedDateChooser.setDate(new Date());
+		txtApprovedBy.setText("");
+		
 		clearTable();
 		poController.init();
 		cmbCurrency.setSelectedIndex(0);
 	}
-	
+
 	public void clearTable()
 	{
 		for (int i = 0; i < table.getModel().getRowCount(); i++) {
@@ -356,14 +421,21 @@ public class AddPO extends JPanel implements ActionListener, Observer {
 
 		model.setRowCount(0);
 	}
-	public boolean checkFields() {
-		boolean isEmpty = false;
+	public String checkFields() {
+		String msg = "";
 
 		if (dateChooser.getDate() == null) {
-			isEmpty = true;
+			msg += "No Purchase Order Date Selected! \n";
 		}
-
-		return isEmpty;
+		else if(approvedDateChooser.getDate() == null)
+		{
+			msg += "No Approved Date Selected! \n";
+		}
+		else if(txtApprovedBy.getText().equals(""))
+		{
+			msg += "Please fill in the field for Approved By.";
+		}
+		return msg;
 	}
 
 	public void populateSupplierNames() {
@@ -396,4 +468,17 @@ public class AddPO extends JPanel implements ActionListener, Observer {
 		}
 		lblGrandValue.setText(String.valueOf(df.format(po.computeGrandTotal())));
 	}
+
+	class ItemChangeListener implements ItemListener{
+		@Override
+		public void itemStateChanged(ItemEvent event) {
+			if (event.getStateChange() == ItemEvent.SELECTED) {
+				Object item = event.getItem();
+				// DEV do something with object to get the address of the supplier :D 
+				lblAddressContent.setText(item.toString());
+			}
+		}   
+	}
 }
+
+
