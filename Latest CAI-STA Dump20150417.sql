@@ -1,10 +1,10 @@
 CREATE DATABASE  IF NOT EXISTS `caista` /*!40100 DEFAULT CHARACTER SET utf8 */;
 USE `caista`;
--- MySQL dump 10.13  Distrib 5.6.17, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 5.6.17, for Win32 (x86)
 --
--- Host: localhost    Database: caista
+-- Host: 127.0.0.1    Database: caista
 -- ------------------------------------------------------
--- Server version	5.6.23-log
+-- Server version	5.6.22-log
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -37,7 +37,7 @@ CREATE TABLE `admin` (
 
 LOCK TABLES `admin` WRITE;
 /*!40000 ALTER TABLE `admin` DISABLE KEYS */;
-INSERT INTO `admin` VALUES ('hot pie'),('RAFernandez');
+INSERT INTO `admin` VALUES ('admin'),('hot pie');
 /*!40000 ALTER TABLE `admin` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -64,7 +64,7 @@ CREATE TABLE `contract` (
 
 LOCK TABLES `contract` WRITE;
 /*!40000 ALTER TABLE `contract` DISABLE KEYS */;
-INSERT INTO `contract` VALUES (1,'2015-04-09','2015-07-17',34500),(3,'2015-04-10','2015-11-26',345678),(4,'2015-04-10','2015-09-30',67890),(5,'2015-04-10','2015-10-13',56789),(6,'2015-04-16','2015-04-17',1231230);
+INSERT INTO `contract` VALUES (1,'2015-04-17','2015-07-17',34500),(3,'2015-04-10','2015-11-26',345678),(4,'2015-04-10','2015-09-30',67890),(5,'2015-04-10','2015-10-13',56789);
 /*!40000 ALTER TABLE `contract` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -105,7 +105,7 @@ CREATE TABLE `employee` (
 
 LOCK TABLES `employee` WRITE;
 /*!40000 ALTER TABLE `employee` DISABLE KEYS */;
-INSERT INTO `employee` VALUES (1,'Karen Siga','Active'),(2,'Joey Murillo','Active'),(3,'Elenita Cunanan','Active'),(4,'XGB','Activate'),(5,'Loko','Active');
+INSERT INTO `employee` VALUES (1,'Karen Sicat','Active'),(2,'Joey Murillo','Active'),(3,'Elenita Maureen','Active'),(16,'Hot Pie','Active'),(17,'Rosalie Fernandez','Active'),(18,'Not Admin','Active');
 /*!40000 ALTER TABLE `employee` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -129,7 +129,7 @@ CREATE TABLE `hardwareitem` (
 
 LOCK TABLES `hardwareitem` WRITE;
 /*!40000 ALTER TABLE `hardwareitem` DISABLE KEYS */;
-INSERT INTO `hardwareitem` VALUES (1),(3),(4),(5),(6),(8);
+INSERT INTO `hardwareitem` VALUES (1),(3),(4),(5);
 /*!40000 ALTER TABLE `hardwareitem` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -179,7 +179,7 @@ CREATE TABLE `inventoryitem` (
   PRIMARY KEY (`ID`),
   KEY `inventoryitemfk_1` (`itemData`),
   CONSTRAINT `inventoryitemfk_1` FOREIGN KEY (`itemData`) REFERENCES `itemdata` (`name`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -188,7 +188,7 @@ CREATE TABLE `inventoryitem` (
 
 LOCK TABLES `inventoryitem` WRITE;
 /*!40000 ALTER TABLE `inventoryitem` DISABLE KEYS */;
-INSERT INTO `inventoryitem` VALUES (1,'Latitude D611','Unassigned','IT','98712','1WS'),(2,'Crystal Report 9 Developer Ed 5 Users FD','Unassigned','IT','210011453','1WS'),(3,'OptiPlex 745','Assigned','IT','210015772','1WS'),(4,'Latitude D611','Assigned','IT ','2323','1WS'),(5,'OptiPlex 745','Unassigned','IT','210014501','1WS'),(6,'Lol','Assigned','IT','213123','1WS'),(7,'Loko loko','Unassigned','Soft','2313212','Somewhere Else'),(8,'Haha','Assigned','Non-IT','31231','1WS');
+INSERT INTO `inventoryitem` VALUES (1,'Latitude D611','Assigned','IT','98712','1WS'),(3,'OptiPlex 745','Assigned','IT','210015772','1WS'),(4,'Latitude D611','Assigned','IT ','2323','1WS'),(5,'OptiPlex 745','Unassigned','IT','210014501','1WS');
 /*!40000 ALTER TABLE `inventoryitem` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -215,7 +215,7 @@ CREATE TABLE `itasset` (
 
 LOCK TABLES `itasset` WRITE;
 /*!40000 ALTER TABLE `itasset` DISABLE KEYS */;
-INSERT INTO `itasset` VALUES (1,900047,'34N1J1S','2015-04-14'),(3,900561,'3HVNQ1s','2015-04-10'),(4,900522,'F4N1J1S','2015-04-10'),(5,900566,'91GHQ1S','2015-04-10'),(6,12312,'31231','2015-04-14');
+INSERT INTO `itasset` VALUES (1,900047,'34N1J1S','2015-04-14'),(3,900561,'3HVNQ1s','2015-04-10'),(4,900522,'F4N1J1S','2015-04-10'),(5,900566,'91GHQ1S','2015-04-10');
 /*!40000 ALTER TABLE `itasset` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -268,7 +268,7 @@ CREATE TABLE `itemdata` (
 
 LOCK TABLES `itemdata` WRITE;
 /*!40000 ALTER TABLE `itemdata` DISABLE KEYS */;
-INSERT INTO `itemdata` VALUES ('Adobe Robohelp Office X5','Software',18667),('Adobe Robohelp V6','Software',66000),('Crystal Report 9 Developer Ed 5 Users FD','Software',142242),('Haha','21		',131),('Latitude D611','Laptop ko',99500),('Latitude D612','Laptop',116000),('Latitude D620','Laptop',87900),('Loko loko','31231231',2312),('Lol','masakit',13),('OptiPlex','Desktop',54509),('OptiPlex 745','Desktop',54509);
+INSERT INTO `itemdata` VALUES ('Adobe Robohelp Office X5','Software',18667),('Adobe Robohelp V6','Software',66000),('Ako lang ba?','ksjflkj',12313),('Crystal Report 9 Developer Ed 5 Users FD','Software',142242),('Haha','21		',131),('Latitude D611','Laptop ko',99500),('Latitude D612','Laptop',116000),('Latitude D620','Laptop',87900),('Loko loko','31231231',2312),('Lol','masakit',13),('New','roweoirp',1231),('OptiPlex','Desktop',54509),('OptiPlex 745','Desktop',54509),('Test','test',230000);
 /*!40000 ALTER TABLE `itemdata` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -323,7 +323,7 @@ CREATE TABLE `project` (
 
 LOCK TABLES `project` WRITE;
 /*!40000 ALTER TABLE `project` DISABLE KEYS */;
-INSERT INTO `project` VALUES ('Code all the things','2015-01-07','2015-04-27'),('Confirm Hoenn','2002-11-21','2014-11-21'),('Money','2015-04-12','2015-04-12'),('Nanay','2015-04-13','2015-04-13'),('Woodstock','1994-10-27','2000-03-13');
+INSERT INTO `project` VALUES ('Bry','2015-04-17','2015-04-17'),('Bryan','2015-04-17','2015-04-17'),('Code Master','2015-04-14','2015-04-14'),('Confirm Hoenn','2002-11-21','2014-11-21'),('Money','2015-04-12','2015-04-12'),('Woodstock','1994-10-27','2000-03-13');
 /*!40000 ALTER TABLE `project` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -350,6 +350,7 @@ CREATE TABLE `projectassignment` (
 
 LOCK TABLES `projectassignment` WRITE;
 /*!40000 ALTER TABLE `projectassignment` DISABLE KEYS */;
+INSERT INTO `projectassignment` VALUES ('Code Master',1),('Woodstock',1);
 /*!40000 ALTER TABLE `projectassignment` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -366,6 +367,7 @@ CREATE TABLE `purchaseorder` (
   `date` date NOT NULL,
   `supplier` varchar(255) NOT NULL,
   `invoiceNo` varchar(45) NOT NULL,
+  `currency` varchar(45) NOT NULL,
   PRIMARY KEY (`type`,`no`),
   UNIQUE KEY `no` (`no`),
   UNIQUE KEY `invoiceNo` (`invoiceNo`),
@@ -380,7 +382,7 @@ CREATE TABLE `purchaseorder` (
 
 LOCK TABLES `purchaseorder` WRITE;
 /*!40000 ALTER TABLE `purchaseorder` DISABLE KEYS */;
-INSERT INTO `purchaseorder` VALUES ('Hard',1,'2015-04-09','Supplier 2','iv0'),('Hard',3,'2015-04-10','Supplier 2','iv2'),('Hard',4,'2015-04-10','Supplier 4','iv3'),('Soft',2,'2015-04-09','Supplier 3','iv1');
+INSERT INTO `purchaseorder` VALUES ('Hard',1,'2015-04-09','Supplier 1','iv0',''),('Hard',3,'2015-04-10','Supplier 1','iv2',''),('Hard',4,'2015-04-10','Supplier 4','iv3',''),('Soft',2,'2015-04-09','Supplier 3','iv1','');
 /*!40000 ALTER TABLE `purchaseorder` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -405,7 +407,6 @@ CREATE TABLE `softwareitem` (
 
 LOCK TABLES `softwareitem` WRITE;
 /*!40000 ALTER TABLE `softwareitem` DISABLE KEYS */;
-INSERT INTO `softwareitem` VALUES (2,'12234GG'),(7,'313212');
 /*!40000 ALTER TABLE `softwareitem` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -431,7 +432,7 @@ CREATE TABLE `supplier` (
 
 LOCK TABLES `supplier` WRITE;
 /*!40000 ALTER TABLE `supplier` DISABLE KEYS */;
-INSERT INTO `supplier` VALUES ('Supplier 2','Philippines','Metro Manila','Pasig City'),('Supplier 3','United States','California','Sacramento'),('Supplier 4','China','N/A','Guangzhou'),('Supplier 5','Philippines','Metro Manila','Quezon City');
+INSERT INTO `supplier` VALUES ('Bryan','Phil','Manila','ijoqwj'),('Supplier 1','Philippines','Metro Manila','Pasig City'),('Supplier 3','United States','California','Sacramento'),('Supplier 4','China','N/A','Guangzhou'),('Supplier 5','Philippines','Metro Manila','Quezon City');
 /*!40000 ALTER TABLE `supplier` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -457,7 +458,7 @@ CREATE TABLE `suppliercontact` (
 
 LOCK TABLES `suppliercontact` WRITE;
 /*!40000 ALTER TABLE `suppliercontact` DISABLE KEYS */;
-INSERT INTO `suppliercontact` VALUES ('Supplier 2','FAX','321'),('Supplier 2','Telephone','312312'),('Supplier 3','FAX','1231231'),('Supplier 3','Telephone','18008159387'),('Supplier 5','Telephone','7889765');
+INSERT INTO `suppliercontact` VALUES ('Supplier 1','FAX','321'),('Supplier 1','Telephone','312312'),('Supplier 3','FAX','1231231'),('Supplier 3','Telephone','18008159387'),('Supplier 5','Telephone','7889765');
 /*!40000 ALTER TABLE `suppliercontact` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -481,7 +482,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES ('colress','power'),('hello','hello'),('hello2','hello'),('hello3','hello'),('hot pie','bread'),('new','new'),('new2','new'),('newer','new'),('newnew','new'),('RAFernandez','fuckmylifelol'),('sweng','caffeine');
+INSERT INTO `user` VALUES ('6','UlQiIs/K0EwcSKbWMjcT1g=='),('Admin','F/PZtTgA4k5q/9o6Jzik6w=='),('colress','power'),('hello','hello'),('hello2','hello'),('hello3','hello'),('hot pie','3LuhBl0c0qk/UK15HSwi2g=='),('jake','HYYpexpD+JR2xWDqTcunYg=='),('manage','rp8UsG3mdtRE5PHmXRP3+upHShXsPOe5mKnhPWCl5qA='),('manager','UESEnBiBpVvL0RR7uLj0z241SuceBfSguo/v8EZHo0w='),('manager2','UESEnBiBpVvL0RR7uLj0z564DZRg9fWtkdd0YCGbK5U='),('new','new'),('new2','new'),('newer','new'),('newnew','new'),('Not_Admin','444SDe4tirbsNxnGvJUnnA=='),('RAFernandez','fuckmylifelol'),('sweng','caffeine');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -507,7 +508,7 @@ CREATE TABLE `warranty` (
 
 LOCK TABLES `warranty` WRITE;
 /*!40000 ALTER TABLE `warranty` DISABLE KEYS */;
-INSERT INTO `warranty` VALUES (1,'2015-04-17','2015-07-17'),(3,'2015-04-10','2015-11-26'),(4,'2015-04-10','2015-08-19'),(5,'2015-04-10','2015-12-31'),(6,'2015-04-16','2015-04-30');
+INSERT INTO `warranty` VALUES (1,'2015-04-17','2015-07-17'),(3,'2015-04-10','2015-11-26'),(4,'2015-04-10','2015-08-19'),(5,'2015-04-10','2015-12-31');
 /*!40000 ALTER TABLE `warranty` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -558,4 +559,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-04-14 20:52:39
+-- Dump completed on 2015-04-17  8:47:26

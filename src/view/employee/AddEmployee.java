@@ -89,7 +89,7 @@ public class AddEmployee extends JPanel implements ActionListener {
 		rdEmployee.setBounds(288, 168, 161, 35);
 		panContent.add(rdEmployee);
 		
-		 rdTechnician = new JRadioButton("Technician");
+		 rdTechnician = new JRadioButton("CNS");
 		rdTechnician.setBackground(Color.WHITE);
 		rdTechnician.setBounds(446, 168, 201, 35);
 		rdTechnician.addActionListener(this);
