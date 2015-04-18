@@ -31,4 +31,7 @@ public abstract class CellEdit extends JPanel implements ActionListener {
 	public JButton getBtnView(){
 		return view;
 	}
+	public void clear(){
+		this.removeAll();
+	}
 }
