@@ -11,11 +11,14 @@ import javax.swing.JButton;
 import java.awt.Font;
 
 import javax.swing.BorderFactory;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.SpringLayout;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
+
+import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 
 import model.Project;
 import view.ErrorListenerFactory;
@@ -31,9 +34,10 @@ import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Date;
+import java.util.Iterator;
 
 public class AddProject extends JPanel implements ActionListener {
-	private JTextField txtName;
+	private JComboBox cmbName;
 	private JDateChooser dateStart;
 	private JDateChooser dateEnd;
 	private JButton btnSubmit;
@@ -51,7 +55,7 @@ public class AddProject extends JPanel implements ActionListener {
 		SpringLayout sl_panCenter = new SpringLayout();
 		panCenter.setLayout(sl_panCenter);
 
-		JLabel lblProjectTitle = new JLabel("Project Title:");
+		JLabel lblProjectTitle = new JLabel("Project Name:");
 		sl_panCenter.putConstraint(SpringLayout.NORTH, lblProjectTitle, 100,
 				SpringLayout.NORTH, panCenter);
 		sl_panCenter.putConstraint(SpringLayout.WEST, lblProjectTitle, 100,
@@ -76,37 +80,43 @@ public class AddProject extends JPanel implements ActionListener {
 				SpringLayout.EAST, panCenter);
 		panCenter.add(lblEndDate);
 
-		txtName = new JTextField();
-		txtName.addFocusListener(ErrorListenerFactory.getListener(txtName));
-		sl_panCenter.putConstraint(SpringLayout.WEST, txtName, 46,
+		cmbName = new JComboBox();
+		cmbName.setEditable(true);
+        AutoCompleteDecorator.decorate(cmbName);
+		cmbName.addFocusListener(ErrorListenerFactory.getListener(cmbName));
+		sl_panCenter.putConstraint(SpringLayout.WEST, cmbName, 46,
 				SpringLayout.EAST, lblProjectTitle);
-		sl_panCenter.putConstraint(SpringLayout.SOUTH, txtName, 0,
+		sl_panCenter.putConstraint(SpringLayout.SOUTH, cmbName, 0,
 				SpringLayout.SOUTH, lblProjectTitle);
-		sl_panCenter.putConstraint(SpringLayout.EAST, txtName, 285,
+		sl_panCenter.putConstraint(SpringLayout.EAST, cmbName, 285,
 				SpringLayout.EAST, lblProjectTitle);
-		panCenter.add(txtName);
-		txtName.setColumns(10);
+		panCenter.add(cmbName);
+		
+		Iterator it=projectController.getInstance().getAll();
+		while(it.hasNext()){
+			cmbName.addItem((Project)it.next());
+		}
 
 		dateStart = new JDateChooser(new Date());
 		dateStart.setDateFormatString("MMMM dd, yyyy");
 		dateStart.getDateEditor().getUiComponent().addFocusListener(ErrorListenerFactory.getListener(dateStart));
 		sl_panCenter.putConstraint(SpringLayout.WEST, dateStart, 0,
-				SpringLayout.WEST, txtName);
+				SpringLayout.WEST, cmbName);
 		sl_panCenter.putConstraint(SpringLayout.SOUTH, dateStart, 0,
 				SpringLayout.SOUTH, lblStartDate);
 		sl_panCenter.putConstraint(SpringLayout.EAST, dateStart, 0,
-				SpringLayout.EAST, txtName);
+				SpringLayout.EAST, cmbName);
 		panCenter.add(dateStart);
 
 		dateEnd = new JDateChooser(new Date());
 		dateEnd.setDateFormatString("MMMM dd, yyyy");
 		dateEnd.getDateEditor().getUiComponent().addFocusListener(ErrorListenerFactory.getListener(dateEnd));
 		sl_panCenter.putConstraint(SpringLayout.WEST, dateEnd, 0,
-				SpringLayout.WEST, txtName);
+				SpringLayout.WEST, cmbName);
 		sl_panCenter.putConstraint(SpringLayout.SOUTH, dateEnd, 0,
 				SpringLayout.SOUTH, lblEndDate);
 		sl_panCenter.putConstraint(SpringLayout.EAST, dateEnd, 0,
-				SpringLayout.EAST, txtName);
+				SpringLayout.EAST, cmbName);
 		panCenter.add(dateEnd);
 
 		JPanel panFooter = new JPanel();
@@ -129,10 +139,11 @@ public class AddProject extends JPanel implements ActionListener {
 	}
 
 	public String checkInput() {
+		System.out.println(cmbName.getSelectedItem());
 		String text = "";
-		if (txtName.getText().equals("")) {
+		if (cmbName.getSelectedItem().equals("")) {
 			text += "Please specify project name.\n";
-			txtName.setBorder(BorderFactory.createLineBorder(Color.RED, 1));
+			cmbName.setBorder(BorderFactory.createLineBorder(Color.RED, 1));
 		}
 		if (dateStart.getDate().after(dateEnd.getDate())) {
 			text += "Start date should occur before the end date.\n";
@@ -145,7 +156,7 @@ public class AddProject extends JPanel implements ActionListener {
 
 	public void clear()
 	{
-		txtName.setText("");
+		cmbName.setSelectedItem("");
 		dateStart.setDate(new Date());
 		dateEnd.setDate(new Date());
 	}
@@ -156,7 +167,7 @@ public class AddProject extends JPanel implements ActionListener {
 		if (e.getSource() == btnSubmit) {
 			if (text.equals("")) {
 				Project checkProject;
-				Project project = new Project(txtName.getText(),
+				Project project = new Project((String)cmbName.getSelectedItem(),
 						dateStart.getDate(), dateEnd.getDate());
 
 				projectController.addProject(project);
