@@ -227,7 +227,7 @@ public class Login extends JPanel implements ActionListener, KeyListener {
 			}
             if (user != null) {
                 if (txtUsername.getText().equals(user.getUsername()) && new String(b).equals(user.getPassword())) {
-                    MainPanel mp = new MainPanel(parent);
+                    MainPanel mp = new MainPanel(parent, user.getUsername());
                     parent.register(mp, "main");
                     if (user.isManager()) {
                         mp.addTab(new TabPO(parent), "Purchase Orders");

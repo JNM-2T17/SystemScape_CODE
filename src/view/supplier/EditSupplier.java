@@ -83,14 +83,14 @@ public class EditSupplier extends JPanel implements ActionListener {
 		JLabel lblAddress = new JLabel("Address:");
 		panContent.add(lblAddress, "cell 0 1,alignx left,growy");
 
-		JLabel lblCountry = new JLabel("Country:");
-		panContent.add(lblCountry, "cell 0 2,alignx right,growy");
-
-		JLabel lblState = new JLabel("State:");
-		panContent.add(lblState, "cell 0 3,alignx right,growy");
+		JLabel lblStreet = new JLabel("Street:");
+		panContent.add(lblStreet, "cell 0 2,alignx right,growy");
 
 		JLabel lblCity = new JLabel("City:");
-		panContent.add(lblCity, "cell 0 4,alignx right,growy");
+		panContent.add(lblCity, "cell 0 3,alignx right,growy");
+
+		JLabel lblCountry = new JLabel("Country:");
+		panContent.add(lblCountry, "cell 0 4,alignx right,growy");
 
 		cmbCountry = new JTextField(supp.getCountry());
 		cmbCountry.addFocusListener(ErrorListenerFactory.getListener(cmbCountry));
