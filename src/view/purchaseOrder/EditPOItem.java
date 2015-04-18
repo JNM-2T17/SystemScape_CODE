@@ -225,7 +225,7 @@ public class EditPOItem extends PopUp implements ActionListener, FocusListener{
 			lblType.setVisible(false);
 			cmbType.setVisible(false);
 		}
-
+		
 		this.setVisible(true);
 
 	}

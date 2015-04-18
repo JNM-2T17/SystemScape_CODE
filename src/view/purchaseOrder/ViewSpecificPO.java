@@ -53,6 +53,7 @@ import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import net.miginfocom.swing.MigLayout;
 import javax.swing.SpringLayout;
+import javax.swing.JTextField;
 
 public class ViewSpecificPO extends JPanel {
 	private JPanel panDefinition, panLeft, panCenter, panRight, panSupplier,
@@ -88,10 +89,10 @@ public class ViewSpecificPO extends JPanel {
 	private JLabel lblAddressContent;
 	private JPanel panApproved;
 	private JLabel lblApproved;
-	private JLabel lblApprovedContent;
 	private JLabel lblApprovedDate;
-	private JLabel lblDateContent;
 	private JPanel panel;
+	private JDateChooser approvedDateChooser;
+	private JTextField txtApproved;
 	public ViewSpecificPO(JFrame parent) {
 		setBackground(Color.WHITE);
 		setBorder(new EmptyBorder(30, 30, 30, 30));
@@ -271,7 +272,7 @@ public class ViewSpecificPO extends JPanel {
 		GridBagLayout gbl_panApproved = new GridBagLayout();
 		gbl_panApproved.columnWidths = new int[]{69, 65, 30, 39, 0};
 		gbl_panApproved.rowHeights = new int[]{14, 14, 14, 0};
-		gbl_panApproved.columnWeights = new double[]{0.0, 1.0, 0.0, 0.0, Double.MIN_VALUE};
+		gbl_panApproved.columnWeights = new double[]{1.0, 1.0, 0.0, 1.0, Double.MIN_VALUE};
 		gbl_panApproved.rowWeights = new double[]{1.0, 0.0, 0.0, Double.MIN_VALUE};
 		panApproved.setLayout(gbl_panApproved);
 		
@@ -300,29 +301,26 @@ public class ViewSpecificPO extends JPanel {
 		gbc_lblApprovedDate.gridy = 0;
 		panApproved.add(lblApprovedDate, gbc_lblApprovedDate);
 		
-		lblDateContent = new JLabel("<Date>");
-		GridBagConstraints gbc_lblDateContent = new GridBagConstraints();
-		gbc_lblDateContent.anchor = GridBagConstraints.NORTHWEST;
-		gbc_lblDateContent.insets = new Insets(0, 0, 5, 0);
-		gbc_lblDateContent.gridx = 3;
-		gbc_lblDateContent.gridy = 0;
-		panApproved.add(lblDateContent, gbc_lblDateContent);
-		lblApprovedContent = new JLabel("<Name>");
-		lblApprovedContent.setFont(new Font("Tahoma", Font.BOLD, 11));
-		GridBagConstraints gbc_lblApprovedContent = new GridBagConstraints();
-		gbc_lblApprovedContent.anchor = GridBagConstraints.NORTHWEST;
-		gbc_lblApprovedContent.insets = new Insets(0, 0, 0, 5);
-		gbc_lblApprovedContent.gridx = 0;
-		gbc_lblApprovedContent.gridy = 2;
-		panApproved.add(lblApprovedContent, gbc_lblApprovedContent);
+		approvedDateChooser = new JDateChooser();
+		approvedDateChooser.setDateFormatString("MMMM dd, yyyy\r\n");
+		GridBagConstraints gbc_approvedDateChooser = new GridBagConstraints();
+		gbc_approvedDateChooser.insets = new Insets(0, 0, 5, 0);
+		gbc_approvedDateChooser.fill = GridBagConstraints.BOTH;
+		gbc_approvedDateChooser.gridx = 3;
+		gbc_approvedDateChooser.gridy = 0;
+		panApproved.add(approvedDateChooser, gbc_approvedDateChooser);
 		
-		/**
-		 * DEV Insert Purchase order approved date here
-		 * ****/
+		txtApproved = new JTextField();
+		txtApproved.setFont(new Font("Arial", Font.BOLD, 14));
+		GridBagConstraints gbc_txtApproved = new GridBagConstraints();
+		gbc_txtApproved.gridwidth = 2;
+		gbc_txtApproved.insets = new Insets(0, 0, 0, 5);
+		gbc_txtApproved.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txtApproved.gridx = 0;
+		gbc_txtApproved.gridy = 2;
+		panApproved.add(txtApproved, gbc_txtApproved);
+		txtApproved.setColumns(10);
 		
-		/**
-		 * DEV Insert Purchase order approved by here
-		 * ****/
 
 		scrollPane = new JScrollPane();
 		scrollPane.getViewport().setBackground(Color.white);

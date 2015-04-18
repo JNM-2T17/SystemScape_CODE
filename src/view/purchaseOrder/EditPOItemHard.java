@@ -11,6 +11,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.util.Date;
 import java.util.Iterator;
 
@@ -208,6 +210,7 @@ public class EditPOItemHard extends PopUp implements ActionListener, FocusListen
         panContent.add(lblType, "cell 1 7,alignx left");
 
         cmbType = new JComboBox();
+        cmbType.addItemListener(new ItemChangeListener());
         cmbType.setModel(new DefaultComboBoxModel(new String[]{"IT", "Non-IT"}));
         cmbType.setFont(new Font("Arial", Font.PLAIN, 11));
         panContent.add(cmbType, "cell 2 7,growx");
@@ -505,4 +508,35 @@ public class EditPOItemHard extends PopUp implements ActionListener, FocusListen
         JFrame f = (JFrame) e.getSource();
         f.toFront();
     }
+    
+    class ItemChangeListener implements ItemListener{
+		@Override
+		public void itemStateChanged(ItemEvent event) {
+			if (event.getStateChange() == ItemEvent.SELECTED) {
+				Object item = event.getItem();
+				// DEV do something with object to get the address of the supplier :D 
+				if(item.equals("Non-IT"))
+				{
+					lblContract.setVisible(false);
+					lblContractEnd.setVisible(false);
+					lblContractStart.setVisible(false);
+					dateChooserContractEnd.setVisible(false);
+					dateChooserContractStart.setVisible(false);
+					txtMaintenance.setVisible(false);
+					lblMaintenance.setVisible(false);
+				}
+				else
+				{
+					lblContract.setVisible(true);
+					lblContractEnd.setVisible(true);
+					lblContractStart.setVisible(true);
+					dateChooserContractEnd.setVisible(true);
+					dateChooserContractStart.setVisible(true);
+					txtMaintenance.setVisible(true);
+					lblMaintenance.setVisible(true);
+				}
+				
+			}
+		}   
+	}
 }
