@@ -353,12 +353,15 @@ public class AddPO extends JPanel implements ActionListener, Observer {
 		DefaultTableCellRenderer rightRenderer = new DefaultTableCellRenderer();
 		rightRenderer.setHorizontalAlignment(JLabel.RIGHT);
 
+		DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+		centerRenderer.setHorizontalAlignment(JLabel.CENTER);
+		
 		String headers[] = { "Item", "Description", "Quantity", "Unit Price","Amount" };
 		model.setColumnIdentifiers(headers);
 		table.getColumnModel().getColumn(0).setPreferredWidth(150);
 		table.getColumnModel().getColumn(1).setPreferredWidth(150);
 		table.getColumnModel().getColumn(2).setPreferredWidth(40);
-		table.getColumnModel().getColumn(2).setCellRenderer(rightRenderer);
+		table.getColumnModel().getColumn(2).setCellRenderer(centerRenderer);
 
 		table.getColumnModel().getColumn(3).setPreferredWidth(90);
 		table.getColumnModel().getColumn(3).setCellRenderer(rightRenderer);
@@ -380,6 +383,10 @@ public class AddPO extends JPanel implements ActionListener, Observer {
 				Message msg = new Message(parent, Message.ERROR,"Purchase Order has no items!");
 			}
 			else if (checkFields().equals("")) {
+				/*******
+				 * DEV add the added information needed in the purhase order
+				 */
+				
 				selectedDate = dateChooser.getDate();
 				Supplier supplier = (Supplier) supplierController.getObject((String) cmbSupplier.getSelectedItem());// dev
 				poController.addPurchaseOrder(new PurchaseOrder(selectedDate, 0,
@@ -387,7 +394,7 @@ public class AddPO extends JPanel implements ActionListener, Observer {
 				Message msg = new Message(parent, Message.SUCCESS,"Purchase Order added successfully.");
 				clear();
 			} 
-			else if(checkFields().equals(""))
+			else if(checkFields().equals("") == false)
 			{
 				Message msg = new Message(parent, Message.SUCCESS,checkFields());
 			}

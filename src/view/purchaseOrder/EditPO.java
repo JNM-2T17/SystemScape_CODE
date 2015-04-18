@@ -403,8 +403,7 @@ public class EditPO extends JPanel implements ActionListener, Observer {
 
 				/**
 				 * **
-				 * add the code statements here to edit the po when all fields
-				 * of the form are not empty *
+				 * DEV add the added information needed in the purhase order
 				 */
 				selectedDate = dateChooser.getDate();
 				Supplier supplier = (Supplier) supplierController.getObject((String) cmbSupplier.getSelectedItem());// dev
@@ -413,7 +412,6 @@ public class EditPO extends JPanel implements ActionListener, Observer {
 				po.setType(cmbClass.getSelectedItem().toString());
 				poController.editPurchaseOrder(po);// dev
 				Message msg = new Message(parent, Message.SUCCESS, "Purchase Order edited successfully.");
-				clear();
 			} else {
 				JOptionPane.showMessageDialog(null, "No date");
 
@@ -471,6 +469,9 @@ public class EditPO extends JPanel implements ActionListener, Observer {
 		model.setColumnCount(8);
 		DefaultTableCellRenderer rightRenderer = new DefaultTableCellRenderer();
 		rightRenderer.setHorizontalAlignment(JLabel.RIGHT);
+		
+		DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+		centerRenderer.setHorizontalAlignment(JLabel.CENTER);
 
 		String headers[] = {"Item", "Description", "Quantity", "Unit Price",
 				"Amount", "Quantity Received", "Delivered", "Edit"};
@@ -479,7 +480,7 @@ public class EditPO extends JPanel implements ActionListener, Observer {
 		table.getColumnModel().getColumn(1).setPreferredWidth(150);
 
 		table.getColumnModel().getColumn(2).setPreferredWidth(40);
-		table.getColumnModel().getColumn(2).setCellRenderer(rightRenderer);
+		table.getColumnModel().getColumn(2).setCellRenderer(centerRenderer);
 
 		table.getColumnModel().getColumn(3).setPreferredWidth(90);
 		table.getColumnModel().getColumn(3).setCellRenderer(rightRenderer);
@@ -488,7 +489,7 @@ public class EditPO extends JPanel implements ActionListener, Observer {
 		table.getColumnModel().getColumn(4).setCellRenderer(rightRenderer);
 
 		table.getColumnModel().getColumn(5).setPreferredWidth(90);
-		table.getColumnModel().getColumn(5).setCellRenderer(rightRenderer);
+		table.getColumnModel().getColumn(5).setCellRenderer(centerRenderer);
 
 		table.getColumnModel().getColumn(6).setPreferredWidth(90);
 		table.getColumnModel().getColumn(7).setPreferredWidth(90);
@@ -541,9 +542,7 @@ public class EditPO extends JPanel implements ActionListener, Observer {
 			model.setValueAt(po.getQuantity(item), model.getRowCount() - 1, 2);
 			model.setValueAt(df.format(item.getUnitPrice()), model.getRowCount() - 1, 3);
 			model.setValueAt(df.format(po.computeTotal(item)), model.getRowCount() - 1, 4);
-			/**
-			 * ******DEV INSERT QUANTITY RECEIVED HERE*********
-			 */
+			
 			model.setValueAt(po.getQuantityRcvd(item), model.getRowCount() - 1, 5);
 			if(po.getQuantity(item) != po.getQuantityRcvd(item)){
 				model.setValueAt(new POItemCellDelivered(new JCheckBox(), parent, item,

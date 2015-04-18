@@ -8,6 +8,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 
@@ -37,7 +39,7 @@ public class AddPOItem extends PopUp implements ActionListener, FocusListener {
 	private JLabel lblItem, lblAmount, lblAmountValue, lblQuantity,
 	lblDescription, lblPrice;
 	private JTextArea txtDescription;
-	private JTextField txtQuantity, txtPrice, txtItem;
+	private JTextField txtQuantity, txtPrice;
 	private JButton btnSubmit;
 	private JScrollPane scrollPane;
 
@@ -48,6 +50,7 @@ public class AddPOItem extends PopUp implements ActionListener, FocusListener {
 	private DecimalFormat df;
 	private SimpleDateFormat dateFormat; 
 	private String sDate;
+	private JComboBox cmbItem;
 	public AddPOItem(JFrame parent, String type,
 			PurchaseOrderController poController) {
 
@@ -71,16 +74,15 @@ public class AddPOItem extends PopUp implements ActionListener, FocusListener {
 		panContent = new JPanel();
 		panContent.setBackground(Color.white);
 		panCenter.add(panContent, BorderLayout.CENTER);
-		panContent.setLayout(new MigLayout("", "[grow][188.00,grow][][][]",
-				"[][][][grow][][][][][][][][]"));
+		panContent.setLayout(new MigLayout("", "[grow][188.00,grow][][][]", "[][][][grow][][][][][][][][]"));
 
 		lblItem = new JLabel("Item :");
 		panContent.add(lblItem, "cell 0 1,alignx left");
-
-		txtItem = new JTextField("");
-		txtItem.addFocusListener(ErrorListenerFactory.getListener(txtItem));
-		panContent.add(txtItem, "cell 1 1,growx");
-		txtItem.setColumns(10);
+		
+		cmbItem = new JComboBox();
+		cmbItem.setBackground(Color.WHITE);
+		cmbItem.setEditable(true);
+		panContent.add(cmbItem, "cell 1 1,growx");
 
 		lblDescription = new JLabel("Item Description :");
 		panContent.add(lblDescription, "cell 0 2,alignx left");
@@ -158,6 +160,27 @@ public class AddPOItem extends PopUp implements ActionListener, FocusListener {
 		this.revalidate();
 	}
 
+	public void populateItemComboBox()
+	{
+		/****
+		 * DEV Insert code here to populate the item combobox**
+		 */
+	}
+
+	class ItemChangeListener implements ItemListener{
+		@Override
+		public void itemStateChanged(ItemEvent event) {
+			if (event.getStateChange() == ItemEvent.SELECTED) {
+				Object item = event.getItem();
+				// DEV do something with object or autofield
+//				cmbType.setSelectedItem("");
+//				txtQuantity.setText("");
+//				txtDescription.setText("");
+//				txtPrice.setText("");
+			}
+		}   
+	}
+	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
@@ -169,8 +192,9 @@ public class AddPOItem extends PopUp implements ActionListener, FocusListener {
 
 			String error = checkFields();
 			if (error.equals("") == true) {
-				if(!poController.checkItemExists(txtItem.getText())){
-					String item = txtItem.getText();
+				//change this DEV :D :D 
+				if(!poController.checkItemExists(cmbItem.getSelectedItem().toString())){
+					String item = cmbItem.getSelectedItem().toString();
 					String description = txtDescription.getText();
 					int quantity = parseStringInt(txtQuantity.getText());
 					float price = (float) parseStringFloat(txtPrice.getText());
@@ -197,7 +221,7 @@ public class AddPOItem extends PopUp implements ActionListener, FocusListener {
 		txtDescription.setText("");
 		txtQuantity.setText("");
 		txtPrice.setText("");
-		txtItem.setText("");
+		cmbItem.setSelectedIndex(-1);
 	}
 
 	/**** parse string to integer ******/
@@ -218,10 +242,10 @@ public class AddPOItem extends PopUp implements ActionListener, FocusListener {
 		String error = "";
 		Border border = BorderFactory.createLineBorder(Color.RED, 1);
 
-		if (txtItem.getText().equals("")) {
-			error += "Item Name Field is empty \n";
-			txtItem.setBorder(border);
-		}
+//		if (txtItem.getText().equals("")) {
+//			error += "Item Name Field is empty \n";
+//			txtItem.setBorder(border);
+//		}
 		if (txtDescription.getText().equals("")) {
 			error += "Item Description Area is empty \n";
 			txtDescription.setBorder(border);

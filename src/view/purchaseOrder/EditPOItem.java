@@ -14,6 +14,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
@@ -56,7 +58,7 @@ public class EditPOItem extends PopUp implements ActionListener, FocusListener{
 	private JPanel panHeader, panCenter, panClose, panContent,panFooter,panWest,panEast, panSubmit;
 	private JLabel lblItem,lblAmount,lblAmountValue,lblQuantity,lblDescription,lblPrice;
 	private JTextArea txtDescription;
-	private JTextField txtQuantity,txtPrice, txtItem;
+	private JTextField txtQuantity,txtPrice;
 	private JButton btnSubmit;
 	private JScrollPane scrollPane;
 
@@ -68,9 +70,10 @@ public class EditPOItem extends PopUp implements ActionListener, FocusListener{
 	private PurchaseOrderController purchaseOrderController;
 	private ItemData itemData;
 	private PurchaseOrder po;
-	 private DecimalFormat df;
-		private SimpleDateFormat dateFormat; 
-		private String sDate;
+	private DecimalFormat df;
+	private SimpleDateFormat dateFormat; 
+	private String sDate;
+	private JComboBox cmbItem;
 
 	public EditPOItem(JFrame parent,ItemData i, PurchaseOrder po,  PurchaseOrderController poController) 
 	{
@@ -82,7 +85,7 @@ public class EditPOItem extends PopUp implements ActionListener, FocusListener{
 		itemData = i;
 		this.po = po;
 		this.addFocusListener(this);
-		
+
 		df = new DecimalFormat("#,###,###,###,##0.00");
 		df.setMaximumFractionDigits(2);
 		dateFormat = new SimpleDateFormat("MMMM dd, yyyy");
@@ -102,24 +105,11 @@ public class EditPOItem extends PopUp implements ActionListener, FocusListener{
 		lblItem = new JLabel("Item :");
 		panContent.add(lblItem, "cell 0 1,alignx left");
 
-		/***set selected item name to edit****/
-		txtItem = new JTextField(i.getName());
-		txtItem.setColumns(10);
-		panContent.add(txtItem, "cell 1 1,growx");
-		txtItem.addFocusListener( new FocusListener() {
-			Border border = BorderFactory.createLineBorder(Color.BLACK, 1);
-			@Override
-			public void focusLost(FocusEvent e) {
-
-			}
-
-			@Override
-			public void focusGained(FocusEvent e) {
-
-				/***set the border of the textfield to black***/
-				txtItem.setBorder(border);
-			}
-		});
+		cmbItem = new JComboBox();
+		cmbItem.setBackground(Color.WHITE);
+		cmbItem.addItemListener(new ItemChangeListener());
+		cmbItem.setEditable(true);
+		panContent.add(cmbItem, "cell 1 1,growx");
 
 
 		lblDescription = new JLabel("Item Description :");
@@ -188,7 +178,7 @@ public class EditPOItem extends PopUp implements ActionListener, FocusListener{
 		panContent.add(lblPrice, "cell 0 7");
 
 		/***set the unit price of the item****/
-		txtPrice = new JTextField(String.valueOf(df.format(i.getUnitPrice())));
+		txtPrice = new JTextField(String.valueOf(i.getUnitPrice()));
 
 		txtPrice.setPreferredSize(new Dimension(10, 25));
 		txtPrice.addActionListener(new TextAmountActionListener());
@@ -240,6 +230,26 @@ public class EditPOItem extends PopUp implements ActionListener, FocusListener{
 
 	}
 
+	public void populateItemComboBox()
+	{
+		/****
+		 * DEV Insert code here to populate the item combobox**
+		 */
+	}
+
+	class ItemChangeListener implements ItemListener{
+		@Override
+		public void itemStateChanged(ItemEvent event) {
+			if (event.getStateChange() == ItemEvent.SELECTED) {
+				Object item = event.getItem();
+				// DEV do something with object or autofield
+//				cmbType.setSelectedItem("");
+//				txtQuantity.setText("");
+//				txtDescription.setText("");
+//				txtPrice.setText("");
+			}
+		}   
+	}
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
@@ -254,15 +264,13 @@ public class EditPOItem extends PopUp implements ActionListener, FocusListener{
 			String error = checkFields();
 			if(error.equals("") == true)
 			{
-				String item = txtItem.getText();
+				String item = cmbItem.getSelectedItem().toString();
 				String description = txtDescription.getText();
 				int quantity = parseStringInt(txtQuantity.getText());
 				float price = (float) parseStringFloat(txtPrice.getText());
 
 				/***insert code statements here to edit the PO item***/
-				System.out.println("Item: "+item+" "+description+" "+price);
 				ItemData id = new ItemData(item, description, price);
-				System.out.println("ITEMZATA :"+itemData.getName());
 				purchaseOrderController.editItem(id, quantity, itemData);
 
 				this.setVisible(false); 
@@ -289,7 +297,7 @@ public class EditPOItem extends PopUp implements ActionListener, FocusListener{
 		txtDescription.setText("");
 		txtQuantity.setText("");
 		txtPrice.setText("");
-		txtItem.setText("");
+		cmbItem.setSelectedItem("");
 	}
 
 	/****parse string to integer******/
@@ -314,10 +322,10 @@ public class EditPOItem extends PopUp implements ActionListener, FocusListener{
 		String error = "";
 		Border border = BorderFactory.createLineBorder(Color.RED, 2);
 
-		if(txtItem.getText().equals("")){
-			error+= "Item Name Field is empty \n";
-			txtItem.setBorder(border);
-		}
+//		if(cmbItem.get.equals("")){
+//			error+= "Item Name Field is empty \n";
+//			cmbItem.setBorder(border);
+//		}
 		if(txtDescription.getText().equals("")){
 			error+= "Item Description Area is empty \n";
 			txtDescription.setBorder(border);
