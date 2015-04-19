@@ -57,8 +57,8 @@ ActionListener {
 	@Override
 	public void initialize() {
 		setColCount(12);
-		String headers[] = { "Item", "Description", "Type", "Status", "Location",
-				"Asset Tag", "Service Tag", "Assignee", "Invoice#",
+		String headers[] = { "Item", "Description", "Type", "Status", "Assignee", "Location",
+				"Asset Tag", "Service Tag", "Invoice#",
 				"Delivery Date", "End of Contract", "End of Warranty", "" };
 
 		getModel().setColumnIdentifiers(headers);
@@ -134,10 +134,10 @@ ActionListener {
 				inventoryItem = (ITAsset) object;
 
 				getModel().setValueAt(((ITAsset) inventoryItem).getAssetTag(),
-						getModel().getRowCount() - 1, 5);
+						getModel().getRowCount() - 1, 6);
 				getModel().setValueAt(
 						((ITAsset) inventoryItem).getServiceTag(),
-						getModel().getRowCount() - 1, 6);
+						getModel().getRowCount() - 1, 7);
 				
 				Date deliveryDate = ((ITAsset) inventoryItem).getDeliveryDate();
 				if(deliveryDate != null)
@@ -154,7 +154,7 @@ ActionListener {
 			if (employee != null) {
 
 				getModel().setValueAt(employee,
-						getModel().getRowCount() - 1, 7);
+						getModel().getRowCount() - 1, 4);
 			}
 			if (contract != null){ 
                             getModel().setValueAt(dateFormat.format(contract.getEndDate()),
@@ -223,7 +223,7 @@ ActionListener {
 			getModel().setValueAt(inventoryItem.getStatus(),
                         getModel().getRowCount() - 1, 3);
 			getModel().setValueAt(inventoryItem.getLocation(),
-					getModel().getRowCount() - 1, 4);
+					getModel().getRowCount() - 1, 5);
 			getModel().setValueAt(inventoryItem.getInvoiceNo(),
 					getModel().getRowCount() - 1, 8);
 
@@ -231,10 +231,10 @@ ActionListener {
 				inventoryItem = (ITAsset) object;
 
 				getModel().setValueAt(((ITAsset) inventoryItem).getAssetTag(),
-						getModel().getRowCount() - 1, 5);
+						getModel().getRowCount() - 1, 6);
 				getModel().setValueAt(
 						((ITAsset) inventoryItem).getServiceTag(),
-						getModel().getRowCount() - 1, 6);
+						getModel().getRowCount() - 1, 7);
 				getModel().setValueAt(
 						((ITAsset) inventoryItem).getDeliveryDate(),
 						getModel().getRowCount() - 1, 9);
@@ -242,7 +242,7 @@ ActionListener {
 			if (employee != null) {
                                 
 				getModel().setValueAt(employee,
-						getModel().getRowCount() - 1, 7);
+						getModel().getRowCount() - 1, 4);
 			}
 			if (contract != null && warranty != null) {
 				getModel().setValueAt(contract.getEndDate(),
