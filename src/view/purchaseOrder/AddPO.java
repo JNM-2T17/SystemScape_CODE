@@ -81,11 +81,6 @@ public class AddPO extends JPanel implements ActionListener, Observer {
 	private JPanel panSupplierAddress;
 	private JLabel lblAddress;
 	private JLabel lblAddressContent;
-	private JPanel panApproved;
-	private JLabel lblApproved;
-	private JLabel lblApprovedDate;
-	private JDateChooser approvedDateChooser;
-	private JTextField txtApprovedBy;
 	public AddPO(JFrame parent) {
 
 		this.parent = parent;
@@ -263,51 +258,6 @@ public class AddPO extends JPanel implements ActionListener, Observer {
 		lblGrandValue = new JLabel("0.00");
 		panGrandTotal.add(lblGrandValue);
 
-		panApproved = new JPanel();
-		panApproved.setBackground(Color.WHITE);
-		panFooter.add(panApproved, BorderLayout.WEST);
-		GridBagLayout gbl_panApproved = new GridBagLayout();
-		gbl_panApproved.columnWidths = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0};
-		gbl_panApproved.rowHeights = new int[]{0, 14, 0, 0};
-		gbl_panApproved.columnWeights = new double[]{0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
-		gbl_panApproved.rowWeights = new double[]{0.0, 1.0, 0.0, Double.MIN_VALUE};
-		panApproved.setLayout(gbl_panApproved);
-
-		lblApproved = new JLabel("Approved By :");
-		GridBagConstraints gbc_lblApproved = new GridBagConstraints();
-		gbc_lblApproved.anchor = GridBagConstraints.EAST;
-		gbc_lblApproved.insets = new Insets(0, 0, 5, 5);
-		gbc_lblApproved.gridx = 0;
-		gbc_lblApproved.gridy = 1;
-		panApproved.add(lblApproved, gbc_lblApproved);
-
-		lblApprovedDate = new JLabel("Date :");
-		GridBagConstraints gbc_lblApprovedDate = new GridBagConstraints();
-		gbc_lblApprovedDate.anchor = GridBagConstraints.WEST;
-		gbc_lblApprovedDate.insets = new Insets(0, 0, 5, 0);
-		gbc_lblApprovedDate.gridx = 7;
-		gbc_lblApprovedDate.gridy = 1;
-		panApproved.add(lblApprovedDate, gbc_lblApprovedDate);
-
-		txtApprovedBy = new JTextField();
-		GridBagConstraints gbc_txtApprovedBy = new GridBagConstraints();
-		gbc_txtApprovedBy.gridwidth = 5;
-		gbc_txtApprovedBy.insets = new Insets(0, 0, 0, 5);
-		gbc_txtApprovedBy.fill = GridBagConstraints.HORIZONTAL;
-		gbc_txtApprovedBy.gridx = 0;
-		gbc_txtApprovedBy.gridy = 2;
-		panApproved.add(txtApprovedBy, gbc_txtApprovedBy);
-		txtApprovedBy.setColumns(10);
-
-		approvedDateChooser = new JDateChooser();
-		approvedDateChooser.setDateFormatString("MMMM dd, yyyy");
-		approvedDateChooser.setDate(new Date());
-		GridBagConstraints gbc_approvedDateChooser = new GridBagConstraints();
-		gbc_approvedDateChooser.fill = GridBagConstraints.BOTH;
-		gbc_approvedDateChooser.gridx = 7;
-		gbc_approvedDateChooser.gridy = 2;
-		panApproved.add(approvedDateChooser, gbc_approvedDateChooser);
-
 		panItemTable = new JPanel();
 		panItemTable.setBackground(Color.white);
 		panCenter.add(panItemTable, BorderLayout.CENTER);
@@ -353,12 +303,15 @@ public class AddPO extends JPanel implements ActionListener, Observer {
 		DefaultTableCellRenderer rightRenderer = new DefaultTableCellRenderer();
 		rightRenderer.setHorizontalAlignment(JLabel.RIGHT);
 
+		DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+		centerRenderer.setHorizontalAlignment(JLabel.CENTER);
+		
 		String headers[] = { "Item", "Description", "Quantity", "Unit Price","Amount" };
 		model.setColumnIdentifiers(headers);
 		table.getColumnModel().getColumn(0).setPreferredWidth(150);
 		table.getColumnModel().getColumn(1).setPreferredWidth(150);
 		table.getColumnModel().getColumn(2).setPreferredWidth(40);
-		table.getColumnModel().getColumn(2).setCellRenderer(rightRenderer);
+		table.getColumnModel().getColumn(2).setCellRenderer(centerRenderer);
 
 		table.getColumnModel().getColumn(3).setPreferredWidth(90);
 		table.getColumnModel().getColumn(3).setCellRenderer(rightRenderer);
@@ -380,6 +333,10 @@ public class AddPO extends JPanel implements ActionListener, Observer {
 				Message msg = new Message(parent, Message.ERROR,"Purchase Order has no items!");
 			}
 			else if (checkFields().equals("")) {
+				/*******
+				 * DEV add the added information needed in the purhase order
+				 */
+				
 				selectedDate = dateChooser.getDate();
 				Supplier supplier = (Supplier) supplierController.getObject((String) cmbSupplier.getSelectedItem());// dev
 				poController.addPurchaseOrder(new PurchaseOrder(selectedDate, 0,
@@ -387,7 +344,7 @@ public class AddPO extends JPanel implements ActionListener, Observer {
 				Message msg = new Message(parent, Message.SUCCESS,"Purchase Order added successfully.");
 				clear();
 			} 
-			else if(checkFields().equals(""))
+			else if(checkFields().equals("") == false)
 			{
 				Message msg = new Message(parent, Message.SUCCESS,checkFields());
 			}
@@ -403,8 +360,6 @@ public class AddPO extends JPanel implements ActionListener, Observer {
 		cmbClass.setSelectedIndex(0);
 		lblGrandValue.setText("");
 		dateChooser.setDate(new Date());
-		approvedDateChooser.setDate(new Date());
-		txtApprovedBy.setText("");
 		
 		clearTable();
 		poController.init();
@@ -427,14 +382,7 @@ public class AddPO extends JPanel implements ActionListener, Observer {
 		if (dateChooser.getDate() == null) {
 			msg += "No Purchase Order Date Selected! \n";
 		}
-		else if(approvedDateChooser.getDate() == null)
-		{
-			msg += "No Approved Date Selected! \n";
-		}
-		else if(txtApprovedBy.getText().equals(""))
-		{
-			msg += "Please fill in the field for Approved By.";
-		}
+	
 		return msg;
 	}
 

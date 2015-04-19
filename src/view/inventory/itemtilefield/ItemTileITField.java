@@ -54,10 +54,10 @@ public class ItemTileITField extends ItemPanelDecorator implements ItemPanelPart
 	private JComboBox cbType;
 	private JComboBox cbAssignee;
 	
-	private JDateChooser startDateChooser;
 	private JDateChooser endDateChooser;
-        private JLabel lblStart;
-	private JLabel lblEnd;
+	private JDateChooser startDateChooser;
+        private JLabel lblAssignEnd;
+	private JLabel lblAssignStart;
         
 	private JDateChooser deliveryDateChooser;
 	
@@ -138,10 +138,7 @@ public class ItemTileITField extends ItemPanelDecorator implements ItemPanelPart
                 
 		populateCbxEmployee();
 		panIT.add(cbAssignee, "cell 4 9 4 1,growx");
-		addItemPanelReference.assignToQuad(panIT, 1);
                 
-                lblStart = new JLabel("Assign Start:");
-		panIT.add(lblStart, "cell 2 10,growx");
 		
 		startDateChooser = new JDateChooser();
 		startDateChooser.setOpaque(false);
@@ -152,8 +149,8 @@ public class ItemTileITField extends ItemPanelDecorator implements ItemPanelPart
 		startDateChooser.setPreferredSize(new Dimension(150, 30));
 		panIT.add(startDateChooser, "flowx,cell 5 10 3 1");
 		
-		lblEnd = new JLabel("Assign End:");
-		panIT.add(lblEnd, "cell 2 11,growx");
+                lblAssignEnd = new JLabel("Assign End:");
+		panIT.add(lblAssignEnd, "cell 2 11,growx");
 		
 		endDateChooser = new JDateChooser();
 		endDateChooser.setOpaque(false);
@@ -163,6 +160,20 @@ public class ItemTileITField extends ItemPanelDecorator implements ItemPanelPart
 		endDateChooser.setBackground(Color.WHITE);
 		endDateChooser.setPreferredSize(new Dimension(150, 30));
 		panIT.add(endDateChooser, "flowx,cell 5 11 3 1");
+		panIT.add(endDateChooser, "cell 5 11,growx");
+		
+		lblAssignStart = new JLabel("Assign Start:");
+		panIT.add(lblAssignStart, "cell 2 10,growx");
+		
+		startDateChooser = new JDateChooser();
+		startDateChooser.setOpaque(false);
+		startDateChooser.setDate(new Date());
+		startDateChooser.setBorder(null);
+		startDateChooser.setDateFormatString("yyyy-MM-dd");
+		startDateChooser.setBackground(Color.WHITE);
+		startDateChooser.setPreferredSize(new Dimension(150, 30));
+		panIT.add(startDateChooser, "cell 5 10,growx");
+		addItemPanelReference.assignToQuad(panIT, 1);
                 
                 setAssigneeVisible(false);
 	}
@@ -188,8 +199,8 @@ public class ItemTileITField extends ItemPanelDecorator implements ItemPanelPart
 		infoList.add(cbAssignee.getSelectedItem().toString());
 		infoList.add(tfAssetTag.getText());
 		infoList.add(tfServiceTag.getText());
-                infoList.add(startDateChooser.getDate());
-		infoList.add(endDateChooser.getDate());
+    	infoList.add(endDateChooser.getDate());
+		infoList.add(startDateChooser.getDate());
 		return infoList.iterator();
 	}
 
@@ -281,9 +292,11 @@ public class ItemTileITField extends ItemPanelDecorator implements ItemPanelPart
 		cbAssignee.setVisible(stat);
 		lblAssignee.setVisible(stat);
                 startDateChooser.setVisible(stat);
-                lblStart.setVisible(stat);
                 endDateChooser.setVisible(stat);
-                lblEnd.setVisible(stat);
+		lblAssignStart.setVisible(stat);
+		lblAssignEnd.setVisible(stat);
+		startDateChooser.setVisible(stat);
+		endDateChooser.setVisible(stat);
 		cbAssignee.setSelectedItem("None");
 	}
 	

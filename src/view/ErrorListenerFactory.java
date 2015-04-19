@@ -2,6 +2,7 @@ package view;
 
 import java.awt.event.FocusListener;
 
+import javax.swing.JComboBox;
 import javax.swing.JPasswordField;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
@@ -21,6 +22,9 @@ public class ErrorListenerFactory {
 		}
 		else if(obj instanceof JPasswordField){
 			return new PasswordError((JPasswordField) obj);
+		}
+		else if(obj instanceof JComboBox){
+			return new ComboBoxError((JComboBox) obj);
 		}
 		return new TextFieldError((JTextField) obj);
 	}

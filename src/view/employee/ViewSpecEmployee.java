@@ -118,6 +118,7 @@ public class ViewSpecEmployee extends JPanel {
 			Project project = (Project) it.next();
 
 			ProjectPanel temp = new ProjectPanel();
+			temp.setValue(project.getName());
 			temp.setButton(null);
 
 			panClose.add(temp);

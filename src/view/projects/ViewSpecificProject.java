@@ -26,6 +26,7 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.text.SimpleDateFormat;
 import java.util.Iterator;
 
 import javax.swing.JScrollPane;
@@ -124,7 +125,8 @@ public class ViewSpecificProject extends JPanel {
 	
 	public void setProject(Project proj){
 		lblProjects.setText(proj.getName());
-		dateStart.setText(proj.getStartDate().toString());
-		dateEnd.setText(proj.getEndDate().toString());
+		SimpleDateFormat df=new SimpleDateFormat("MMMM dd, yyyy");
+		dateStart.setText(df.format(proj.getStartDate()));
+		dateEnd.setText(df.format(proj.getEndDate()));
 	}
 }

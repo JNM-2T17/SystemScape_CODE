@@ -43,7 +43,7 @@ public class AddSupplier extends JPanel implements ActionListener {
 
 	private JTextField txtSupp;
 	// private JComboBox cmbCountry, cmbState, cmbCity;
-	private JTextField cmbCountry, cmbState, cmbCity;
+	private JTextField txtStreet, txtCity, txtCountry;
 	private JPanel temp;
 	private JPanel panContact, panClose;
 	private ArrayList<Contact> list;
@@ -81,29 +81,29 @@ public class AddSupplier extends JPanel implements ActionListener {
 		JLabel lblAddress = new JLabel("Address:");
 		panContent.add(lblAddress, "cell 0 1,alignx left,growy");
 
-		JLabel lblCountry = new JLabel("Country:");
-		panContent.add(lblCountry, "cell 0 2,alignx right,growy");
-
-		JLabel lblState = new JLabel("State:");
-		panContent.add(lblState, "cell 0 3,alignx right,growy");
+		JLabel lblStreet = new JLabel("Street:");
+		panContent.add(lblStreet, "cell 0 2,alignx right,growy");
 
 		JLabel lblCity = new JLabel("City:");
-		panContent.add(lblCity, "cell 0 4,alignx right,growy");
+		panContent.add(lblCity, "cell 0 3,alignx right,growy");
 
-		cmbCountry = new JTextField();
-		cmbCountry.addFocusListener(ErrorListenerFactory.getListener(cmbCountry));
-		panContent.add(cmbCountry, "cell 2 2,grow");
-		cmbCountry.setBackground(Color.white);
+		JLabel lblCountry = new JLabel("Country:");
+		panContent.add(lblCountry, "cell 0 4,alignx right,growy");
 
-		cmbState = new JTextField();
-		cmbState.addFocusListener(ErrorListenerFactory.getListener(cmbState));
-		panContent.add(cmbState, "cell 2 3,grow");
-		cmbState.setBackground(Color.white);
+		txtStreet = new JTextField();
+		txtStreet.addFocusListener(ErrorListenerFactory.getListener(txtStreet));
+		panContent.add(txtStreet, "cell 2 2,grow");
+		txtStreet.setBackground(Color.white);
 
-		cmbCity = new JTextField();
-		cmbState.addFocusListener(ErrorListenerFactory.getListener(cmbCity));
-		panContent.add(cmbCity, "cell 2 4,grow");
-		cmbCity.setBackground(Color.white);
+		txtCity = new JTextField();
+		txtCity.addFocusListener(ErrorListenerFactory.getListener(txtCity));
+		panContent.add(txtCity, "cell 2 3,grow");
+		txtCity.setBackground(Color.white);
+
+		txtCountry = new JTextField();
+		txtCountry.addFocusListener(ErrorListenerFactory.getListener(txtCountry));
+		panContent.add(txtCountry, "cell 2 4,grow");
+		txtCountry.setBackground(Color.white);
 
 		JLabel lblContact = new JLabel("Contact #:");
 		panContent.add(lblContact, "cell 0 5 3 1,alignx left,aligny top");
@@ -228,9 +228,9 @@ public class AddSupplier extends JPanel implements ActionListener {
 		list.clear();
 		close.clear();
 		txtSupp.setText("");
-		cmbCountry.setText("");
-		cmbState.setText("");
-		cmbCity.setText("");
+		txtStreet.setText("");
+		txtCity.setText("");
+		txtCountry.setText("");
 		panClose.removeAll();
 
 		this.repaint();
@@ -244,12 +244,12 @@ public class AddSupplier extends JPanel implements ActionListener {
 			text+="Please specify the supplier.\n";
 			txtSupp.setBorder(BorderFactory.createLineBorder(Color.RED, 1));
 		}
-		if (cmbCountry.getText().equals("")
-				|| cmbState.getText().equals("")
-				|| cmbCity.getText().equals("")) {
-			if(cmbCountry.getText().equals("")) cmbCountry.setBorder(BorderFactory.createLineBorder(Color.RED, 1));
-			if(cmbState.getText().equals("")) cmbState.setBorder(BorderFactory.createLineBorder(Color.RED, 1));
-			if(cmbCity.getText().equals("")) cmbCity.setBorder(BorderFactory.createLineBorder(Color.RED, 1));
+		if (txtStreet.getText().equals("")
+				|| txtCity.getText().equals("")
+				|| txtCountry.getText().equals("")) {
+			if(txtStreet.getText().equals("")) txtStreet.setBorder(BorderFactory.createLineBorder(Color.RED, 1));
+			if(txtCity.getText().equals("")) txtCity.setBorder(BorderFactory.createLineBorder(Color.RED, 1));
+			if(txtCountry.getText().equals("")) txtCountry.setBorder(BorderFactory.createLineBorder(Color.RED, 1));
 			text+="Please accomplish supplier location.\n";
 		}
 		System.out.println(text);
@@ -266,8 +266,8 @@ public class AddSupplier extends JPanel implements ActionListener {
 			if (text.equals("")) {
 				Supplier checkSupplier;
 				Supplier supplier = new Supplier(txtSupp.getText(),
-						(String) cmbCountry.getText(),
-						(String) cmbState.getText(), (String) cmbCity.getText());
+						(String) txtStreet.getText(),
+						(String) txtCity.getText(), (String) txtCountry.getText());
 				// supplier.setSupplierContactList(contacts);
 
 				checkSupplier = (Supplier) supplierController

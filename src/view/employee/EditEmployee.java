@@ -177,6 +177,7 @@ public class EditEmployee extends JPanel implements ActionListener {
 		Iterator it = emp.getProjectList();
 		while(it.hasNext()){
 			Project project = (Project) it.next();
+			
 			JButton close = new Button.ButtonBuilder().img(
 					"src/assets/Round/Delete.png", 30, 30).build();
 			close.addActionListener(this);
@@ -185,9 +186,15 @@ public class EditEmployee extends JPanel implements ActionListener {
 			ProjectPanel temp = new ProjectPanel();
 			temp.setButton(close);
 			temp.getBtn().setActionCommand("close");
+			
+			
                         
             DefaultComboBoxModel model = (DefaultComboBoxModel)cmbProj.getModel();
-            cmbProj.setSelectedIndex(model.getIndexOf(project.getName()));
+            
+            int i=0;
+            while(!model.getElementAt(i).toString().equals(project.toString())) i++;
+            
+            cmbProj.setSelectedIndex(i);
                         
 			temp.setValue(cmbProj.getSelectedItem().toString());            
             cmbProj.removeItemAt(cmbProj.getSelectedIndex());
@@ -223,8 +230,6 @@ public class EditEmployee extends JPanel implements ActionListener {
 			temp.getBtn().setActionCommand("close");
 
 			temp.setValue(((Project) pan.getSelectedItem()).getName());
-
-			pan.setSelectedIndex(0);
 
 			panClose.add(temp);
 			list.add(temp);
@@ -265,6 +270,8 @@ public class EditEmployee extends JPanel implements ActionListener {
 				System.out.println("Employee status: "+employee.getStatus());
 				int i = 0;
 				System.out.println("ProjList size: "+projList.size());
+				
+				
 				for(i = 0; i<projList.size(); i++){
 					System.out.println("project k: "+projList.get(i).getName());
 					
@@ -293,7 +300,7 @@ public class EditEmployee extends JPanel implements ActionListener {
 				btnAdd.setVisible(false);
 				
 			}
-			
+			else ((JComboBox) temp.getComponent(0)).setSelectedIndex(0);
 			
 			
 			

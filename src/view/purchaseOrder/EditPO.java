@@ -84,11 +84,6 @@ public class EditPO extends JPanel implements ActionListener, Observer {
 	private String sDate;
 	private JLabel lblAddress;
 	private JLabel lblAddressContent;
-	private JPanel panApproved;
-	private JLabel lblApproved;
-	private JTextField txtApproved;
-	private JLabel lblApprovedDate;
-	private JDateChooser approvedDateChooser;
 	public EditPO(JFrame parent, PurchaseOrder po) {
 
 		this.parent = parent;
@@ -273,51 +268,6 @@ public class EditPO extends JPanel implements ActionListener, Observer {
 		lblGrandValue = new JLabel("0.00");
 		panGrandTotal.add(lblGrandValue);
 
-		panApproved = new JPanel();
-		panApproved.setBackground(Color.WHITE);
-		panFooter.add(panApproved, BorderLayout.WEST);
-		GridBagLayout gbl_panApproved = new GridBagLayout();
-		gbl_panApproved.columnWidths = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-		gbl_panApproved.rowHeights = new int[]{0, 0, 0, 0};
-		gbl_panApproved.columnWeights = new double[]{0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
-		gbl_panApproved.rowWeights = new double[]{0.0, 1.0, 0.0, Double.MIN_VALUE};
-		panApproved.setLayout(gbl_panApproved);
-
-		lblApproved = new JLabel("Approved By :");
-		GridBagConstraints gbc_lblApproved = new GridBagConstraints();
-		gbc_lblApproved.anchor = GridBagConstraints.EAST;
-		gbc_lblApproved.insets = new Insets(0, 0, 5, 5);
-		gbc_lblApproved.gridx = 0;
-		gbc_lblApproved.gridy = 1;
-		panApproved.add(lblApproved, gbc_lblApproved);
-
-		lblApprovedDate = new JLabel("Date :");
-		GridBagConstraints gbc_lblApprovedDate = new GridBagConstraints();
-		gbc_lblApprovedDate.anchor = GridBagConstraints.WEST;
-		gbc_lblApprovedDate.insets = new Insets(0, 0, 5, 5);
-		gbc_lblApprovedDate.gridx = 7;
-		gbc_lblApprovedDate.gridy = 1;
-		panApproved.add(lblApprovedDate, gbc_lblApprovedDate);
-
-		txtApproved = new JTextField();
-		GridBagConstraints gbc_txtApproved = new GridBagConstraints();
-		gbc_txtApproved.gridwidth = 5;
-		gbc_txtApproved.insets = new Insets(0, 0, 0, 5);
-		gbc_txtApproved.fill = GridBagConstraints.HORIZONTAL;
-		gbc_txtApproved.gridx = 0;
-		gbc_txtApproved.gridy = 2;
-		panApproved.add(txtApproved, gbc_txtApproved);
-		txtApproved.setColumns(10);
-
-		approvedDateChooser = new JDateChooser();
-		approvedDateChooser.setDateFormatString("MMMM dd, yyyy\r\n");
-		GridBagConstraints gbc_approvedDateChooser = new GridBagConstraints();
-		gbc_approvedDateChooser.insets = new Insets(0, 0, 0, 5);
-		gbc_approvedDateChooser.fill = GridBagConstraints.BOTH;
-		gbc_approvedDateChooser.gridx = 7;
-		gbc_approvedDateChooser.gridy = 2;
-		panApproved.add(approvedDateChooser, gbc_approvedDateChooser);
-
 		scrollPane = new JScrollPane();
 		scrollPane.getViewport().setBackground(Color.white);
 		scrollPane.setBackground(Color.WHITE);
@@ -403,8 +353,7 @@ public class EditPO extends JPanel implements ActionListener, Observer {
 
 				/**
 				 * **
-				 * add the code statements here to edit the po when all fields
-				 * of the form are not empty *
+				 * DEV add the added information needed in the purhase order
 				 */
 				selectedDate = dateChooser.getDate();
 				Supplier supplier = (Supplier) supplierController.getObject((String) cmbSupplier.getSelectedItem());// dev
@@ -413,7 +362,6 @@ public class EditPO extends JPanel implements ActionListener, Observer {
 				po.setType(cmbClass.getSelectedItem().toString());
 				poController.editPurchaseOrder(po);// dev
 				Message msg = new Message(parent, Message.SUCCESS, "Purchase Order edited successfully.");
-				clear();
 			} else {
 				JOptionPane.showMessageDialog(null, "No date");
 
@@ -432,8 +380,6 @@ public class EditPO extends JPanel implements ActionListener, Observer {
 		cmbClass.setSelectedIndex(0);
 		lblGrandValue.setText("");
 		dateChooser.setDate(new Date());
-		approvedDateChooser.setDate(new Date());
-		txtApproved.setText("");
 		clearTable();
 		poController.init();
 	}
@@ -471,6 +417,9 @@ public class EditPO extends JPanel implements ActionListener, Observer {
 		model.setColumnCount(8);
 		DefaultTableCellRenderer rightRenderer = new DefaultTableCellRenderer();
 		rightRenderer.setHorizontalAlignment(JLabel.RIGHT);
+		
+		DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+		centerRenderer.setHorizontalAlignment(JLabel.CENTER);
 
 		String headers[] = {"Item", "Description", "Quantity", "Unit Price",
 				"Amount", "Quantity Received", "Delivered", "Edit"};
@@ -479,7 +428,7 @@ public class EditPO extends JPanel implements ActionListener, Observer {
 		table.getColumnModel().getColumn(1).setPreferredWidth(150);
 
 		table.getColumnModel().getColumn(2).setPreferredWidth(40);
-		table.getColumnModel().getColumn(2).setCellRenderer(rightRenderer);
+		table.getColumnModel().getColumn(2).setCellRenderer(centerRenderer);
 
 		table.getColumnModel().getColumn(3).setPreferredWidth(90);
 		table.getColumnModel().getColumn(3).setCellRenderer(rightRenderer);
@@ -488,7 +437,7 @@ public class EditPO extends JPanel implements ActionListener, Observer {
 		table.getColumnModel().getColumn(4).setCellRenderer(rightRenderer);
 
 		table.getColumnModel().getColumn(5).setPreferredWidth(90);
-		table.getColumnModel().getColumn(5).setCellRenderer(rightRenderer);
+		table.getColumnModel().getColumn(5).setCellRenderer(centerRenderer);
 
 		table.getColumnModel().getColumn(6).setPreferredWidth(90);
 		table.getColumnModel().getColumn(7).setPreferredWidth(90);
@@ -541,9 +490,7 @@ public class EditPO extends JPanel implements ActionListener, Observer {
 			model.setValueAt(po.getQuantity(item), model.getRowCount() - 1, 2);
 			model.setValueAt(df.format(item.getUnitPrice()), model.getRowCount() - 1, 3);
 			model.setValueAt(df.format(po.computeTotal(item)), model.getRowCount() - 1, 4);
-			/**
-			 * ******DEV INSERT QUANTITY RECEIVED HERE*********
-			 */
+			
 			model.setValueAt(po.getQuantityRcvd(item), model.getRowCount() - 1, 5);
 			if(po.getQuantity(item) != po.getQuantityRcvd(item)){
 				model.setValueAt(new POItemCellDelivered(new JCheckBox(), parent, item,

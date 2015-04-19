@@ -46,7 +46,7 @@ public class MainPanel extends JPanel implements ActionListener {
 	
 	private Gui gui;
 
-	public MainPanel(Gui parent) {
+	public MainPanel(Gui parent, String name) {
 		super();
 		
 		gui=parent;
@@ -76,7 +76,7 @@ public class MainPanel extends JPanel implements ActionListener {
 		panTop.add(panUser, BorderLayout.EAST);
 		panUser.setLayout(new FlowLayout(FlowLayout.RIGHT, 5, 5));
 
-		lblUser = new JLabel("Loki");
+		lblUser = new JLabel(name);
 		lblUser.setForeground(Color.WHITE);
 		lblUser.setFont(new Font("Arial", Font.PLAIN, 16));
 		panUser.add(lblUser);

@@ -52,6 +52,8 @@ import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import net.miginfocom.swing.MigLayout;
+import javax.swing.SpringLayout;
+import javax.swing.JTextField;
 
 public class ViewSpecificPO extends JPanel {
 	private JPanel panDefinition, panLeft, panCenter, panRight, panSupplier,
@@ -87,9 +89,10 @@ public class ViewSpecificPO extends JPanel {
 	private JLabel lblAddressContent;
 	private JPanel panApproved;
 	private JLabel lblApproved;
-	private JLabel lblApprovedContent;
 	private JLabel lblApprovedDate;
-	private JLabel lblDateContent;
+	private JPanel panel;
+	private JDateChooser approvedDateChooser;
+	private JTextField txtApproved;
 	public ViewSpecificPO(JFrame parent) {
 		setBackground(Color.WHITE);
 		setBorder(new EmptyBorder(30, 30, 30, 30));
@@ -219,6 +222,7 @@ public class ViewSpecificPO extends JPanel {
 		panNorth.add(lblLogo, BorderLayout.WEST);
 
 		lblTitle = new JLabel("Purchase Order");
+		lblTitle.setHorizontalAlignment(SwingConstants.CENTER);
 		lblTitle.setFont(new Font("Arial", Font.PLAIN, 20));
 		panNorth.add(lblTitle, BorderLayout.CENTER);
 
@@ -266,41 +270,57 @@ public class ViewSpecificPO extends JPanel {
 		panApproved.setBackground(Color.WHITE);
 		panFooter.add(panApproved, BorderLayout.WEST);
 		GridBagLayout gbl_panApproved = new GridBagLayout();
-		gbl_panApproved.columnWidths = new int[]{0, 0, 0, 0, 0, 0};
-		gbl_panApproved.rowHeights = new int[]{0, 0, 0, 0};
-		gbl_panApproved.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
-		gbl_panApproved.rowWeights = new double[]{0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gbl_panApproved.columnWidths = new int[]{69, 65, 30, 39, 0};
+		gbl_panApproved.rowHeights = new int[]{14, 14, 14, 0};
+		gbl_panApproved.columnWeights = new double[]{1.0, 1.0, 0.0, 1.0, Double.MIN_VALUE};
+		gbl_panApproved.rowWeights = new double[]{1.0, 0.0, 0.0, Double.MIN_VALUE};
 		panApproved.setLayout(gbl_panApproved);
 		
 		lblApproved = new JLabel("Approved By :");
 		GridBagConstraints gbc_lblApproved = new GridBagConstraints();
+		gbc_lblApproved.anchor = GridBagConstraints.NORTHWEST;
 		gbc_lblApproved.insets = new Insets(0, 0, 5, 5);
 		gbc_lblApproved.gridx = 0;
 		gbc_lblApproved.gridy = 0;
 		panApproved.add(lblApproved, gbc_lblApproved);
 		
+		panel = new JPanel();
+		panel.setBackground(Color.WHITE);
+		GridBagConstraints gbc_panel = new GridBagConstraints();
+		gbc_panel.insets = new Insets(0, 0, 5, 5);
+		gbc_panel.fill = GridBagConstraints.BOTH;
+		gbc_panel.gridx = 1;
+		gbc_panel.gridy = 0;
+		panApproved.add(panel, gbc_panel);
+		
 		lblApprovedDate = new JLabel("Date :");
 		GridBagConstraints gbc_lblApprovedDate = new GridBagConstraints();
+		gbc_lblApprovedDate.anchor = GridBagConstraints.NORTHWEST;
 		gbc_lblApprovedDate.insets = new Insets(0, 0, 5, 5);
-		gbc_lblApprovedDate.gridx = 3;
+		gbc_lblApprovedDate.gridx = 2;
 		gbc_lblApprovedDate.gridy = 0;
 		panApproved.add(lblApprovedDate, gbc_lblApprovedDate);
 		
-		lblDateContent = new JLabel("<Date>");
-		GridBagConstraints gbc_lblDateContent = new GridBagConstraints();
-		gbc_lblDateContent.insets = new Insets(0, 0, 5, 0);
-		gbc_lblDateContent.gridx = 4;
-		gbc_lblDateContent.gridy = 0;
-		panApproved.add(lblDateContent, gbc_lblDateContent);
+		approvedDateChooser = new JDateChooser();
+		approvedDateChooser.setDateFormatString("MMMM dd, yyyy\r\n");
+		GridBagConstraints gbc_approvedDateChooser = new GridBagConstraints();
+		gbc_approvedDateChooser.insets = new Insets(0, 0, 5, 0);
+		gbc_approvedDateChooser.fill = GridBagConstraints.BOTH;
+		gbc_approvedDateChooser.gridx = 3;
+		gbc_approvedDateChooser.gridy = 0;
+		panApproved.add(approvedDateChooser, gbc_approvedDateChooser);
 		
-		lblApprovedContent = new JLabel("<Name>");
-		lblApprovedContent.setFont(new Font("Tahoma", Font.BOLD, 11));
-		GridBagConstraints gbc_lblApprovedContent = new GridBagConstraints();
-		gbc_lblApprovedContent.insets = new Insets(0, 0, 0, 5);
-		gbc_lblApprovedContent.anchor = GridBagConstraints.WEST;
-		gbc_lblApprovedContent.gridx = 0;
-		gbc_lblApprovedContent.gridy = 2;
-		panApproved.add(lblApprovedContent, gbc_lblApprovedContent);
+		txtApproved = new JTextField();
+		txtApproved.setFont(new Font("Arial", Font.BOLD, 14));
+		GridBagConstraints gbc_txtApproved = new GridBagConstraints();
+		gbc_txtApproved.gridwidth = 2;
+		gbc_txtApproved.insets = new Insets(0, 0, 0, 5);
+		gbc_txtApproved.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txtApproved.gridx = 0;
+		gbc_txtApproved.gridy = 2;
+		panApproved.add(txtApproved, gbc_txtApproved);
+		txtApproved.setColumns(10);
+		
 
 		scrollPane = new JScrollPane();
 		scrollPane.getViewport().setBackground(Color.white);
@@ -352,7 +372,7 @@ public class ViewSpecificPO extends JPanel {
 		while (data.hasNext()) {
 			item = (ItemData) data.next();
 
-			String proj = "<html><b>"+ item.getName()+"</b> <br>" + item.getDescription()+" </hmtl>";
+			String proj = "<html><center><b>"+ item.getName()+"</b></center>" + item.getDescription()+" </hmtl>";
 			/*** populate the table ***/
 			model.setRowCount(model.getRowCount() + 1);
 			model.setValueAt(proj, model.getRowCount() - 1, 0);
@@ -378,9 +398,12 @@ public class ViewSpecificPO extends JPanel {
 		String headers[] = { "Product Description", "Quantity", "Unit Price",
 				"Amount","Quantity Received"};
 		model.setColumnIdentifiers(headers);
-		table.getColumnModel().getColumn(0).setWidth(200);
+		table.getColumnModel().getColumn(0).setWidth(300);
+		table.getColumnModel().getColumn(0).setCellRenderer(centerRenderer);
+		
 		table.getColumnModel().getColumn(1).setCellRenderer(centerRenderer);
 		table.getColumnModel().getColumn(1).setWidth(50);
+		
 		table.getColumnModel().getColumn(2).setCellRenderer(rightRenderer);
 		table.getColumnModel().getColumn(3).setCellRenderer(rightRenderer);
 		table.getColumnModel().getColumn(4).setCellRenderer(centerRenderer);

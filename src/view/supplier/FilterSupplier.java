@@ -33,7 +33,7 @@ import model.Supplier;
 public class FilterSupplier extends PopUp implements ActionListener {
 	private SpringLayout spring;
 	private JComboBox cmbSupplier;
-	private JTextField txtCountry, txtCity, txtState;
+	private JTextField txtStreet, txtCountry, txtCity;
 	private JTextField txtContact;
 	private JButton btnFilter, btnRemoveFilter;
 	private JComboBox cmbContact;
@@ -91,53 +91,33 @@ public class FilterSupplier extends PopUp implements ActionListener {
 				SpringLayout.WEST, lblSupplier);
 		panContent.add(lblAddress);
 
-		JLabel lblCountry = new JLabel("Country:");
-		spring.putConstraint(SpringLayout.NORTH, lblCountry, 10,
+		JLabel lblStreet = new JLabel("Street:");
+		spring.putConstraint(SpringLayout.NORTH, lblStreet, 10,
 				SpringLayout.SOUTH, lblAddress);
-		spring.putConstraint(SpringLayout.WEST, lblCountry, 30,
+		spring.putConstraint(SpringLayout.WEST, lblStreet, 30,
 				SpringLayout.WEST, lblAddress);
-		panContent.add(lblCountry);
+		panContent.add(lblStreet);
 
-		JLabel lblState = new JLabel("State:");
-		spring.putConstraint(SpringLayout.NORTH, lblState, 10,
-				SpringLayout.SOUTH, lblCountry);
-		spring.putConstraint(SpringLayout.WEST, lblState, 0, SpringLayout.WEST,
-				lblCountry);
-		panContent.add(lblState);
-
-		JLabel lblCity = new JLabel("City:");
+		JLabel lblCity = new JLabel("City: ");
 		spring.putConstraint(SpringLayout.NORTH, lblCity, 10,
-				SpringLayout.SOUTH, lblState);
+				SpringLayout.SOUTH, lblStreet);
 		spring.putConstraint(SpringLayout.WEST, lblCity, 0, SpringLayout.WEST,
-				lblCountry);
+				lblStreet);
 		panContent.add(lblCity);
+
+		JLabel lblCountry = new JLabel("Country: ");
+		spring.putConstraint(SpringLayout.NORTH, lblCountry, 10,
+				SpringLayout.SOUTH, lblCity);
+		spring.putConstraint(SpringLayout.WEST, lblCountry, 0, SpringLayout.WEST,
+				lblStreet);
+		panContent.add(lblCountry);
 
 		JLabel lblContact = new JLabel("Contact #:");
 		spring.putConstraint(SpringLayout.NORTH, lblContact, 21,
-				SpringLayout.SOUTH, lblCity);
+				SpringLayout.SOUTH, lblCountry);
 		spring.putConstraint(SpringLayout.WEST, lblContact, 0,
 				SpringLayout.WEST, lblSupplier);
 		panContent.add(lblContact);
-
-		txtState = new JTextField();
-		txtState.setBackground(Color.WHITE);
-		spring.putConstraint(SpringLayout.NORTH, txtState, 0,
-				SpringLayout.NORTH, lblState);
-		spring.putConstraint(SpringLayout.WEST, txtState, 0, SpringLayout.WEST,
-				cmbSupplier);
-		spring.putConstraint(SpringLayout.EAST, txtState, 0, SpringLayout.EAST,
-				cmbSupplier);
-		panContent.add(txtState);
-
-		txtCountry = new JTextField();
-		txtCountry.setBackground(Color.WHITE);
-		spring.putConstraint(SpringLayout.NORTH, txtCountry, 0,
-				SpringLayout.NORTH, lblCountry);
-		spring.putConstraint(SpringLayout.WEST, txtCountry, 0,
-				SpringLayout.WEST, cmbSupplier);
-		spring.putConstraint(SpringLayout.EAST, txtCountry, 0,
-				SpringLayout.EAST, cmbSupplier);
-		panContent.add(txtCountry);
 
 		txtCity = new JTextField();
 		txtCity.setBackground(Color.WHITE);
@@ -148,6 +128,26 @@ public class FilterSupplier extends PopUp implements ActionListener {
 		spring.putConstraint(SpringLayout.EAST, txtCity, 0, SpringLayout.EAST,
 				cmbSupplier);
 		panContent.add(txtCity);
+
+		txtStreet = new JTextField();
+		txtStreet.setBackground(Color.WHITE);
+		spring.putConstraint(SpringLayout.NORTH, txtStreet, 0,
+				SpringLayout.NORTH, lblStreet);
+		spring.putConstraint(SpringLayout.WEST, txtStreet, 0,
+				SpringLayout.WEST, cmbSupplier);
+		spring.putConstraint(SpringLayout.EAST, txtStreet, 0,
+				SpringLayout.EAST, cmbSupplier);
+		panContent.add(txtStreet);
+
+		txtCountry = new JTextField();
+		txtCountry.setBackground(Color.WHITE);
+		spring.putConstraint(SpringLayout.NORTH, txtCountry, 0,
+				SpringLayout.NORTH, lblCountry);
+		spring.putConstraint(SpringLayout.WEST, txtCountry, 0, SpringLayout.WEST,
+				cmbSupplier);
+		spring.putConstraint(SpringLayout.EAST, txtCountry, 0, SpringLayout.EAST,
+				cmbSupplier);
+		panContent.add(txtCountry);
 
 		txtContact = new JTextField();
 		spring.putConstraint(SpringLayout.NORTH, txtContact, -1,
@@ -200,9 +200,9 @@ public class FilterSupplier extends PopUp implements ActionListener {
 	public Iterator getValues(){
             if(list!=null){
 		list.add((String)cmbSupplier.getSelectedItem());
-		list.add(txtCountry.getText());
-		list.add(txtState.getText());
+		list.add(txtStreet.getText());
 		list.add(txtCity.getText());
+		list.add(txtCountry.getText());
 		list.add(txtContact.getText());
 		list.add((String)cmbContact.getSelectedItem());
                 return list.iterator();
@@ -214,8 +214,8 @@ public class FilterSupplier extends PopUp implements ActionListener {
 	{
 		boolean isEmpty = false;
 		
-		if(txtCountry.getText().equals("") && txtCity.getText().equals("") && 
-		   txtContact.getText().equals("") && txtState.getText().equals("") && 
+		if(txtStreet.getText().equals("") && txtCountry.getText().equals("") && 
+		   txtContact.getText().equals("") && txtCity.getText().equals("") && 
 		   cmbContact.getSelectedIndex() == 0 && cmbSupplier.getSelectedIndex() == 0)
 		{
 			System.out.println("EMPTY FILEDS:");

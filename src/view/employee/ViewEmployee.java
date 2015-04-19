@@ -37,8 +37,8 @@ public class ViewEmployee extends ViewTemplate implements Observer{
 	@Override
 	public void initialize() {
 		// TODO Auto-generated method stub
-		setColCount(5);
-		String headers[]={"Name", "Status", "Projects", "Project Date", ""};
+		setColCount(6);
+		String headers[]={"Name", "Status", "Projects", "Project Start Date", "Project End Date", ""};
 		getModel().setColumnIdentifiers(headers);
 		setColRendEdit(new PanelCell(), new PanelCell());
 	}
@@ -50,104 +50,113 @@ public class ViewEmployee extends ViewTemplate implements Observer{
 	}
 	
 	public void update() {
+		SimpleDateFormat df=new SimpleDateFormat("MMMM dd, yyyy");
 		clearTable();
 		Employee employee;
-		ArrayList<Project> projectsList = new ArrayList<Project>();
 		Iterator data = employeeController.getAll();
 		while(data.hasNext()){
 			employee = (Employee) data.next();
 			System.out.println("Employee THINGY " + employee.getName());
 			Iterator projectsIterator = employee.getProjectList();
-			String projectsString = "";
-			String projectsDate = "";
 			Date sDate = null;
 			Date eDate = null;
-			int i = 0;
-			while(projectsIterator.hasNext()){
-                                Project project = (Project)projectsIterator.next();
-				projectsString = projectsString + project.toString() + ", ";
-				projectsList.add(project);
-				sDate = projectsList.get(i).getStartDate();
-				eDate = projectsList.get(i).getEndDate();
-				if(sDate != null && eDate != null)
-				{
-					projectsDate = projectsDate + "StartDate: " + dateFormat.format(sDate) 
-							 + "\n EndDate: " + dateFormat.format(eDate) + ", ";
-				}
-				else
-				{
-					projectsDate = projectsDate + "StartDate: " + sDate 
-							 + "\n EndDate: " + eDate + ", ";
-				}
-		
-				
-				i+=1;
-				System.out.println(projectsString);
+			boolean start=true;
+			
+			if(!projectsIterator.hasNext()){
+				getModel().setRowCount(getModel().getRowCount() + 1);
+				getModel().setValueAt(employee.getName(), getModel().getRowCount() - 1, 0);
+				getModel().setValueAt(employee.getStatus(), getModel().getRowCount() - 1, 1);
+				getModel().setValueAt("", getModel().getRowCount() - 1, 2);
+				getModel().setValueAt("", getModel().getRowCount() - 1, 3);
+	            getModel().setValueAt("", getModel().getRowCount() - 1, 4);
+	            getModel().setValueAt(new EmployeeCellEdit(employee, tab),
+	                    getModel().getRowCount() - 1, 5);
+	            packTable();
 			}
-			getModel().setRowCount(getModel().getRowCount() + 1);
-            getModel().setValueAt(employee.getName(),
-            getModel().getRowCount() - 1, 0);
-            
-   
-            getModel().setValueAt(employee.getStatus(), getModel().getRowCount() - 1, 1);
-           
-            getModel().setValueAt(projectsString, getModel().getRowCount() - 1, 2);
-            getModel().setValueAt(projectsDate, getModel().getRowCount() - 1, 3);
-            getModel().setValueAt(new EmployeeCellEdit(employee, tab),
-                    getModel().getRowCount() - 1, 4);
-            packTable();
-            
+			
+			while(projectsIterator.hasNext()){
+				getModel().setRowCount(getModel().getRowCount() + 1);
+				if(start){
+					getModel().setValueAt(employee.getName(), getModel().getRowCount() - 1, 0);
+					getModel().setValueAt(employee.getStatus(), getModel().getRowCount() - 1, 1);
+				}
+				else{
+					getModel().setValueAt("", getModel().getRowCount() - 1, 0);
+					getModel().setValueAt("", getModel().getRowCount() - 1, 1);
+				}
+                
+				Project project = (Project)projectsIterator.next();
+                
+				getModel().setValueAt(project.getName(), getModel().getRowCount() - 1, 2);
+				getModel().setValueAt(df.format(project.getStartDate()), getModel().getRowCount() - 1, 3);
+	            getModel().setValueAt(df.format(project.getEndDate()), getModel().getRowCount() - 1, 4);
+	            if(start) {
+	            	getModel().setValueAt(new EmployeeCellEdit(employee, tab), getModel().getRowCount() - 1, 5);
+	            }
+	            else{
+	            	getModel().setValueAt(new EmployeeCellEdit(null, tab), getModel().getRowCount() - 1, 5);
+		        }
+	            
+                start=false;
+                
+                packTable();
+			}
 		}
 		
 	}
 	
 	public void filterPopulate(Iterator data) {
+		SimpleDateFormat df=new SimpleDateFormat("MMMM dd, yyyy");
 		clearTable();
 		Employee employee;
-		ArrayList<Project> projectsList = new ArrayList<Project>();
 		while(data.hasNext()){
 			employee = (Employee) data.next();
 			System.out.println("Employee THINGY " + employee.getName());
 			Iterator projectsIterator = employee.getProjectList();
-			String projectsString = "";
-			String projectsDate = "";
 			Date sDate = null;
 			Date eDate = null;
-			int i = 0;
-			while(projectsIterator.hasNext()){
-                                Project project = (Project)projectsIterator.next();
-				projectsString = projectsString + project.toString() + ", ";
-				projectsList.add(project);
-				sDate = projectsList.get(i).getStartDate();
-				eDate = projectsList.get(i).getEndDate();
-				if(sDate != null && eDate != null)
-				{
-					projectsDate = projectsDate + "StartDate: " + dateFormat.format(sDate) 
-							 + "\n EndDate: " + dateFormat.format(eDate) + ", ";
-				}
-				else
-				{
-					projectsDate = projectsDate + "StartDate: " + sDate 
-							 + "\n EndDate: " + eDate + ", ";
-				}
-		
-				
-				i+=1;
-				System.out.println(projectsString);
+			boolean start=true;
+			
+			if(!projectsIterator.hasNext()){
+				getModel().setRowCount(getModel().getRowCount() + 1);
+				getModel().setValueAt(employee.getName(), getModel().getRowCount() - 1, 0);
+				getModel().setValueAt(employee.getStatus(), getModel().getRowCount() - 1, 1);
+				getModel().setValueAt("", getModel().getRowCount() - 1, 2);
+				getModel().setValueAt("", getModel().getRowCount() - 1, 3);
+	            getModel().setValueAt("", getModel().getRowCount() - 1, 4);
+	            getModel().setValueAt(new EmployeeCellEdit(employee, tab),
+	                    getModel().getRowCount() - 1, 5);
+	            packTable();
 			}
-			getModel().setRowCount(getModel().getRowCount() + 1);
-            getModel().setValueAt(employee.getName(),
-            getModel().getRowCount() - 1, 0);
-            
-   
-            getModel().setValueAt(employee.getStatus(), getModel().getRowCount() - 1, 1);
-           
-            getModel().setValueAt(projectsString, getModel().getRowCount() - 1, 2);
-            getModel().setValueAt(projectsDate, getModel().getRowCount() - 1, 3);
-            getModel().setValueAt(new EmployeeCellEdit(employee, tab),
-                    getModel().getRowCount() - 1, 4);
-            packTable();
-            
+			
+			while(projectsIterator.hasNext()){
+				getModel().setRowCount(getModel().getRowCount() + 1);
+				if(start){
+					getModel().setValueAt(employee.getName(), getModel().getRowCount() - 1, 0);
+					getModel().setValueAt(employee.getStatus(), getModel().getRowCount() - 1, 1);
+				}
+				else{
+					getModel().setValueAt("", getModel().getRowCount() - 1, 0);
+					getModel().setValueAt("", getModel().getRowCount() - 1, 1);
+				}
+                
+				Project project = (Project)projectsIterator.next();
+                
+				getModel().setValueAt(project.getName(), getModel().getRowCount() - 1, 2);
+				getModel().setValueAt(df.format(project.getStartDate()), getModel().getRowCount() - 1, 3);
+	            getModel().setValueAt(df.format(project.getEndDate()), getModel().getRowCount() - 1, 4);
+	            if(start) {
+	            	getModel().setValueAt(new EmployeeCellEdit(employee, tab), getModel().getRowCount() - 1, 5);
+	            }
+	            else{
+	            	getModel().setValueAt(new EmployeeCellEdit(null, tab), getModel().getRowCount() - 1, 5);
+		        }
+	                    
+	            
+                start=false;
+                
+                packTable();
+			}
 		}
 	}
 

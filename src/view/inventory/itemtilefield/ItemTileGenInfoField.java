@@ -61,11 +61,21 @@ public class ItemTileGenInfoField extends ItemPanelDecorator implements ItemPane
 	private int currentID;
 
 	public ItemTileGenInfoField(JFrame parent,
-			ItemPanelTemplate addItemPanelReference) {
+		ItemPanelTemplate addItemPanelReference) {
 		super(addItemPanelReference);
 		this.parent = parent;
 		currentID = 0;
 		// TODO Auto-generated constructor stub
+
+	}
+
+	@Override
+	public void renderPanel() {
+		renderItemTileGeneralPanel();
+		super.renderPanel();
+	}
+
+	public void renderItemTileGeneralPanel() {
 		panGeneral = new JPanel();
 		panGeneral.setBorder(new LineBorder(new Color(30, 144, 255), 3, true));
 		panGeneral.setBackground(Color.WHITE);
@@ -130,19 +140,10 @@ public class ItemTileGenInfoField extends ItemPanelDecorator implements ItemPane
 		cbStatus.setModel(new DefaultComboBoxModel(new String[] { "In Store",
 				"In Use" }));
 		panGeneral.add(cbStatus, "cell 2 5,growx");
-                
-	}
 
-	@Override
-	public void renderPanel() {
-		renderItemTileGeneralPanel();
-		super.renderPanel();
-	}
-
-	public void renderItemTileGeneralPanel() {
 
 		addItemPanelReference.assignToQuad(panGeneral, 2);
-
+		
 	}
 
 	@Override
