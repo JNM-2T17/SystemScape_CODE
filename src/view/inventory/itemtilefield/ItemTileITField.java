@@ -160,19 +160,11 @@ public class ItemTileITField extends ItemPanelDecorator implements ItemPanelPart
 		endDateChooser.setBackground(Color.WHITE);
 		endDateChooser.setPreferredSize(new Dimension(150, 30));
 		panIT.add(endDateChooser, "flowx,cell 5 11 3 1");
-		panIT.add(endDateChooser, "cell 5 11,growx");
 		
 		lblAssignStart = new JLabel("Assign Start:");
 		panIT.add(lblAssignStart, "cell 2 10,growx");
 		
-		startDateChooser = new JDateChooser();
-		startDateChooser.setOpaque(false);
-		startDateChooser.setDate(new Date());
-		startDateChooser.setBorder(null);
-		startDateChooser.setDateFormatString("yyyy-MM-dd");
-		startDateChooser.setBackground(Color.WHITE);
-		startDateChooser.setPreferredSize(new Dimension(150, 30));
-		panIT.add(startDateChooser, "cell 5 10,growx");
+		
 		addItemPanelReference.assignToQuad(panIT, 1);
                 
                 setAssigneeVisible(false);
@@ -243,8 +235,9 @@ public class ItemTileITField extends ItemPanelDecorator implements ItemPanelPart
                 }
                 try{
                     Integer.parseInt(tfServiceTag.getText());
+                    Integer.parseInt(tfAssetTag.getText());
                 }catch(NumberFormatException nfe){
-                    new Message(parent, Message.ERROR, "Service Tag should be numeric");
+                    new Message(parent, Message.ERROR, "Service Tag and/or Asset Tag should be numeric");
                     stat = false;
                 }
 		

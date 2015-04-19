@@ -576,24 +576,14 @@ public class InventoryItemDisplayManager {
 	
 	public void retrieveInformation() {
 		// TODO Auto-generated method stub
-            boolean stat = true;
-            Iterator i = panelRegistry.getParticipantList();
-            while(i.hasNext() && stat){
-                    stat = ((ItemPanelParticipant)i.next()).checkInput();
-            }
-            System.out.println(stat + "toolate\n");
-            if(stat){
-                panelRegistry.retrieveInformationFromAll();
-                if(panelRegistry.isAdd())
-                    new Message(gui, Message.SUCCESS, "Item added to the database");
-                else  new Message(gui, Message.SUCCESS, "Item edit successful");
-                tab.setReturn();
-            }
 		
 		if(panelRegistry.checkInputFromAll())
 		{
 			System.out.println("PASSED RETRIEVE INFO AND CLOSE");
 			panelRegistry.retrieveInformationFromAll();
+                        if(panelRegistry.isAdd())
+                            new Message(gui, Message.SUCCESS, "Item added to the database");
+                        else  new Message(gui, Message.SUCCESS, "Item edit successful");
 			tab.setReturn();
 		}
 			

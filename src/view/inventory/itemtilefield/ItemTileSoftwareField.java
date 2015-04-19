@@ -115,20 +115,10 @@ public class ItemTileSoftwareField extends ItemPanelDecorator implements ItemPan
 		endDateChooser.setBackground(Color.WHITE);
 		endDateChooser.setPreferredSize(new Dimension(150, 30));
 		panSoftware.add(endDateChooser, "flowx,cell 5 11 3 1");
-		panSoftware.add(endDateChooser, "cell 5 11,growx");
 		
 		lblAssignStart = new JLabel("Assign Start:");
 		panSoftware.add(lblAssignStart, "cell 2 10,growx");
 		
-		startDateChooser = new JDateChooser();
-		startDateChooser.setOpaque(false);
-		startDateChooser.setDate(new Date());
-		startDateChooser.setBorder(null);
-		startDateChooser.setDateFormatString("yyyy-MM-dd");
-		startDateChooser.setBackground(Color.WHITE);
-		startDateChooser.setPreferredSize(new Dimension(150, 30));
-		panSoftware.add(startDateChooser, "cell 5 10,growx");
-                
 		cbType = new JComboBox(typeStrings);
 		cbType.setSelectedItem("Software");
 		cbType.addItemListener(this);
@@ -153,7 +143,7 @@ public class ItemTileSoftwareField extends ItemPanelDecorator implements ItemPan
 	
 	public void populateCbxEmployee()
 	{
-		//cbAssignee.addItem("None");
+		cbAssignee.addItem("None");
 		EmployeeController ec = EmployeeController.getInstance();
 		Iterator<Employee> eList = ec.getAll();
 		while(eList.hasNext())
