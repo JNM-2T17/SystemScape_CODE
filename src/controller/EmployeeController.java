@@ -71,6 +71,10 @@ public class EmployeeController implements Subject {
         notifyObserver();
     }
     
+    public Iterator getProjectsFromAssignment(String key){
+    	return employeeDAO.getProjects(key);
+    }
+    
     
     public void editEmployee(Employee emp, String key) {
     	employee.setName(emp.getName());

@@ -14,6 +14,7 @@ import java.util.Iterator;
 
 import model.Employee;
 import model.Project;
+import model.ProjectAssignment;
 import model.builder.EmployeeFilterQueryBuilder;
 import model.builder.QueryFilterDirector;
 import model.builder.SupplierFilterQueryBuilder;
@@ -54,6 +55,37 @@ public class EmployeeDAO implements IDBCUD {
         }
         return employees.iterator();
     }
+    
+public Iterator getProjects(String key) {
+		
+        
+		Connection con = DBConnection.getConnection();
+        ArrayList<ProjectAssignment> projectAssignment = new ArrayList<ProjectAssignment>();
+        
+        try {
+            String query = "SELECT * FROM projectassignment where employeeID = ?";
+            PreparedStatement preparedStatement = con.prepareStatement(query);
+            preparedStatement.setString(1, key);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            
+            while (resultSet.next()) {
+            	ProjectAssignment pa = new ProjectAssignment(resultSet.getString("project"), resultSet.getInt("employeeID"));
+            	projectAssignment.add(pa);
+            }
+        } catch (SQLException sqlException) {
+            sqlException.printStackTrace();
+        }finally {
+            try {
+                if (con != null) {
+                    con.close();
+                }
+            } catch (SQLException sqlee) {
+                sqlee.printStackTrace();
+            }
+        }
+
+        return projectAssignment.iterator();
+	}
 
     public Object get(String key) {
         try {

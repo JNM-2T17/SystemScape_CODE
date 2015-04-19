@@ -25,6 +25,7 @@ import javax.swing.JTextField;
 
 import model.Employee;
 import model.Project;
+import model.ProjectAssignment;
 import model.Supplier;
 import net.miginfocom.swing.MigLayout;
 
@@ -159,8 +160,8 @@ public class EditEmployee extends JPanel implements ActionListener {
 		btnAdmin.setFont(new Font("Arial", Font.PLAIN, 18));
 		btnAdmin.addActionListener(this);
 		
-		employeeController = employeeController.getInstance();
-		projectController = projectController.getInstance();
+		employeeController = EmployeeController.getInstance();
+		projectController = ProjectController.getInstance();
 		cmbInit();
 		init();
 	}
@@ -174,7 +175,22 @@ public class EditEmployee extends JPanel implements ActionListener {
 	}
 	
 	public void init(){
-		Iterator it = emp.getProjectList();
+		ArrayList<String> projectsList = new ArrayList<String>();
+		Iterator projectAssignmentIT = employeeController.getProjectsFromAssignment(Integer.toString(emp.getID()));
+		while(projectAssignmentIT.hasNext()){
+			ProjectAssignment pa = (ProjectAssignment) projectAssignmentIT.next();
+			System.out.println("Employee id: "+pa.getEmployeeID());
+			projectsList.add(pa.getProject());
+		}
+		
+		ArrayList<Project> projectArrayList = new ArrayList<Project>();
+		for(int i = 0; i<projectsList.size(); i++){
+			Project projTemp = (Project) projectController.getObject(projectsList.get(i));
+			projectArrayList.add(projTemp);
+		}
+		
+		Iterator it = projectArrayList.iterator();
+		//Iterator it = emp.getProjectList();
 		while(it.hasNext()){
 			Project project = (Project) it.next();
 			

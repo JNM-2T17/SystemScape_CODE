@@ -11,6 +11,7 @@ import controller.EmployeeController;
 import controller.ProjectController;
 import model.Employee;
 import model.Project;
+import model.ProjectAssignment;
 import view.Observer;
 import view.PanelCell;
 import view.ViewTemplate;
@@ -20,6 +21,7 @@ import view.projects.TabProject;
 public class ViewEmployee extends ViewTemplate implements Observer{
 	
 	EmployeeController employeeController;
+	ProjectController projectController;
 	private TabEmployees tab;
 	private JFrame parent;
 	private SimpleDateFormat dateFormat;
@@ -30,7 +32,9 @@ public class ViewEmployee extends ViewTemplate implements Observer{
 		this.tab = tab;
 		dateFormat = new SimpleDateFormat("MMMM dd, yyyy");
 		employeeController = EmployeeController.getInstance();
+		projectController = ProjectController.getInstance();
 		employeeController.registerObserver(this);
+		projectController.registerObserver(this);
 		
 	}
 
@@ -57,6 +61,25 @@ public class ViewEmployee extends ViewTemplate implements Observer{
 		while(data.hasNext()){
 			employee = (Employee) data.next();
 			System.out.println("Employee THINGY " + employee.getName());
+			
+			//added
+			ArrayList<String> projectsList = new ArrayList<String>();
+			Iterator projectAssignmentIT = employeeController.getProjectsFromAssignment(Integer.toString(employee.getID()));
+			while(projectAssignmentIT.hasNext()){
+				ProjectAssignment pa = (ProjectAssignment) projectAssignmentIT.next();
+				System.out.println("Employee id: "+pa.getEmployeeID());
+				projectsList.add(pa.getProject());
+			}
+			
+			ArrayList<Project> projectArrayList = new ArrayList<Project>();
+			for(int i = 0; i<projectsList.size(); i++){
+				Project projTemp = (Project) projectController.getObject(projectsList.get(i));
+				projectArrayList.add(projTemp);
+			}
+			
+			Iterator it = projectArrayList.iterator();
+			//
+			
 			Iterator projectsIterator = employee.getProjectList();
 			Date sDate = null;
 			Date eDate = null;
