@@ -575,8 +575,14 @@ public class InventoryItemDisplayManager {
 	
 	public void retrieveInformation() {
 		// TODO Auto-generated method stub
-		panelRegistry.retrieveInformationFromAll();
-		tab.setReturn();
+		
+		if(panelRegistry.checkInputFromAll())
+		{
+			System.out.println("PASSED RETRIEVE INFO AND CLOSE");
+			panelRegistry.retrieveInformationFromAll();
+			tab.setReturn();
+		}
+			
 	}
 	public static InventoryItemDisplayManager getInstance()
 	{

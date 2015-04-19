@@ -711,6 +711,17 @@ public class PanelRegistry implements PanelRegistration {
 		((TypeItemTileField) participantList.get(1)).setAssigneeVisible(stat);
 	}
 
+	public boolean checkInputFromAll() {
+		// TODO Auto-generated method stub
+		for(int i = 0; i < participantList.size(); i++)
+		{
+			if(!participantList.get(i).checkInput())
+				return false;
+		}
+		System.out.println("returned True");
+		return true;
+	}
+
 
 
 }
