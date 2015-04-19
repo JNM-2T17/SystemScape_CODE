@@ -49,14 +49,15 @@ public class ItemTileGeneralField extends ItemPanelDecorator implements ItemPane
 	
 	private JDateChooser startDateChooser;
 	private JDateChooser endDateChooser;
-        private JLabel lblStart;
-	private JLabel lblEnd;
+        private JLabel lblAssignEnd;
+	private JLabel lblAssignStart;
         
 	private JDateChooser deliveryDateChooser;
 	
 	public ItemTileGeneralField(JFrame parent, ItemPanelTemplate addItemPanelReference) {
 		super(addItemPanelReference);
 		// TODO Auto-generated constructor stub
+		
 	}
 	
 	@Override
@@ -92,20 +93,8 @@ public class ItemTileGeneralField extends ItemPanelDecorator implements ItemPane
 		deliveryDateChooser.setPreferredSize(new Dimension(150, 30));
 		panGeneral.add(deliveryDateChooser, "cell 5 3 3 1,grow");
 		
-                lblStart = new JLabel("Assign Start:");
-		panGeneral.add(lblStart, "cell 2 11,growx");
-		
-		startDateChooser = new JDateChooser();
-		startDateChooser.setOpaque(false);
-		startDateChooser.setDate(new Date());
-		startDateChooser.setBorder(null);
-		startDateChooser.setDateFormatString("yyyy-MM-dd");
-		startDateChooser.setBackground(Color.WHITE);
-		startDateChooser.setPreferredSize(new Dimension(150, 30));
-		panGeneral.add(startDateChooser, "cell 5 11,growx");
-		
-		lblEnd = new JLabel("Assign End:");
-		panGeneral.add(lblEnd, "cell 2 10,growx");
+                lblAssignEnd = new JLabel("Assign End:");
+		panGeneral.add(lblAssignEnd, "cell 2 11,growx");
 		
 		endDateChooser = new JDateChooser();
 		endDateChooser.setOpaque(false);
@@ -114,7 +103,19 @@ public class ItemTileGeneralField extends ItemPanelDecorator implements ItemPane
 		endDateChooser.setDateFormatString("yyyy-MM-dd");
 		endDateChooser.setBackground(Color.WHITE);
 		endDateChooser.setPreferredSize(new Dimension(150, 30));
-		panGeneral.add(endDateChooser, "cell 5 10,growx");
+		panGeneral.add(endDateChooser, "cell 5 11,growx");
+		
+		lblAssignStart = new JLabel("Assign Start:");
+		panGeneral.add(lblAssignStart, "cell 2 10,growx");
+		
+		startDateChooser = new JDateChooser();
+		startDateChooser.setOpaque(false);
+		startDateChooser.setDate(new Date());
+		startDateChooser.setBorder(null);
+		startDateChooser.setDateFormatString("yyyy-MM-dd");
+		startDateChooser.setBackground(Color.WHITE);
+		startDateChooser.setPreferredSize(new Dimension(150, 30));
+		panGeneral.add(startDateChooser, "cell 5 10,growx");
                 
 		lblAssignee = new JLabel("Assignee:");
 		panGeneral.add(lblAssignee, "flowx,cell 1 5 3 1");
@@ -207,6 +208,10 @@ public class ItemTileGeneralField extends ItemPanelDecorator implements ItemPane
 		// TODO Auto-generated method stub
 		cbAssignee.setVisible(stat);
 		lblAssignee.setVisible(stat);
+		lblAssignStart.setVisible(stat);
+		lblAssignEnd.setVisible(stat);
+		startDateChooser.setVisible(stat);
+		endDateChooser.setVisible(stat);
 		cbAssignee.setSelectedItem("None");
 	}
 

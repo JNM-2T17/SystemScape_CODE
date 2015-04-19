@@ -50,8 +50,8 @@ public class ItemTileSoftwareField extends ItemPanelDecorator implements ItemPan
 	
 	private JDateChooser startDateChooser;
 	private JDateChooser endDateChooser;
-        private JLabel lblStart;
-	private JLabel lblEnd;
+    private JLabel lblAssignStart;
+	private JLabel lblAssignEnd;
         
 	private JTextField tfLicenseKey;
 	
@@ -60,7 +60,7 @@ public class ItemTileSoftwareField extends ItemPanelDecorator implements ItemPan
 	public ItemTileSoftwareField(JFrame parent, ItemPanelTemplate addItemPanelReference) {
 		super(addItemPanelReference);
 		// TODO Auto-generated constructor stub
-		this.parent=parent;
+		
 	}
 	
 	@Override
@@ -95,20 +95,8 @@ public class ItemTileSoftwareField extends ItemPanelDecorator implements ItemPan
 		lblAssignee = new JLabel("Assignee:");
 		panSoftware.add(lblAssignee, "flowx,cell 1 7 3 1");
 		
-		lblStart = new JLabel("Assign Start:");
-		panSoftware.add(lblStart, "cell 2 11,growx");
-		
-		startDateChooser = new JDateChooser();
-		startDateChooser.setOpaque(false);
-		startDateChooser.setDate(new Date());
-		startDateChooser.setBorder(null);
-		startDateChooser.setDateFormatString("yyyy-MM-dd");
-		startDateChooser.setBackground(Color.WHITE);
-		startDateChooser.setPreferredSize(new Dimension(150, 30));
-		panSoftware.add(startDateChooser, "cell 5 11,growx");
-		
-		lblEnd = new JLabel("Assign End:");
-		panSoftware.add(lblEnd, "cell 2 10,growx");
+		lblAssignEnd = new JLabel("Assign End:");
+		panSoftware.add(lblAssignEnd, "cell 2 11,growx");
 		
 		endDateChooser = new JDateChooser();
 		endDateChooser.setOpaque(false);
@@ -117,7 +105,19 @@ public class ItemTileSoftwareField extends ItemPanelDecorator implements ItemPan
 		endDateChooser.setDateFormatString("yyyy-MM-dd");
 		endDateChooser.setBackground(Color.WHITE);
 		endDateChooser.setPreferredSize(new Dimension(150, 30));
-		panSoftware.add(endDateChooser, "cell 5 10,growx");
+		panSoftware.add(endDateChooser, "cell 5 11,growx");
+		
+		lblAssignStart = new JLabel("Assign Start:");
+		panSoftware.add(lblAssignStart, "cell 2 10,growx");
+		
+		startDateChooser = new JDateChooser();
+		startDateChooser.setOpaque(false);
+		startDateChooser.setDate(new Date());
+		startDateChooser.setBorder(null);
+		startDateChooser.setDateFormatString("yyyy-MM-dd");
+		startDateChooser.setBackground(Color.WHITE);
+		startDateChooser.setPreferredSize(new Dimension(150, 30));
+		panSoftware.add(startDateChooser, "cell 5 10,growx");
                 
 		cbType = new JComboBox(typeStrings);
 		cbType.setSelectedItem("Software");
@@ -212,6 +212,10 @@ public class ItemTileSoftwareField extends ItemPanelDecorator implements ItemPan
 		// TODO Auto-generated method stub
 		cbAssignee.setVisible(stat);
 		lblAssignee.setVisible(stat);
+		lblAssignStart.setVisible(stat);
+		lblAssignEnd.setVisible(stat);
+		startDateChooser.setVisible(stat);
+		endDateChooser.setVisible(stat);
 		cbAssignee.setSelectedItem("None");
 	}
 }
