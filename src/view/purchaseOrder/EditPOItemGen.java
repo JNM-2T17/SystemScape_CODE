@@ -120,7 +120,7 @@ public class EditPOItemGen extends PopUp implements ActionListener, FocusListene
 
         cbxStatus = new JComboBox();
         cbxStatus.setBackground(Color.WHITE);
-        cbxStatus.setModel(new DefaultComboBoxModel(new String[]{"Assigned", "Unassigned"}));
+        cbxStatus.setModel(new DefaultComboBoxModel(new String[]{"In Store", "In Use"}));
         cbxStatus.setFont(new Font("Arial", Font.PLAIN, 18));
         panContent.add(cbxStatus, "cell 1 3,alignx left");
 
@@ -137,7 +137,7 @@ public class EditPOItemGen extends PopUp implements ActionListener, FocusListene
         lblAssiginee = new JLabel("Assginee :");
         lblAssiginee.setFont(new Font("Arial", Font.PLAIN, 18));
         panContent.add(lblAssiginee, "cell 0 5,alignx left");
-        cmbAssignee = new JComboBox(types);
+        cmbAssignee = new JComboBox();
         populateCmbEmployee();
         cmbAssignee.setFont(new Font("Arial", Font.PLAIN, 18));
         cmbAssignee.setPreferredSize(new Dimension(185, 32));
@@ -203,9 +203,9 @@ public class EditPOItemGen extends PopUp implements ActionListener, FocusListene
                  * *insert code statements here to add the information of a
                  * software item**
                  */
-                InventoryItem ii = new NonITAsset(0, itemData.getName(), itemData.getDescription(), itemData.getUnitPrice(), txtInvoice.getText(),
-                        (String) cbxLocation.getSelectedItem(), (String) cbxStatus.getSelectedItem(), "Others");
-                inventoryItemController.addInventoryItem(ii);
+//                InventoryItem ii = new NonITAsset(0, itemData.getName(), itemData.getDescription(), itemData.getUnitPrice(), txtInvoice.getText(),
+//                        (String) cbxLocation.getSelectedItem(), (String) cbxStatus.getSelectedItem(), "Others");
+//                inventoryItemController.addInventoryItem(ii);
                 this.setVisible(false);
                 this.dispose();
             } else if (error.equals("") == false) {

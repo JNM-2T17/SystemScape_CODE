@@ -202,7 +202,7 @@ public class EditPOItemHard extends PopUp implements ActionListener, FocusListen
         cbxStatus = new JComboBox();
         cbxStatus.setBackground(Color.WHITE);
         cbxStatus.setFont(new Font("Arial", Font.PLAIN, 11));
-        cbxStatus.setModel(new DefaultComboBoxModel(new String[]{"Assigned", "Unassigned"}));
+        cbxStatus.setModel(new DefaultComboBoxModel(new String[]{"In Store", "In Use"}));
         panContent.add(cbxStatus, "cell 2 6,alignx left");
 
         lblType = new JLabel("Type :");

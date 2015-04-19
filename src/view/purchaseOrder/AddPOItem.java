@@ -44,8 +44,6 @@ public class AddPOItem extends PopUp implements ActionListener, FocusListener {
 	private JScrollPane scrollPane;
 
 	private PurchaseOrderController poController;
-	private JLabel lblType;
-	private JComboBox cmbType;
 	private JFrame parent;
 	private DecimalFormat df;
 	private SimpleDateFormat dateFormat; 
@@ -98,14 +96,7 @@ public class AddPOItem extends PopUp implements ActionListener, FocusListener {
 		txtDescription.setLineWrap(true);
 		scrollPane.setViewportView(txtDescription);
 
-		lblType = new JLabel("Type:");
-		panContent.add(lblType, "cell 0 5,alignx left");
-
 		String[] types = { "IT Asset", "Non-IT Asset" };
-		cmbType = new JComboBox(types);
-		cmbType.setPreferredSize(new Dimension(185, 32));
-		cmbType.setBackground(Color.WHITE);
-		panContent.add(cmbType, "cell 1 5,alignx left");
 
 		lblQuantity = new JLabel("Quantity :");
 		panContent.add(lblQuantity, "cell 0 6,alignx left");
@@ -148,11 +139,6 @@ public class AddPOItem extends PopUp implements ActionListener, FocusListener {
 
 		setContent(panCenter);
 		getClose().addActionListener(this);
-
-		if (!type.equals("Hard")) {
-			lblType.setVisible(false);
-			cmbType.setVisible(false);
-		}
 
 		this.setVisible(true);
 

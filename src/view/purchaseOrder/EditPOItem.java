@@ -63,8 +63,6 @@ public class EditPOItem extends PopUp implements ActionListener, FocusListener{
 	private JScrollPane scrollPane;
 
 	private PurchaseOrderController poController;
-	private JLabel lblType;
-	private JComboBox cmbType;
 	private JFrame parent;
 	private String type;
 	private PurchaseOrderController purchaseOrderController;
@@ -100,7 +98,7 @@ public class EditPOItem extends PopUp implements ActionListener, FocusListener{
 		panContent = new JPanel();
 		panContent.setBackground(Color.white);
 		panCenter.add(panContent, BorderLayout.CENTER);
-		panContent.setLayout(new MigLayout("", "[grow][188.00,grow][][][]", "[][][][grow][][][][][][]"));
+		panContent.setLayout(new MigLayout("", "[grow][188.00,grow][][][]", "[][][][grow][][][][][]"));
 
 		lblItem = new JLabel("Item :");
 		panContent.add(lblItem, "cell 0 1,alignx left");
@@ -138,24 +136,13 @@ public class EditPOItem extends PopUp implements ActionListener, FocusListener{
 		});
 
 
-		lblType = new JLabel("Type:");
-		panContent.add(lblType, "cell 0 5,alignx left");
-
-		/**have a query to set the classification of an item given the item data and the purchase order
-		  the  item belongs to**/
-		String[] types={"IT Asset", "Non-IT Asset"};
-		cmbType = new JComboBox(types);
-		cmbType.setPreferredSize(new Dimension(185, 32));
-		cmbType.setBackground(Color.WHITE);
-		panContent.add(cmbType, "cell 1 5,alignx left");
-
 		lblQuantity = new JLabel("Quantity :");
-		panContent.add(lblQuantity, "cell 0 6,alignx left");
+		panContent.add(lblQuantity, "cell 0 5,alignx left");
 
 		/***set the item quantity***/
 		txtQuantity = new JTextField(String.valueOf(po.getQuantity(i)));
 		txtQuantity.setPreferredSize(new Dimension(10, 25));
-		panContent.add(txtQuantity, "cell 1 6");
+		panContent.add(txtQuantity, "cell 1 5");
 		txtQuantity.setColumns(10);
 		txtQuantity.addFocusListener( new FocusListener() {
 			Border border = BorderFactory.createLineBorder(Color.BLACK, 1);
@@ -175,7 +162,7 @@ public class EditPOItem extends PopUp implements ActionListener, FocusListener{
 
 
 		lblPrice = new JLabel("Unit Price :");
-		panContent.add(lblPrice, "cell 0 7");
+		panContent.add(lblPrice, "cell 0 6");
 
 		/***set the unit price of the item****/
 		txtPrice = new JTextField(String.valueOf(i.getUnitPrice()));
@@ -183,7 +170,7 @@ public class EditPOItem extends PopUp implements ActionListener, FocusListener{
 		txtPrice.setPreferredSize(new Dimension(10, 25));
 		txtPrice.addActionListener(new TextAmountActionListener());
 		txtPrice.setColumns(10);
-		panContent.add(txtPrice, "cell 1 7");
+		panContent.add(txtPrice, "cell 1 6");
 		txtPrice.addFocusListener( new FocusListener() {
 			Border border = BorderFactory.createLineBorder(Color.BLACK, 1);
 			@Override
@@ -201,11 +188,11 @@ public class EditPOItem extends PopUp implements ActionListener, FocusListener{
 
 
 		lblAmount = new JLabel("Amount :");
-		panContent.add(lblAmount, "cell 0 8");
+		panContent.add(lblAmount, "cell 0 7");
 
 		/***set the total amount of the item****/
 		lblAmountValue = new JLabel(String.valueOf(df.format(po.computeTotal(i))));
-		panContent.add(lblAmountValue, "cell 1 8");
+		panContent.add(lblAmountValue, "cell 1 7");
 
 		panSubmit = new JPanel();
 		panSubmit.setBackground(Color.white);
@@ -221,11 +208,7 @@ public class EditPOItem extends PopUp implements ActionListener, FocusListener{
 		setContent(panCenter);
 		getClose().addActionListener(this);
 
-		if(!type.equals("Hard")){
-			lblType.setVisible(false);
-			cmbType.setVisible(false);
-		}
-		
+
 		this.setVisible(true);
 
 	}
