@@ -125,19 +125,10 @@ public class ItemTileNonITField extends ItemPanelDecorator implements ItemPanelP
 		endDateChooser.setBackground(Color.WHITE);
 		endDateChooser.setPreferredSize(new Dimension(150, 30));
 		panNonIT.add(endDateChooser, "flowx,cell 5 11 3 1");
-		panNonIT.add(endDateChooser, "cell 5 11,growx");
 		
 		lblAssignStart = new JLabel("Assign Start:");
 		panNonIT.add(lblAssignStart, "cell 2 10,growx");
 		
-		startDateChooser = new JDateChooser();
-		startDateChooser.setOpaque(false);
-		startDateChooser.setDate(new Date());
-		startDateChooser.setBorder(null);
-		startDateChooser.setDateFormatString("yyyy-MM-dd");
-		startDateChooser.setBackground(Color.WHITE);
-		startDateChooser.setPreferredSize(new Dimension(150, 30));
-		panNonIT.add(startDateChooser, "cell 5 10,growx");
 		addItemPanelReference.assignToQuad(panNonIT, 1);
                 
 		setAssigneeVisible(false);
@@ -145,7 +136,7 @@ public class ItemTileNonITField extends ItemPanelDecorator implements ItemPanelP
 	
 	public void populateCbxEmployee()
 	{
-		//cbAssignee.addItem("None");
+		cbAssignee.addItem("None");
 		EmployeeController ec = EmployeeController.getInstance();
 		Iterator<Employee> eList = ec.getAll();
 		while(eList.hasNext())
