@@ -38,10 +38,11 @@ public class Settings extends PopUp implements ActionListener {
 	private JPanel panCenter;
 	private JButton btnChangePassword, btnNotificationSettings;
 
-	public Settings(JFrame parent) {
+	private String username;
+	public Settings(JFrame parent, String username) {
 		super(parent);
 		this.parent = parent;
-
+		this.username=username;
 		JPanel panMain = new JPanel();
 		add(panMain);
 		panMain.setLayout(new BorderLayout(0, 0));

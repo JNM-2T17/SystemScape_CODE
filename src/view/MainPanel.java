@@ -194,7 +194,7 @@ public class MainPanel extends JPanel implements ActionListener {
 		} else if (e.getSource() == btnClose) {
 			System.exit(0);
 		} else if(e.getSource()==btnSettings){
-			new Settings(gui);
+			new Settings(gui, lblUser.getText());
 		}
 		else {
 			try {
