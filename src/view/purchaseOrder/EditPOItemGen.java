@@ -203,9 +203,11 @@ public class EditPOItemGen extends PopUp implements ActionListener, FocusListene
                  * *insert code statements here to add the information of a
                  * software item**
                  */
-//                InventoryItem ii = new NonITAsset(0, itemData.getName(), itemData.getDescription(), itemData.getUnitPrice(), txtInvoice.getText(),
-//                        (String) cbxLocation.getSelectedItem(), (String) cbxStatus.getSelectedItem(), "Others");
-//                inventoryItemController.addInventoryItem(ii);
+                InventoryItem ii = new InventoryItem(0, itemData.getName(), itemData.getDescription(), itemData.getUnitPrice(), txtInvoice.getText(),
+                        (String) cbxLocation.getSelectedItem(), (String) cbxStatus.getSelectedItem(), "Others");
+                inventoryItemController.addInventoryItem(ii);
+                poController.incQtyRcvd(itemData);
+                poController.editPurchaseOrder(poController.getPurchaseOrder());
                 this.setVisible(false);
                 this.dispose();
             } else if (error.equals("") == false) {
