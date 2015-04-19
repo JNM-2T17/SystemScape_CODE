@@ -22,6 +22,7 @@ import javax.swing.border.EmptyBorder;
 
 import model.Employee;
 import model.Project;
+import model.ProjectAssignment;
 
 import com.toedter.calendar.JDateChooser;
 
@@ -35,7 +36,9 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.util.ArrayList;
 import java.util.Iterator;
+
 import javax.swing.border.LineBorder;
 
 public class EditProject extends JPanel implements ActionListener {
@@ -245,13 +248,55 @@ public class EditProject extends JPanel implements ActionListener {
 		projectController = ProjectController.getInstance();
 		employeeController = EmployeeController.getInstance();
 		
-		
-		Iterator it=employeeController.getAll();
-		while(it.hasNext()){
-			Employee emp=(Employee) it.next();
-			
-			allModel.addElement(emp.getName());
+		ArrayList<Integer> employeeIDs = new ArrayList<Integer>();
+		int check = 0;
+		Iterator projectAssignmentIT = projectController.getProjectAssignment(project.getName());
+		while(projectAssignmentIT.hasNext()){
+			ProjectAssignment pa = (ProjectAssignment) projectAssignmentIT.next();
+			System.out.println("Employee id: "+pa.getEmployeeID());
+			employeeIDs.add(pa.getEmployeeID());
+			check++;
 		}
+		
+		ArrayList<Employee> employeeList = new ArrayList<Employee>();
+		for(int i = 0; i<employeeIDs.size(); i++){
+			Employee empTemp = (Employee) employeeController.getObject(Integer.toString(employeeIDs.get(i)));
+			employeeList.add(empTemp);
+		}
+		
+		if(check>0){
+			
+			Iterator it=employeeController.getAll();
+			while(it.hasNext()){
+				Employee emp=(Employee) it.next();
+				
+				allModel.addElement(emp.getName());
+			}
+			
+			it=employeeList.iterator();
+			while(it.hasNext()){
+				Employee emp=(Employee) it.next();
+				
+				allModel.removeElement(emp.getName());
+				empModel.addElement(emp.getName());
+			}
+		}else{
+		
+			Iterator it=employeeController.getAll();
+			while(it.hasNext()){
+				Employee emp=(Employee) it.next();
+				
+				allModel.addElement(emp.getName());
+			}
+		
+		}
+
+//		Iterator it=employeeController.getAll();
+//		while(it.hasNext()){
+//			Employee emp=(Employee) it.next();
+//			
+//			allModel.addElement(emp.getName());
+//		}
 		
 
 		

@@ -89,6 +89,11 @@ public class ProjectController implements Subject {
         notifyObserver();
     }
     
+    public Iterator getProjectAssignment(String key){
+    	return projectDAO.getEmployees(key);
+    	
+    }
+    
     public void editProject(Project project, String key){
     	this.project.setName(project.getName());
     	this.project.setStartDate(project.getStartDate());
@@ -101,6 +106,7 @@ public class ProjectController implements Subject {
         	Employee ofthemonth = (Employee) i.next();
         	System.out.println("Controller employee: "+ofthemonth.getName());
         	projectDAO.addEmployees(ofthemonth, this.project);
+        	
         }
         
         notifyObserver();
