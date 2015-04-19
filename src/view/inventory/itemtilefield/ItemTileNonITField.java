@@ -37,6 +37,7 @@ import controller.EmployeeController;
 
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import view.Message;
 
 public class ItemTileNonITField extends ItemPanelDecorator implements ItemPanelParticipant,TypeItemTileField, ItemListener{
 
@@ -52,11 +53,12 @@ public class ItemTileNonITField extends ItemPanelDecorator implements ItemPanelP
         
 	private JComboBox cbType;
 	private JComboBox cbAssignee;
-	
+	private JFrame parent;
 	
 
 	public ItemTileNonITField(JFrame parent, ItemPanelTemplate addItemPanelReference) {
 		super(addItemPanelReference);
+                this.parent=parent;
 		// TODO Auto-generated constructor stub
 	}
 	
@@ -102,7 +104,7 @@ public class ItemTileNonITField extends ItemPanelDecorator implements ItemPanelP
 		addItemPanelReference.assignToQuad(panNonIT, 1);
                 
                 lblStart = new JLabel("Assign Start:");
-		panNonIT.add(lblStart, "cell 2 11,growx");
+		panNonIT.add(lblStart, "cell 2 10,growx");
 		
 		startDateChooser = new JDateChooser();
 		startDateChooser.setOpaque(false);
@@ -111,10 +113,10 @@ public class ItemTileNonITField extends ItemPanelDecorator implements ItemPanelP
 		startDateChooser.setDateFormatString("yyyy-MM-dd");
 		startDateChooser.setBackground(Color.WHITE);
 		startDateChooser.setPreferredSize(new Dimension(150, 30));
-		panNonIT.add(startDateChooser, "cell 5 11,growx");
+		panNonIT.add(startDateChooser, "flowx,cell 5 10 3 1");
 		
 		lblEnd = new JLabel("Assign End:");
-		panNonIT.add(lblEnd, "cell 2 10,growx");
+		panNonIT.add(lblEnd, "cell 2 11,growx");
 		
 		endDateChooser = new JDateChooser();
 		endDateChooser.setOpaque(false);
@@ -123,9 +125,9 @@ public class ItemTileNonITField extends ItemPanelDecorator implements ItemPanelP
 		endDateChooser.setDateFormatString("yyyy-MM-dd");
 		endDateChooser.setBackground(Color.WHITE);
 		endDateChooser.setPreferredSize(new Dimension(150, 30));
-		panNonIT.add(endDateChooser, "cell 5 10,growx");
+		panNonIT.add(endDateChooser, "flowx,cell 5 11 3 1");
                 
-		
+		setAssigneeVisible(false);
 	}
 	
 	public void populateCbxEmployee()
@@ -169,8 +171,13 @@ public class ItemTileNonITField extends ItemPanelDecorator implements ItemPanelP
 	@Override
 	public boolean checkInput() {
 		// TODO Auto-generated method stub
-		return true;
-	}
+		
+                if(startDateChooser.getDate().getTime()>endDateChooser.getDate().getTime()){
+                        new Message(parent, Message.ERROR, "Start date cannot be after the End date.");
+			return false;
+                }
+            return true;
+        }
 
 	@Override
 	public void loadAssigneeList(Iterator iter) {
@@ -180,7 +187,15 @@ public class ItemTileNonITField extends ItemPanelDecorator implements ItemPanelP
 	     }
 	     cbAssignee.setModel(new DefaultComboBoxModel(assigneeList.toArray()));
 	}
-
+        
+        public void saveStartDate(Date startDate){
+           startDateChooser.setDate(startDate);
+        }
+        
+        public void saveEndDate(Date endDate){
+           endDateChooser.setDate(endDate);
+        }
+        
 	@Override
 	public void loadPresets(Iterator iter) {
 		// TODO Auto-generated method stub
@@ -196,6 +211,10 @@ public class ItemTileNonITField extends ItemPanelDecorator implements ItemPanelP
 		// TODO Auto-generated method stub
 		cbAssignee.setVisible(stat);
 		lblAssignee.setVisible(stat);
+                startDateChooser.setVisible(stat);
+                lblStart.setVisible(stat);
+                endDateChooser.setVisible(stat);
+                lblEnd.setVisible(stat);
 		cbAssignee.setSelectedItem("None");
 	}
 	

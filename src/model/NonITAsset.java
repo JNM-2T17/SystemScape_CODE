@@ -14,14 +14,42 @@ import java.util.Date;
  * @author Christian Gabriel
  */
 public class NonITAsset extends HardwareItem{
-    public NonITAsset(int ID, String name, String description, float unitPrice, String invoiceNo, String location, String status, String classification) {
+    private Warranty warranty;
+        
+    public NonITAsset(int ID, String name, String description, float unitPrice, String invoiceNo, String location, String status, String classification, Date warrantyStartDate, Date warrantyEndDate) {
         super(ID, name, description, unitPrice, invoiceNo, location, status, classification);
+        setWarranty(new Warranty(ID, warrantyStartDate, warrantyEndDate));
     }   
     
     public NonITAsset(NonITAssetBuilder niab) {
         super(niab.ID, niab.name, niab.description, niab.unitPrice, niab.invoiceNo, niab.location, niab.status, niab.classification);
+        setWarranty(niab.warranty);
     }   
-    
+        
+        public Warranty getWarranty(){
+            return warranty;
+        }
+        
+        public Date getWarrantyStartDate(){
+            return warranty.getStartDate();
+        }
+        
+        public Date getWarrantyEndDate(){
+            return warranty.getEndDate();
+        }
+        
+        public void setWarranty(Warranty warranty){
+             this.warranty = warranty;
+        }
+        
+        public void setWarrantyStartDate(Date warrantyStartDate){
+            this.warranty.setStartDate(warrantyStartDate);
+        }
+        
+        public void setWarrantyEndDate(Date warrantyStartDate){
+            this.warranty.setEndDate(warrantyStartDate);
+        }
+        
 	public static class NonITAssetBuilder {
 			
 			private int ID;
@@ -34,6 +62,7 @@ public class NonITAsset extends HardwareItem{
 			private String classification;
                         private Date startDate;
                         private Date endDate;
+                        private Warranty warranty;
 			
 			public NonITAssetBuilder()
 			{
@@ -95,6 +124,11 @@ public class NonITAsset extends HardwareItem{
                         }
                         public NonITAssetBuilder addEndDate(Date endingDate){
                             endDate = endingDate;
+                            return this;
+                        }
+                        public NonITAssetBuilder addWarranty(Warranty buildWarranty)
+                        {
+                            warranty = buildWarranty;
                             return this;
                         }
 			public NonITAsset build() {

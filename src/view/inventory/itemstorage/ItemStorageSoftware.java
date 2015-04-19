@@ -17,11 +17,16 @@ public class ItemStorageSoftware implements ItemStorage, TypeItemStorage{
 	private ArrayList<String> assigneeList;
 	private Date deliveryDate;
 	private String licenseKey;
+        private Date startDate;
+        private Date endDate;
+        
 	private ItemStorageSoftware()
 	{
 		assignee = "";
 		deliveryDate = new Date();
 		licenseKey = "";
+                startDate = new Date();
+                endDate = new Date();
 	}
 	
 	
@@ -41,13 +46,24 @@ public class ItemStorageSoftware implements ItemStorage, TypeItemStorage{
 		this.deliveryDate = deliveryDate;
 		return this;
 	}
-	
+	public ItemStorageSoftware saveStartDate(Date startDate)
+        {
+            this.startDate = startDate;
+            return this;
+        }
+	 public ItemStorageSoftware saveEndDate(Date endDate)
+        {
+            this.endDate = endDate;
+            return this;
+        }
+         
 	public Iterator loadList()
 	{
 		ArrayList compiledList = new ArrayList();
 		/*compiledList.add(assignee);
 		compiledList.add(deliveryDate);*/
 		compiledList.add(licenseKey);
+                
 		return compiledList.iterator();
 	}
 	

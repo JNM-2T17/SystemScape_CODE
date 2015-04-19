@@ -49,18 +49,23 @@ public class InventoryItemController implements InventoryItemInterface, Subject 
         // TODO Auto-generated method stub
         dao.add("ItemData", new ItemData(invItem.getName(), invItem.getDescription(), invItem.getUnitPrice()));
         dao.add("InventoryItem", invItem);
-        
         notifyObserver();
+        WarrantyController.getInstance().notifyObserver();
+        ContractController.getInstance().notifyObserver();
     }
 
     public void editInventoryItem(InventoryItem inventoryItem, String origKey){
 	dao.update("InventoryItem", inventoryItem, origKey);
 	notifyObserver();
+        WarrantyController.getInstance().notifyObserver();
+        ContractController.getInstance().notifyObserver();
     }
     
     public void deleteInventoryItem(InventoryItem inventoryItem){
     	dao.delete("InventoryItem", inventoryItem);
     	notifyObserver();
+        WarrantyController.getInstance().notifyObserver();
+        ContractController.getInstance().notifyObserver();
     }
 
     public Iterator getAll() {

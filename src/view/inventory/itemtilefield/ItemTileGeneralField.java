@@ -36,6 +36,7 @@ import view.inventory.PanelRegistry;
 import com.toedter.calendar.JDateChooser;
 
 import controller.EmployeeController;
+import view.Message;
 
 public class ItemTileGeneralField extends ItemPanelDecorator implements ItemPanelParticipant, TypeItemTileField, ItemListener{
 	
@@ -51,12 +52,13 @@ public class ItemTileGeneralField extends ItemPanelDecorator implements ItemPane
 	private JDateChooser endDateChooser;
         private JLabel lblStart;
 	private JLabel lblEnd;
-        
+        private JFrame parent;
 	private JDateChooser deliveryDateChooser;
 	
 	public ItemTileGeneralField(JFrame parent, ItemPanelTemplate addItemPanelReference) {
 		super(addItemPanelReference);
 		// TODO Auto-generated constructor stub
+                this.parent=parent;
 	}
 	
 	@Override
@@ -93,7 +95,7 @@ public class ItemTileGeneralField extends ItemPanelDecorator implements ItemPane
 		panGeneral.add(deliveryDateChooser, "cell 5 3 3 1,grow");
 		
                 lblStart = new JLabel("Assign Start:");
-		panGeneral.add(lblStart, "cell 2 11,growx");
+		panGeneral.add(lblStart, "cell 2 10,growx");
 		
 		startDateChooser = new JDateChooser();
 		startDateChooser.setOpaque(false);
@@ -102,10 +104,10 @@ public class ItemTileGeneralField extends ItemPanelDecorator implements ItemPane
 		startDateChooser.setDateFormatString("yyyy-MM-dd");
 		startDateChooser.setBackground(Color.WHITE);
 		startDateChooser.setPreferredSize(new Dimension(150, 30));
-		panGeneral.add(startDateChooser, "cell 5 11,growx");
+		panGeneral.add(startDateChooser, "flowx,cell 5 10 3 1");
 		
 		lblEnd = new JLabel("Assign End:");
-		panGeneral.add(lblEnd, "cell 2 10,growx");
+		panGeneral.add(lblEnd, "cell 2 11,growx");
 		
 		endDateChooser = new JDateChooser();
 		endDateChooser.setOpaque(false);
@@ -114,7 +116,7 @@ public class ItemTileGeneralField extends ItemPanelDecorator implements ItemPane
 		endDateChooser.setDateFormatString("yyyy-MM-dd");
 		endDateChooser.setBackground(Color.WHITE);
 		endDateChooser.setPreferredSize(new Dimension(150, 30));
-		panGeneral.add(endDateChooser, "cell 5 10,growx");
+		panGeneral.add(endDateChooser, "flowx,cell 5 11 3 1");
                 
 		lblAssignee = new JLabel("Assignee:");
 		panGeneral.add(lblAssignee, "flowx,cell 1 5 3 1");
@@ -134,6 +136,8 @@ public class ItemTileGeneralField extends ItemPanelDecorator implements ItemPane
 		populateCbxEmployee();
 		panGeneral.add(cbAssignee, "cell 4 5 4 1,growx");
 		addItemPanelReference.assignToQuad(panGeneral, 1);
+                
+                setAssigneeVisible(false);
 
 	}
 	
@@ -179,8 +183,13 @@ public class ItemTileGeneralField extends ItemPanelDecorator implements ItemPane
 	@Override
 	public boolean checkInput() {
 		// TODO Auto-generated method stub
-		return true;
-	}
+                
+                if(startDateChooser.getDate().getTime()>endDateChooser.getDate().getTime()){
+                        new Message(parent, Message.ERROR, "Start date cannot be after the End date.");
+			return false;
+                }
+                return true;
+        }
 
 	@Override
 	public void loadAssigneeList(Iterator iter) {
@@ -197,6 +206,14 @@ public class ItemTileGeneralField extends ItemPanelDecorator implements ItemPane
 		if(iter.hasNext()) deliveryDateChooser.setDate((Date) iter.next());
 	}
 	
+        public void saveStartDate(Date startDate){
+           startDateChooser.setDate(startDate);
+        }
+        
+        public void saveEndDate(Date endDate){
+           endDateChooser.setDate(endDate);
+        }
+        
 	@Override
 	public void setType(String type) {
 		cbType.setSelectedItem(type);
@@ -207,6 +224,10 @@ public class ItemTileGeneralField extends ItemPanelDecorator implements ItemPane
 		// TODO Auto-generated method stub
 		cbAssignee.setVisible(stat);
 		lblAssignee.setVisible(stat);
+                startDateChooser.setVisible(stat);
+                lblStart.setVisible(stat);
+                endDateChooser.setVisible(stat);
+                lblEnd.setVisible(stat);
 		cbAssignee.setSelectedItem("None");
 	}
 

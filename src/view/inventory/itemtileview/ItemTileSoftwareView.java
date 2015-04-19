@@ -105,7 +105,7 @@ public class ItemTileSoftwareView extends ItemPanelDecorator implements ItemPane
 				lblType = new JLabel("Type:");
 				panSoftware.add(lblType, "cell 1 1");
 				
-				lblTypeText = new JLabel("");
+				lblTypeText = new JLabel("Software");
 				panSoftware.add(lblTypeText, "cell 3 1 5 1");
 				
 			
@@ -145,14 +145,15 @@ public class ItemTileSoftwareView extends ItemPanelDecorator implements ItemPane
 	public void loadPresets(Iterator iter) {
 		// TODO Auto-generated method stub
 		
-		if(iter.hasNext()) lblAssigneeText.setText(iter.next().toString());
 		if(iter.hasNext()) lblLicenseKeyText.setText(iter.next().toString());
+		if(iter.hasNext()) lblAssigneeText.setText(iter.next().toString());
 	}
 	
 	@Override
-	public void loadAssigneeList(Iterator iter) {
-		
+	public void loadAssignee(String assignee) {
+            lblAssignee.setText(assignee);
 	}
+        
 	@Override
 	public void setType(String type) {
 		lblTypeText.setText(type);

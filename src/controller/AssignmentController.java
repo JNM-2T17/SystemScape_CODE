@@ -50,7 +50,7 @@ public class AssignmentController implements Subject {
     }
      
     public void update(Assignment assignment){
-        dao.delete("assignment", assignment);
+        dao.update("assignment", assignment, assignment.getID() + " " + assignment.getEmployee().getName());
         notifyObserver();
     }
     public Iterator filter(String key) {

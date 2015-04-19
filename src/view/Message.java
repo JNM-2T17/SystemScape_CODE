@@ -122,7 +122,7 @@ public class Message extends PopUp implements ActionListener{
 		btnCancel.addActionListener(this);
 		panFooter.add(btnCancel);
 		
-		if(type==Message.ERROR||type==Message.SUCCESS){
+		if(type==Message.ERROR||type==Message.SUCCESS||type==Message.WARNING){
 			btnYes.setVisible(false);
 			btnCancel.setVisible(false);
 		}

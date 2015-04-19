@@ -57,7 +57,7 @@ ActionListener {
 	@Override
 	public void initialize() {
 		setColCount(12);
-		String headers[] = { "Item", "Description", "Type", "Location",
+		String headers[] = { "Item", "Description", "Type", "Status", "Location",
 				"Asset Tag", "Service Tag", "Assignee", "Invoice#",
 				"Delivery Date", "End of Contract", "End of Warranty", "" };
 
@@ -123,46 +123,49 @@ ActionListener {
 					getModel().getRowCount() - 1, 1);
 			getModel().setValueAt(inventoryItem.getClassification(),
 					getModel().getRowCount() - 1, 2);
-
-			getModel().setValueAt(inventoryItem.getLocation(),
+                        getModel().setValueAt(inventoryItem.getStatus(),
 					getModel().getRowCount() - 1, 3);
+			getModel().setValueAt(inventoryItem.getLocation(),
+					getModel().getRowCount() - 1, 5);
 			getModel().setValueAt(inventoryItem.getInvoiceNo(),
-					getModel().getRowCount() - 1, 7);
+					getModel().getRowCount() - 1, 8);
 
 			if (object instanceof ITAsset) {
 				inventoryItem = (ITAsset) object;
 
 				getModel().setValueAt(((ITAsset) inventoryItem).getAssetTag(),
-						getModel().getRowCount() - 1, 4);
+						getModel().getRowCount() - 1, 5);
 				getModel().setValueAt(
 						((ITAsset) inventoryItem).getServiceTag(),
-						getModel().getRowCount() - 1, 5);
+						getModel().getRowCount() - 1, 6);
 				
 				Date deliveryDate = ((ITAsset) inventoryItem).getDeliveryDate();
 				if(deliveryDate != null)
 				{
 					getModel().setValueAt(dateFormat.format(deliveryDate),
-							getModel().getRowCount() - 1, 8);
+							getModel().getRowCount() - 1, 9);
 				}
 				else
 				{
 					getModel().setValueAt(deliveryDate,
-							getModel().getRowCount() - 1, 8);
+							getModel().getRowCount() - 1, 9);
 				}
 			}
 			if (employee != null) {
 
 				getModel().setValueAt(employee,
-						getModel().getRowCount() - 1, 6);
+						getModel().getRowCount() - 1, 7);
 			}
-			if (contract != null && warranty != null) {
-				getModel().setValueAt(dateFormat.format(contract.getEndDate()),
-						getModel().getRowCount() - 1, 9);
-				getModel().setValueAt(dateFormat.format(warranty.getEndDate()),
+			if (contract != null){ 
+                            getModel().setValueAt(dateFormat.format(contract.getEndDate()),
 						getModel().getRowCount() - 1, 10);
+                        } 
+                        if(warranty != null) {
+				getModel().setValueAt(dateFormat.format(warranty.getEndDate()),
+						getModel().getRowCount() - 1, 11);
 			}
 			getModel().setValueAt(new InventoryCellEdit(inventoryItem, tab), getModel().getRowCount() - 1,
-					11);
+					12);
 		}
 
 		data = iiController.getAllQuantity();
@@ -217,38 +220,38 @@ ActionListener {
 					getModel().getRowCount() - 1, 1);
 			getModel().setValueAt(inventoryItem.getClassification(),
 					getModel().getRowCount() - 1, 2);
-			// getModel().setValueAt(inventoryItem.getStatus(),
-			// getModel().getRowCount() - 1, 3);
+			getModel().setValueAt(inventoryItem.getStatus(),
+                        getModel().getRowCount() - 1, 3);
 			getModel().setValueAt(inventoryItem.getLocation(),
-					getModel().getRowCount() - 1, 3);
+					getModel().getRowCount() - 1, 4);
 			getModel().setValueAt(inventoryItem.getInvoiceNo(),
-					getModel().getRowCount() - 1, 7);
+					getModel().getRowCount() - 1, 8);
 
 			if (object instanceof ITAsset) {
 				inventoryItem = (ITAsset) object;
 
 				getModel().setValueAt(((ITAsset) inventoryItem).getAssetTag(),
-						getModel().getRowCount() - 1, 4);
-				getModel().setValueAt(
-						((ITAsset) inventoryItem).getServiceTag(),
 						getModel().getRowCount() - 1, 5);
 				getModel().setValueAt(
+						((ITAsset) inventoryItem).getServiceTag(),
+						getModel().getRowCount() - 1, 6);
+				getModel().setValueAt(
 						((ITAsset) inventoryItem).getDeliveryDate(),
-						getModel().getRowCount() - 1, 8);
+						getModel().getRowCount() - 1, 9);
 			}
 			if (employee != null) {
                                 
 				getModel().setValueAt(employee,
-						getModel().getRowCount() - 1, 6);
+						getModel().getRowCount() - 1, 7);
 			}
 			if (contract != null && warranty != null) {
 				getModel().setValueAt(contract.getEndDate(),
-						getModel().getRowCount() - 1, 9);
-				getModel().setValueAt(warranty.getEndDate(),
 						getModel().getRowCount() - 1, 10);
+				getModel().setValueAt(warranty.getEndDate(),
+						getModel().getRowCount() - 1, 11);
 			}
 			getModel().setValueAt(new InventoryCellEdit(inventoryItem, tab), getModel().getRowCount() - 1,
-					11);
+					12);
 		}
 
 		data = iiController.getAllQuantity();

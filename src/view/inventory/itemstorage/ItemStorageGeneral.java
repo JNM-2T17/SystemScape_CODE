@@ -16,11 +16,16 @@ public class ItemStorageGeneral implements ItemStorage, TypeItemStorage{
 	private String assignee;
 	private ArrayList<String> assigneeList;
 	private Date deliveryDate;
+        private Date startDate;
+        private Date endDate;
+        
 	private ItemStorageGeneral()
 	{
 		assignee = "";
 		deliveryDate =  new Date();
 		assigneeList = new ArrayList<String>();
+                startDate = new Date();
+                endDate = new Date();
 		saveAssigneeList();
 	}
 	
@@ -54,10 +59,20 @@ public class ItemStorageGeneral implements ItemStorage, TypeItemStorage{
 		ArrayList compiledList = new ArrayList();
 		compiledList.add(assignee);
 		compiledList.add(deliveryDate);
-		
+                
 		return compiledList.iterator();
 	}
-	
+	public ItemStorageGeneral saveStartDate(Date startDate)
+        {
+            this.startDate = startDate;
+            return this;
+        }
+	 public ItemStorageGeneral saveEndDate(Date endDate)
+        {
+            this.endDate = endDate;
+            return this;
+        }
+         
 	public void resetStorage()
 	{
 		instance = new ItemStorageGeneral();

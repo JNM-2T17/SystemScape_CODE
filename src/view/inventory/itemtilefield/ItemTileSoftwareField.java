@@ -96,7 +96,7 @@ public class ItemTileSoftwareField extends ItemPanelDecorator implements ItemPan
 		panSoftware.add(lblAssignee, "flowx,cell 1 7 3 1");
 		
 		lblStart = new JLabel("Assign Start:");
-		panSoftware.add(lblStart, "cell 2 11,growx");
+		panSoftware.add(lblStart, "cell 2 10,growx");
 		
 		startDateChooser = new JDateChooser();
 		startDateChooser.setOpaque(false);
@@ -105,10 +105,10 @@ public class ItemTileSoftwareField extends ItemPanelDecorator implements ItemPan
 		startDateChooser.setDateFormatString("yyyy-MM-dd");
 		startDateChooser.setBackground(Color.WHITE);
 		startDateChooser.setPreferredSize(new Dimension(150, 30));
-		panSoftware.add(startDateChooser, "cell 5 11,growx");
+		panSoftware.add(startDateChooser, "flowx,cell 5 10 3 1");
 		
 		lblEnd = new JLabel("Assign End:");
-		panSoftware.add(lblEnd, "cell 2 10,growx");
+		panSoftware.add(lblEnd, "cell 2 11,growx");
 		
 		endDateChooser = new JDateChooser();
 		endDateChooser.setOpaque(false);
@@ -117,7 +117,7 @@ public class ItemTileSoftwareField extends ItemPanelDecorator implements ItemPan
 		endDateChooser.setDateFormatString("yyyy-MM-dd");
 		endDateChooser.setBackground(Color.WHITE);
 		endDateChooser.setPreferredSize(new Dimension(150, 30));
-		panSoftware.add(endDateChooser, "cell 5 10,growx");
+		panSoftware.add(endDateChooser, "flowx,cell 5 11 3 1");
                 
 		cbType = new JComboBox(typeStrings);
 		cbType.setSelectedItem("Software");
@@ -137,6 +137,8 @@ public class ItemTileSoftwareField extends ItemPanelDecorator implements ItemPan
 		panSoftware.add(cbAssignee, "cell 4 7 4 1,growx");
 		
 		addItemPanelReference.assignToQuad(panSoftware, 1);
+                
+                setAssigneeVisible(false);
 	}
 	
 	public void populateCbxEmployee()
@@ -179,11 +181,15 @@ public class ItemTileSoftwareField extends ItemPanelDecorator implements ItemPan
 
 	@Override
 	public boolean checkInput() {
+            boolean stat = true;
 		if(tfLicenseKey.getText().equals("")){
 			new Message(parent, Message.ERROR, "Please specity item license key.");
-			return false;
-		}
-		return true;
+			stat = false;
+		}else if(startDateChooser.getDate().getTime()>endDateChooser.getDate().getTime()){
+                        new Message(parent, Message.ERROR, "Start date cannot be after the End date.");
+			stat=false;
+                }
+		return stat;
 	}
 
 	@Override
@@ -191,6 +197,8 @@ public class ItemTileSoftwareField extends ItemPanelDecorator implements ItemPan
 		// TODO Auto-generated method stub
 		//if(iter.hasNext()) cbAssignee.setSelectedItem(iter.next().toString());
 		if(iter.hasNext()) tfLicenseKey.setText(iter.next().toString());
+                if(iter.hasNext()) startDateChooser.setDate((Date)iter.next());
+                if(iter.hasNext()) endDateChooser.setDate((Date)iter.next());
 	}
 	
 	@Override
@@ -212,6 +220,10 @@ public class ItemTileSoftwareField extends ItemPanelDecorator implements ItemPan
 		// TODO Auto-generated method stub
 		cbAssignee.setVisible(stat);
 		lblAssignee.setVisible(stat);
+                startDateChooser.setVisible(stat);
+                lblStart.setVisible(stat);
+                endDateChooser.setVisible(stat);
+                lblEnd.setVisible(stat);
 		cbAssignee.setSelectedItem("None");
 	}
 }

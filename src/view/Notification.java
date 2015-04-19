@@ -165,8 +165,8 @@ public class Notification extends JPanel implements ActionListener, Observer{
 
 		scrollPane.setViewportView(listContract);
                 
-                warrantyController = new WarrantyController();
-                contractController = new ContractController();
+                warrantyController = WarrantyController.getInstance();
+                contractController = ContractController.getInstance();
                 inventoryItemController = new InventoryItemController();
                 warrantyController.registerObserver(this);
                 contractController.registerObserver(this);

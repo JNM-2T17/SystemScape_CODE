@@ -186,11 +186,12 @@ public class ItemTileITView extends ItemPanelDecorator implements ItemPanelParti
 		//if(iter.hasNext()) lblAssigneeText.setText(iter.next().toString());
 		if(iter.hasNext()) lblAssetTagText.setText(iter.next().toString());
 		if(iter.hasNext()) lblServiceTagText.setText(iter.next().toString());
+                if(iter.hasNext()) lblDeliveryDateText.setText(iter.next().toString());
 	}
 
 	@Override
-	public void loadAssigneeList(Iterator iter) {
-		
+	public void loadAssignee(String assignee) {
+            lblAssignee.setText(assignee);
 	}
 
 	@Override

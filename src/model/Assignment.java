@@ -6,6 +6,8 @@
 
 package model;
 
+import java.util.Date;
+
 /**
  *
  * @author Christian Gabriel
@@ -13,10 +15,14 @@ package model;
 public class Assignment {
     private int ID;
     private Employee employee;
+    private Date startDate;
+    private Date endDate;
     
-    public Assignment (int ID, Employee employee ){
+    public Assignment (int ID, Employee employee, Date startDate, Date endDate){
         this.ID = ID;
         this.employee = employee;
+        this.startDate = startDate;
+        this.endDate = endDate;
     }
 
     public int getID() {
@@ -33,5 +39,21 @@ public class Assignment {
 
     public void setEmployee(Employee employee) {
         this.employee = employee;
+    } 
+    
+    public void setStartDate(Date startDate){
+    	this.startDate = startDate;
+    }
+    
+    public void setEndDate(Date endDate){
+    	this.endDate = endDate;
+    }
+    
+    public Date getStartDate(){
+    	return startDate;
+    }
+    
+    public Date getEndDate(){
+    	return endDate;
     }
 }

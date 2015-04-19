@@ -118,7 +118,7 @@ public class ItemTileGenInfoField extends ItemPanelDecorator implements ItemPane
 		cbLocation = new JComboBox();
 		cbLocation.setBackground(Color.white);
 		cbLocation.setModel(new DefaultComboBoxModel(new String[] { "1WS",
-				"Somewhere Else" }));
+				"DAO" }));
 		panGeneral.add(cbLocation, "cell 2 4,growx");
 
 		lblStatus = new JLabel("Status:");
@@ -127,9 +127,10 @@ public class ItemTileGenInfoField extends ItemPanelDecorator implements ItemPane
 		cbStatus = new JComboBox();
 		cbStatus.addItemListener(this);
 		cbStatus.setBackground(Color.white);
-		cbStatus.setModel(new DefaultComboBoxModel(new String[] { "Assigned",
-				"Unassigned" }));
+		cbStatus.setModel(new DefaultComboBoxModel(new String[] { "In Store",
+				"In Use" }));
 		panGeneral.add(cbStatus, "cell 2 5,growx");
+                
 	}
 
 	@Override
@@ -201,6 +202,14 @@ public class ItemTileGenInfoField extends ItemPanelDecorator implements ItemPane
 		if(iter.hasNext()) tfInvoiceNumber.setText(iter.next().toString());
 		if(iter.hasNext()) cbLocation.setSelectedItem(iter.next().toString());
 		if(iter.hasNext()) cbStatus.setSelectedItem(iter.next().toString());
+                if(cbStatus.getSelectedItem().equals("In Store"))
+		{
+                    InventoryItemDisplayManager.getInstance().setAssigneeStatus(false);
+		}
+		else if(cbStatus.getSelectedItem().equals("In Use"))
+		{
+                    InventoryItemDisplayManager.getInstance().setAssigneeStatus(true);
+		}
 	}
 	
 	/**
@@ -232,11 +241,11 @@ public class ItemTileGenInfoField extends ItemPanelDecorator implements ItemPane
 		// TODO Auto-generated method stub
 		if(e.getSource() == cbStatus)
 		{
-			if(cbStatus.getSelectedItem().equals("Unassigned"))
+			if(cbStatus.getSelectedItem().equals("In Store"))
 			{
 				InventoryItemDisplayManager.getInstance().setAssigneeStatus(false);
 			}
-			else if(cbStatus.getSelectedItem().equals("Assigned"))
+			else if(cbStatus.getSelectedItem().equals("In Use"))
 			{
 				InventoryItemDisplayManager.getInstance().setAssigneeStatus(true);
 			}

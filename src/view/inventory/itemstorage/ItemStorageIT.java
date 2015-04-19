@@ -17,14 +17,19 @@ public class ItemStorageIT implements ItemStorage{
 	private Date deliveryDate;
 	private int assetTag;
 	private String serviceTag;
+        private Date startDate;
+        private Date endDate;
+        
 	private ItemStorageIT()
 	{
 		assignee = "";
 		Date date = Calendar.getInstance().getTime();
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-dd-mm");
 		deliveryDate = date;
 		assetTag = 0;
 		serviceTag = "";
+                startDate = date;
+                endDate = date;
+                
 	}
 	
 	public ItemStorageIT saveAssignee(String assignee)
@@ -50,15 +55,25 @@ public class ItemStorageIT implements ItemStorage{
 		this.serviceTag = serviceTag;
 		return this;
 	}
-	
+        public ItemStorageIT saveStartDate(Date startDate)
+        {
+            this.startDate = startDate;
+            return this;
+        }
+	 public ItemStorageIT saveEndDate(Date endDate)
+        {
+            this.endDate = endDate;
+            return this;
+        }
+         
 	public Iterator loadList()
 	{
 		ArrayList compiledList = new ArrayList();
-		/*compiledList.add(deliveryDate);
-		compiledList.add(assignee);*/
+		//compiledList.add(assignee);*/
 		compiledList.add(assetTag);
 		compiledList.add(serviceTag);
-		
+		compiledList.add(deliveryDate);
+                
 		return compiledList.iterator();
 	}
 	

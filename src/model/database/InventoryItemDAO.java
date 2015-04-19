@@ -49,7 +49,9 @@ public class InventoryItemDAO implements IDBCUD {
                             resultSet.getString("invoiceNo"),
                             resultSet.getString("location"),
                             resultSet.getString("status"),
-                            resultSet.getString("classification"));
+                            resultSet.getString("classification"),
+                            resultSet.getDate("Warranty Start"),
+                            resultSet.getDate("Warranty End"));
                 } else if (itemClass.equalsIgnoreCase("Soft")) {
                     inventoryItem = new SoftwareItem(resultSet.getInt("ID"), resultSet.getString("name"),
                             resultSet.getString("description"),
@@ -142,10 +144,16 @@ public class InventoryItemDAO implements IDBCUD {
                                     resultSet7.getDate("startDate"), resultSet7.getDate("endDate"), resultSet7.getFloat("maintenanceCost"));
                             }
                         } else {//Else NonITAsset
+                            String query6 = "SELECT * FROM warranty WHERE hardware = \"" + resultSet.getString("ID") + "\"";
+                            PreparedStatement preparedStatement6 = con.prepareStatement(query6);
+                            ResultSet resultSet6 = preparedStatement6.executeQuery();
+                            if(resultSet6.next()){
                             inventoryItem = new NonITAsset(resultSet.getInt("ID"), resultSet2.getString("name"),
                                     resultSet2.getString("description"), resultSet2.getFloat("unitPrice"),
                                     resultSet.getString("invoiceNo"), resultSet.getString("location"),
-                                    resultSet.getString("status"), resultSet.getString("classification"));
+                                    resultSet.getString("status"), resultSet.getString("classification"),
+                                    resultSet6.getDate("startDate"), resultSet6.getDate("endDate"));
+                            }
                         }
                     } else {//Else not hardware
                         String query5 = "SELECT * FROM softwareitem WHERE ID = \"" + resultSet.getString("ID") + "\"";
@@ -331,6 +339,16 @@ public class InventoryItemDAO implements IDBCUD {
                     preparedStatement.setFloat(4, ((ITAsset) inventoryItem).getContractMaintenanceCost());
                     preparedStatement.execute();
                 }
+                else if(object instanceof NonITAsset){
+                    inventoryItem = (NonITAsset)object;
+                    query = "INSERT INTO warranty \n"
+                            + "VALUES (?, ?, ?)";
+                    preparedStatement = con.prepareStatement(query);
+                    preparedStatement.setInt(1, id);
+                    preparedStatement.setDate(2, new java.sql.Date(((NonITAsset)inventoryItem).getWarrantyStartDate().getTime()));
+                    preparedStatement.setDate(3, new java.sql.Date(((NonITAsset)inventoryItem).getWarrantyEndDate().getTime()));
+                    preparedStatement.execute();
+                }
             } else if (object instanceof SoftwareItem) {
                 inventoryItem = (SoftwareItem) object;
                 query = "INSERT INTO softwareitem \n"
@@ -395,15 +413,21 @@ public class InventoryItemDAO implements IDBCUD {
             
             
             String type = previous.getClassification();
-            if(type.equalsIgnoreCase("Non-IT")||type.equalsIgnoreCase("IT"))
+            if(type.equalsIgnoreCase("Non-IT")||type.equalsIgnoreCase("IT")){
                 query = "DELETE FROM hardwareitem WHERE ID = ?";
-            else if(type.equalsIgnoreCase("Soft"))
-                query = "DELETE FROM softwareitem WHERE ID = ?";
-            
-            System.out.println(query + "\n");
-            preparedStatement = con.prepareStatement(query);
-            preparedStatement.setInt(1, previous.getID());
-            preparedStatement.execute();
+                System.out.println(query + "\n");
+                preparedStatement = con.prepareStatement(query);
+                preparedStatement.setInt(1, previous.getID());
+                preparedStatement.execute();
+            }  
+            else{ if(type.equalsIgnoreCase("Soft")){
+                    query = "DELETE FROM softwareitem WHERE ID = ?";
+                    System.out.println(query + "\n");
+                    preparedStatement = con.prepareStatement(query);
+                    preparedStatement.setInt(1, previous.getID());
+                    preparedStatement.execute();
+                }
+            }
             
             if (object instanceof NonITAsset || object instanceof ITAsset) {
                 query = "INSERT INTO hardwareitem \n"
@@ -450,6 +474,15 @@ public class InventoryItemDAO implements IDBCUD {
                     preparedStatement.setFloat(4, ((ITAsset) inventoryItem).getContractMaintenanceCost());
                     preparedStatement.execute();
                     
+                }else if(object instanceof NonITAsset){
+                    inventoryItem = (NonITAsset)object;
+                    query = "INSERT INTO warranty \n"
+                            + "VALUES (?, ?, ?)";
+                    preparedStatement = con.prepareStatement(query);
+                    preparedStatement.setInt(1, id);
+                    preparedStatement.setDate(2, new java.sql.Date(((NonITAsset)inventoryItem).getWarrantyStartDate().getTime()));
+                    preparedStatement.setDate(3, new java.sql.Date(((NonITAsset)inventoryItem).getWarrantyEndDate().getTime()));
+                    preparedStatement.execute();
                 }
             } else if (object instanceof SoftwareItem) {
                 inventoryItem = (SoftwareItem) object;
@@ -494,6 +527,7 @@ public class InventoryItemDAO implements IDBCUD {
                     .prepareStatement(query);
             preparedStatement.setInt(1, inventoryItem.getID());
             preparedStatement.execute();
+            
         } catch (SQLException sqlException) {
             sqlException.printStackTrace();
         } finally {

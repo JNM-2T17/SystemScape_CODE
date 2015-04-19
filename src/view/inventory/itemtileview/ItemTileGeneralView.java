@@ -101,7 +101,7 @@ public class ItemTileGeneralView extends ItemPanelDecorator implements ItemPanel
 				lblType = new JLabel("Type:");
 				panGeneral.add(lblType, "cell 1 1 2 1,alignx left");
 				
-				lblTypeText = new JLabel("");
+				lblTypeText = new JLabel("Other");
 				panGeneral.add(lblTypeText, "cell 3 1 7 1");
 				
 				lblAssignee = new JLabel("Assignee:");
@@ -132,7 +132,8 @@ public class ItemTileGeneralView extends ItemPanelDecorator implements ItemPanel
 	}
 
 	@Override
-	public void loadAssigneeList(Iterator iter) {
+	public void loadAssignee(String assignee) {
+            lblAssignee.setText(assignee);
 	}
 
 	@Override

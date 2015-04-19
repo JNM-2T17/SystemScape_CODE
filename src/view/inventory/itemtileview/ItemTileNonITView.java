@@ -123,8 +123,8 @@ public class ItemTileNonITView extends ItemPanelDecorator implements ItemPanelPa
 	}
 
 	@Override
-	public void loadAssigneeList(Iterator iter) {
-		
+	public void loadAssignee(String assignee) {
+            lblAssignee.setText(assignee);
 	}
 
 	@Override
@@ -134,7 +134,7 @@ public class ItemTileNonITView extends ItemPanelDecorator implements ItemPanelPa
 	}
 	@Override
 	public void setType(String type) {
-		lblType.setText(type);
+		lblTypeText.setText(type);
 	}
 	
 }

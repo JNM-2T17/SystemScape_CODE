@@ -54,6 +54,8 @@ public class ItemTileWarrantyView extends ItemPanelDecorator implements ItemPane
 		lblWarranty = new JLabel("Warranty:");
 		panWarranty.add(lblWarranty, "cell 0 0,alignx left");
 		
+                lblStart = new JLabel("Start:");
+                panWarranty.add(lblStart, "cell 1 1,alignx left");
 		lblStartText = new JLabel("");
 		panWarranty.add(lblStartText, "cell 2 1 2 1");
 		
@@ -82,7 +84,9 @@ public class ItemTileWarrantyView extends ItemPanelDecorator implements ItemPane
 		
 		lblWarranty = new JLabel("Warranty:");
 		panWarranty.add(lblWarranty, "cell 0 0,alignx left");
-		
+                
+		lblStart = new JLabel("Start:");
+                panWarranty.add(lblStart, "cell 1 1,alignx left");
 		lblStartText = new JLabel("");
 		panWarranty.add(lblStartText, "cell 2 1 2 1");
 		

@@ -28,6 +28,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Iterator;
+import view.Message;
 import view.projects.ViewProjects;
 
 
@@ -70,6 +71,10 @@ public class TabInventory extends JPanel implements ActionListener{
 		displayManager.setCardLayout(cl);
 	
 		inventoryItemController = InventoryItemController.getInstance();
+                
+                if(!inventoryItemController.getAll().hasNext()){
+                    new Message(gui, Message.WARNING, "Inventory database is empty");
+                }
 		cl.show(this, "view");
 		
 		//cl.show(this, "add);
@@ -161,7 +166,9 @@ public class TabInventory extends JPanel implements ActionListener{
 			FilterInventory fi = new FilterInventory(gui);
                         if(!fi.isClosed()){
 				Iterator values = inventoryItemController.filter(fi.getValues());
-				((ViewInventory)list.get(0).getContent()).filterPopulate(values);
+                                if(values.hasNext())
+                                    ((ViewInventory)list.get(0).getContent()).filterPopulate(values);
+                                else new Message(gui, Message.WARNING, "Your search did not match any entries");
 			}
 		}
 		else if(((JButton) e.getSource()).getActionCommand().equals("export")){

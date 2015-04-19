@@ -37,10 +37,14 @@ public class ViewInventoryItemLinkedList {
 	{
 		currIndex++;
 		System.out.println("Current Index: " + currIndex);
-		if(nodeMap.get(currIndex) != null)
+		if(nodeMap.get(currIndex) != null && currIndex < nodeMap.size())
 		{
 			return nodeMap.get(currIndex);
 		}
+                else if(currIndex > nodeMap.size()-1){
+                    currIndex = 0;
+                    return nodeMap.get(currIndex);
+                }
 		
 		return null;
 	}
@@ -49,10 +53,14 @@ public class ViewInventoryItemLinkedList {
 	{
 		currIndex--;
 		System.out.println("Current Index: " + currIndex);
-		if(nodeMap.get(currIndex) != null || currIndex >= 0)
+		if(nodeMap.get(currIndex) != null && currIndex >= 0)
 		{
 			return nodeMap.get(currIndex);
 		}
+                else if(currIndex<0){
+                    currIndex = nodeMap.size()-1;
+                    return nodeMap.get(currIndex);
+                }
 		
 		return null;
 	}

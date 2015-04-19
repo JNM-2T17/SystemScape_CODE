@@ -8,7 +8,7 @@ public interface TypeItemTileView {
 	 * Sets the content to be loaded into the model of the assignee combo box
 	 * @param iter
 	 */
-	public void loadAssigneeList(Iterator iter);
+public void loadAssignee(String assignee);
 	/**
 	 * Sets the type for the current inventoryItem template
 	 * @param type

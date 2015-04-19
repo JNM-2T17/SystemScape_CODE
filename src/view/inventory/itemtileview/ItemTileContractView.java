@@ -129,7 +129,7 @@ public class ItemTileContractView extends ItemPanelDecorator implements ItemPane
 	public void setContractEndDate(Date date) {
 		SimpleDateFormat formatter=new SimpleDateFormat("yyyy-MM-dd");
 		String formattedDate = formatter.format(date);
-		lblStartText.setText(formattedDate);
+		lblEndText.setText(formattedDate);
 	}
 
 	@Override

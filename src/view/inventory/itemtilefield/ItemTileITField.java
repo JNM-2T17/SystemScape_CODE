@@ -141,7 +141,7 @@ public class ItemTileITField extends ItemPanelDecorator implements ItemPanelPart
 		addItemPanelReference.assignToQuad(panIT, 1);
                 
                 lblStart = new JLabel("Assign Start:");
-		panIT.add(lblStart, "cell 2 11,growx");
+		panIT.add(lblStart, "cell 2 10,growx");
 		
 		startDateChooser = new JDateChooser();
 		startDateChooser.setOpaque(false);
@@ -150,10 +150,10 @@ public class ItemTileITField extends ItemPanelDecorator implements ItemPanelPart
 		startDateChooser.setDateFormatString("yyyy-MM-dd");
 		startDateChooser.setBackground(Color.WHITE);
 		startDateChooser.setPreferredSize(new Dimension(150, 30));
-		panIT.add(startDateChooser, "cell 5 11,growx");
+		panIT.add(startDateChooser, "flowx,cell 5 10 3 1");
 		
 		lblEnd = new JLabel("Assign End:");
-		panIT.add(lblEnd, "cell 2 10,growx");
+		panIT.add(lblEnd, "cell 2 11,growx");
 		
 		endDateChooser = new JDateChooser();
 		endDateChooser.setOpaque(false);
@@ -162,8 +162,9 @@ public class ItemTileITField extends ItemPanelDecorator implements ItemPanelPart
 		endDateChooser.setDateFormatString("yyyy-MM-dd");
 		endDateChooser.setBackground(Color.WHITE);
 		endDateChooser.setPreferredSize(new Dimension(150, 30));
-		panIT.add(endDateChooser, "cell 5 10,growx");
+		panIT.add(endDateChooser, "flowx,cell 5 11 3 1");
                 
+                setAssigneeVisible(false);
 	}
 	
 	public void populateCbxEmployee()
@@ -225,6 +226,16 @@ public class ItemTileITField extends ItemPanelDecorator implements ItemPanelPart
 			new Message(parent, Message.ERROR, "Please specity item service tag.");
 			stat=false;
 		}
+                else if(startDateChooser.getDate().getTime()>endDateChooser.getDate().getTime()){
+                        new Message(parent, Message.ERROR, "Start date cannot be after the End date.");
+			stat=false;
+                }
+                try{
+                    Integer.parseInt(tfServiceTag.getText());
+                }catch(NumberFormatException nfe){
+                    new Message(parent, Message.ERROR, "Service Tag should be numeric");
+                    stat = false;
+                }
 		
 		return stat;
 	}
@@ -236,6 +247,8 @@ public class ItemTileITField extends ItemPanelDecorator implements ItemPanelPart
 		if(iter.hasNext()) cbAssignee.setSelectedItem(iter.next().toString());*/
 		if(iter.hasNext()) tfAssetTag.setText(iter.next().toString());
 		if(iter.hasNext()) tfServiceTag.setText(iter.next().toString());
+                if(iter.hasNext()) startDateChooser.setDate((Date)iter.next());
+                if(iter.hasNext()) endDateChooser.setDate((Date)iter.next());
 	}
 
 	@Override
@@ -267,6 +280,10 @@ public class ItemTileITField extends ItemPanelDecorator implements ItemPanelPart
 		// TODO Auto-generated method stub
 		cbAssignee.setVisible(stat);
 		lblAssignee.setVisible(stat);
+                startDateChooser.setVisible(stat);
+                lblStart.setVisible(stat);
+                endDateChooser.setVisible(stat);
+                lblEnd.setVisible(stat);
 		cbAssignee.setSelectedItem("None");
 	}
 	
