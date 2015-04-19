@@ -141,7 +141,7 @@ public class ItemTileSoftwareField extends ItemPanelDecorator implements ItemPan
 	
 	public void populateCbxEmployee()
 	{
-		cbAssignee.addItem("None");
+		//cbAssignee.addItem("None");
 		EmployeeController ec = EmployeeController.getInstance();
 		Iterator<Employee> eList = ec.getAll();
 		while(eList.hasNext())

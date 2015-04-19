@@ -41,6 +41,7 @@ public class ViewInventoryItemLinkedList {
 		{
 			return nodeMap.get(currIndex);
 		}
+		currIndex--;
 		
 		return null;
 	}
@@ -53,6 +54,7 @@ public class ViewInventoryItemLinkedList {
 		{
 			return nodeMap.get(currIndex);
 		}
+		currIndex++;
 		
 		return null;
 	}
