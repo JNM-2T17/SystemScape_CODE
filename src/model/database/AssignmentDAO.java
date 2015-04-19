@@ -35,7 +35,7 @@ public class AssignmentDAO implements IDBCUD {
             while (resultSet.next()) {
 
             	Assignment assignment = new Assignment(resultSet.getInt("itemID"), 
-						new Employee( resultSet.getInt("employeeID"), resultSet.getString("name"), resultSet.getString("status") ) );
+						new Employee( resultSet.getInt("employeeID"), resultSet.getString("name"), resultSet.getString("status") ), resultSet.getDate("startDate"), resultSet.getDate("endDate"));
                 assignments.add(assignment);
 
             }
@@ -57,8 +57,8 @@ public class AssignmentDAO implements IDBCUD {
             ResultSet resultSet = preparedStatement.executeQuery();
 
             if (resultSet.next()) {
-                return new Assignment(resultSet.getInt("itemID"), 
-						new Employee( resultSet.getInt("employeeID"), resultSet.getString("name"), resultSet.getString("status") ) );
+               return new Assignment(resultSet.getInt("itemID"), 
+						new Employee( resultSet.getInt("employeeID"), resultSet.getString("name"), resultSet.getString("status") ), resultSet.getDate("startDate"), resultSet.getDate("endDate"));
             }
 
         } catch (SQLException sqlException) {
@@ -74,15 +74,15 @@ public class AssignmentDAO implements IDBCUD {
         ArrayList<Assignment> assignments = new ArrayList<Assignment>();
 
         try {
-            String query = "SELECT * FROM itemassignment IA, employee E WHERE IA.employeeID = E.ID AND ( IA.itemID = ? OR IA.employeeID = ? )";
+            String query = "SELECT * FROM itemassignment IA, employee E WHERE IA.employeeID = E.ID AND IA.itemID = ?"; 
             PreparedStatement preparedStatement = DBConnection.getConnection().prepareStatement(query);
             preparedStatement.setInt(1, Integer.parseInt(searchStr) );
-            preparedStatement.setInt(2, Integer.parseInt(searchStr) );
             ResultSet resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
                 
-                Assignment assignment = new Assignment(resultSet.getInt("itemID"), new Employee( resultSet.getInt("employeeID"), resultSet.getString("name"), resultSet.getString("status") ) );
+                Assignment assignment = new Assignment(resultSet.getInt("itemID"), 
+						new Employee( resultSet.getInt("employeeID"), resultSet.getString("name"), resultSet.getString("status") ), resultSet.getDate("startDate"), resultSet.getDate("endDate"));
                 assignments.add(assignment);
             }
         } catch (SQLException sqlException) {
@@ -95,14 +95,13 @@ public class AssignmentDAO implements IDBCUD {
     public void add(Object object) {
 
         Assignment assignment = (Assignment) object;
-        GregorianCalendar calendar = new GregorianCalendar();
         try {
             String query = "INSERT INTO itemassignment VALUES (?, ?, ?, ?);";
             PreparedStatement preparedStatement = DBConnection.getConnection().prepareStatement(query);
             preparedStatement.setInt(1, assignment.getID());
             preparedStatement.setInt(2, assignment.getEmployee().getID());
-            preparedStatement.setDate(3, new java.sql.Date(calendar.getTimeInMillis()));
-            preparedStatement.setDate(4, new java.sql.Date(calendar.getTimeInMillis()));
+            preparedStatement.setDate(3, new java.sql.Date(assignment.getStartDate().getTime()));
+            preparedStatement.setDate(4, new java.sql.Date(assignment.getEndDate().getTime()));
             preparedStatement.execute();
         } catch (SQLException sqlException) {
             sqlException.printStackTrace();
@@ -115,11 +114,13 @@ public class AssignmentDAO implements IDBCUD {
 
         try {
 
-            String query = "UPDATE itemassignment SET itemID = ?, employeeID = ? WHERE itemID = ?"; //assumes item can only be assigned to one employee at a time
+            String query = "UPDATE itemassignment SET itemID = ?, employeeID = ?, startDate = ?, endDate = ? WHERE itemID = ?"; //assumes item can only be assigned to one employee at a time
             PreparedStatement preparedStatement = DBConnection.getConnection().prepareStatement(query);
             preparedStatement.setInt(1, assignment.getID());
             preparedStatement.setInt(2, assignment.getEmployee().getID());
-            preparedStatement.setInt(3, assignment.getID());
+            preparedStatement.setDate(3, new java.sql.Date(assignment.getStartDate().getTime()));
+            preparedStatement.setDate(4, new java.sql.Date(assignment.getEndDate().getTime()));
+            preparedStatement.setInt(5, assignment.getID());
             preparedStatement.execute();
         } catch (SQLException sqlException) {
             sqlException.printStackTrace();
