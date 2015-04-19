@@ -73,7 +73,7 @@ public class EditProject extends JPanel implements ActionListener {
 		panContent.setLayout(sl_panContent);
 
 		dateStart = new JDateChooser(project.getStartDate());
-		dateStart.setDateFormatString("MMMM dd, yyyy\r\n");
+		dateStart.setDateFormatString("MMMM dd, yyyy");
 		dateStart.getCalendarButton().addActionListener(this);
 		sl_panContent.putConstraint(SpringLayout.EAST, dateStart, -464,
 				SpringLayout.EAST, panContent);
@@ -242,8 +242,8 @@ public class EditProject extends JPanel implements ActionListener {
 		btnSubmit.setFont(new Font("Arial", Font.PLAIN, 18));
 		btnSubmit.addActionListener(this);
 		
-		projectController = projectController.getInstance();
-		employeeController = employeeController.getInstance();
+		projectController = ProjectController.getInstance();
+		employeeController = EmployeeController.getInstance();
 		
 		
 		Iterator it=employeeController.getAll();
@@ -252,6 +252,8 @@ public class EditProject extends JPanel implements ActionListener {
 			
 			allModel.addElement(emp.getName());
 		}
+		
+
 		
 	}
 
@@ -288,6 +290,7 @@ public class EditProject extends JPanel implements ActionListener {
 						String employeeModel = (String)empModel.get(i);
 						if(temp.getName().equals(employeeModel)){
 							project.addEmployee(temp);
+							projectController.getProject().addEmployee(temp);
 						}
 					System.out.println("Employee model: " + employeeModel);
 					}
