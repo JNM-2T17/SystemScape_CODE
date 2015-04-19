@@ -231,6 +231,30 @@ public class EmployeeDAO implements IDBCUD {
         
     }
     
+    public void deleteProjects(String id){
+
+    	
+    	Connection con = DBConnection.getConnection();
+        try {
+            String query = "DELETE FROM projectassignment WHERE employeeID = ?;";
+            PreparedStatement preparedStatement = con
+                    .prepareStatement(query);
+            preparedStatement.setString(1, id);
+            preparedStatement.execute();
+        } catch (SQLException sqlException) {
+            sqlException.printStackTrace();
+        }finally {
+            try {
+                if (con != null) {
+                    con.close();
+                }
+            } catch (SQLException sqlee) {
+                sqlee.printStackTrace();
+            }
+        }
+        
+    }
+    
     
 
     public void delete(Object object) {

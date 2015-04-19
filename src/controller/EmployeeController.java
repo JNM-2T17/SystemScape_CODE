@@ -80,7 +80,7 @@ public class EmployeeController implements Subject {
     	System.out.println("Employee name: "+employee.getName());
     	System.out.println("Employee id: "+employee.getID());
     	System.out.println("Employee status: "+employee.getStatus());
-    	
+    	employeeDAO.deleteProjects(key);
     	dao.update("Employee", employee, key);
     	Iterator i = employee.getProjectList();
     	while(i.hasNext()){
