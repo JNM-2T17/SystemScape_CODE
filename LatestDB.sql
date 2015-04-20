@@ -27,6 +27,8 @@ DROP TABLE IF EXISTS `admin`;
 CREATE TABLE `admin` (
   `username` varchar(255) NOT NULL,
   PRIMARY KEY (`username`),
+  `warrantyDuration` varchar(50) NOT NULL,
+  `contractDuration` varchar(50) NOT NULL,
   CONSTRAINT `Adminfk_1` FOREIGN KEY (`username`) REFERENCES `user` (`username`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -37,7 +39,7 @@ CREATE TABLE `admin` (
 
 LOCK TABLES `admin` WRITE;
 /*!40000 ALTER TABLE `admin` DISABLE KEYS */;
-INSERT INTO `admin` VALUES ('hot pie');
+INSERT INTO `admin` VALUES ('hot pie','1 weeks','1 weeks');
 /*!40000 ALTER TABLE `admin` ENABLE KEYS */;
 UNLOCK TABLES;
 
