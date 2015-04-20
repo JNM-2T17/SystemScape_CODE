@@ -80,6 +80,10 @@ public class EditPOItemHard extends PopUp implements ActionListener, FocusListen
     private InventoryItemController inventoryItemController;
     private JLabel lblType;
     private JComboBox cmbType;
+    private JLabel lblStartDate;
+    private JLabel lblEndDate;
+    private JDateChooser startDateChooser;
+    private JDateChooser endDateChooser;
 
     public EditPOItemHard(JFrame parent, ItemData id, PurchaseOrderController poController) {
         super(parent);
@@ -101,7 +105,7 @@ public class EditPOItemHard extends PopUp implements ActionListener, FocusListen
         panContent = new JPanel();
         panContent.setBackground(Color.white);
         panCenter.add(panContent, BorderLayout.CENTER);
-        panContent.setLayout(new MigLayout("", "[][grow][188.00,grow][]", "[][][45.00][37.00][][][][][][][][pref!,grow][][][][][-29.00][14.00][][][][][][-44.00]"));
+        panContent.setLayout(new MigLayout("", "[][grow][188.00,grow][grow]", "[][][45.00][37.00][][][][][][][][pref!,grow][grow][][][][][][-29.00][14.00][][][][][][-44.00]"));
 
         lblInvoice = new JLabel("Invoice #:");
         lblInvoice.setFont(new Font("Arial", Font.PLAIN, 11));
@@ -203,6 +207,7 @@ public class EditPOItemHard extends PopUp implements ActionListener, FocusListen
         cbxStatus.setBackground(Color.WHITE);
         cbxStatus.setFont(new Font("Arial", Font.PLAIN, 11));
         cbxStatus.setModel(new DefaultComboBoxModel(new String[]{"In Store", "In Use"}));
+        cbxStatus.addItemListener(new ItemAssigneeChangeListener());
         panContent.add(cbxStatus, "cell 2 6,alignx left");
 
         lblType = new JLabel("Type :");
@@ -225,11 +230,25 @@ public class EditPOItemHard extends PopUp implements ActionListener, FocusListen
         cmbAssignee.setBackground(Color.WHITE);
         panContent.add(cmbAssignee, "cell 2 9,growx");
         populateCmbEmployee();
+        
+        lblStartDate = new JLabel("Start Date :");
+        panContent.add(lblStartDate, "cell 2 11");
+        
+        startDateChooser = new JDateChooser();
+        startDateChooser.setDateFormatString("MMMM dd, yyyy");
+        panContent.add(startDateChooser, "cell 3 11,grow");
+        
+        lblEndDate = new JLabel("End Date :");
+        panContent.add(lblEndDate, "cell 2 12");
+        
+        endDateChooser = new JDateChooser();
+        endDateChooser.setDateFormatString("MMMM dd, yyyy");
+        panContent.add(endDateChooser, "cell 3 12,grow");
 
         panWarranty = new JPanel();
         panWarranty.setBorder(new LineBorder(new Color(0, 102, 204), 1, true));
         panWarranty.setBackground(Color.WHITE);
-        panContent.add(panWarranty, "cell 1 12 2 1,growx");
+        panContent.add(panWarranty, "cell 1 14 2 1,growx");
         GridBagLayout gbl_panWarranty = new GridBagLayout();
         gbl_panWarranty.columnWidths = new int[]{0, 0, 0, 0, 0, 0};
         gbl_panWarranty.rowHeights = new int[]{0, 0, 0, 0, 0, 0};
@@ -288,7 +307,7 @@ public class EditPOItemHard extends PopUp implements ActionListener, FocusListen
         panContract = new JPanel();
         panContract.setBorder(new LineBorder(new Color(0, 102, 204), 1, true));
         panContract.setBackground(new Color(255, 255, 255));
-        panContent.add(panContract, "cell 1 14 2 1,growx");
+        panContent.add(panContract, "cell 1 16 2 1,growx");
         GridBagLayout gbl_panContract = new GridBagLayout();
         gbl_panContract.columnWidths = new int[]{0, 0, 0, 0, 0, 0};
         gbl_panContract.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0};
@@ -509,6 +528,35 @@ public class EditPOItemHard extends PopUp implements ActionListener, FocusListen
         f.toFront();
     }
     
+    class ItemAssigneeChangeListener implements ItemListener{
+		@Override
+		public void itemStateChanged(ItemEvent event) {
+			if (event.getStateChange() == ItemEvent.SELECTED) {
+				Object item = event.getItem();
+				if(item.equals("In Store"))
+				{
+					lblAssiginee.setVisible(false);
+					cmbAssignee.setVisible(false);
+					lblStartDate.setVisible(false);
+					lblEndDate.setVisible(false);
+					startDateChooser.setVisible(false);
+					endDateChooser.setVisible(false);
+				}
+				else if(item.equals("In Use"))
+				{
+					lblAssiginee.setVisible(true);
+					cmbAssignee.setVisible(true);
+					lblStartDate.setVisible(true);
+					lblEndDate.setVisible(true);
+					startDateChooser.setVisible(true);
+					endDateChooser.setVisible(true);
+				}
+				
+				
+			}
+		}   
+	}
+    
     class ItemChangeListener implements ItemListener{
 		@Override
 		public void itemStateChanged(ItemEvent event) {
@@ -517,23 +565,18 @@ public class EditPOItemHard extends PopUp implements ActionListener, FocusListen
 				// DEV do something with object to get the address of the supplier :D 
 				if(item.equals("Non-IT"))
 				{
-					lblContract.setVisible(false);
-					lblContractEnd.setVisible(false);
-					lblContractStart.setVisible(false);
-					dateChooserContractEnd.setVisible(false);
-					dateChooserContractStart.setVisible(false);
-					txtMaintenance.setVisible(false);
-					lblMaintenance.setVisible(false);
+					lblAsset.setVisible(false);
+					txtAsset.setVisible(false);
+					lblService.setVisible(false);
+					txtService.setVisible(false);
+					
 				}
 				else
 				{
-					lblContract.setVisible(true);
-					lblContractEnd.setVisible(true);
-					lblContractStart.setVisible(true);
-					dateChooserContractEnd.setVisible(true);
-					dateChooserContractStart.setVisible(true);
-					txtMaintenance.setVisible(true);
-					lblMaintenance.setVisible(true);
+					lblAsset.setVisible(true);
+					txtAsset.setVisible(true);
+					lblService.setVisible(true);
+					txtService.setVisible(true);
 				}
 				
 			}

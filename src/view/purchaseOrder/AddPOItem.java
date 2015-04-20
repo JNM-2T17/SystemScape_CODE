@@ -1,5 +1,7 @@
 package view.purchaseOrder;
 
+import controller.InventoryItemController;
+import controller.ItemDataController;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -32,245 +34,287 @@ import view.JTextFieldFilter;
 import view.Message;
 import view.PopUp;
 import controller.PurchaseOrderController;
+import java.util.Iterator;
+import javax.swing.DefaultComboBoxModel;
+import model.InventoryItem;
 
 public class AddPOItem extends PopUp implements ActionListener, FocusListener {
-	private JPanel panHeader, panCenter, panClose, panContent, panFooter,
-	panWest, panEast, panSubmit;
-	private JLabel lblItem, lblAmount, lblAmountValue, lblQuantity,
-	lblDescription, lblPrice;
-	private JTextArea txtDescription;
-	private JTextField txtQuantity, txtPrice;
-	private JButton btnSubmit;
-	private JScrollPane scrollPane;
 
-	private PurchaseOrderController poController;
-	private JFrame parent;
-	private DecimalFormat df;
-	private SimpleDateFormat dateFormat; 
-	private String sDate;
-	private JComboBox cmbItem;
-	public AddPOItem(JFrame parent, String type,
-			PurchaseOrderController poController) {
+    private JPanel panHeader, panCenter, panClose, panContent, panFooter,
+            panWest, panEast, panSubmit;
+    private JLabel lblItem, lblAmount, lblAmountValue, lblQuantity,
+            lblDescription, lblPrice;
+    private JTextArea txtDescription;
+    private JTextField txtQuantity, txtPrice;
+    private JButton btnSubmit;
+    private JScrollPane scrollPane;
 
-		super(parent);
-		this.parent = parent;
-		this.poController = poController;
-		this.addFocusListener(this);
-		this.setUndecorated(true);
+    private PurchaseOrderController poController;
+    private InventoryItemController inventoryItemController;
+    private ItemDataController itemDataController;
+    private DefaultComboBoxModel specificItems;
 
-		panCenter = new JPanel();
-		getContentPane().add(panCenter, BorderLayout.CENTER);
+    private JFrame parent;
+    private DecimalFormat df;
+    private SimpleDateFormat dateFormat;
+    private String sDate;
+    private JComboBox cmbItem;
+    private String type;
 
-		df = new DecimalFormat("#,###,###,###,##0.00");
-		df.setMaximumFractionDigits(2);
-		dateFormat = new SimpleDateFormat("MMMM dd, yyyy");
-		panCenter.setBackground(Color.white);
-		panCenter.setLayout(new BorderLayout(0, 0));
-		panCenter.setSize(new Dimension(500, 400));
-		panCenter.setPreferredSize(new Dimension(500, 400));
+    public AddPOItem(JFrame parent, String type,
+            PurchaseOrderController poController) {
 
-		panContent = new JPanel();
-		panContent.setBackground(Color.white);
-		panCenter.add(panContent, BorderLayout.CENTER);
-		panContent.setLayout(new MigLayout("", "[grow][188.00,grow][][][]", "[][][][grow][][][][][][][][]"));
+        super(parent);
+        this.parent = parent;
+        this.poController = poController;
+        this.addFocusListener(this);
+        this.setUndecorated(true);
+        inventoryItemController = InventoryItemController.getInstance();
+        itemDataController = ItemDataController.getInstance();
+        this.type = type;
+        panCenter = new JPanel();
+        getContentPane().add(panCenter, BorderLayout.CENTER);
 
-		lblItem = new JLabel("Item :");
-		panContent.add(lblItem, "cell 0 1,alignx left");
-		
-		cmbItem = new JComboBox();
-		cmbItem.setBackground(Color.WHITE);
-		cmbItem.setEditable(true);
-		panContent.add(cmbItem, "cell 1 1,growx");
+        df = new DecimalFormat("#,###,###,###,##0.00");
+        df.setMaximumFractionDigits(2);
+        dateFormat = new SimpleDateFormat("MMMM dd, yyyy");
+        panCenter.setBackground(Color.white);
+        panCenter.setLayout(new BorderLayout(0, 0));
+        panCenter.setSize(new Dimension(500, 400));
+        panCenter.setPreferredSize(new Dimension(500, 400));
 
-		lblDescription = new JLabel("Item Description :");
-		panContent.add(lblDescription, "cell 0 2,alignx left");
+        panContent = new JPanel();
+        panContent.setBackground(Color.white);
+        panCenter.add(panContent, BorderLayout.CENTER);
+        panContent.setLayout(new MigLayout("", "[grow][188.00,grow][][][]", "[][][][grow][][][][][][][][]"));
 
-		scrollPane = new JScrollPane();
-		scrollPane.getViewport().setBackground(Color.white);
-		scrollPane.setPreferredSize(new Dimension(300, 150));
-		panContent.add(scrollPane, "cell 1 3,growy");
+        lblItem = new JLabel("Item :");
+        panContent.add(lblItem, "cell 0 1,alignx left");
 
-		txtDescription = new JTextArea("");
-		txtDescription.addFocusListener(ErrorListenerFactory
-				.getListener(txtDescription));
-		txtDescription.setLineWrap(true);
-		scrollPane.setViewportView(txtDescription);
+        cmbItem = new JComboBox();
+        cmbItem.setBackground(Color.WHITE);
+        cmbItem.setEditable(true);
+        cmbItem.addItemListener(new AddPOItem.ItemChangeListener());
+        populateItems();
+        panContent.add(cmbItem, "cell 1 1,growx");
 
-		String[] types = { "IT Asset", "Non-IT Asset" };
+        lblDescription = new JLabel("Item Description :");
+        panContent.add(lblDescription, "cell 0 2,alignx left");
 
-		lblQuantity = new JLabel("Quantity :");
-		panContent.add(lblQuantity, "cell 0 6,alignx left");
+        scrollPane = new JScrollPane();
+        scrollPane.getViewport().setBackground(Color.white);
+        scrollPane.setPreferredSize(new Dimension(300, 150));
+        panContent.add(scrollPane, "cell 1 3,growy");
 
-		txtQuantity = new JTextField();
-		txtQuantity.addFocusListener(ErrorListenerFactory
-				.getListener(txtQuantity));
-		txtQuantity.setDocument(new JTextFieldFilter(JTextFieldFilter.NUMERIC));
-		txtQuantity.setPreferredSize(new Dimension(10, 25));
-		panContent.add(txtQuantity, "cell 1 6");
-		txtQuantity.setColumns(10);
+        txtDescription = new JTextArea("");
+        txtDescription.addFocusListener(ErrorListenerFactory
+                .getListener(txtDescription));
+        txtDescription.setLineWrap(true);
+        scrollPane.setViewportView(txtDescription);
 
-		lblPrice = new JLabel("Unit Price :");
-		panContent.add(lblPrice, "cell 0 7");
+        String[] types = {"IT Asset", "Non-IT Asset"};
 
-		txtPrice = new JTextField("");
-		txtPrice.addFocusListener(ErrorListenerFactory.getListener(txtPrice));
-		txtPrice.setDocument(new JTextFieldFilter(JTextFieldFilter.FLOAT));
-		txtPrice.setPreferredSize(new Dimension(10, 25));
-		panContent.add(txtPrice, "cell 1 7");
-		txtPrice.addActionListener(new TextAmountActionListener());
-		txtPrice.setColumns(10);
+        lblQuantity = new JLabel("Quantity :");
+        panContent.add(lblQuantity, "cell 0 6,alignx left");
 
-		lblAmount = new JLabel("Amount :");
-		panContent.add(lblAmount, "cell 0 8");
+        txtQuantity = new JTextField();
+        txtQuantity.addFocusListener(ErrorListenerFactory
+                .getListener(txtQuantity));
+        txtQuantity.setDocument(new JTextFieldFilter(JTextFieldFilter.NUMERIC));
+        txtQuantity.setPreferredSize(new Dimension(10, 25));
+        panContent.add(txtQuantity, "cell 1 6");
+        txtQuantity.setColumns(10);
 
-		lblAmountValue = new JLabel("0.00");
-		panContent.add(lblAmountValue, "cell 1 8");
+        lblPrice = new JLabel("Unit Price :");
+        panContent.add(lblPrice, "cell 0 7");
 
-		panSubmit = new JPanel();
-		panSubmit.setBackground(Color.white);
-		panCenter.add(panSubmit, BorderLayout.SOUTH);
+        txtPrice = new JTextField("");
+        txtPrice.addFocusListener(ErrorListenerFactory.getListener(txtPrice));
+        txtPrice.setDocument(new JTextFieldFilter(JTextFieldFilter.FLOAT));
+        txtPrice.setPreferredSize(new Dimension(10, 25));
+        panContent.add(txtPrice, "cell 1 7");
+        txtPrice.addActionListener(new TextAmountActionListener());
+        txtPrice.setColumns(10);
 
-		btnSubmit = new JButton("Submit");
-		btnSubmit.addActionListener(this);
-		btnSubmit.setForeground(Color.WHITE);
-		btnSubmit.setFont(new Font("Arial", Font.PLAIN, 18));
-		btnSubmit.setBackground(new Color(32, 130, 213));
-		panSubmit.add(btnSubmit);
+        lblAmount = new JLabel("Amount :");
+        panContent.add(lblAmount, "cell 0 8");
 
-		setContent(panCenter);
-		getClose().addActionListener(this);
+        lblAmountValue = new JLabel("0.00");
+        panContent.add(lblAmountValue, "cell 1 8");
 
-		this.setVisible(true);
+        panSubmit = new JPanel();
+        panSubmit.setBackground(Color.white);
+        panCenter.add(panSubmit, BorderLayout.SOUTH);
 
-		this.repaint();
-		this.revalidate();
-	}
+        btnSubmit = new JButton("Submit");
+        btnSubmit.addActionListener(this);
+        btnSubmit.setForeground(Color.WHITE);
+        btnSubmit.setFont(new Font("Arial", Font.PLAIN, 18));
+        btnSubmit.setBackground(new Color(32, 130, 213));
+        panSubmit.add(btnSubmit);
+        fillForm();
+        setContent(panCenter);
+        getClose().addActionListener(this);
 
-	public void populateItemComboBox()
-	{
-		/****
-		 * DEV Insert code here to populate the item combobox**
-		 */
-	}
+        this.setVisible(true);
 
-	class ItemChangeListener implements ItemListener{
-		@Override
-		public void itemStateChanged(ItemEvent event) {
-			if (event.getStateChange() == ItemEvent.SELECTED) {
-				Object item = event.getItem();
-				// DEV do something with object or autofield
-//				cmbType.setSelectedItem("");
-//				txtQuantity.setText("");
-//				txtDescription.setText("");
-//				txtPrice.setText("");
-			}
-		}   
-	}
-	
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
+        this.repaint();
+        this.revalidate();
+    }
 
-		if (e.getSource() == getClose()) {
-			this.setVisible(false); // you can't see me! - LOL
-			this.dispose();
-		} else if (e.getSource() == btnSubmit) {
+    public void populateItemComboBox() {
+        /**
+         * **
+         * DEV Insert code here to populate the item combobox**
+         */
+    }
 
-			String error = checkFields();
-			if (error.equals("") == true) {
-				//change this DEV :D :D 
-				if(!poController.checkItemExists(cmbItem.getSelectedItem().toString())){
-					String item = cmbItem.getSelectedItem().toString();
-					String description = txtDescription.getText();
-					int quantity = parseStringInt(txtQuantity.getText());
-					float price = (float) parseStringFloat(txtPrice.getText());
+    public void populateItems() {
+        specificItems = new DefaultComboBoxModel();
+        Iterator items = inventoryItemController.getDistinct("itemData");
+        InventoryItem ii = null;
+        while (items.hasNext()) {
+            ii = (InventoryItem) items.next();
+            if (type.equals("Hard")) {
+                if(ii.getClassification().equals("Non-IT") || ii.getClassification().equals("IT"))
+                    specificItems.addElement(ii.getName());
+            } else if (type.equals("Soft")) {
+                if(ii.getClassification().equals("Soft"))
+                    specificItems.addElement(ii.getName());
+            } else {
+                if(ii.getClassification().equals("Gen") || ii.getClassification().equals("Others"))
+                    specificItems.addElement(ii.getName());
+            }
+        }
+        cmbItem.setModel(specificItems);
+    }
 
-					poController.addItem(new ItemData(item, description, price),quantity, 0);
-					this.setVisible(false); // you can't see me!
-					this.dispose();
-				}else{
-					Message msg = new Message(parent, Message.ERROR, "Item already exists!");
-				}
+    class ItemChangeListener implements ItemListener {
 
+        @Override
+        public void itemStateChanged(ItemEvent event) {
+            if (event.getStateChange() == ItemEvent.SELECTED) {
+                fillForm();
+            }
+        }
+    }
+    
+    public void fillForm(){
+        ItemData ii = (ItemData)itemDataController.get((String) cmbItem.getSelectedItem());
+        txtDescription.setText(ii.getDescription());
+        txtPrice.setText(String.valueOf(ii.getUnitPrice()));
+    }
 
-			} else if (error.equals("") == false) {
-				Message msg = new Message(parent, Message.ERROR, error);
-			} else {
-				clearFields();
-			}
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        // TODO Auto-generated method stub
 
-		}
-		//
-	}
+        if (e.getSource() == getClose()) {
+            this.setVisible(false); // you can't see me! - LOL
+            this.dispose();
+        } else if (e.getSource() == btnSubmit) {
 
-	public void clearFields() {
-		txtDescription.setText("");
-		txtQuantity.setText("");
-		txtPrice.setText("");
-		cmbItem.setSelectedIndex(-1);
-	}
+            String error = checkFields();
+            if (error.equals("") == true) {
+                //change this DEV :D :D 
+                if (!poController.checkItemExists(cmbItem.getSelectedItem().toString())) {
+                    String item = cmbItem.getSelectedItem().toString();
+                    String description = txtDescription.getText();
+                    int quantity = parseStringInt(txtQuantity.getText());
+                    float price = (float) parseStringFloat(txtPrice.getText());
 
-	/**** parse string to integer ******/
-	public int parseStringInt(String quantity) {
-		if (quantity.equals("") == false)
-			return Integer.parseInt(quantity);
-		return 0;
-	}
+                    poController.addItem(new ItemData(item, description, price), quantity, 0);
+                    this.setVisible(false); // you can't see me!
+                    this.dispose();
+                } else {
+                    Message msg = new Message(parent, Message.ERROR, "Item already exists!");
+                }
 
-	/**** parse string to float ****/
-	public double parseStringFloat(String price) {
-		if (price.equals("") == false)
-			return Float.parseFloat(price);
-		return 0.0;
-	}
+            } else if (error.equals("") == false) {
+                Message msg = new Message(parent, Message.ERROR, error);
+            } else {
+                clearFields();
+            }
 
-	public String checkFields() {
-		String error = "";
-		Border border = BorderFactory.createLineBorder(Color.RED, 1);
+        }
+        //
+    }
+
+    public void clearFields() {
+        txtDescription.setText("");
+        txtQuantity.setText("");
+        txtPrice.setText("");
+        cmbItem.setSelectedIndex(-1);
+    }
+
+    /**
+     * ** parse string to integer *****
+     */
+    public int parseStringInt(String quantity) {
+        if (quantity.equals("") == false) {
+            return Integer.parseInt(quantity);
+        }
+        return 0;
+    }
+
+    /**
+     * ** parse string to float ***
+     */
+    public double parseStringFloat(String price) {
+        if (price.equals("") == false) {
+            return Float.parseFloat(price);
+        }
+        return 0.0;
+    }
+
+    public String checkFields() {
+        String error = "";
+        Border border = BorderFactory.createLineBorder(Color.RED, 1);
 
 //		if (txtItem.getText().equals("")) {
 //			error += "Item Name Field is empty \n";
 //			txtItem.setBorder(border);
 //		}
-		if (txtDescription.getText().equals("")) {
-			error += "Item Description Area is empty \n";
-			txtDescription.setBorder(border);
-		}
-		if (txtQuantity.getText().equals("")) {
-			error += "Quantity Field is empty \n";
-			txtQuantity.setBorder(border);
-		}
-		if (txtPrice.getText().equals("")) {
-			error += "Price Field is empty";
-			txtPrice.setBorder(border);
-		}
+        if (txtDescription.getText().equals("")) {
+            error += "Item Description Area is empty \n";
+            txtDescription.setBorder(border);
+        }
+        if (txtQuantity.getText().equals("")) {
+            error += "Quantity Field is empty \n";
+            txtQuantity.setBorder(border);
+        }
+        if (txtPrice.getText().equals("")) {
+            error += "Price Field is empty";
+            txtPrice.setBorder(border);
+        }
 
-		return error;
-	}
+        return error;
+    }
 
-	class TextAmountActionListener implements ActionListener {
+    class TextAmountActionListener implements ActionListener {
 
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			// TODO Auto-generated method stub
-			int quantity = parseStringInt(txtQuantity.getText());
-			float price = (float) parseStringFloat(txtPrice.getText());
-			float result = quantity * price;
-			lblAmountValue.setText(String.valueOf(df.format(result)));
-		}
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            // TODO Auto-generated method stub
+            int quantity = parseStringInt(txtQuantity.getText());
+            float price = (float) parseStringFloat(txtPrice.getText());
+            float result = quantity * price;
+            lblAmountValue.setText(String.valueOf(df.format(result)));
+        }
 
-	}
+    }
 
-	@Override
-	public void focusGained(FocusEvent e) {
-		// TODO Auto-generated method stub
+    @Override
+    public void focusGained(FocusEvent e) {
+        // TODO Auto-generated method stub
 
-	}
+    }
 
-	@Override
-	public void focusLost(FocusEvent e) {
-		// TODO Auto-generated method stub
-		JFrame f = (JFrame) e.getSource();
-		f.toFront();
-	}
+    @Override
+    public void focusLost(FocusEvent e) {
+        // TODO Auto-generated method stub
+        JFrame f = (JFrame) e.getSource();
+        f.toFront();
+    }
+
 }

@@ -75,6 +75,10 @@ public class InventoryItemController implements InventoryItemInterface, Subject 
     public Iterator filter(Iterator conditions) {
         return dao.filter("InventoryItem", conditions);
     }
+    
+    public Iterator getDistinct(String string){
+        return dao.getDistinct("InventoryItem", string);
+    }
 
     @Override
     public void registerObserver(Observer o) {
