@@ -172,10 +172,11 @@ public class TabInventory extends JPanel implements ActionListener{
 			}
 		}
 		else if(((JButton) e.getSource()).getActionCommand().equals("export")){
-			new ExportInventory(gui);
 			
+			ArrayList<String> data = new ArrayList();
 			DefaultTableModel model = ((ViewInventory)list.get(0).getContent()).getModel();
-
+                        String current = "";
+                        String entry[];
 			//getHeaders
 			ArrayList<String> headers=new ArrayList<String>();
 			
@@ -185,26 +186,49 @@ public class TabInventory extends JPanel implements ActionListener{
 			
 			//print Headers
 			for (int j = 0; j < model.getColumnCount(); j++) {
-				if(((ViewInventory)list.get(0).getContent()).isColVisible(headers.get(j))) System.out.print(model.getColumnName(j)+ " ");
+				if(((ViewInventory)list.get(0).getContent()).isColVisible(headers.get(j))) 
+                                    current = current + model.getColumnName(j)+ ", ";
 			}
-			
-			System.out.println();
+			current = current.substring(0,current.length()-4) + "\n";
+                        data.add(current);
 			
 			//printData
 			for (int i = 0; i < model.getRowCount(); i++) {
+                            current = "";
 				if(((ViewInventory)list.get(0).getContent()).isToggle()){
 					for (int j = 0; j < model.getColumnCount(); j++) {
-						 if(((ViewInventory)list.get(0).getContent()).isColVisible(headers.get(j))) System.out.print(model.getValueAt(i, j)+" ");
+						 if(((ViewInventory)list.get(0).getContent()).isColVisible(headers.get(j))){
+                                                    if(model.getValueAt(i, j)!=null){
+                                                        entry = model.getValueAt(i, j).toString().split(",");
+                                                        if(entry.length>1)
+                                                            current = current + entry[0] + entry [1]+", ";
+                                                        else current = current + model.getValueAt(i, j)+", ";
+                                                    }
+                                                    else current = current + ", ";
+                                                 }
 					}
 				}
 				else{
 					for (int j = 0; j+1 < model.getColumnCount(); j++) {
-						 if(((ViewInventory)list.get(0).getContent()).isColVisible(headers.get(j))) System.out.print(model.getValueAt(i, j)+" ");
+						 if(((ViewInventory)list.get(0).getContent()).isColVisible(headers.get(j))){
+                                                    if(model.getValueAt(i, j)!=null){
+                                                        entry = model.getValueAt(i, j).toString().split(",");
+                                                        if(entry.length>1)
+                                                            current = current + entry[0] + entry [1]+", ";
+                                                        else current = current + model.getValueAt(i, j)+", ";
+                                                    }
+                                                    else current = current + "null, ";
+                                                    
+                                                 }
 					}
 				}
-				System.out.println();
+				current = current.substring(0,current.length()-2) + "\n";
+                                data.add(current);
 			}
-			System.out.println(model);
+                         for(Iterator i = data.iterator();i.hasNext();){
+                            System.out.print(i.next());
+                        }
+                        new ExportInventory(gui, data.iterator());
 		}
 		else if(((JButton) e.getSource()).getActionCommand().equals("back")){
 			System.out.println("HEEERE");
