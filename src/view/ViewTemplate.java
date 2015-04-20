@@ -130,6 +130,14 @@ public abstract class ViewTemplate extends JPanel{
 		table.packAll();
 	}
 	
+	public boolean isColVisible(String colName){
+//		System.out.println("STAT: "+table.getColumnExt(colName).isVisible());
+		if(table.getColumnExt(colName) != null && table.getColumnExt(colName).isVisible()){
+			return true;
+		}
+		return false;
+	}
+	
 	public void setColCount(int num){
 		model.setColumnCount(num);
 	}

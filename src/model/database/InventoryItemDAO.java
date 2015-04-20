@@ -133,26 +133,26 @@ public class InventoryItemDAO implements IDBCUD {
                             String query7 = "SELECT * FROM contract WHERE hardware = \"" + resultSet.getString("ID") + "\"";
                             PreparedStatement preparedStatement7 = con.prepareStatement(query7);
                             ResultSet resultSet7 = preparedStatement7.executeQuery();
-                            
-                            if(resultSet7.next() && resultSet6.next()){
-                            inventoryItem = new ITAsset(resultSet.getInt("ID"),
-                                    resultSet2.getString("name"), resultSet2.getString("description"),
-                                    resultSet2.getFloat("unitPrice"), resultSet.getString("invoiceNo"),
-                                    resultSet.getString("location"), resultSet.getString("status"),
-                                    resultSet.getString("classification"), resultSet4.getInt("assetTag"), resultSet4.getString("serviceTag"),
-                                    resultSet4.getDate("deliveryDate"), resultSet6.getDate("startDate"), resultSet6.getDate("endDate"),
-                                    resultSet7.getDate("startDate"), resultSet7.getDate("endDate"), resultSet7.getFloat("maintenanceCost"));
+
+                            if (resultSet7.next() && resultSet6.next()) {
+                                inventoryItem = new ITAsset(resultSet.getInt("ID"),
+                                        resultSet2.getString("name"), resultSet2.getString("description"),
+                                        resultSet2.getFloat("unitPrice"), resultSet.getString("invoiceNo"),
+                                        resultSet.getString("location"), resultSet.getString("status"),
+                                        resultSet.getString("classification"), resultSet4.getInt("assetTag"), resultSet4.getString("serviceTag"),
+                                        resultSet4.getDate("deliveryDate"), resultSet6.getDate("startDate"), resultSet6.getDate("endDate"),
+                                        resultSet7.getDate("startDate"), resultSet7.getDate("endDate"), resultSet7.getFloat("maintenanceCost"));
                             }
                         } else {//Else NonITAsset
                             String query6 = "SELECT * FROM warranty WHERE hardware = \"" + resultSet.getString("ID") + "\"";
                             PreparedStatement preparedStatement6 = con.prepareStatement(query6);
                             ResultSet resultSet6 = preparedStatement6.executeQuery();
-                            if(resultSet6.next()){
-                            inventoryItem = new NonITAsset(resultSet.getInt("ID"), resultSet2.getString("name"),
-                                    resultSet2.getString("description"), resultSet2.getFloat("unitPrice"),
-                                    resultSet.getString("invoiceNo"), resultSet.getString("location"),
-                                    resultSet.getString("status"), resultSet.getString("classification"),
-                                    resultSet6.getDate("startDate"), resultSet6.getDate("endDate"));
+                            if (resultSet6.next()) {
+                                inventoryItem = new NonITAsset(resultSet.getInt("ID"), resultSet2.getString("name"),
+                                        resultSet2.getString("description"), resultSet2.getFloat("unitPrice"),
+                                        resultSet.getString("invoiceNo"), resultSet.getString("location"),
+                                        resultSet.getString("status"), resultSet.getString("classification"),
+                                        resultSet6.getDate("startDate"), resultSet6.getDate("endDate"));
                             }
                         }
                     } else {//Else not hardware
@@ -237,7 +237,7 @@ public class InventoryItemDAO implements IDBCUD {
             PreparedStatement preparedStatement = con.prepareStatement(query);
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
-                InventoryItem inventoryItem = (InventoryItem)get(resultSet.getString("ID"));
+                InventoryItem inventoryItem = (InventoryItem) get(resultSet.getString("ID"));
                 results.add(inventoryItem);
             }
             return results.iterator();
@@ -255,15 +255,77 @@ public class InventoryItemDAO implements IDBCUD {
         return null;
     }
 
-    public Iterator getDistinct(String string) {
-        ArrayList<String> results = new ArrayList<String>();
+    public Iterator getDistinct(String key) {
+        ArrayList<InventoryItem> items = new ArrayList();
         Connection con = DBConnection.getConnection();
         try {
-            String query = "SELECT DISTINCT " + string + " FROM inventoryitem";
+            String query = "SELECT * FROM inventoryitem GROUP BY "+key;
             PreparedStatement preparedStatement = con.prepareStatement(query);
             ResultSet resultSet = preparedStatement.executeQuery();
+            InventoryItem inventoryItem = null;
             while (resultSet.next()) {
-                results.add(resultSet.getString(1));
+                String query2 = "SELECT * FROM itemdata id WHERE id.name = \"" + resultSet.getString("itemData") + "\"";
+                PreparedStatement preparedStatement2 = con.prepareStatement(query2);
+                ResultSet resultSet2 = preparedStatement2.executeQuery();
+                if (resultSet2.next()) {
+                    String query3 = "SELECT * FROM hardwareitem WHERE ID = \"" + resultSet.getString("ID") + "\"";
+                    PreparedStatement preparedStatement3 = con.prepareStatement(query3);
+                    ResultSet resultSet3 = preparedStatement3.executeQuery();
+
+                    if (resultSet3.next()) {//IF hardware
+                        String query4 = "SELECT * FROM itasset WHERE ID = \"" + resultSet.getString("ID") + "\"";
+                        PreparedStatement preparedStatement4 = con.prepareStatement(query4);
+                        ResultSet resultSet4 = preparedStatement4.executeQuery();
+
+                        if (resultSet4.next()) {//IF ITAsset
+                            String query6 = "SELECT * FROM warranty WHERE hardware = \"" + resultSet.getString("ID") + "\"";
+                            PreparedStatement preparedStatement6 = con.prepareStatement(query6);
+                            ResultSet resultSet6 = preparedStatement6.executeQuery();
+
+                            String query7 = "SELECT * FROM contract WHERE hardware = \"" + resultSet.getString("ID") + "\"";
+                            PreparedStatement preparedStatement7 = con.prepareStatement(query7);
+                            ResultSet resultSet7 = preparedStatement7.executeQuery();
+
+                            if (resultSet7.next() && resultSet6.next()) {
+                                inventoryItem = new ITAsset(resultSet.getInt("ID"),
+                                        resultSet2.getString("name"), resultSet2.getString("description"),
+                                        resultSet2.getFloat("unitPrice"), resultSet.getString("invoiceNo"),
+                                        resultSet.getString("location"), resultSet.getString("status"),
+                                        resultSet.getString("classification"), resultSet4.getInt("assetTag"), resultSet4.getString("serviceTag"),
+                                        resultSet4.getDate("deliveryDate"), resultSet6.getDate("startDate"), resultSet6.getDate("endDate"),
+                                        resultSet7.getDate("startDate"), resultSet7.getDate("endDate"), resultSet7.getFloat("maintenanceCost"));
+                            }
+                        } else {//Else NonITAsset
+                            String query6 = "SELECT * FROM warranty WHERE hardware = \"" + resultSet.getString("ID") + "\"";
+                            PreparedStatement preparedStatement6 = con.prepareStatement(query6);
+                            ResultSet resultSet6 = preparedStatement6.executeQuery();
+                            if (resultSet6.next()) {
+                                inventoryItem = new NonITAsset(resultSet.getInt("ID"), resultSet2.getString("name"),
+                                        resultSet2.getString("description"), resultSet2.getFloat("unitPrice"),
+                                        resultSet.getString("invoiceNo"), resultSet.getString("location"),
+                                        resultSet.getString("status"), resultSet.getString("classification"),
+                                        resultSet6.getDate("startDate"), resultSet6.getDate("endDate"));
+                            }
+                        }
+                    } else {//Else not hardware
+                        String query5 = "SELECT * FROM softwareitem WHERE ID = \"" + resultSet.getString("ID") + "\"";
+                        PreparedStatement preparedStatement5 = con.prepareStatement(query5);
+                        ResultSet resultSet5 = preparedStatement5.executeQuery();
+                        if (resultSet5.next()) {//if software
+                            inventoryItem = new SoftwareItem(resultSet.getInt("ID"), resultSet2.getString("name"),
+                                    resultSet2.getString("description"), resultSet2.getFloat("unitPrice"),
+                                    resultSet.getString("invoiceNo"), resultSet.getString("location"),
+                                    resultSet.getString("status"), resultSet.getString("classification"),
+                                    resultSet5.getString("licenseKey"));
+                        } else {//if general
+                            inventoryItem = new InventoryItem(resultSet.getInt("ID"), resultSet2.getString("name"),
+                                    resultSet2.getString("description"), resultSet2.getFloat("unitPrice"),
+                                    resultSet.getString("invoiceNo"), resultSet.getString("location"),
+                                    resultSet.getString("status"), resultSet.getString("classification"));
+                        }
+                    }
+                    items.add(inventoryItem);
+                }
             }
         } catch (SQLException sqlException) {
             sqlException.printStackTrace();
@@ -276,7 +338,8 @@ public class InventoryItemDAO implements IDBCUD {
                 sqlee.printStackTrace();
             }
         }
-        return results.iterator();
+
+        return items.iterator();
     }
 
     public void add(Object object) {
@@ -338,15 +401,14 @@ public class InventoryItemDAO implements IDBCUD {
                     preparedStatement.setDate(3, new java.sql.Date(((ITAsset) inventoryItem).getContractEndDate().getTime()));
                     preparedStatement.setFloat(4, ((ITAsset) inventoryItem).getContractMaintenanceCost());
                     preparedStatement.execute();
-                }
-                else if(object instanceof NonITAsset){
-                    inventoryItem = (NonITAsset)object;
+                } else if (object instanceof NonITAsset) {
+                    inventoryItem = (NonITAsset) object;
                     query = "INSERT INTO warranty \n"
                             + "VALUES (?, ?, ?)";
                     preparedStatement = con.prepareStatement(query);
                     preparedStatement.setInt(1, id);
-                    preparedStatement.setDate(2, new java.sql.Date(((NonITAsset)inventoryItem).getWarrantyStartDate().getTime()));
-                    preparedStatement.setDate(3, new java.sql.Date(((NonITAsset)inventoryItem).getWarrantyEndDate().getTime()));
+                    preparedStatement.setDate(2, new java.sql.Date(((NonITAsset) inventoryItem).getWarrantyStartDate().getTime()));
+                    preparedStatement.setDate(3, new java.sql.Date(((NonITAsset) inventoryItem).getWarrantyEndDate().getTime()));
                     preparedStatement.execute();
                 }
             } else if (object instanceof SoftwareItem) {
@@ -372,24 +434,24 @@ public class InventoryItemDAO implements IDBCUD {
         }
 
     }
-    
-    public int getID(){
-    	int id = 0;
-    	try {
+
+    public int getID() {
+        int id = 0;
+        try {
             String query = "SELECT MAX(ID) FROM inventoryitem";
             PreparedStatement preparedStatement = DBConnection.getConnection().prepareStatement(query);
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
                 id = resultSet.getInt("MAX(id)");
-                
+
             }
         } catch (SQLException sqlException) {
             sqlException.printStackTrace();
-        
+
         }
         return id;
     }
-    
+
     public void update(Object object, String origKey) {
         InventoryItem inventoryItem = (InventoryItem) object;
         Connection con = DBConnection.getConnection();
@@ -397,7 +459,7 @@ public class InventoryItemDAO implements IDBCUD {
             int id = Integer.parseInt(origKey);
             InventoryItem previous = (InventoryItem) get(origKey);
             InventoryItem current = (InventoryItem) object;
-            
+
             DAO.getInstance().update("itemdata", new ItemData(current.getName(), current.getDescription(), current.getUnitPrice()), previous.getName());
             String query = "UPDATE inventoryitem SET itemData = ?, "
                     + "status= ?, classification = ?, invoiceNo=?, location=? WHERE ID = ?;";
@@ -410,17 +472,16 @@ public class InventoryItemDAO implements IDBCUD {
             preparedStatement.setString(5, current.getLocation());
             preparedStatement.setInt(6, previous.getID());
             preparedStatement.execute();
-            
-            
+
             String type = previous.getClassification();
-            if(type.equalsIgnoreCase("Non-IT")||type.equalsIgnoreCase("IT")){
+            if (type.equalsIgnoreCase("Non-IT") || type.equalsIgnoreCase("IT")) {
                 query = "DELETE FROM hardwareitem WHERE ID = ?";
                 System.out.println(query + "\n");
                 preparedStatement = con.prepareStatement(query);
                 preparedStatement.setInt(1, previous.getID());
                 preparedStatement.execute();
-            }  
-            else{ if(type.equalsIgnoreCase("Soft")){
+            } else {
+                if (type.equalsIgnoreCase("Soft")) {
                     query = "DELETE FROM softwareitem WHERE ID = ?";
                     System.out.println(query + "\n");
                     preparedStatement = con.prepareStatement(query);
@@ -428,7 +489,7 @@ public class InventoryItemDAO implements IDBCUD {
                     preparedStatement.execute();
                 }
             }
-            
+
             if (object instanceof NonITAsset || object instanceof ITAsset) {
                 query = "INSERT INTO hardwareitem \n"
                         + "VALUES (?)";
@@ -446,17 +507,17 @@ public class InventoryItemDAO implements IDBCUD {
                     preparedStatement.setString(3, ((ITAsset) inventoryItem).getServiceTag());
                     preparedStatement.setDate(4, new java.sql.Date(((ITAsset) inventoryItem).getDeliveryDate().getTime()));
                     preparedStatement.execute();
-                    
+
                     query = "DELETE FROM warranty WHERE hardware = ?";
                     preparedStatement = con.prepareStatement(query);
                     preparedStatement.setInt(1, id);
                     preparedStatement.execute();
-                    
+
                     query = "DELETE FROM contract WHERE hardware = ?";
                     preparedStatement = con.prepareStatement(query);
                     preparedStatement.setInt(1, id);
                     preparedStatement.execute();
-                    
+
                     query = "INSERT INTO warranty \n"
                             + "VALUES (?, ?, ?)";
                     preparedStatement = con.prepareStatement(query);
@@ -473,15 +534,15 @@ public class InventoryItemDAO implements IDBCUD {
                     preparedStatement.setDate(3, new java.sql.Date(((ITAsset) inventoryItem).getContractEndDate().getTime()));
                     preparedStatement.setFloat(4, ((ITAsset) inventoryItem).getContractMaintenanceCost());
                     preparedStatement.execute();
-                    
-                }else if(object instanceof NonITAsset){
-                    inventoryItem = (NonITAsset)object;
+
+                } else if (object instanceof NonITAsset) {
+                    inventoryItem = (NonITAsset) object;
                     query = "INSERT INTO warranty \n"
                             + "VALUES (?, ?, ?)";
                     preparedStatement = con.prepareStatement(query);
                     preparedStatement.setInt(1, id);
-                    preparedStatement.setDate(2, new java.sql.Date(((NonITAsset)inventoryItem).getWarrantyStartDate().getTime()));
-                    preparedStatement.setDate(3, new java.sql.Date(((NonITAsset)inventoryItem).getWarrantyEndDate().getTime()));
+                    preparedStatement.setDate(2, new java.sql.Date(((NonITAsset) inventoryItem).getWarrantyStartDate().getTime()));
+                    preparedStatement.setDate(3, new java.sql.Date(((NonITAsset) inventoryItem).getWarrantyEndDate().getTime()));
                     preparedStatement.execute();
                 }
             } else if (object instanceof SoftwareItem) {
@@ -493,7 +554,7 @@ public class InventoryItemDAO implements IDBCUD {
                 preparedStatement.setString(2, ((SoftwareItem) inventoryItem).getLicenseKey());
                 preparedStatement.execute();
             }
-            
+
             query = "UPDATE itemdata SET name = ?, "
                     + "description= ?, unitPrice = ? WHERE name = ?;";
             preparedStatement = con.prepareStatement(query);
@@ -502,8 +563,6 @@ public class InventoryItemDAO implements IDBCUD {
             preparedStatement.setFloat(3, current.getUnitPrice());
             preparedStatement.setString(4, current.getName());
             preparedStatement.execute();
-            
-            
 
         } catch (SQLException sqlException) {
             sqlException.printStackTrace();
@@ -527,7 +586,7 @@ public class InventoryItemDAO implements IDBCUD {
                     .prepareStatement(query);
             preparedStatement.setInt(1, inventoryItem.getID());
             preparedStatement.execute();
-            
+
         } catch (SQLException sqlException) {
             sqlException.printStackTrace();
         } finally {
@@ -541,10 +600,9 @@ public class InventoryItemDAO implements IDBCUD {
         }
     }
 
-	/*@Override
-	public void update(Object object, String origKey) {
-		// TODO Auto-generated method stub
+    /*@Override
+     public void update(Object object, String origKey) {
+     // TODO Auto-generated method stub
 		
-	}*/
-
+     }*/
 }
