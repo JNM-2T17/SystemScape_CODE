@@ -221,7 +221,7 @@ public class UserDAO implements IDBGet {
     public void updateNotificationDuration(String contractDuration, String warrantyDuration, String username){
         try {
 
-            String query = "UPDATE admin SET VALUES warrantyDuration = ?, contractDuration = ? WHERE username = ?";
+            String query = "UPDATE admin SET warrantyDuration = ?, contractDuration = ? WHERE username = ?";
             Connection connection = DBConnection.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(query);
             preparedStatement.setString(1, warrantyDuration);

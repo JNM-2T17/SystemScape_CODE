@@ -26,6 +26,7 @@ import java.util.Arrays;
 
 import javax.swing.JSpinner;
 import javax.swing.JComboBox;
+import model.database.UserDAO;
 
 public class Settings extends PopUp implements ActionListener {
 	private JPasswordField txtOld;
@@ -297,8 +298,11 @@ public class Settings extends PopUp implements ActionListener {
 				Message msg = new Message(parent, Message.SUCCESS,
 						"Password successfully edited.");
 		}else if(e.getSource()==btnNotifSubmit){
-				Message msg = new Message(parent, Message.SUCCESS,
+                                UserDAO userDAO = new UserDAO();
+                                userDAO.updateNotificationDuration(spnContract.getValue().toString() + " " + cmbContract.getSelectedItem().toString(), spnWarranty.getValue().toString() + " " + cmbWarranty.getSelectedItem().toString(), user);
+                                Message msg = new Message(parent, Message.SUCCESS,
 						"Notification settings successfully edited.");
+                                this.dispose();
 			
 		}
 		else if(e.getSource()==getClose()){
