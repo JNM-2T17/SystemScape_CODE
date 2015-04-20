@@ -38,6 +38,7 @@ import java.util.Iterator;
 import model.Contract;
 import model.InventoryItem;
 import model.Warranty;
+import model.database.UserDAO;
 
 public class Notification extends JPanel implements ActionListener, Observer{
 	private JPanel listContract, listWarranty, panContract, panWarranty;;
@@ -49,8 +50,9 @@ public class Notification extends JPanel implements ActionListener, Observer{
         private WarrantyController warrantyController;
         private ContractController contractController;
         private InventoryItemController inventoryItemController;
+        private String warrantyDuration, contractDuration;
 
-	public Notification() {
+	public Notification(String username) {
 		setBackground(new Color(32, 130, 213));
 		setLayout(new BorderLayout(0, 0));
                 
@@ -168,8 +170,20 @@ public class Notification extends JPanel implements ActionListener, Observer{
                 warrantyController = WarrantyController.getInstance();
                 contractController = ContractController.getInstance();
                 inventoryItemController = new InventoryItemController();
+                UserDAO userDAO = new UserDAO();
+                Iterator i = userDAO.getNotificationDuration(username);
+                if(i.hasNext()){
+                    warrantyDuration = i.next().toString();
+                }
+                if(i.hasNext()){
+                    contractDuration = i.next().toString();
+                }
+                System.out.println(username + " " +warrantyDuration + " " + contractDuration);
+                
                 warrantyController.registerObserver(this);
                 contractController.registerObserver(this);
+                
+               
 		
 	}
         @Override
@@ -179,18 +193,34 @@ public class Notification extends JPanel implements ActionListener, Observer{
             cntContract = cntWarranty = 0;
             GregorianCalendar gregorianCalendar = new GregorianCalendar();
             java.util.Date date = new java.util.Date(gregorianCalendar.getTimeInMillis());
-            for(Iterator i = warrantyController.search("14 days"); i.hasNext();){//2 weeks hardcoded
+            for(Iterator i = warrantyController.search(warrantyDuration); i.hasNext();){
                 Warranty warranty = (Warranty)i.next();
                 InventoryItem inventoryItem = ((InventoryItem)inventoryItemController.get("" + warranty.getHardware()));
                 int daysLeft = (int)((warranty.getEndDate().getTime() - date.getTime()) / (24 * 60 * 60 * 1000));
                 addWarranty(inventoryItem.getName(), daysLeft);
             }
             
-            for(Iterator i = contractController.search("14 days"); i.hasNext();){
+            for(Iterator i = contractController.search(contractDuration); i.hasNext();){
                 Contract contract = (Contract)i.next();
                 InventoryItem inventoryItem = (InventoryItem)inventoryItemController.get("" + contract.getHardware());
                 int daysLeft = (int)((contract.getEndDate().getTime() - date.getTime()) / (24 * 60 * 60 * 1000));
                 addContract(inventoryItem.getName(), daysLeft);
+            }
+            listContract.repaint();
+            listContract.revalidate();
+            listWarranty.repaint();
+            listWarranty.revalidate();
+            cntWarranty = listWarranty.getComponents().length;
+            cntContract = listContract.getComponents().length;
+            numWarranty.setText(cntWarranty + "");
+            numContract.setText(cntContract + "");
+            if(cntWarranty == 0){
+                redWarranty.setVisible(false);
+                numWarranty.setVisible(false);
+            }
+            if(cntContract == 0){
+                redContract.setVisible(false);
+                numContract.setVisible(false);
             }
         }
         

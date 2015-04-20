@@ -163,5 +163,40 @@ public class UserDAO implements IDBGet {
         }
 
     }
+    
+    public void updateNotificationDuration(String contractDuration, String warrantyDuration, String username){
+        try {
+
+            String query = "UPDATE admin SET VALUES warrantyDuration = ?, contractDuration = ? WHERE username = ?";
+            Connection connection = DBConnection.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setString(1, warrantyDuration);
+            preparedStatement.setString(2, contractDuration);
+            preparedStatement.setString(3, username);
+           
+            preparedStatement.execute();
+        } catch (SQLException sqlException) {
+            sqlException.printStackTrace();
+        }
+    }
+    
+    public Iterator getNotificationDuration(String username){
+        ArrayList<String> durations = new ArrayList();
+        try {
+            String query = "SELECT warrantyDuration, contractDuration FROM admin WHERE username = ?";
+            Connection connection = DBConnection.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setString(1, username);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if(resultSet.next()){
+                durations.add(resultSet.getString("warrantyDuration"));
+                durations.add(resultSet.getString("contractDuration"));
+            }
+            
+        } catch (SQLException sqlException) {
+            sqlException.printStackTrace();
+        }
+        return durations.iterator();
+    }
 
 }
