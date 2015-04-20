@@ -59,7 +59,7 @@ public class EditPO extends JPanel implements ActionListener, Observer {
 	panDate, panAddItem, panClass, panHeader, panFooter;
 	private JLabel lblSupplier, lblClass, lblDate, lblItem;
 	private JButton btnAddItem, btnSubmit;
-	private JComboBox cmbSupplier, cmbClass;
+	private JComboBox cmbSupplier;
 	private DefaultTableModel model;
 	//private POTableModel poTableModel;
 	private JTable table;
@@ -84,6 +84,7 @@ public class EditPO extends JPanel implements ActionListener, Observer {
 	private String sDate;
 	private JLabel lblAddress;
 	private JLabel lblAddressContent;
+	private JLabel lblClassInfo;
 	public EditPO(JFrame parent, PurchaseOrder po) {
 
 		this.parent = parent;
@@ -168,14 +169,9 @@ public class EditPO extends JPanel implements ActionListener, Observer {
 		lblClass.setHorizontalTextPosition(SwingConstants.LEFT);
 		lblClass.setHorizontalAlignment(SwingConstants.LEFT);
 		panClass.add(lblClass);
-
-		cmbClass = new JComboBox();
-		cmbClass.setPreferredSize(new Dimension(100, 30));
-		cmbClass.setModel(new DefaultComboBoxModel(new String[]{"Hard",
-				"Soft", "Gen"}));
-		cmbClass.setBackground(Color.white);
-		panClass.add(cmbClass);
-		setPOClassification(po);
+		
+		lblClassInfo = new JLabel(po.getType());
+		panClass.add(lblClassInfo);
 
 		panRight = new JPanel();
 		panRight.setBackground(Color.white);
@@ -316,14 +312,6 @@ public class EditPO extends JPanel implements ActionListener, Observer {
 		}
 	}
 
-	public void setPOClassification(PurchaseOrder po) {
-		for (int i = 0; i < cmbClass.getItemCount(); i++) {
-			if (cmbClass.getItemAt(i).equals(po.getType())) {
-				cmbClass.setSelectedIndex(i);
-			}
-		}
-	}
-
 	public void setSupplier(PurchaseOrder po) {
 		for (int i = 0; i < cmbSupplier.getItemCount(); i++) {
 			if (cmbSupplier.getItemAt(i).equals(po.getSupplier().getName())) {
@@ -338,7 +326,7 @@ public class EditPO extends JPanel implements ActionListener, Observer {
 		if (event.getSource() == btnAddItem) {
 
 			AddPOItem addAddPOItem = new AddPOItem(parent,
-					(String) cmbClass.getSelectedItem(), poController);
+					(String)lblClassInfo.getText(), poController);
 			/**
 			 * *
 			 * add the code statements here to add an additional item to the
@@ -359,7 +347,6 @@ public class EditPO extends JPanel implements ActionListener, Observer {
 				Supplier supplier = (Supplier) supplierController.getObject((String) cmbSupplier.getSelectedItem());// dev
 				po.setDate(selectedDate);
 				po.setSupplier(supplier);
-				po.setType(cmbClass.getSelectedItem().toString());
 				poController.editPurchaseOrder(po);// dev
 				Message msg = new Message(parent, Message.SUCCESS, "Purchase Order edited successfully.");
 			} else {
@@ -377,7 +364,7 @@ public class EditPO extends JPanel implements ActionListener, Observer {
 	 */
 	public void clear() {
 		cmbSupplier.setSelectedIndex(0);
-		cmbClass.setSelectedIndex(0);
+		lblClassInfo.setText("");
 		lblGrandValue.setText("");
 		dateChooser.setDate(new Date());
 		clearTable();
