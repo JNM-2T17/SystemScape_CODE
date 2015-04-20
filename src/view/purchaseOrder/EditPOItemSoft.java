@@ -287,17 +287,25 @@ public class EditPOItemSoft extends PopUp implements ActionListener, FocusListen
 		public void itemStateChanged(ItemEvent event) {
 			if (event.getStateChange() == ItemEvent.SELECTED) {
 				Object item = event.getItem();
-				// DEV do something with object to get the address of the supplier :D 
 				if(item.equals("In Store"))
 				{
 					lblAssiginee.setVisible(false);
 					cmbAssignee.setVisible(false);
+					lblStartDate.setVisible(false);
+					lblEndDate.setVisible(false);
+					startDateChooser.setVisible(false);
+					endDateChooser.setVisible(false);
 				}
 				else if(item.equals("In Use"))
 				{
 					lblAssiginee.setVisible(true);
 					cmbAssignee.setVisible(true);
+					lblStartDate.setVisible(true);
+					lblEndDate.setVisible(true);
+					startDateChooser.setVisible(true);
+					endDateChooser.setVisible(true);
 				}
+				
 				
 			}
 		}   

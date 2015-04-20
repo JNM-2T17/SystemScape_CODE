@@ -244,7 +244,7 @@ public class EditPOItemGen extends PopUp implements ActionListener, FocusListene
 		public void itemStateChanged(ItemEvent event) {
 			if (event.getStateChange() == ItemEvent.SELECTED) {
 				Object item = event.getItem();
-				// DEV do something with object to get the address of the supplier :D 
+				
 				if(item.equals("In Store"))
 				{
 					lblAssiginee.setVisible(false);
