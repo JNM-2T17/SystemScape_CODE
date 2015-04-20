@@ -173,6 +173,24 @@ public class TabInventory extends JPanel implements ActionListener{
 		}
 		else if(((JButton) e.getSource()).getActionCommand().equals("export")){
 			new ExportInventory(gui);
+			
+			DefaultTableModel model = ((ViewInventory)list.get(0).getContent()).getModel();
+
+			ArrayList<String> headers=new ArrayList<String>();
+			
+			for (int j = 0; j < model.getColumnCount(); j++) {
+				System.out.print(model.getColumnName(j)+ " ");
+			}
+			
+			System.out.println();
+			
+			for (int i = 0; i < model.getRowCount(); i++) {
+				for (int j = 0; j+1 < model.getColumnCount(); j++) {
+					System.out.print(model.getValueAt(i, j)+" ");
+				}
+				System.out.println();
+			}
+			System.out.println(model);
 		}
 		else if(((JButton) e.getSource()).getActionCommand().equals("back")){
 			System.out.println("HEEERE");
