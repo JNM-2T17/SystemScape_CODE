@@ -22,6 +22,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.FlowLayout;
 import java.awt.CardLayout;
+import java.util.Arrays;
 
 import javax.swing.JSpinner;
 import javax.swing.JComboBox;
@@ -30,19 +31,21 @@ public class Settings extends PopUp implements ActionListener {
 	private JPasswordField txtOld;
 	private JPasswordField txtNew;
 	private JPasswordField txtConf;
-	private JButton btnSubmit;
+	private JButton btnSubmit, btnNotifSubmit;
 	private JSpinner spnWarranty, spnContract;
 	private JFrame parent;
 	private JComboBox cmbWarranty, cmbContract;
 	private CardLayout cl;
 	private JPanel panCenter;
 	private JButton btnChangePassword, btnNotificationSettings;
+	private String user;
+	
+	private boolean isPass=true;
 
-	private String username;
-	public Settings(JFrame parent, String username) {
+	public Settings(JFrame parent, String user) {
 		super(parent);
 		this.parent = parent;
-		this.username=username;
+		this.user = user;
 		JPanel panMain = new JPanel();
 		add(panMain);
 		panMain.setLayout(new BorderLayout(0, 0));
@@ -92,8 +95,9 @@ public class Settings extends PopUp implements ActionListener {
 		btnSubmit.setForeground(Color.white);
 		btnSubmit.setBackground(new Color(32, 130, 213));
 		btnSubmit.setFont(new Font("Arial", Font.PLAIN, 16));
+		
 		panFooter.add(btnSubmit);
-
+		
 		JPanel panContent = new JPanel();
 		panPass.add(panContent, BorderLayout.CENTER);
 		panContent.setBackground(Color.WHITE);
@@ -223,36 +227,81 @@ public class Settings extends PopUp implements ActionListener {
 		panNotFooter.setBackground(Color.WHITE);
 		panNotif.add(panNotFooter, BorderLayout.SOUTH);
 
-		JButton btnNotifSubmit = new JButton("Submit");
+		btnNotifSubmit = new JButton("Submit");
 		btnNotifSubmit.setForeground(Color.white);
 		btnNotifSubmit.setBackground(new Color(32, 130, 213));
 		btnNotifSubmit.setFont(new Font("Arial", Font.PLAIN, 16));
+		btnNotifSubmit.addActionListener(this);
 		panNotFooter.add(btnNotifSubmit);
-
+		
+		btnSubmit.addActionListener(this);
 		getClose().addActionListener(this);
 		setContent(panMain);
 		//
 
 		btnNotificationSettings.setBackground(Color.LIGHT_GRAY);
+		
 		cl.show(panCenter, "pass");
 		this.setVisible(true);
 		this.repaint();
 		this.revalidate();
-
+		
+	}
+	
+	public String checkInput(){
+		String text = "";
+		if(txtOld.getPassword().length == 0 && txtNew.getPassword().length == 0 && txtConf.getPassword().length == 0){
+			txtOld.setBorder(BorderFactory.createLineBorder(Color.RED, 1));
+			txtNew.setBorder(BorderFactory.createLineBorder(Color.RED, 1));
+			txtConf.setBorder(BorderFactory.createLineBorder(Color.RED, 1));
+			text+="Please complete all fields.\n";	
+		}else{
+			if(txtOld.getPassword().length == 0){
+				txtOld.setBorder(BorderFactory.createLineBorder(Color.RED, 1));
+				text+="Please specify old password.\n";	
+			}
+			if(txtNew.getPassword().length == 0){
+				txtNew.setBorder(BorderFactory.createLineBorder(Color.RED, 1));
+				text+="Please specify new password.\n";	
+			}
+			if(txtConf.getPassword().length == 0){
+				txtConf.setBorder(BorderFactory.createLineBorder(Color.RED, 1));
+				text+="Please specify new password.\n";	
+			}
+			if(!Arrays.equals(txtNew.getPassword(), txtConf.getPassword())){
+				txtConf.setBorder(BorderFactory.createLineBorder(Color.RED, 1));
+				text+="Passwords do not match.\n";
+			}
+		}
+		return text;
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == btnChangePassword) {
+			System.out.println("X");
 			cl.show(panCenter, "pass");
 			btnChangePassword.setBackground(Color.white);
 			btnNotificationSettings.setBackground(Color.LIGHT_GRAY);
+//			isPass=true;
+			System.out.println("here");
+			
 		} else if (e.getSource() == btnNotificationSettings) {
+			System.out.println("Z");
 			cl.show(panCenter, "notif");
 			btnNotificationSettings.setBackground(Color.white);
 			btnChangePassword.setBackground(Color.LIGHT_GRAY);
-
-		} else {
+//			isPass=false;
+			System.out.println("HERE");
+		} else if(e.getSource()==btnSubmit){
+				Message msg = new Message(parent, Message.SUCCESS,
+						"Password successfully edited.");
+		}else if(e.getSource()==btnNotifSubmit){
+				Message msg = new Message(parent, Message.SUCCESS,
+						"Notification settings successfully edited.");
+			
+		}
+		else if(e.getSource()==getClose()){
 			this.dispose();
 		}
 	}

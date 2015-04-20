@@ -31,9 +31,9 @@ public class UserDAO implements IDBGet {
                 preparedStatement2.setString(1, resultSet.getString("username"));
                 ResultSet resultSet2 = preparedStatement2.executeQuery();
                 if (resultSet2.next()) {
-                    user = new User(resultSet.getString("username"), resultSet.getString("password"), true);
+                    user = new User(resultSet.getString("username"), resultSet.getString("password"), true, resultSet.getInt("employeeID"));
                 } else {
-                    user = new User(resultSet.getString("username"), resultSet.getString("password"), false);
+                    user = new User(resultSet.getString("username"), resultSet.getString("password"), false, resultSet.getInt("employeeID"));
                 }
                 users.add(user);
             }
@@ -50,6 +50,42 @@ public class UserDAO implements IDBGet {
         return users.iterator();
     }
     
+    public String getID(String key){
+    	String username = "";
+    	try {
+            String query = "SELECT username FROM user where password = ?";
+            PreparedStatement preparedStatement = DBConnection.getConnection().prepareStatement(query);
+            preparedStatement.setString(1, key);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                 username = resultSet.getString("username");
+                
+            }
+        } catch (SQLException sqlException) {
+            sqlException.printStackTrace();
+        
+        }
+        return username;
+    }
+    
+    public String getUserUsingID(String key){
+    	String username = "";
+    	try {
+            String query = "SELECT username FROM user where employeeID = ?";
+            PreparedStatement preparedStatement = DBConnection.getConnection().prepareStatement(query);
+            preparedStatement.setString(1, key);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                 username = resultSet.getString("username");
+                
+            }
+        } catch (SQLException sqlException) {
+            sqlException.printStackTrace();
+        
+        }
+        return username;
+    }
+    
     public Iterator getUsers() {
         ArrayList<User> users = new ArrayList();
         User user;
@@ -60,7 +96,7 @@ public class UserDAO implements IDBGet {
             ResultSet resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
-                user = new User(resultSet.getString("username"), resultSet.getString("password"), false);
+                user = new User(resultSet.getString("username"), resultSet.getString("password"), false, resultSet.getInt("employeeID"));
                 users.add(user);
             }
         } catch (SQLException sqlException) {
@@ -91,9 +127,9 @@ public class UserDAO implements IDBGet {
                 ResultSet resultSet2 = preparedStatement2.executeQuery();
 
                 if (resultSet2.next()) {
-                    user = new User(resultSet.getString("username"), resultSet.getString("password"), true);
+                    user = new User(resultSet.getString("username"), resultSet.getString("password"), true, resultSet.getInt("employeeID"));
                 } else {
-                    user = new User(resultSet.getString("username"), resultSet.getString("password"), false);
+                    user = new User(resultSet.getString("username"), resultSet.getString("password"), false, resultSet.getInt("employeeID"));
                 }
 
                 try {
@@ -133,9 +169,9 @@ public class UserDAO implements IDBGet {
                 preparedStatement2.setString(1, resultSet.getString("username"));
                 ResultSet resultSet2 = preparedStatement2.executeQuery();
                 if (resultSet2.next()) {
-                    user = new User(resultSet.getString("username"), resultSet.getString("password"), true);
+                    user = new User(resultSet.getString("username"), resultSet.getString("password"), true, resultSet.getInt("employeeID"));
                 } else {
-                    user = new User(resultSet.getString("username"), resultSet.getString("password"), false);
+                    user = new User(resultSet.getString("username"), resultSet.getString("password"), false, resultSet.getInt("employeeID"));
                 }
                 users.add(user);
             }
@@ -151,13 +187,64 @@ public class UserDAO implements IDBGet {
         User user = (User) object;
         try {
 
-            String query = "INSERT INTO user VALUES(?,?);";
+            String query = "INSERT INTO user VALUES(?,?,?);";
             Connection connection = DBConnection.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(query);
             preparedStatement.setString(1, user.getUsername());
             preparedStatement.setString(2, user.getPassword());
+            preparedStatement.setInt(3, user.getEmployeeID());
+            preparedStatement.execute();
+        } catch (SQLException sqlException) {
+            sqlException.printStackTrace();
+        }
+
+    }
+    
+    public void adminRights(String name) {
+
+       
+        try {
+
+            String query = "INSERT INTO admin VALUES(?);";
+            Connection connection = DBConnection.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setString(1, name);
            
             preparedStatement.execute();
+        } catch (SQLException sqlException) {
+            sqlException.printStackTrace();
+        }
+
+    }
+    
+    public void update(Object object, String origKey) {
+        User user = (User) object;
+
+        try {
+            String query = "UPDATE user SET password = ?, employeeID=?, type=? WHERE username = ?;";
+            PreparedStatement preparedStatement = DBConnection.getConnection().prepareStatement(query);
+            //preparedStatement.setString(1, user.getUsername());
+            preparedStatement.setString(1, user.getPassword());//not sure bout the address format
+            preparedStatement.setInt(2, user.getEmployeeID());
+            
+            preparedStatement.setString(3, origKey);
+            preparedStatement.execute();
+            
+        } catch (SQLException sqlException) {
+            sqlException.printStackTrace();
+        }
+
+    }
+    
+    public void removeAdminRights(String user) {
+
+        
+        try {
+            String query = "DELETE FROM admin WHERE username = ?;";
+            PreparedStatement preparedStatement = DBConnection.getConnection().prepareStatement(query);
+            preparedStatement.setString(1, user);
+            preparedStatement.execute();
+            
         } catch (SQLException sqlException) {
             sqlException.printStackTrace();
         }

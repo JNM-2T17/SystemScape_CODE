@@ -43,6 +43,7 @@ public class UserController {
     public void addUser(User user){
     	u.setUsername(user.getUsername());
     	u.setPassword(user.getPassword());
+    	u.setEmployeeID(user.getEmployeeID());
     	u.setIsManager(u.isManager());
     	userDAO.add(u);
     }
