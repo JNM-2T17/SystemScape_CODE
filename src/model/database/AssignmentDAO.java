@@ -35,7 +35,7 @@ public class AssignmentDAO implements IDBCUD {
             while (resultSet.next()) {
 
             	Assignment assignment = new Assignment(resultSet.getInt("itemID"), 
-						new Employee( resultSet.getInt("employeeID"), resultSet.getString("name"), resultSet.getString("status"), resultSet.getString("type") ), resultSet.getDate("startDate"), resultSet.getDate("endDate"));
+						new Employee( resultSet.getInt("employeeID"), resultSet.getString("name"), resultSet.getString("status") ), resultSet.getDate("startDate"), resultSet.getDate("endDate"));
                 assignments.add(assignment);
 
             }
@@ -58,7 +58,7 @@ public class AssignmentDAO implements IDBCUD {
 
             if (resultSet.next()) {
                return new Assignment(resultSet.getInt("itemID"), 
-						new Employee( resultSet.getInt("employeeID"), resultSet.getString("name"), resultSet.getString("status"), resultSet.getString("type") ), resultSet.getDate("startDate"), resultSet.getDate("endDate"));
+						new Employee( resultSet.getInt("employeeID"), resultSet.getString("name"), resultSet.getString("status") ), resultSet.getDate("startDate"), resultSet.getDate("endDate"));
             }
 
         } catch (SQLException sqlException) {
@@ -82,7 +82,7 @@ public class AssignmentDAO implements IDBCUD {
             while (resultSet.next()) {
                 
                 Assignment assignment = new Assignment(resultSet.getInt("itemID"), 
-						new Employee( resultSet.getInt("employeeID"), resultSet.getString("name"), resultSet.getString("status"), resultSet.getString("type") ), resultSet.getDate("startDate"), resultSet.getDate("endDate"));
+						new Employee( resultSet.getInt("employeeID"), resultSet.getString("name"), resultSet.getString("status") ), resultSet.getDate("startDate"), resultSet.getDate("endDate"));
                 assignments.add(assignment);
             }
         } catch (SQLException sqlException) {

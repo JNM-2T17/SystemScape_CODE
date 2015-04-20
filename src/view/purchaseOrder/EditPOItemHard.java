@@ -34,13 +34,16 @@ import view.Message;
 import view.PopUp;
 
 import com.toedter.calendar.JDateChooser;
+import controller.AssignmentController;
 
 import controller.EmployeeController;
 import controller.InventoryItemController;
 import controller.PurchaseOrderController;
+import model.Assignment;
 import model.Employee;
 import model.ITAsset;
 import model.InventoryItem;
+import model.NonITAsset;
 
 public class EditPOItemHard extends PopUp implements ActionListener, FocusListener {
 
@@ -78,6 +81,8 @@ public class EditPOItemHard extends PopUp implements ActionListener, FocusListen
     private JComboBox cbxStatus;
     private ItemData itemData;
     private InventoryItemController inventoryItemController;
+    private EmployeeController employeeController;
+    private AssignmentController assignmentController;
     private JLabel lblType;
     private JComboBox cmbType;
     private JLabel lblStartDate;
@@ -91,6 +96,8 @@ public class EditPOItemHard extends PopUp implements ActionListener, FocusListen
         itemData = id;
         this.poController = poController;
         inventoryItemController = InventoryItemController.getInstance();
+        employeeController = EmployeeController.getInstance();
+        assignmentController = AssignmentController.getInstance();
         this.addFocusListener(this);
         this.setUndecorated(true);
 
@@ -175,6 +182,7 @@ public class EditPOItemHard extends PopUp implements ActionListener, FocusListen
         txtService.setPreferredSize(new Dimension(120, 20));
         panContent.add(txtService, "cell 2 4,growx");
         txtService.setColumns(10);
+
         txtService.addFocusListener(new FocusListener() {
             Border border = BorderFactory.createLineBorder(Color.BLACK, 1);
 
@@ -206,7 +214,7 @@ public class EditPOItemHard extends PopUp implements ActionListener, FocusListen
         cbxStatus = new JComboBox();
         cbxStatus.setBackground(Color.WHITE);
         cbxStatus.setFont(new Font("Arial", Font.PLAIN, 11));
-        cbxStatus.setModel(new DefaultComboBoxModel(new String[]{"In Store", "In Use"}));
+        cbxStatus.setModel(new DefaultComboBoxModel(new String[]{"In Use", "In Store"}));
         cbxStatus.addItemListener(new ItemAssigneeChangeListener());
         panContent.add(cbxStatus, "cell 2 6,alignx left");
 
@@ -230,17 +238,17 @@ public class EditPOItemHard extends PopUp implements ActionListener, FocusListen
         cmbAssignee.setBackground(Color.WHITE);
         panContent.add(cmbAssignee, "cell 2 9,growx");
         populateCmbEmployee();
-        
+
         lblStartDate = new JLabel("Start Date :");
         panContent.add(lblStartDate, "cell 2 11");
-        
+
         startDateChooser = new JDateChooser();
         startDateChooser.setDateFormatString("MMMM dd, yyyy");
         panContent.add(startDateChooser, "cell 3 11,grow");
-        
+
         lblEndDate = new JLabel("End Date :");
         panContent.add(lblEndDate, "cell 2 12");
-        
+
         endDateChooser = new JDateChooser();
         endDateChooser.setDateFormatString("MMMM dd, yyyy");
         panContent.add(endDateChooser, "cell 3 12,grow");
@@ -443,12 +451,24 @@ public class EditPOItemHard extends PopUp implements ActionListener, FocusListen
                  * *insert code statements here to add the information of a
                  * hardware item**
                  */
-                InventoryItem ii = new ITAsset(0, itemData.getName(), itemData.getDescription(), itemData.getUnitPrice(), txtInvoice.getText(),
-                        (String) cbxLocation.getSelectedItem(), (String) cbxStatus.getSelectedItem(), (String) cmbType.getSelectedItem(), Integer.parseInt(txtAsset.getText()),
-                        txtService.getText(), dateChooserDelivery.getDate(), dateChooserWarrantyStart.getDate(), dateChooserWarrantyEnd.getDate(),
-                        dateChooserContractStart.getDate(), dateChooserContractEnd.getDate(), Float.parseFloat(txtMaintenance.getText()));
+                InventoryItem ii = null;
+                if (((String) cmbType.getSelectedItem()).equals("IT")) {
+                    ii = new ITAsset(0, itemData.getName(), itemData.getDescription(), itemData.getUnitPrice(), txtInvoice.getText(),
+                            (String) cbxLocation.getSelectedItem(), (String) cbxStatus.getSelectedItem(), (String) cmbType.getSelectedItem(), Integer.parseInt(txtAsset.getText()),
+                            txtService.getText(), dateChooserDelivery.getDate(), dateChooserWarrantyStart.getDate(), dateChooserWarrantyEnd.getDate(),
+                            dateChooserContractStart.getDate(), dateChooserContractEnd.getDate(), Float.parseFloat(txtMaintenance.getText()));
+                }else {
+                    ii = new NonITAsset(0, itemData.getName(), itemData.getDescription(), itemData.getUnitPrice(), txtInvoice.getText(),
+                            (String) cbxLocation.getSelectedItem(), (String) cbxStatus.getSelectedItem(), (String) cmbType.getSelectedItem(), dateChooserWarrantyStart.getDate(), dateChooserWarrantyEnd.getDate());
+                }
 
                 inventoryItemController.addInventoryItem(ii);
+                if (((String) cbxStatus.getSelectedItem()).equals("In Use")) {
+                    int maxID = inventoryItemController.getID();
+                    Employee employee = (Employee) employeeController.getObject(((String) cmbAssignee.getSelectedItem()));
+                    Assignment as = new Assignment(maxID, employee, startDateChooser.getDate(), endDateChooser.getDate());
+                    assignmentController.add(as);
+                }
                 poController.incQtyRcvd(itemData);
                 poController.editPurchaseOrder(poController.getPurchaseOrder());
                 this.setVisible(false);
@@ -527,59 +547,53 @@ public class EditPOItemHard extends PopUp implements ActionListener, FocusListen
         JFrame f = (JFrame) e.getSource();
         f.toFront();
     }
-    
-    class ItemAssigneeChangeListener implements ItemListener{
-		@Override
-		public void itemStateChanged(ItemEvent event) {
-			if (event.getStateChange() == ItemEvent.SELECTED) {
-				Object item = event.getItem();
-				if(item.equals("In Store"))
-				{
-					lblAssiginee.setVisible(false);
-					cmbAssignee.setVisible(false);
-					lblStartDate.setVisible(false);
-					lblEndDate.setVisible(false);
-					startDateChooser.setVisible(false);
-					endDateChooser.setVisible(false);
-				}
-				else if(item.equals("In Use"))
-				{
-					lblAssiginee.setVisible(true);
-					cmbAssignee.setVisible(true);
-					lblStartDate.setVisible(true);
-					lblEndDate.setVisible(true);
-					startDateChooser.setVisible(true);
-					endDateChooser.setVisible(true);
-				}
-				
-				
-			}
-		}   
-	}
-    
-    class ItemChangeListener implements ItemListener{
-		@Override
-		public void itemStateChanged(ItemEvent event) {
-			if (event.getStateChange() == ItemEvent.SELECTED) {
-				Object item = event.getItem();
-				// DEV do something with object to get the address of the supplier :D 
-				if(item.equals("Non-IT"))
-				{
-					lblAsset.setVisible(false);
-					txtAsset.setVisible(false);
-					lblService.setVisible(false);
-					txtService.setVisible(false);
-					
-				}
-				else
-				{
-					lblAsset.setVisible(true);
-					txtAsset.setVisible(true);
-					lblService.setVisible(true);
-					txtService.setVisible(true);
-				}
-				
-			}
-		}   
-	}
+
+    class ItemAssigneeChangeListener implements ItemListener {
+
+        @Override
+        public void itemStateChanged(ItemEvent event) {
+            if (event.getStateChange() == ItemEvent.SELECTED) {
+                Object item = event.getItem();
+                if (item.equals("In Store")) {
+                    lblAssiginee.setVisible(false);
+                    cmbAssignee.setVisible(false);
+                    lblStartDate.setVisible(false);
+                    lblEndDate.setVisible(false);
+                    startDateChooser.setVisible(false);
+                    endDateChooser.setVisible(false);
+                } else if (item.equals("In Use")) {
+                    lblAssiginee.setVisible(true);
+                    cmbAssignee.setVisible(true);
+                    lblStartDate.setVisible(true);
+                    lblEndDate.setVisible(true);
+                    startDateChooser.setVisible(true);
+                    endDateChooser.setVisible(true);
+                }
+            }
+        }
+    }
+
+    class ItemChangeListener implements ItemListener {
+
+        @Override
+        public void itemStateChanged(ItemEvent event) {
+            if (event.getStateChange() == ItemEvent.SELECTED) {
+                Object item = event.getItem();
+                // DEV do something with object to get the address of the supplier :D 
+                if (item.equals("Non-IT")) {
+                    lblAsset.setVisible(false);
+                    txtAsset.setVisible(false);
+                    lblService.setVisible(false);
+                    txtService.setVisible(false);
+
+                } else {
+                    lblAsset.setVisible(true);
+                    txtAsset.setVisible(true);
+                    lblService.setVisible(true);
+                    txtService.setVisible(true);
+                }
+
+            }
+        }
+    }
 }

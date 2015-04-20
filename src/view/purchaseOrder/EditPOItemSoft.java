@@ -30,10 +30,12 @@ import view.Message;
 import view.PopUp;
 
 import com.toedter.calendar.JDateChooser;
+import controller.AssignmentController;
 
 import controller.EmployeeController;
 import controller.InventoryItemController;
 import controller.PurchaseOrderController;
+import model.Assignment;
 import model.Employee;
 import model.InventoryItem;
 import model.SoftwareItem;
@@ -58,6 +60,8 @@ public class EditPOItemSoft extends PopUp implements ActionListener, FocusListen
     private JComboBox cbxLocation;
     private ItemData itemData;
     private InventoryItemController inventoryItemController;
+    private AssignmentController assignmentController;
+    private EmployeeController employeeController;
     private JLabel lblStartDate;
     private JDateChooser startDateChooser;
     private JLabel lblEndDate;
@@ -69,6 +73,8 @@ public class EditPOItemSoft extends PopUp implements ActionListener, FocusListen
         itemData = id;
         this.poController = poController;
         inventoryItemController = InventoryItemController.getInstance();
+        assignmentController = AssignmentController.getInstance();
+        employeeController = EmployeeController.getInstance();
         this.addFocusListener(this);
         this.setUndecorated(true);
 
@@ -135,7 +141,7 @@ public class EditPOItemSoft extends PopUp implements ActionListener, FocusListen
         cbxStatus = new JComboBox();
         cbxStatus.setBackground(Color.WHITE);
         cbxStatus.setFont(new Font("Arial", Font.PLAIN, 14));
-        cbxStatus.setModel(new DefaultComboBoxModel(new String[]{"In Store", "In Use"}));
+        cbxStatus.setModel(new DefaultComboBoxModel(new String[]{"In Use", "In Store"}));
         cbxStatus.addItemListener(new ItemAssigneeChangeListener());
         panContent.add(cbxStatus, "cell 1 4,alignx left");
 
@@ -170,20 +176,20 @@ public class EditPOItemSoft extends PopUp implements ActionListener, FocusListen
         cmbAssignee.setPreferredSize(new Dimension(145, 32));
         cmbAssignee.setBackground(Color.WHITE);
         panContent.add(cmbAssignee, "cell 1 6,alignx left");
-        
+
         lblStartDate = new JLabel("Start Date :");
         lblStartDate.setFont(new Font("Arial", Font.PLAIN, 14));
         panContent.add(lblStartDate, "cell 1 8");
-        
+
         startDateChooser = new JDateChooser();
         startDateChooser.setFont(new Font("Arial", Font.PLAIN, 14));
         startDateChooser.setDateFormatString("MMMM dd, yyyy");
         panContent.add(startDateChooser, "cell 2 8,grow");
-        
+
         lblEndDate = new JLabel("End Date :");
         lblEndDate.setFont(new Font("Arial", Font.PLAIN, 14));
         panContent.add(lblEndDate, "cell 1 9");
-        
+
         endDateChooser = new JDateChooser();
         endDateChooser.setFont(new Font("Arial", Font.PLAIN, 14));
         endDateChooser.setDateFormatString("MMMM dd, yyyy");
@@ -206,18 +212,16 @@ public class EditPOItemSoft extends PopUp implements ActionListener, FocusListen
         this.setVisible(true);
     }
 
-    public void populateCmbEmployee()
-   	{
-   		cmbAssignee.addItem("None");
-   		EmployeeController ec = EmployeeController.getInstance();
-   		Iterator<Employee> eList = ec.getAll();
-   		while(eList.hasNext())
-   		{
-   			Employee e = eList.next();
-   			cmbAssignee.addItem(e.getName());
-   		}
-   	}
-       
+    public void populateCmbEmployee() {
+        cmbAssignee.addItem("None");
+        EmployeeController ec = EmployeeController.getInstance();
+        Iterator<Employee> eList = ec.getAll();
+        while (eList.hasNext()) {
+            Employee e = eList.next();
+            cmbAssignee.addItem(e.getName());
+        }
+    }
+
     public String checkFields() {
         String error = "";
         Border border = BorderFactory.createLineBorder(Color.RED, 2);
@@ -236,7 +240,7 @@ public class EditPOItemSoft extends PopUp implements ActionListener, FocusListen
 
     @Override
     public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
+        // TODO Auto-generated method stub
 
         if (e.getSource() == getClose()) {
             this.setVisible(false);
@@ -247,14 +251,18 @@ public class EditPOItemSoft extends PopUp implements ActionListener, FocusListen
 
             if (error.equals("") == true) {
 
-                /**
-                 * *insert code statements here to add the information of a
-                 * software item**
-                 */
                 InventoryItem ii = new SoftwareItem(0, itemData.getName(), itemData.getDescription(), itemData.getUnitPrice(), txtInvoice.getText(),
                         (String) cbxLocation.getSelectedItem(), (String) cbxStatus.getSelectedItem(), "Hard", txtLicense.getText());
 
                 inventoryItemController.addInventoryItem(ii);
+                if (((String) cbxStatus.getSelectedItem()).equals("In Use")) {
+                    int maxID = inventoryItemController.getID();
+                    Employee employee = (Employee) employeeController.getObject(((String) cmbAssignee.getSelectedItem()));
+                    Assignment as = new Assignment(maxID, employee, startDateChooser.getDate(), endDateChooser.getDate());
+                    assignmentController.add(as);
+                }
+                poController.incQtyRcvd(itemData);
+                poController.editPurchaseOrder(poController.getPurchaseOrder());
                 this.setVisible(false);
                 this.dispose();
             } else if (error.equals("") == false) {
@@ -282,34 +290,32 @@ public class EditPOItemSoft extends PopUp implements ActionListener, FocusListen
         return 0;
     }
 
-    class ItemAssigneeChangeListener implements ItemListener{
-		@Override
-		public void itemStateChanged(ItemEvent event) {
-			if (event.getStateChange() == ItemEvent.SELECTED) {
-				Object item = event.getItem();
-				if(item.equals("In Store"))
-				{
-					lblAssiginee.setVisible(false);
-					cmbAssignee.setVisible(false);
-					lblStartDate.setVisible(false);
-					lblEndDate.setVisible(false);
-					startDateChooser.setVisible(false);
-					endDateChooser.setVisible(false);
-				}
-				else if(item.equals("In Use"))
-				{
-					lblAssiginee.setVisible(true);
-					cmbAssignee.setVisible(true);
-					lblStartDate.setVisible(true);
-					lblEndDate.setVisible(true);
-					startDateChooser.setVisible(true);
-					endDateChooser.setVisible(true);
-				}
-				
-				
-			}
-		}   
-	}
+    class ItemAssigneeChangeListener implements ItemListener {
+
+        @Override
+        public void itemStateChanged(ItemEvent event) {
+            if (event.getStateChange() == ItemEvent.SELECTED) {
+                Object item = event.getItem();
+                if (item.equals("In Store")) {
+                    lblAssiginee.setVisible(false);
+                    cmbAssignee.setVisible(false);
+                    lblStartDate.setVisible(false);
+                    lblEndDate.setVisible(false);
+                    startDateChooser.setVisible(false);
+                    endDateChooser.setVisible(false);
+                } else if (item.equals("In Use")) {
+                    lblAssiginee.setVisible(true);
+                    cmbAssignee.setVisible(true);
+                    lblStartDate.setVisible(true);
+                    lblEndDate.setVisible(true);
+                    startDateChooser.setVisible(true);
+                    endDateChooser.setVisible(true);
+                }
+
+            }
+        }
+    }
+
     /**
      * **parse string to float***
      */
@@ -322,7 +328,7 @@ public class EditPOItemSoft extends PopUp implements ActionListener, FocusListen
 
     @Override
     public void focusGained(FocusEvent e) {
-		// TODO Auto-generated method stub
+        // TODO Auto-generated method stub
 
     }
 

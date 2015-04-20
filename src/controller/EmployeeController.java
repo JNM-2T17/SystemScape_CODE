@@ -14,7 +14,6 @@ import model.Supplier;
 import model.SupplierContact;
 import model.database.DAO;
 import model.database.EmployeeDAO;
-import model.database.UserDAO;
 import view.Observer;
 import view.Subject;
 
@@ -29,14 +28,12 @@ public class EmployeeController implements Subject {
     private Employee employee;
     private ArrayList<Observer> observerList;
     private EmployeeDAO employeeDAO;
-    private UserDAO userDAO;
 
     public EmployeeController() {
         dao = DAO.getInstance();
         observerList = new ArrayList();
         employee = new Employee();
         employeeDAO = new EmployeeDAO();
-        userDAO = new UserDAO();
         
     }
     
@@ -64,7 +61,6 @@ public class EmployeeController implements Subject {
         employee.setName(emp.getName());
         employee.setID(emp.getID());
         employee.setStatus(emp.getStatus());
-        employee.setType(emp.getType());
 
         dao.add("Employee", employee);
         
@@ -79,25 +75,11 @@ public class EmployeeController implements Subject {
     	return employeeDAO.getProjects(key);
     }
     
-    public void turnAdmin(String name){
-    	userDAO.adminRights(name);
-    }
-    
-    public String getUsernameUsingID(String id){
-    	return userDAO.getUserUsingID(id);
-    
-    }
-    
-    public void removeAdmin(String name){
-    	userDAO.removeAdminRights(name);
-    }
-    
     
     public void editEmployee(Employee emp, String key) {
     	employee.setName(emp.getName());
     	employee.setID(emp.getID());
     	employee.setStatus(emp.getStatus());
-    	employee.setType(emp.getType());
     	employee.setProjectList(emp.getProjectList());
     	System.out.println("Employee name: "+employee.getName());
     	System.out.println("Employee id: "+employee.getID());

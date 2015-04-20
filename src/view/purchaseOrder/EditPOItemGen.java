@@ -30,10 +30,12 @@ import view.Message;
 import view.PopUp;
 
 import com.toedter.calendar.JDateChooser;
+import controller.AssignmentController;
 
 import controller.EmployeeController;
 import controller.InventoryItemController;
 import controller.PurchaseOrderController;
+import model.Assignment;
 import model.Employee;
 import model.InventoryItem;
 import model.NonITAsset;
@@ -47,6 +49,8 @@ public class EditPOItemGen extends PopUp implements ActionListener, FocusListene
     private JButton btnSubmit;
 
     private PurchaseOrderController poController;
+    private AssignmentController assignmentController;
+    private EmployeeController employeeController;
     private JLabel lblAssiginee;
     private JComboBox cmbAssignee;
     private JDateChooser dateChooserDelivery;
@@ -69,6 +73,9 @@ public class EditPOItemGen extends PopUp implements ActionListener, FocusListene
         itemData = id;
         this.poController = poController;
         inventoryItemController = InventoryItemController.getInstance();
+        assignmentController = AssignmentController.getInstance();
+        employeeController = EmployeeController.getInstance();
+        
         this.addFocusListener(this);
         this.setUndecorated(true);
 
@@ -126,7 +133,7 @@ public class EditPOItemGen extends PopUp implements ActionListener, FocusListene
 
         cbxStatus = new JComboBox();
         cbxStatus.setBackground(Color.WHITE);
-        cbxStatus.setModel(new DefaultComboBoxModel(new String[]{"In Store", "In Use"}));
+        cbxStatus.setModel(new DefaultComboBoxModel(new String[]{"In Use", "In Store"}));
         cbxStatus.addItemListener(new ItemAssigneeChangeListener());
         cbxStatus.setFont(new Font("Arial", Font.PLAIN, 14));
         panContent.add(cbxStatus, "cell 1 3,alignx left");
@@ -226,6 +233,12 @@ public class EditPOItemGen extends PopUp implements ActionListener, FocusListene
                 InventoryItem ii = new InventoryItem(0, itemData.getName(), itemData.getDescription(), itemData.getUnitPrice(), txtInvoice.getText(),
                         (String) cbxLocation.getSelectedItem(), (String) cbxStatus.getSelectedItem(), "Others");
                 inventoryItemController.addInventoryItem(ii);
+                if (((String) cbxStatus.getSelectedItem()).equals("In Use")) {
+                    int maxID = inventoryItemController.getID();
+                    Employee employee = (Employee) employeeController.getObject(((String) cmbAssignee.getSelectedItem()));
+                    Assignment as = new Assignment(maxID, employee, startDateChooser.getDate(), endDateChooser.getDate());
+                    assignmentController.add(as);
+                }
                 poController.incQtyRcvd(itemData);
                 poController.editPurchaseOrder(poController.getPurchaseOrder());
                 this.setVisible(false);

@@ -34,6 +34,9 @@ import view.JTextFieldFilter;
 import view.Message;
 import view.PopUp;
 import controller.PurchaseOrderController;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.Iterator;
 import javax.swing.DefaultComboBoxModel;
 import model.InventoryItem;
@@ -122,6 +125,14 @@ public class AddPOItem extends PopUp implements ActionListener, FocusListener {
                 .getListener(txtQuantity));
         txtQuantity.setDocument(new JTextFieldFilter(JTextFieldFilter.NUMERIC));
         txtQuantity.setPreferredSize(new Dimension(10, 25));
+        txtQuantity.addKeyListener(new KeyAdapter() {
+            public void keyReleased(KeyEvent e) {
+                int quantity = parseStringInt(txtQuantity.getText());
+                float price = (float) parseStringFloat(txtPrice.getText());
+                float result = quantity * price;
+                lblAmountValue.setText(String.valueOf(result));
+            }
+        });
         panContent.add(txtQuantity, "cell 1 6");
         txtQuantity.setColumns(10);
 
@@ -132,6 +143,14 @@ public class AddPOItem extends PopUp implements ActionListener, FocusListener {
         txtPrice.addFocusListener(ErrorListenerFactory.getListener(txtPrice));
         txtPrice.setDocument(new JTextFieldFilter(JTextFieldFilter.FLOAT));
         txtPrice.setPreferredSize(new Dimension(10, 25));
+        txtPrice.addKeyListener(new KeyAdapter() {
+            public void keyReleased(KeyEvent e) {
+                int quantity = parseStringInt(txtQuantity.getText());
+                float price = (float) parseStringFloat(txtPrice.getText());
+                float result = quantity * price;
+                lblAmountValue.setText(String.valueOf(result));
+            }
+        });
         panContent.add(txtPrice, "cell 1 7");
         txtPrice.addActionListener(new TextAmountActionListener());
         txtPrice.setColumns(10);
@@ -176,14 +195,17 @@ public class AddPOItem extends PopUp implements ActionListener, FocusListener {
         while (items.hasNext()) {
             ii = (InventoryItem) items.next();
             if (type.equals("Hard")) {
-                if(ii.getClassification().equals("Non-IT") || ii.getClassification().equals("IT"))
+                if (ii.getClassification().equals("Non-IT") || ii.getClassification().equals("IT")) {
                     specificItems.addElement(ii.getName());
+                }
             } else if (type.equals("Soft")) {
-                if(ii.getClassification().equals("Soft"))
+                if (ii.getClassification().equals("Soft")) {
                     specificItems.addElement(ii.getName());
+                }
             } else {
-                if(ii.getClassification().equals("Gen") || ii.getClassification().equals("Others"))
+                if (ii.getClassification().equals("Gen") || ii.getClassification().equals("Others")) {
                     specificItems.addElement(ii.getName());
+                }
             }
         }
         cmbItem.setModel(specificItems);
@@ -198,11 +220,18 @@ public class AddPOItem extends PopUp implements ActionListener, FocusListener {
             }
         }
     }
-    
-    public void fillForm(){
-        ItemData ii = (ItemData)itemDataController.get((String) cmbItem.getSelectedItem());
-        txtDescription.setText(ii.getDescription());
-        txtPrice.setText(String.valueOf(ii.getUnitPrice()));
+
+    public void fillForm() {
+        ItemData ii = (ItemData) itemDataController.get((String) cmbItem.getSelectedItem());
+        if (ii != null) {
+            txtDescription.setText(ii.getDescription());
+            txtPrice.setText(String.valueOf(ii.getUnitPrice()));
+            
+            int quantity = parseStringInt(txtQuantity.getText());
+            float price = (float) parseStringFloat(txtPrice.getText());
+            float result = quantity * price;
+            lblAmountValue.setText(String.valueOf(result));
+        }
     }
 
     @Override
@@ -301,8 +330,10 @@ public class AddPOItem extends PopUp implements ActionListener, FocusListener {
             float result = quantity * price;
             lblAmountValue.setText(String.valueOf(df.format(result)));
         }
-
     }
+    
+    
+    
 
     @Override
     public void focusGained(FocusEvent e) {

@@ -173,38 +173,6 @@ public class TabInventory extends JPanel implements ActionListener{
 		}
 		else if(((JButton) e.getSource()).getActionCommand().equals("export")){
 			new ExportInventory(gui);
-			
-			DefaultTableModel model = ((ViewInventory)list.get(0).getContent()).getModel();
-
-			//getHeaders
-			ArrayList<String> headers=new ArrayList<String>();
-			
-			for (int j = 0; j < model.getColumnCount(); j++) {
-				headers.add(model.getColumnName(j));
-			}
-			
-			//print Headers
-			for (int j = 0; j < model.getColumnCount(); j++) {
-				if(((ViewInventory)list.get(0).getContent()).isColVisible(headers.get(j))) System.out.print(model.getColumnName(j)+ " ");
-			}
-			
-			System.out.println();
-			
-			//printData
-			for (int i = 0; i < model.getRowCount(); i++) {
-				if(((ViewInventory)list.get(0).getContent()).isToggle()){
-					for (int j = 0; j < model.getColumnCount(); j++) {
-						 if(((ViewInventory)list.get(0).getContent()).isColVisible(headers.get(j))) System.out.print(model.getValueAt(i, j)+" ");
-					}
-				}
-				else{
-					for (int j = 0; j+1 < model.getColumnCount(); j++) {
-						 if(((ViewInventory)list.get(0).getContent()).isColVisible(headers.get(j))) System.out.print(model.getValueAt(i, j)+" ");
-					}
-				}
-				System.out.println();
-			}
-			System.out.println(model);
 		}
 		else if(((JButton) e.getSource()).getActionCommand().equals("back")){
 			System.out.println("HEEERE");
