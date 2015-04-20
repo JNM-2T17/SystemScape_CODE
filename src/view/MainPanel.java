@@ -111,7 +111,7 @@ public class MainPanel extends JPanel implements ActionListener {
 		btnClose.addActionListener(this);
 		panUser.add(btnClose);
 
-		panNotif = new Notification();
+		panNotif = new Notification(name);
                 ((Observer)panNotif).update();
                 
 		panNotif.setPreferredSize(new Dimension(200, 10));

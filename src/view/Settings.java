@@ -25,6 +25,7 @@ import java.awt.CardLayout;
 
 import javax.swing.JSpinner;
 import javax.swing.JComboBox;
+import model.database.UserDAO;
 
 public class Settings extends PopUp implements ActionListener {
 	private JPasswordField txtOld;
@@ -251,8 +252,25 @@ public class Settings extends PopUp implements ActionListener {
 			cl.show(panCenter, "notif");
 			btnNotificationSettings.setBackground(Color.white);
 			btnChangePassword.setBackground(Color.LIGHT_GRAY);
+<<<<<<< HEAD
 
 		} else {
+=======
+//			isPass=false;
+			System.out.println("HERE");
+		} else if(e.getSource()==btnSubmit){
+				Message msg = new Message(parent, Message.SUCCESS,
+						"Password successfully edited.");
+		}else if(e.getSource()==btnNotifSubmit){
+                                UserDAO userDAO = new UserDAO();
+                                userDAO.updateNotificationDuration(spnContract.getValue().toString() + " " + cmbContract.getSelectedItem().toString(), spnWarranty.getValue().toString() + " " + cmbWarranty.getSelectedItem().toString(), user);
+                                Message msg = new Message(parent, Message.SUCCESS,
+						"Notification settings successfully edited.");
+                                this.dispose();
+			
+		}
+		else if(e.getSource()==getClose()){
+>>>>>>> 387867a56ff81746bb9612086121d747009dff74
 			this.dispose();
 		}
 	}

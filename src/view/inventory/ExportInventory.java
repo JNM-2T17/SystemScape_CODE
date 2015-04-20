@@ -10,6 +10,8 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.FileWriter;
+import java.util.Iterator;
 
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -24,10 +26,10 @@ public class ExportInventory extends PopUp implements ActionListener{
 	private JButton btnExport, btnBrowse;
 	private JTextField txtName;
 	private JTextField txtDest;
-
-	public ExportInventory(JFrame parent) {
+        private Iterator data;
+	public ExportInventory(JFrame parent, Iterator i) {
 		super(parent);
-
+                data = i;
 		JPanel panMain = new JPanel();
 		panMain.setSize(new Dimension(500, 200));
 		panMain.setPreferredSize(new Dimension(500, 200));
@@ -52,7 +54,8 @@ public class ExportInventory extends PopUp implements ActionListener{
 		btnExport.setBackground(new Color(32, 130, 213));
 		btnExport.setFont(new Font("Arial", Font.PLAIN, 18));
 		panFooter.add(btnExport);
-
+                btnExport.addActionListener(this);
+                
 		JPanel panContent = new JPanel();
 		panContent.setBackground(Color.WHITE);
 		panMain.add(panContent, BorderLayout.CENTER);
@@ -108,20 +111,69 @@ public class ExportInventory extends PopUp implements ActionListener{
 		this.repaint();
 		this.revalidate();
 	}
+        
+        public void writeCsvFile(String fileName) {
 
+        FileWriter fileWriter = null;
+
+                 
+        try {
+
+            fileWriter = new FileWriter(fileName);
+
+            while(data.hasNext()){
+                fileWriter.append(data.next().toString());
+            }
+             
+            System.out.println("CSV file was created successfully !!!");
+
+             
+
+        } catch (Exception e) {
+
+            System.out.println("Error in CsvFileWriter !!!");
+
+            e.printStackTrace();
+
+        } finally {
+
+            try {
+
+                fileWriter.flush();
+
+                fileWriter.close();
+
+            } catch (Exception e) {
+
+                System.out.println("Error while flushing/closing fileWriter");
+
+                e.printStackTrace();
+
+            }
+
+        }
+
+    }
+
+        
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		if(e.getSource()==btnBrowse){
 			 JFileChooser fc = new JFileChooser();
+                         fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 			int returnVal = fc.showOpenDialog(this);
 
 	        if (returnVal == JFileChooser.APPROVE_OPTION) {
 	            File file = fc.getSelectedFile();
 	            //This is where a real application would open the file.
 	            txtDest.setText(file.getAbsolutePath());
-	        }
+                    }
 		}
+                else if(e.getSource()==btnExport){
+                   writeCsvFile(txtDest.getText()+"\\"+txtName.getText()+".csv");
+                   this.dispose();
+                }
 		else if(e.getSource()==getClose()){
 			this.dispose();
 		}

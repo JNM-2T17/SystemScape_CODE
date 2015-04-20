@@ -163,5 +163,76 @@ public class UserDAO implements IDBGet {
         }
 
     }
+    
+
+    public void updateNotificationDuration(String contractDuration, String warrantyDuration, String username){
+        try {
+
+            String query = "UPDATE admin SET warrantyDuration = ?, contractDuration = ? WHERE username = ?";
+            Connection connection = DBConnection.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setString(1, warrantyDuration);
+            preparedStatement.setString(2, contractDuration);
+            preparedStatement.setString(3, username);
+           
+            preparedStatement.execute();
+        } catch (SQLException sqlException) {
+            sqlException.printStackTrace();
+        }
+    }
+    
+    public Iterator getNotificationDuration(String username){
+        ArrayList<String> durations = new ArrayList();
+        try {
+            String query = "SELECT warrantyDuration, contractDuration FROM admin WHERE username = ?";
+            Connection connection = DBConnection.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setString(1, username);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if(resultSet.next()){
+                durations.add(resultSet.getString("warrantyDuration"));
+                durations.add(resultSet.getString("contractDuration"));
+            }
+        } catch (SQLException sqlException) {
+            sqlException.printStackTrace();
+        }
+
+        return durations.iterator();
+
+    }
+    
+    public void update(Object object, String origKey) {
+        User user = (User) object;
+
+        try {
+            String query = "UPDATE user SET password = ?, employeeID=?, type=? WHERE username = ?;";
+            PreparedStatement preparedStatement = DBConnection.getConnection().prepareStatement(query);
+            //preparedStatement.setString(1, user.getUsername());
+            preparedStatement.setString(1, user.getPassword());//not sure bout the address format
+            preparedStatement.setInt(2, user.getEmployeeID());
+            
+            preparedStatement.setString(3, origKey);
+            preparedStatement.execute();
+            
+        } catch (SQLException sqlException) {
+            sqlException.printStackTrace();
+        }
+
+    }
+    
+    public void removeAdminRights(String user) {
+
+        
+        try {
+            String query = "DELETE FROM admin WHERE username = ?;";
+            PreparedStatement preparedStatement = DBConnection.getConnection().prepareStatement(query);
+            preparedStatement.setString(1, user);
+            preparedStatement.execute();
+            
+        } catch (SQLException sqlException) {
+            sqlException.printStackTrace();
+        }
+
+    }
 
 }

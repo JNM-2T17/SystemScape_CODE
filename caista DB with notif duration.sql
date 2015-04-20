@@ -1,10 +1,10 @@
 CREATE DATABASE  IF NOT EXISTS `caista` /*!40100 DEFAULT CHARACTER SET utf8 */;
 USE `caista`;
--- MySQL dump 10.13  Distrib 5.6.17, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 5.6.17, for Win32 (x86)
 --
--- Host: localhost    Database: caista
+-- Host: 127.0.0.1    Database: caista
 -- ------------------------------------------------------
--- Server version	5.6.23-log
+-- Server version	5.6.22-log
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -26,9 +26,9 @@ DROP TABLE IF EXISTS `admin`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `admin` (
   `username` varchar(255) NOT NULL,
-  PRIMARY KEY (`username`),
   `warrantyDuration` varchar(50) NOT NULL,
   `contractDuration` varchar(50) NOT NULL,
+  PRIMARY KEY (`username`),
   CONSTRAINT `Adminfk_1` FOREIGN KEY (`username`) REFERENCES `user` (`username`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -39,7 +39,7 @@ CREATE TABLE `admin` (
 
 LOCK TABLES `admin` WRITE;
 /*!40000 ALTER TABLE `admin` DISABLE KEYS */;
-INSERT INTO `admin` VALUES ('hot pie','1 weeks','1 weeks');
+INSERT INTO `admin` VALUES ('admin','2 weeks','2 weeks'),('hot pie','1 weeks','1 weeks');
 /*!40000 ALTER TABLE `admin` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -97,7 +97,6 @@ CREATE TABLE `employee` (
   `ID` int(11) NOT NULL,
   `name` varchar(255) NOT NULL,
   `status` varchar(255) DEFAULT NULL,
-  `type` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -108,7 +107,7 @@ CREATE TABLE `employee` (
 
 LOCK TABLES `employee` WRITE;
 /*!40000 ALTER TABLE `employee` DISABLE KEYS */;
-INSERT INTO `employee` VALUES (1,'Karen Sicat','Active','employee'),(2,'Joey Murillo','Active','employee'),(3,'Elenita Maureen','Active','employee'),(16,'Hot Pie','Active','admin'),(17,'Rosalie Fernandez','Active','admin'),(31,'Koko','Active','technician');
+INSERT INTO `employee` VALUES (1,'Karen Sicat','Active'),(2,'Joey Murillo','Active'),(3,'Elenita Maureen','Active'),(16,'Hot Pie','Active'),(17,'Rosalie Fernandez','Active'),(18,'Not Admin','Active');
 /*!40000 ALTER TABLE `employee` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -353,7 +352,7 @@ CREATE TABLE `projectassignment` (
 
 LOCK TABLES `projectassignment` WRITE;
 /*!40000 ALTER TABLE `projectassignment` DISABLE KEYS */;
-INSERT INTO `projectassignment` VALUES ('Bryan',1),('Woodstock',1),('Bry',2),('Bryan',2),('Bryan',3),('Confirm Hoenn',3),('Woodstock',3),('Bry',16),('Bryan',16),('Bry',17),('Code Master',17),('Bry',31),('Code Master',31);
+INSERT INTO `projectassignment` VALUES ('Code Master',1),('Woodstock',1);
 /*!40000 ALTER TABLE `projectassignment` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -475,7 +474,6 @@ DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user` (
   `username` varchar(255) NOT NULL,
   `password` varchar(45) NOT NULL,
-  `employeeID` int(11) NOT NULL,
   PRIMARY KEY (`username`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -486,7 +484,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES ('hot pie','3LuhBl0c0qk/UK15HSwi2g==',16),('koko','1Lav9vEQft4IfXQUIM00uQ==',31);
+INSERT INTO `user` VALUES ('6','UlQiIs/K0EwcSKbWMjcT1g=='),('Admin','F/PZtTgA4k5q/9o6Jzik6w=='),('colress','power'),('hello','hello'),('hello2','hello'),('hello3','hello'),('hot pie','3LuhBl0c0qk/UK15HSwi2g=='),('jake','HYYpexpD+JR2xWDqTcunYg=='),('manage','rp8UsG3mdtRE5PHmXRP3+upHShXsPOe5mKnhPWCl5qA='),('manager','UESEnBiBpVvL0RR7uLj0z241SuceBfSguo/v8EZHo0w='),('manager2','UESEnBiBpVvL0RR7uLj0z564DZRg9fWtkdd0YCGbK5U='),('new','new'),('new2','new'),('newer','new'),('newnew','new'),('Not_Admin','444SDe4tirbsNxnGvJUnnA=='),('RAFernandez','fuckmylifelol'),('sweng','caffeine');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -563,4 +561,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-04-20 20:57:47
+-- Dump completed on 2015-04-17  8:47:26

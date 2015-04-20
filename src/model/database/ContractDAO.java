@@ -98,12 +98,18 @@ public class ContractDAO implements IDBCUD {
         java.sql.Date date = new java.sql.Date(gregorianCalendar.getTimeInMillis());
         String dateNow = date.toString();
         Date startDate, endDate;
-        if (strings[1].equalsIgnoreCase("days")) {
-            int day = gregorianCalendar.get(GregorianCalendar.DAY_OF_MONTH) + (Integer.parseInt(strings[0]));
-            gregorianCalendar.set(GregorianCalendar.DAY_OF_MONTH, day);
-            date = new java.sql.Date(gregorianCalendar.getTimeInMillis());
-            searchStr = date.toString();
+        int day = 0;
+        if(strings[1].equalsIgnoreCase("weeks")){
+            day = gregorianCalendar.get(GregorianCalendar.DAY_OF_MONTH) + (Integer.parseInt(strings[0])*7);
+        }else if (strings[1].equalsIgnoreCase("months")) {//assumes 1 month == 30 days
+            day = gregorianCalendar.get(GregorianCalendar.DAY_OF_MONTH) + (Integer.parseInt(strings[0])*30);
+        }else if (strings[1].equalsIgnoreCase("days")) {
+            day = gregorianCalendar.get(GregorianCalendar.DAY_OF_MONTH) + (Integer.parseInt(strings[0]));
         }
+        
+        gregorianCalendar.set(GregorianCalendar.DAY_OF_MONTH, day);
+        date = new java.sql.Date(gregorianCalendar.getTimeInMillis());
+        searchStr = date.toString();
 
         try {
             String query = "SELECT * FROM contract WHERE endDate <= \'" + searchStr + "\' AND endDate >= \'" + dateNow + "\' ORDER BY 1";
