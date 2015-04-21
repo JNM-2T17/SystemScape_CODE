@@ -96,6 +96,7 @@ public class EmployeeFilterQueryBuilder implements FilterQueryBuilder {
         addColumn("e.ID");
         addColumn("e.name");
         addColumn("e.status");
+        addColumn("e.type");
         addColumn("p.name");
         addColumn("p.startDate");
         addColumn("p.endDate");
