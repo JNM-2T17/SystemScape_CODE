@@ -43,7 +43,6 @@ public class ItemTileNonITField extends ItemPanelDecorator implements ItemPanelP
 
 	private JPanel panNonIT;
 	private JLabel lblType;
-	private JLabel lblDeliveryDate;
 	private JLabel lblAssignee;
         
 	private JDateChooser startDateChooser;
@@ -54,13 +53,15 @@ public class ItemTileNonITField extends ItemPanelDecorator implements ItemPanelP
 	private JComboBox cbType;
 	private JComboBox cbAssignee;
 	private JFrame parent;
+	private JLabel lblDeliveryDate;
+	private JDateChooser deliveryDateChooser;
 	
 
 	public ItemTileNonITField(JFrame parent, ItemPanelTemplate addItemPanelReference) {
 		super(addItemPanelReference);
                 this.parent=parent;
 		// TODO Auto-generated constructor stub
-
+              
 	}
 	
 	@Override
@@ -73,62 +74,74 @@ public class ItemTileNonITField extends ItemPanelDecorator implements ItemPanelP
 	public void renderItemTileNonIT()
 	{
 
-		panNonIT = new JPanel();
-		panNonIT.setBorder(new LineBorder(new Color(30, 144, 255), 3, true));
-		panNonIT.setBackground(Color.WHITE);
-		/* Layout */
-		String typeStrings[] = {"IT Asset","Non-IT Asset","Software","Others"};
+       
+		  panNonIT = new JPanel();
+  		panNonIT.setBorder(new LineBorder(new Color(30, 144, 255), 3, true));
+  		panNonIT.setBackground(Color.WHITE);
+  		/* Layout */
+  		String typeStrings[] = {"IT Asset","Non-IT Asset","Software","Others"};
+  		
+  		panNonIT.setLayout(new MigLayout("", "[46.00][38.00][38.00][38.00,grow][38.00,grow][100,grow][100][100][31.00]", "[][][17][grow][17][][][][][][][]"));
+  		
+  		
+  		/* Label */
+  		
+  		lblType = new JLabel("Type:");
+  		panNonIT.add(lblType, "cell 1 1 2 1,alignx left");
+  		
+  		/* Type Combo Box */
+  		
+  		cbType = new JComboBox(typeStrings);
+  		cbType.setSelectedItem("Non-IT Asset");
+  		cbType.setBackground(Color.white);
+  		cbType.addItemListener(this);
+  		panNonIT.add(cbType, "cell 3 1 5 1,growx");
+  		
+  		lblDeliveryDate = new JLabel("Delivery Date: ");
+  		panNonIT.add(lblDeliveryDate, "cell 1 3 2 1");
+  		
+  		deliveryDateChooser = new JDateChooser();
+  		deliveryDateChooser.setPreferredSize(new Dimension(150, 30));
+  		deliveryDateChooser.setDate(new Date());
+  		deliveryDateChooser.setOpaque(false);
+  		deliveryDateChooser.setDateFormatString("MMMM dd, yyyy\r\n");
+  		deliveryDateChooser.setBorder(null);
+  		deliveryDateChooser.setBackground(Color.WHITE);
+  		panNonIT.add(deliveryDateChooser, "cell 3 3 5 1,growx");
+                  
+  		lblAssignee = new JLabel("Assignee: ");
+  		panNonIT.add(lblAssignee, "cell 1 5 2 1");
+  		
+  		cbAssignee = new JComboBox();
+  		populateCbxEmployee();
+  		cbAssignee.setBackground(Color.WHITE);
+  		panNonIT.add(cbAssignee, "cell 3 5 5 1,growx");
+                          		
+		lblAssignStart = new JLabel("Assign Start:");
+		panNonIT.add(lblAssignStart, "cell 2 7,growx");
 		
-		panNonIT.setLayout(new MigLayout("", "[46.00][38.00][38.00][38.00,grow][38.00,grow][100,grow][100][100][31.00]", "[][][17][][17][][]"));
-		
-		
-		/* Label */
-		
-		lblType = new JLabel("Type:");
-		panNonIT.add(lblType, "cell 1 1 2 1,alignx left");
-		
-		/* Type Combo Box */
-		
-		cbType = new JComboBox(typeStrings);
-		cbType.setSelectedItem("Non-IT Asset");
-		cbType.setBackground(Color.white);
-		cbType.addItemListener(this);
-		panNonIT.add(cbType, "cell 3 1 5 1,growx");
-                
-		lblAssignee = new JLabel("Assignee: ");
-		panNonIT.add(lblAssignee, "cell 1 5 2 1");
-		
-		cbAssignee = new JComboBox();
-		populateCbxEmployee();
-		cbAssignee.setBackground(Color.WHITE);
-		panNonIT.add(cbAssignee, "cell 3 5 5 1,growx");
-
-                
+		        
 		
 		startDateChooser = new JDateChooser();
 		startDateChooser.setOpaque(false);
 		startDateChooser.setDate(new Date());
 		startDateChooser.setBorder(null);
-		startDateChooser.setDateFormatString("yyyy-MM-dd");
+		startDateChooser.setDateFormatString("MMMM dd, yyyy");
 		startDateChooser.setBackground(Color.WHITE);
 		startDateChooser.setPreferredSize(new Dimension(150, 30));
-		panNonIT.add(startDateChooser, "flowx,cell 5 10 3 1");
+		panNonIT.add(startDateChooser, "flowx,cell 5 7 3 1,growx");
 		
-                lblAssignEnd = new JLabel("Assign End:");
-		panNonIT.add(lblAssignEnd, "cell 2 11,growx");
-		
-		endDateChooser = new JDateChooser();
-		endDateChooser.setOpaque(false);
-		endDateChooser.setDate(new Date());
-		endDateChooser.setBorder(null);
-		endDateChooser.setDateFormatString("yyyy-MM-dd");
-		endDateChooser.setBackground(Color.WHITE);
-		endDateChooser.setPreferredSize(new Dimension(150, 30));
-		panNonIT.add(endDateChooser, "flowx,cell 5 11 3 1");
-		
-		lblAssignStart = new JLabel("Assign Start:");
-		panNonIT.add(lblAssignStart, "cell 2 10,growx");
-		
+		lblAssignEnd = new JLabel("Assign End:");
+		panNonIT.add(lblAssignEnd, "cell 2 8,growx");
+  		
+  		endDateChooser = new JDateChooser();
+  		endDateChooser.setOpaque(false);
+  		endDateChooser.setDate(new Date());
+  		endDateChooser.setBorder(null);
+  		endDateChooser.setDateFormatString("MMMM dd, yyyy");
+  		endDateChooser.setBackground(Color.WHITE);
+  		endDateChooser.setPreferredSize(new Dimension(150, 30));
+  		panNonIT.add(endDateChooser, "flowx,cell 5 8 3 1,growx");
 		addItemPanelReference.assignToQuad(panNonIT, 1);
                 
 		setAssigneeVisible(false);
@@ -204,7 +217,6 @@ public class ItemTileNonITField extends ItemPanelDecorator implements ItemPanelP
 	public void loadPresets(Iterator iter) {
 		// TODO Auto-generated method stub
 		if(iter.hasNext()) cbAssignee.setSelectedItem(iter.next().toString());
-                
 	}
 	@Override
 	public void setType(String type) {
@@ -222,7 +234,13 @@ public class ItemTileNonITField extends ItemPanelDecorator implements ItemPanelP
 		lblAssignEnd.setVisible(stat);
 		startDateChooser.setVisible(stat);
 		endDateChooser.setVisible(stat);
-		cbAssignee.setSelectedItem("None");
+		//cbAssignee.setSelectedItem("None");
+	}
+
+	@Override
+	public void isSwitchable(boolean stat) {
+		// TODO Auto-generated method stub
+		cbType.setEnabled(stat);
 	}
 	
 }

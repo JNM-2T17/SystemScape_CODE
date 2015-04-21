@@ -43,7 +43,6 @@ public class ItemTileSoftwareField extends ItemPanelDecorator implements ItemPan
 	private JPanel panSoftware;
 	private JLabel lblType;
 	private JLabel lblLicenseKey;
-	private JLabel lblDeliveryDate;
 	private JLabel lblAssignee;
 	private JComboBox cbType;
 	private JComboBox cbAssignee;
@@ -56,6 +55,8 @@ public class ItemTileSoftwareField extends ItemPanelDecorator implements ItemPan
 	private JTextField tfLicenseKey;
 	
 	private JFrame parent;
+	private JLabel lblDeliveryDate;
+	private JDateChooser deliveryDateChooser;
 	
 	public ItemTileSoftwareField(JFrame parent, ItemPanelTemplate addItemPanelReference) {
 		super(addItemPanelReference);
@@ -72,12 +73,13 @@ public class ItemTileSoftwareField extends ItemPanelDecorator implements ItemPan
 	
 	public void renderItemTileSoftwarePanel()
 	{
+		
 		panSoftware = new JPanel();
 		panSoftware.setBorder(new LineBorder(new Color(30, 144, 255), 3, true));
 		panSoftware.setBackground(Color.WHITE);
 		String typeStrings[] = {"IT Asset","Non-IT Asset","Software","Others"};
 		
-		panSoftware.setLayout(new MigLayout("", "[46.00][38.00][38.00][38.00][38.00,grow][100,grow][100][100][31.00]", "[][][17.00][][17][][17][][]"));
+		panSoftware.setLayout(new MigLayout("", "[46.00][38.00][38.00][38.00][38.00,grow][100,grow][100][100][31.00]", "[][][17.00][][17][grow][17][][][][][]"));
 		
 	
 		
@@ -89,6 +91,18 @@ public class ItemTileSoftwareField extends ItemPanelDecorator implements ItemPan
 		lblLicenseKey = new JLabel("License Key:");
 		panSoftware.add(lblLicenseKey, "cell 2 3 3 1,alignx right");
 		
+		lblDeliveryDate = new JLabel("Delivery Date:");
+		panSoftware.add(lblDeliveryDate, "cell 2 5 3 1,alignx right");
+		
+		deliveryDateChooser = new JDateChooser();
+		deliveryDateChooser.setPreferredSize(new Dimension(150, 30));
+		deliveryDateChooser.setOpaque(false);
+		deliveryDateChooser.setDate(new Date());
+		deliveryDateChooser.setDateFormatString("MMMM dd, yyyy");
+		deliveryDateChooser.setBorder(null);
+		deliveryDateChooser.setBackground(Color.WHITE);
+		panSoftware.add(deliveryDateChooser, "cell 5 5 3 1,grow");
+		
 		//lblDeliveryDate = new JLabel("Delivery Date:");
 		//panSoftware.add(lblDeliveryDate, "flowx,cell 1 5 4 1,alignx right");
 		
@@ -99,10 +113,10 @@ public class ItemTileSoftwareField extends ItemPanelDecorator implements ItemPan
 		startDateChooser.setOpaque(false);
 		startDateChooser.setDate(new Date());
 		startDateChooser.setBorder(null);
-		startDateChooser.setDateFormatString("yyyy-MM-dd");
+		startDateChooser.setDateFormatString("MMMM dd, yyyy");
 		startDateChooser.setBackground(Color.WHITE);
 		startDateChooser.setPreferredSize(new Dimension(150, 30));
-		panSoftware.add(startDateChooser, "flowx,cell 5 10 3 1");
+		panSoftware.add(startDateChooser, "flowx,cell 5 10 3 1,growx");
 		
 		lblAssignEnd = new JLabel("Assign End:");
 		panSoftware.add(lblAssignEnd, "cell 2 11,growx");
@@ -111,10 +125,10 @@ public class ItemTileSoftwareField extends ItemPanelDecorator implements ItemPan
 		endDateChooser.setOpaque(false);
 		endDateChooser.setDate(new Date());
 		endDateChooser.setBorder(null);
-		endDateChooser.setDateFormatString("yyyy-MM-dd");
+		endDateChooser.setDateFormatString("MMMM dd, yyyy");
 		endDateChooser.setBackground(Color.WHITE);
 		endDateChooser.setPreferredSize(new Dimension(150, 30));
-		panSoftware.add(endDateChooser, "flowx,cell 5 11 3 1");
+		panSoftware.add(endDateChooser, "flowx,cell 5 11 3 1,growx");
 		
 		lblAssignStart = new JLabel("Assign Start:");
 		panSoftware.add(lblAssignStart, "cell 2 10,growx");
@@ -135,7 +149,6 @@ public class ItemTileSoftwareField extends ItemPanelDecorator implements ItemPan
 		cbAssignee.setBackground(Color.white);
 		populateCbxEmployee();
 		panSoftware.add(cbAssignee, "cell 4 7 4 1,growx");
-		
 		addItemPanelReference.assignToQuad(panSoftware, 1);
                 
                 setAssigneeVisible(false);
@@ -227,5 +240,16 @@ public class ItemTileSoftwareField extends ItemPanelDecorator implements ItemPan
 		startDateChooser.setVisible(stat);
 		endDateChooser.setVisible(stat);
 		cbAssignee.setSelectedItem("None");
+	}
+
+	@Override
+	public void isSwitchable(boolean stat) {
+		// TODO Auto-generated method stub
+		cbType.setEnabled(stat);
+	}
+	
+	public void disableLicenseKey(boolean stat) {
+		tfLicenseKey.setVisible(stat);
+		lblLicenseKey.setVisible(stat);
 	}
 }

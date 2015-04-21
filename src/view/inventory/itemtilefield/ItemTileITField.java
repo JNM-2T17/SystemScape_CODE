@@ -67,6 +67,9 @@ public class ItemTileITField extends ItemPanelDecorator implements ItemPanelPart
 		super(addItemPanelReference);
 		// TODO Auto-generated constructor stub
 		this.parent=parent;
+		
+
+		
 	}
 	
 	@Override
@@ -104,7 +107,7 @@ public class ItemTileITField extends ItemPanelDecorator implements ItemPanelPart
 		deliveryDateChooser.setOpaque(false);
 		deliveryDateChooser.setDate(new Date());
 		deliveryDateChooser.setBorder(null);
-		deliveryDateChooser.setDateFormatString("yyyy-MM-dd");
+		deliveryDateChooser.setDateFormatString("MMMM dd, yyyy");
 		deliveryDateChooser.setBackground(Color.WHITE);
 		deliveryDateChooser.setPreferredSize(new Dimension(150, 30));
 		panIT.add(deliveryDateChooser, "cell 5 7 3 1,grow");
@@ -144,10 +147,10 @@ public class ItemTileITField extends ItemPanelDecorator implements ItemPanelPart
 		startDateChooser.setOpaque(false);
 		startDateChooser.setDate(new Date());
 		startDateChooser.setBorder(null);
-		startDateChooser.setDateFormatString("yyyy-MM-dd");
+		startDateChooser.setDateFormatString("MMMM dd, yyyy");
 		startDateChooser.setBackground(Color.WHITE);
 		startDateChooser.setPreferredSize(new Dimension(150, 30));
-		panIT.add(startDateChooser, "flowx,cell 5 10 3 1");
+		panIT.add(startDateChooser, "flowx,cell 5 10 3 1,growx");
 		
                 lblAssignEnd = new JLabel("Assign End:");
 		panIT.add(lblAssignEnd, "cell 2 11,growx");
@@ -156,14 +159,13 @@ public class ItemTileITField extends ItemPanelDecorator implements ItemPanelPart
 		endDateChooser.setOpaque(false);
 		endDateChooser.setDate(new Date());
 		endDateChooser.setBorder(null);
-		endDateChooser.setDateFormatString("yyyy-MM-dd");
+		endDateChooser.setDateFormatString("MMMM dd, yyyy");
 		endDateChooser.setBackground(Color.WHITE);
 		endDateChooser.setPreferredSize(new Dimension(150, 30));
-		panIT.add(endDateChooser, "flowx,cell 5 11 3 1");
+		panIT.add(endDateChooser, "flowx,cell 5 11 3 1,growx");
 		
 		lblAssignStart = new JLabel("Assign Start:");
 		panIT.add(lblAssignStart, "cell 2 10,growx");
-		
 		
 		addItemPanelReference.assignToQuad(panIT, 1);
                 
@@ -234,10 +236,10 @@ public class ItemTileITField extends ItemPanelDecorator implements ItemPanelPart
 			stat=false;
                 }
                 try{
-                    Integer.parseInt(tfServiceTag.getText());
+                    //Integer.parseInt(tfServiceTag.getText());
                     Integer.parseInt(tfAssetTag.getText());
                 }catch(NumberFormatException nfe){
-                    new Message(parent, Message.ERROR, "Service Tag and/or Asset Tag should be numeric");
+                    new Message(parent, Message.ERROR, "Asset Tag should be numeric");
                     stat = false;
                 }
 		
@@ -291,6 +293,12 @@ public class ItemTileITField extends ItemPanelDecorator implements ItemPanelPart
 		startDateChooser.setVisible(stat);
 		endDateChooser.setVisible(stat);
 		cbAssignee.setSelectedItem("None");
+	}
+
+	@Override
+	public void isSwitchable(boolean stat) {
+		// TODO Auto-generated method stub
+		cbType.setEnabled(stat);
 	}
 	
 	

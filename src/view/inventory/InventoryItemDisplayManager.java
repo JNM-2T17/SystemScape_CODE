@@ -8,8 +8,6 @@ import javax.swing.JPanel;
 import model.InventoryItem;
 import view.Content;
 import view.Gui;
-import view.Message;
-import view.inventory.itemstorage.ItemStorageGenInfo;
 import view.inventory.itemtilefield.ItemTileContractField;
 import view.inventory.itemtilefield.ItemTileGenInfoField;
 import view.inventory.itemtilefield.ItemTileGeneralField;
@@ -196,7 +194,7 @@ public class InventoryItemDisplayManager {
 		panelRegistry.registerParticipant(itemTileWarrantyField);
 		panelRegistry.registerParticipant(itemTileContractField);
 		
-		panelRegistry.setIsAdd(false);
+		panelRegistry.isAdd(false);
 		System.out.println("Passes setEdit");
 		panelRegistry.setCurrentInventoryItem(ii);
 		panelRegistry.setEditToCurrentSet();
@@ -215,7 +213,7 @@ public class InventoryItemDisplayManager {
 		panelRegistry.clearParticipants();
 		BasicItemField template = new BasicItemField();
 		itemTileContractField = new ItemTileContractField(gui, template);
-		itemTileWarrantyField = new ItemTileWarrantyField(gui, template);
+		itemTileWarrantyField = new ItemTileWarrantyField(gui, itemTileContractField);
 		itemTileNonITField = new ItemTileNonITField(gui, itemTileWarrantyField);
 		itemTileGenInfoField = new ItemTileGenInfoField(gui, itemTileNonITField);
 		ItemPanelDecorator dec = itemTileGenInfoField;
@@ -229,7 +227,7 @@ public class InventoryItemDisplayManager {
 		panelRegistry.registerParticipant(itemTileWarrantyField);
 		panelRegistry.registerParticipant(itemTileContractField);
 
-		panelRegistry.setIsAdd(false);
+		panelRegistry.isAdd(false);
 		System.out.println("Passes setEdit");
 		panelRegistry.setCurrentInventoryItem(ii);
 		panelRegistry.setEditToCurrentSet();
@@ -260,7 +258,7 @@ public class InventoryItemDisplayManager {
 		panelRegistry.registerParticipant(itemTileGenInfoField);
 		panelRegistry.registerParticipant(itemTileSoftwareField);
 		
-		panelRegistry.setIsAdd(false);
+		panelRegistry.isAdd(false);
 		
 		System.out.println("Passes setEdit");
 		panelRegistry.setCurrentInventoryItem(ii);
@@ -293,7 +291,7 @@ public class InventoryItemDisplayManager {
 		panelRegistry.registerParticipant(itemTileGenInfoField);
 		panelRegistry.registerParticipant(itemTileGeneralField);
 		
-		panelRegistry.setIsAdd(false);
+		panelRegistry.isAdd(false);
 		
 		System.out.println("Passes setEdit");
 		panelRegistry.setCurrentInventoryItem(ii);
@@ -311,7 +309,7 @@ public class InventoryItemDisplayManager {
 		{
 			tab.remove(temp);
 		}
-		InventoryItem inventoryItem = panelRegistry.getCurrentInventoryItem();
+		
 		panelRegistry.clearParticipants();
 		BasicItemField template = new BasicItemField();
 		itemTileContractField = new ItemTileContractField(gui, template);
@@ -329,21 +327,7 @@ public class InventoryItemDisplayManager {
 		panelRegistry.registerParticipant(itemTileWarrantyField);
 		panelRegistry.registerParticipant(itemTileContractField);
 		
-		if(inventoryItem != null){
-                    itemTileGenInfoField.loadPresets(
-					ItemStorageGenInfo.getInstance()
-					.saveID(inventoryItem.getID())
-					.saveName(inventoryItem.getName())
-					.saveDescription(inventoryItem.getDescription())
-					.saveUnitPrice(inventoryItem.getUnitPrice())
-					.saveInvoiceNumber(inventoryItem.getInvoiceNo())
-					.saveLocation(inventoryItem.getLocation())
-					.saveStatus(inventoryItem.getStatus())
-					.loadList()
-			);
-                    panelRegistry.setIsAdd(false);
-                }
-                else panelRegistry.setIsAdd(true);
+		panelRegistry.isAdd(true);
 		
 		return template;
 	}
@@ -357,16 +341,14 @@ public class InventoryItemDisplayManager {
 		{
 			tab.remove(temp);
 		}
-                InventoryItem inventoryItem = panelRegistry.getCurrentInventoryItem();
-                
 		panelRegistry.clearParticipants();
 		BasicItemField template = new BasicItemField();
 		itemTileContractField = new ItemTileContractField(gui, template);
-		itemTileWarrantyField = new ItemTileWarrantyField(gui, template);
+		itemTileWarrantyField = new ItemTileWarrantyField(gui, itemTileContractField);
 		itemTileNonITField = new ItemTileNonITField(gui, itemTileWarrantyField);
 		itemTileGenInfoField = new ItemTileGenInfoField(gui, itemTileNonITField);
 		ItemPanelDecorator dec = itemTileGenInfoField;
-                
+		
 		dec.renderPanel();
 		dec.repaint();
 		dec.revalidate();
@@ -375,21 +357,8 @@ public class InventoryItemDisplayManager {
 		panelRegistry.registerParticipant(itemTileNonITField);
 		panelRegistry.registerParticipant(itemTileWarrantyField);
 		panelRegistry.registerParticipant(itemTileContractField);
-		if(inventoryItem != null){
-                    itemTileGenInfoField.loadPresets(
-					ItemStorageGenInfo.getInstance()
-					.saveID(inventoryItem.getID())
-					.saveName(inventoryItem.getName())
-					.saveDescription(inventoryItem.getDescription())
-					.saveUnitPrice(inventoryItem.getUnitPrice())
-					.saveInvoiceNumber(inventoryItem.getInvoiceNo())
-					.saveLocation(inventoryItem.getLocation())
-					.saveStatus(inventoryItem.getStatus())
-					.loadList()
-			);
-                    panelRegistry.setIsAdd(false);
-                }
-                else panelRegistry.setIsAdd(true);
+		
+		panelRegistry.isAdd(true);
 		
 		return template;
 	}	
@@ -403,7 +372,6 @@ public class InventoryItemDisplayManager {
 		if(temp != null) {
 			tab.remove(temp);
 		}
-                InventoryItem inventoryItem = panelRegistry.getCurrentInventoryItem();
 		panelRegistry.clearParticipants();
 		BasicItemField template = new BasicItemField();
 		itemTileSoftwareField = new ItemTileSoftwareField(gui, template);
@@ -417,21 +385,7 @@ public class InventoryItemDisplayManager {
 		panelRegistry.registerParticipant(itemTileGenInfoField);
 		panelRegistry.registerParticipant(itemTileSoftwareField);
 		
-		if(inventoryItem != null){
-                    itemTileGenInfoField.loadPresets(
-					ItemStorageGenInfo.getInstance()
-					.saveID(inventoryItem.getID())
-					.saveName(inventoryItem.getName())
-					.saveDescription(inventoryItem.getDescription())
-					.saveUnitPrice(inventoryItem.getUnitPrice())
-					.saveInvoiceNumber(inventoryItem.getInvoiceNo())
-					.saveLocation(inventoryItem.getLocation())
-					.saveStatus(inventoryItem.getStatus())
-					.loadList()
-			);
-                    panelRegistry.setIsAdd(false);
-                }
-                else panelRegistry.setIsAdd(true);
+		panelRegistry.isAdd(true);
 
 		
 		return template;
@@ -447,7 +401,6 @@ public class InventoryItemDisplayManager {
 		{
 			tab.remove(temp);
 		}
-                InventoryItem inventoryItem = panelRegistry.getCurrentInventoryItem();
 		panelRegistry.clearParticipants();
 		BasicItemField template = new BasicItemField();
 		itemTileGenInfoField = new ItemTileGenInfoField(gui, template);
@@ -461,21 +414,7 @@ public class InventoryItemDisplayManager {
 		panelRegistry.registerParticipant(itemTileGenInfoField);
 		panelRegistry.registerParticipant(itemTileGeneralField);
 		
-		if(inventoryItem != null){
-                    itemTileGenInfoField.loadPresets(
-					ItemStorageGenInfo.getInstance()
-					.saveID(inventoryItem.getID())
-					.saveName(inventoryItem.getName())
-					.saveDescription(inventoryItem.getDescription())
-					.saveUnitPrice(inventoryItem.getUnitPrice())
-					.saveInvoiceNumber(inventoryItem.getInvoiceNo())
-					.saveLocation(inventoryItem.getLocation())
-					.saveStatus(inventoryItem.getStatus())
-					.loadList()
-			);
-                    panelRegistry.setIsAdd(false);
-                }
-                else panelRegistry.setIsAdd(true);
+		panelRegistry.isAdd(true);
 		
 		System.out.println("Pass");
 		if(template == null)
@@ -541,7 +480,7 @@ public class InventoryItemDisplayManager {
 		itemTileNonITView = new ItemTileNonITView(gui, itemTileGenInfoView);
 		itemTileWarrantyView = new ItemTileWarrantyView(gui, itemTileNonITView);
 		itemTileContractView = new ItemTileContractView(gui, itemTileWarrantyView);
-		ItemPanelDecorator dec = itemTileWarrantyView;
+		ItemPanelDecorator dec = itemTileContractView;
 		
 		dec.renderPanel();
 		dec.repaint();
@@ -636,17 +575,8 @@ public class InventoryItemDisplayManager {
 	
 	public void retrieveInformation() {
 		// TODO Auto-generated method stub
-		
-		if(panelRegistry.checkInputFromAll())
-		{
-			System.out.println("PASSED RETRIEVE INFO AND CLOSE");
-			panelRegistry.retrieveInformationFromAll();
-                        if(panelRegistry.isAdd())
-                            new Message(gui, Message.SUCCESS, "Item added to the database");
-                        else  new Message(gui, Message.SUCCESS, "Item edit successful");
-			tab.setReturn();
-		}
-			
+		panelRegistry.retrieveInformationFromAll();
+		tab.setReturn();
 	}
 	public static InventoryItemDisplayManager getInstance()
 	{
@@ -662,8 +592,7 @@ public class InventoryItemDisplayManager {
 	}
 	
 	public void callDeleteInventoryItem() {
-		panelRegistry.deleteInventoryItem();
-                tab.setReturn();
+		panelRegistry.deleteInventoryItem(viewList.pCurr());
 	}
 
 	public void requestBuildIT() {
