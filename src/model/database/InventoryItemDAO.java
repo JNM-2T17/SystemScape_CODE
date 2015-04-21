@@ -357,13 +357,14 @@ public class InventoryItemDAO implements IDBCUD {
             int id = resultSet.getInt("Auto_increment");
 
             query = "INSERT INTO inventoryitem \n"
-                    + "VALUES (NULL, ?, ?, ?, ?, ?)";
+                    + "VALUES (?, ?, ?, ?, ?, ?)";
             preparedStatement = con.prepareStatement(query);
-            preparedStatement.setString(1, inventoryStarter.getName());
-            preparedStatement.setString(2, inventoryStarter.getStatus());
-            preparedStatement.setString(3, inventoryStarter.getClassification());
-            preparedStatement.setString(4, inventoryStarter.getInvoiceNo());
-            preparedStatement.setString(5, inventoryStarter.getLocation());
+            preparedStatement.setInt(1, id);
+            preparedStatement.setString(2, inventoryStarter.getName());
+            preparedStatement.setString(3, inventoryStarter.getStatus());
+            preparedStatement.setString(4, inventoryStarter.getClassification());
+            preparedStatement.setString(5, inventoryStarter.getInvoiceNo());
+            preparedStatement.setString(6, inventoryStarter.getLocation());
             preparedStatement.execute();
 
             if (object instanceof NonITAsset || object instanceof ITAsset) {
