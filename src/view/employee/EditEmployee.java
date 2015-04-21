@@ -44,7 +44,7 @@ import view.supplier.Contact;
 
 public class EditEmployee extends JPanel implements ActionListener {
 	private JTextField txtName;
-	private JButton btnSubmit, btnAdmin;
+	private JButton btnSubmit, btnAdmin, btnRemove;
 	private JComboBox cmbStatus;
 	private JPanel panContact, panClose;
 	private ArrayList<ProjectPanel> list;
@@ -153,12 +153,31 @@ public class EditEmployee extends JPanel implements ActionListener {
 		btnSubmit.setFont(new Font("Arial", Font.PLAIN, 18));
 		btnSubmit.addActionListener(this);
 		
-		btnAdmin = new JButton("Give Admin Rights");
-		panFooter.add(btnAdmin);
-		btnAdmin.setForeground(Color.WHITE);
-		btnAdmin.setBackground(new Color(32, 130, 213));
-		btnAdmin.setFont(new Font("Arial", Font.PLAIN, 18));
-		btnAdmin.addActionListener(this);
+		if(emp.getType().equals("technician")){
+			
+			btnAdmin = new JButton("Give Admin Rights");
+			panFooter.add(btnAdmin);
+			btnAdmin.setForeground(Color.WHITE);
+			btnAdmin.setBackground(new Color(32, 130, 213));
+			btnAdmin.setFont(new Font("Arial", Font.PLAIN, 18));
+			btnAdmin.addActionListener(this);
+			
+			btnRemove = new JButton("Remove Admin Rights");
+			panFooter.add(btnRemove);
+			btnRemove.setForeground(Color.WHITE);
+			btnRemove.setBackground(new Color(32, 130, 213));
+			btnRemove.setFont(new Font("Arial", Font.PLAIN, 18));
+			btnRemove.addActionListener(this);
+			if(emp.getIsAdmin()){
+				btnAdmin.setVisible(false);
+				btnRemove.setVisible(true);
+			}
+			else{
+				btnAdmin.setVisible(true);
+				btnRemove.setVisible(false);
+			}
+		}
+		
 		
 		employeeController = EmployeeController.getInstance();
 		projectController = ProjectController.getInstance();
@@ -279,7 +298,7 @@ public class EditEmployee extends JPanel implements ActionListener {
 			if(text.equals("")){
 				
 				Employee checkEmployee;
-				employee = new Employee(emp.getID(), txtName.getText(), (String)cmbStatus.getSelectedItem());
+				employee = new Employee(emp.getID(), txtName.getText(), (String)cmbStatus.getSelectedItem(), emp.getType());
 				
 				int employeeID = emp.getID();
 				System.out.println("Employee id selected: "+employeeID);
@@ -320,7 +339,29 @@ public class EditEmployee extends JPanel implements ActionListener {
 			
 			
 			
-		} else {
+		} 
+		else if(e.getSource()==btnAdmin){
+			String usernameToGet = employeeController.getUsernameUsingID(Integer.toString(emp.getID()));
+			employeeController.turnAdmin(usernameToGet);
+			emp.setType("admin");
+			employeeController.editEmployee(emp, Integer.toString(emp.getID()));
+			System.out.println("Username to get: "+usernameToGet);
+			Message msg = new Message(parent, Message.SUCCESS,
+					"Admin rights successfully granted.");
+			btnAdmin.setVisible(false);
+			btnRemove.setVisible(true);
+		}
+		else if(e.getSource()==btnRemove){
+			String usernameToGet = employeeController.getUsernameUsingID(Integer.toString(emp.getID()));
+			employeeController.removeAdmin(usernameToGet);
+			emp.setType("technician");
+			employeeController.editEmployee(emp, Integer.toString(emp.getID()));
+			Message msg = new Message(parent, Message.SUCCESS,
+					"Admin rights successfully removed.");
+			btnAdmin.setVisible(true);
+			btnRemove.setVisible(false);
+		}
+		else {
 			int index = close.indexOf(e.getSource());
 			
 			((JComboBox) temp.getComponent(0)).addItem(projList.get(index));

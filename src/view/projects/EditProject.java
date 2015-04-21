@@ -327,46 +327,17 @@ public class EditProject extends JPanel implements ActionListener {
 			if (text.equals("")) {
 				
 				Project project = new Project(txtProjects.getText(), dateStart.getDate(), dateEnd.getDate());
-				System.out.println("Project name: "+project.getName() + " Start Date: "+ project.getStartDate() + " End Date: "+project.getEndDate());
-				Iterator iterator = employeeController.getAll();
-				project.setEmployeeList(employeeList.iterator());
-				
-//				int i = 0;
-//				int j = 0;
-//				int k = 0;
-//				while(!empModel.isEmpty()){
-//					String nameOfEmp = (String)empModel.get(k);
-//					System.out.println("Name of employee: "+nameOfEmp);
-//					k++;
-//					
-//				}
-//				
-//				
-//				while(iterator.hasNext()){
-//					Employee temp = (Employee) iterator.next();
-//					if(j< empModel.size()){
-//						String employeeModel = (String)empModel.get(i);
-//						if(temp.getName().equals(employeeModel)){
-//							project.addEmployee(temp);
-//							projectController.getProject().addEmployee(temp);
-//							System.out.println("Employee modeling: " + employeeModel);
-//						}
-//					System.out.println("Employee model: " + employeeModel);
-//					}
-//					i++;
-//					j++;
-//				}
-//				
-//				Iterator test = project.getEmployeeList();
-//				while(test.hasNext()){
-//					Employee testme = (Employee) test.next();
-//					System.out.println("Employee test: "+testme.getName());
-//				}
 
+				for (int i = 0; i < empModel.getSize(); i++) {
+					employeeList.add((Employee) employeeController.getObject((String) empModel.getElementAt(i)));
+				}
+				
+				project.setEmployeeList(employeeList.iterator());
+				System.out.println(employeeList);
 				
 				projectController.editProject(project, prevKey);
 				Message msg = new Message(parent, Message.SUCCESS,
-						"Project added successfully.");
+						"Project edited successfully.");
 				projectController.init();
 				
 			} else {
@@ -380,9 +351,10 @@ public class EditProject extends JPanel implements ActionListener {
 				if(empName!=null){
 					allModel.removeElement(empName);
 					empModel.addElement(empName);
-					Employee toAdd = (Employee) employeeController.getObject(empName);
-					employeeList.add(toAdd);
+//					Employee toAdd = (Employee) employeeController.getObject(empName);
+//					employeeList.add(toAdd);
 				}
+				System.out.println(employeeList);
 			}
 			if(e.getSource()==btnLeft){
 				//Employee emp=(Employee) listEmp.getSelectedValue();
@@ -391,28 +363,32 @@ public class EditProject extends JPanel implements ActionListener {
 				if(empName!=null){
 					empModel.removeElement(empName);
 					allModel.addElement(empName);
-					Employee toAdd = (Employee) employeeController.getObject(empName);
-					employeeList.remove(toAdd);
+//					Employee toAdd = (Employee) employeeController.getObject(empName);
+//					employeeList.remove(toAdd);
+//					System.out.println("To remove: "+toAdd.getName());
 				}
+				System.out.println(employeeList);
 			}
 			if(e.getSource()==btnDblRight){
 				for (int i = 0; i < allModel.getSize(); i++) {
 					empModel.addElement(allModel.get(i));
 				}
 				allModel.removeAllElements();
-				Iterator getAllEmp = employeeController.getAll();
-				while(getAllEmp.hasNext()){
-					Employee tempToAdd = (Employee) getAllEmp.next();
-					employeeList.add(tempToAdd);
-				}
-				
+//				Iterator getAllEmp = employeeController.getAll();
+//				while(getAllEmp.hasNext()){
+//					Employee tempToAdd = (Employee) getAllEmp.next();
+//					employeeList.add(tempToAdd);
+//				}
+				System.out.println(employeeList);
 			}
 			if(e.getSource()==btnDblLeft){
 				for (int i = 0; i < empModel.getSize(); i++) {
 					allModel.addElement(empModel.get(i));
 				}
 				empModel.removeAllElements();
-				employeeList = new ArrayList<Employee>();
+				
+//				employeeList.clear();
+				
 			}
 			this.repaint();
 			this.revalidate();

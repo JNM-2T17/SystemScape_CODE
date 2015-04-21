@@ -18,14 +18,17 @@ public class Employee {
 	private int ID;
 	private String name;
 	private String status;
+	private String type;
+	private boolean isAdmin;
 	private ArrayList<Project> projects;
 	
-	public Employee(int ID, String name, String status) {
+	public Employee(int ID, String name, String status, String type) {
 		setID(ID);
 		setName(name);
 		setStatus(status);
+		setType(type);
 		projects = new ArrayList<Project>();
-		
+		isAdmin = false;
 	}
 
 	public Employee() {
@@ -33,6 +36,7 @@ public class Employee {
 		setName("");
 		setStatus("");
 		projects = new ArrayList<Project>();
+		isAdmin = false;
 	}
 
 	public String getName() {
@@ -59,6 +63,22 @@ public class Employee {
 		this.ID = ID;
 	}
 	
+	public void setType(String type){
+		this.type = type;
+	}
+	
+	public String getType(){
+		return type;
+	}
+	
+	public void setIsAdmin(boolean isAdmin){
+		this.isAdmin = isAdmin;
+	}
+	
+	public boolean getIsAdmin(){
+		return isAdmin;
+	}
+	
 	public Project getProject(int index) {
     	if (index < 0 || index >= projects.size()) {
         	return null;
@@ -83,5 +103,9 @@ public class Employee {
 		while(project.hasNext()){
 			this.projects.add(((Project)project.next()));
 		}
+	}
+	
+	public String toString(){
+		return name;
 	}
 }

@@ -199,8 +199,8 @@ public class AddEmployee extends JPanel implements ActionListener {
 			String text=checkInput();
 			if(text.equals("")){
 				
-				Employee employee = new Employee(employeeController.getInstance().getEmployeeID()+1, txtName.getText(), (String)cmbStatus.getSelectedItem());;
-				employeeController.addEmployee(employee);
+				Employee employee = new Employee(employeeController.getInstance().getEmployeeID()+1, txtName.getText(), (String)cmbStatus.getSelectedItem(), "employee");
+				
 				String pass = String.valueOf(txtPassword.getPassword());
 				Encryption encryption = new Encryption();
 				try {
@@ -212,10 +212,14 @@ public class AddEmployee extends JPanel implements ActionListener {
 					e1.printStackTrace();
 				}
 				if(rdTechnician.isSelected() == true){
-					User user = new User(txtUsername.getText(), pass, false);
+					int idKo = employeeController.getInstance().getEmployeeID()+1;
+					System.out.println("ID: "+ idKo);
+					User user = new User(txtUsername.getText(), pass, false, idKo);
+					System.out.println("ID ni user: "+user.getEmployeeID());
 					userController.addUser(user);
-					
+					employee.setType("technician");
 				}
+				employeeController.addEmployee(employee);
 				clear();
 				Message msg = new Message(parent, Message.SUCCESS,
 						"Employee added successfully.");

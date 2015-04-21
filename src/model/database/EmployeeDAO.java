@@ -34,7 +34,7 @@ public class EmployeeDAO implements IDBCUD {
             ResultSet resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
-                Employee employee = new Employee(resultSet.getInt("ID"), resultSet.getString("name"), resultSet.getString("status"));
+                Employee employee = new Employee(resultSet.getInt("ID"), resultSet.getString("name"), resultSet.getString("status"), resultSet.getString("type"));
                 String query2 = "SELECT p.name, p.startDate, p.endDate" +
                                 " FROM project p, projectassignment pa" +
                                 " WHERE p.name = pa.project AND pa.employeeID = ?";
@@ -96,7 +96,7 @@ public Iterator getProjects(String key) {
             ResultSet resultSet = preparedStatement.executeQuery();
 
             if (resultSet.next()) {
-                Employee employee = new Employee(resultSet.getInt("ID"), resultSet.getString("name"), resultSet.getString("status"));
+                Employee employee = new Employee(resultSet.getInt("ID"), resultSet.getString("name"), resultSet.getString("status"), resultSet.getString("type"));
                 String query2 = "SELECT p.name, p.startDate, p.endDate" +
                                 " FROM project p, projectassignment pa" +
                                 " WHERE p.name = pa.project AND pa.employeeID = ?";
@@ -145,7 +145,7 @@ public Iterator getProjects(String key) {
             preparedStatement.setString(1, "%" + searchStr + "%");
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
-                Employee employee = new Employee(resultSet.getInt("ID"), resultSet.getString("name"), resultSet.getString("status"));
+                Employee employee = new Employee(resultSet.getInt("ID"), resultSet.getString("name"), resultSet.getString("status"), resultSet.getString("type"));
                 String query2 = "SELECT p.name, p.startDate, p.endDate" +
                                 " FROM project p, projectassignment pa" +
                                 " WHERE p.name = pa.project AND pa.employeeID = ?";
@@ -174,7 +174,7 @@ public Iterator getProjects(String key) {
             PreparedStatement preparedStatement = DBConnection.getConnection().prepareStatement(query);
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
-            	Employee employee = new Employee(resultSet.getInt("ID"), resultSet.getString("name"), resultSet.getString("status"));
+            	Employee employee = new Employee(resultSet.getInt("ID"), resultSet.getString("name"), resultSet.getString("status"), resultSet.getString("type"));
                 employees.add(employee);
            
             }
@@ -205,12 +205,13 @@ public Iterator getProjects(String key) {
         Employee employee = (Employee) object;
         try {
 
-            String query = "INSERT INTO employee VALUES(?,?,?);";
+            String query = "INSERT INTO employee VALUES(?,?,?,?);";
             Connection connection = DBConnection.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(query);
             preparedStatement.setInt(1, employee.getID());
             preparedStatement.setString(2, employee.getName());
             preparedStatement.setString(3, employee.getStatus());
+            preparedStatement.setString(4, employee.getType());
             preparedStatement.execute();
             for(Iterator i = employee.getProjectList(); i.hasNext();){
                 query = "INSERT INTO projectassignment VALUES(?,?)";
@@ -230,12 +231,13 @@ public Iterator getProjects(String key) {
         Employee employee = (Employee) object;
 
         try {
-            String query = "UPDATE employee SET ID = ?,name = ?, status=? WHERE ID = ?;";
+            String query = "UPDATE employee SET ID = ?,name = ?, status=?, type=? WHERE ID = ?;";
             PreparedStatement preparedStatement = DBConnection.getConnection().prepareStatement(query);
             preparedStatement.setInt(1, employee.getID());
             preparedStatement.setString(2, employee.getName());//not sure bout the address format
             preparedStatement.setString(3, employee.getStatus());
-            preparedStatement.setString(4, origKey);
+            preparedStatement.setString(4, employee.getType());
+            preparedStatement.setString(5, origKey);
             preparedStatement.execute();
             
         } catch (SQLException sqlException) {
