@@ -31,7 +31,7 @@ public class Settings extends PopUp implements ActionListener {
 	private JPasswordField txtOld;
 	private JPasswordField txtNew;
 	private JPasswordField txtConf;
-	private JButton btnSubmit;
+	private JButton btnSubmit, btnNotifSubmit;
 	private JSpinner spnWarranty, spnContract;
 	private JFrame parent;
 	private JComboBox cmbWarranty, cmbContract;
@@ -224,7 +224,7 @@ public class Settings extends PopUp implements ActionListener {
 		panNotFooter.setBackground(Color.WHITE);
 		panNotif.add(panNotFooter, BorderLayout.SOUTH);
 
-		JButton btnNotifSubmit = new JButton("Submit");
+		btnNotifSubmit = new JButton("Submit");
 		btnNotifSubmit.setForeground(Color.white);
 		btnNotifSubmit.setBackground(new Color(32, 130, 213));
 		btnNotifSubmit.setFont(new Font("Arial", Font.PLAIN, 16));
@@ -252,25 +252,18 @@ public class Settings extends PopUp implements ActionListener {
 			cl.show(panCenter, "notif");
 			btnNotificationSettings.setBackground(Color.white);
 			btnChangePassword.setBackground(Color.LIGHT_GRAY);
-<<<<<<< HEAD
-
-		} else {
-=======
-//			isPass=false;
-			System.out.println("HERE");
 		} else if(e.getSource()==btnSubmit){
 				Message msg = new Message(parent, Message.SUCCESS,
 						"Password successfully edited.");
 		}else if(e.getSource()==btnNotifSubmit){
                                 UserDAO userDAO = new UserDAO();
-                                userDAO.updateNotificationDuration(spnContract.getValue().toString() + " " + cmbContract.getSelectedItem().toString(), spnWarranty.getValue().toString() + " " + cmbWarranty.getSelectedItem().toString(), user);
+                                userDAO.updateNotificationDuration(spnContract.getValue().toString() + " " + cmbContract.getSelectedItem().toString(), spnWarranty.getValue().toString() + " " + cmbWarranty.getSelectedItem().toString(), username);
                                 Message msg = new Message(parent, Message.SUCCESS,
 						"Notification settings successfully edited.");
                                 this.dispose();
 			
 		}
 		else if(e.getSource()==getClose()){
->>>>>>> 387867a56ff81746bb9612086121d747009dff74
 			this.dispose();
 		}
 	}

@@ -27,7 +27,7 @@ import view.PanelCell;
 import view.ViewTemplate;
 
 public class ViewInventory extends ViewTemplate implements Observer,
-ActionListener {
+		ActionListener {
 
 	InventoryItemController iiController;
 	ITAssetController itAssetController;
@@ -42,7 +42,7 @@ ActionListener {
 
 	public ViewInventory(TabInventory tab) {
 		super();
-		this.tab=tab;
+		this.tab = tab;
 		iiController = InventoryItemController.getInstance();
 		itAssetController = ITAssetController.getInstance();
 		assignmentController = AssignmentController.getInstance();
@@ -57,8 +57,8 @@ ActionListener {
 	@Override
 	public void initialize() {
 		setColCount(12);
-		String headers[] = { "Item", "Description", "Type", "Status", "Assignee", "Location",
-				"Asset Tag", "Service Tag", "Invoice#",
+		String headers[] = { "Item", "Description", "Type", "Status",
+				"Assignee", "Location", "Asset Tag", "Service Tag", "Invoice#",
 				"Delivery Date", "End of Contract", "End of Warranty", "" };
 
 		getModel().setColumnIdentifiers(headers);
@@ -90,6 +90,15 @@ ActionListener {
 		// TODO Auto-generated method stub
 
 	}
+	
+	public DefaultTableModel getModel(){
+		if(getToggle().isSelected()) return tglModel;
+		else return super.getModel();
+	}
+	
+	public boolean isToggle(){
+		return getToggle().isSelected();
+	}
 
 	@Override
 	public void update() {
@@ -101,7 +110,7 @@ ActionListener {
 		Iterator data = iiController.getAll();
 		String employee;
 		Assignment assignment;
-	
+
 		while (data.hasNext()) {
 			Object object = data.next();
 			inventoryItem = (InventoryItem) object;
@@ -110,9 +119,11 @@ ActionListener {
 					.valueOf(inventoryItem.getID()));
 			contract = (Contract) contractController.getObject(String
 					.valueOf(inventoryItem.getID()));
-			assignment = (Assignment)assignmentController.getObject(""+inventoryItem.getID());
+			assignment = (Assignment) assignmentController.getObject(""
+					+ inventoryItem.getID());
 			if (assignment != null) {
-				System.out.println("update "+assignment.getEmployee().getName());
+				System.out.println("update "
+						+ assignment.getEmployee().getName());
 				employee = assignment.getEmployee().getName();
 			}
 
@@ -123,7 +134,7 @@ ActionListener {
 					getModel().getRowCount() - 1, 1);
 			getModel().setValueAt(inventoryItem.getClassification(),
 					getModel().getRowCount() - 1, 2);
-                        getModel().setValueAt(inventoryItem.getStatus(),
+			getModel().setValueAt(inventoryItem.getStatus(),
 					getModel().getRowCount() - 1, 3);
 			getModel().setValueAt(inventoryItem.getLocation(),
 					getModel().getRowCount() - 1, 5);
@@ -138,34 +149,31 @@ ActionListener {
 				getModel().setValueAt(
 						((ITAsset) inventoryItem).getServiceTag(),
 						getModel().getRowCount() - 1, 7);
-				
+
 				Date deliveryDate = ((ITAsset) inventoryItem).getDeliveryDate();
-				if(deliveryDate != null)
-				{
+				if (deliveryDate != null) {
 					getModel().setValueAt(dateFormat.format(deliveryDate),
 							getModel().getRowCount() - 1, 9);
-				}
-				else
-				{
+				} else {
 					getModel().setValueAt(deliveryDate,
 							getModel().getRowCount() - 1, 9);
 				}
 			}
 			if (employee != null) {
 
-				getModel().setValueAt(employee,
-						getModel().getRowCount() - 1, 4);
+				getModel()
+						.setValueAt(employee, getModel().getRowCount() - 1, 4);
 			}
-			if (contract != null){ 
-                            getModel().setValueAt(dateFormat.format(contract.getEndDate()),
+			if (contract != null) {
+				getModel().setValueAt(dateFormat.format(contract.getEndDate()),
 						getModel().getRowCount() - 1, 10);
-                        } 
-                        if(warranty != null) {
+			}
+			if (warranty != null) {
 				getModel().setValueAt(dateFormat.format(warranty.getEndDate()),
 						getModel().getRowCount() - 1, 11);
 			}
-			getModel().setValueAt(new InventoryCellEdit(inventoryItem, tab), getModel().getRowCount() - 1,
-					12);
+			getModel().setValueAt(new InventoryCellEdit(inventoryItem, tab),
+					getModel().getRowCount() - 1, 12);
 		}
 
 		data = iiController.getAllQuantity();
@@ -177,28 +185,28 @@ ActionListener {
 		while (data.hasNext()) {
 			inventoryItem = (InventoryItem) data.next();
 			tglModel.setRowCount(tglModel.getRowCount() + 1);
-			tglModel.setValueAt(inventoryItem.getName(), tglModel
-					.getRowCount() - 1, 0);
-			tglModel.setValueAt(inventoryItem.getDescription(), tglModel
-					.getRowCount() - 1, 1);
-			tglModel.setValueAt(inventoryItem.getClassification(), tglModel
-					.getRowCount() - 1, 2);
-			tglModel.setValueAt(inventoryItem.getQuantity(), tglModel
-					.getRowCount() - 1, 3);
+			tglModel.setValueAt(inventoryItem.getName(),
+					tglModel.getRowCount() - 1, 0);
+			tglModel.setValueAt(inventoryItem.getDescription(),
+					tglModel.getRowCount() - 1, 1);
+			tglModel.setValueAt(inventoryItem.getClassification(),
+					tglModel.getRowCount() - 1, 2);
+			tglModel.setValueAt(inventoryItem.getQuantity(),
+					tglModel.getRowCount() - 1, 3);
 		}
 
 		packTable();
 	}
-        
-        public void filterPopulate(Iterator data) {
-        clearTable();
+
+	public void filterPopulate(Iterator data) {
+		clearTable();
 		InventoryItem inventoryItem;
 		ITAsset itAsset;
 		Contract contract;
 		Warranty warranty;
 		String employee;
-                Assignment assignment;
-                
+		Assignment assignment;
+
 		while (data.hasNext()) {
 			Object object = data.next();
 			inventoryItem = (InventoryItem) object;
@@ -207,9 +215,11 @@ ActionListener {
 					.valueOf(inventoryItem.getID()));
 			contract = (Contract) contractController.getObject(String
 					.valueOf(inventoryItem.getID()));
-			assignment = (Assignment)assignmentController.getObject(""+inventoryItem.getID());
+			assignment = (Assignment) assignmentController.getObject(""
+					+ inventoryItem.getID());
 			if (assignment != null) {
-                                System.out.println("update "+assignment.getEmployee().getName());
+				System.out.println("update "
+						+ assignment.getEmployee().getName());
 				employee = assignment.getEmployee().getName();
 			}
 
@@ -221,7 +231,7 @@ ActionListener {
 			getModel().setValueAt(inventoryItem.getClassification(),
 					getModel().getRowCount() - 1, 2);
 			getModel().setValueAt(inventoryItem.getStatus(),
-                        getModel().getRowCount() - 1, 3);
+					getModel().getRowCount() - 1, 3);
 			getModel().setValueAt(inventoryItem.getLocation(),
 					getModel().getRowCount() - 1, 5);
 			getModel().setValueAt(inventoryItem.getInvoiceNo(),
@@ -240,9 +250,9 @@ ActionListener {
 						getModel().getRowCount() - 1, 9);
 			}
 			if (employee != null) {
-                                
-				getModel().setValueAt(employee,
-						getModel().getRowCount() - 1, 4);
+
+				getModel()
+						.setValueAt(employee, getModel().getRowCount() - 1, 4);
 			}
 			if (contract != null && warranty != null) {
 				getModel().setValueAt(contract.getEndDate(),
@@ -250,8 +260,8 @@ ActionListener {
 				getModel().setValueAt(warranty.getEndDate(),
 						getModel().getRowCount() - 1, 11);
 			}
-			getModel().setValueAt(new InventoryCellEdit(inventoryItem, tab), getModel().getRowCount() - 1,
-					12);
+			getModel().setValueAt(new InventoryCellEdit(inventoryItem, tab),
+					getModel().getRowCount() - 1, 12);
 		}
 
 		data = iiController.getAllQuantity();
@@ -263,18 +273,18 @@ ActionListener {
 		while (data.hasNext()) {
 			inventoryItem = (InventoryItem) data.next();
 			tglModel.setRowCount(tglModel.getRowCount() + 1);
-			tglModel.setValueAt(inventoryItem.getName(), tglModel
-					.getRowCount() - 1, 0);
-			tglModel.setValueAt(inventoryItem.getDescription(), tglModel
-					.getRowCount() - 1, 1);
-			tglModel.setValueAt(inventoryItem.getClassification(), tglModel
-					.getRowCount() - 1, 2);
-			tglModel.setValueAt(inventoryItem.getQuantity(), tglModel
-					.getRowCount() - 1, 3);
+			tglModel.setValueAt(inventoryItem.getName(),
+					tglModel.getRowCount() - 1, 0);
+			tglModel.setValueAt(inventoryItem.getDescription(),
+					tglModel.getRowCount() - 1, 1);
+			tglModel.setValueAt(inventoryItem.getClassification(),
+					tglModel.getRowCount() - 1, 2);
+			tglModel.setValueAt(inventoryItem.getQuantity(),
+					tglModel.getRowCount() - 1, 3);
 		}
-		
+
 		packTable();
-    }
+	}
 
 	@Override
 	public void actionPerformed(ActionEvent arg0) {

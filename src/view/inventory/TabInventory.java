@@ -172,9 +172,6 @@ public class TabInventory extends JPanel implements ActionListener{
 			}
 		}
 		else if(((JButton) e.getSource()).getActionCommand().equals("export")){
-<<<<<<< HEAD
-			new ExportInventory(gui);
-=======
 			
 			ArrayList<String> data = new ArrayList();
 			DefaultTableModel model = ((ViewInventory)list.get(0).getContent()).getModel();
@@ -232,7 +229,6 @@ public class TabInventory extends JPanel implements ActionListener{
                             System.out.print(i.next());
                         }
                         new ExportInventory(gui, data.iterator());
->>>>>>> 387867a56ff81746bb9612086121d747009dff74
 		}
 		else if(((JButton) e.getSource()).getActionCommand().equals("back")){
 			System.out.println("HEEERE");
