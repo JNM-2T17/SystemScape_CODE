@@ -67,7 +67,7 @@ public class AddPOItem extends PopUp implements ActionListener, FocusListener {
     public AddPOItem(JFrame parent, String type,
             PurchaseOrderController poController) {
 
-        super(parent);
+    	super(parent);
         this.parent = parent;
         this.poController = poController;
         this.addFocusListener(this);
@@ -91,7 +91,7 @@ public class AddPOItem extends PopUp implements ActionListener, FocusListener {
         panCenter.add(panContent, BorderLayout.CENTER);
         panContent.setLayout(new MigLayout("", "[grow][188.00,grow][][][]", "[][][][grow][][][][][][][][]"));
 
-        lblItem = new JLabel("Item :");
+        lblItem = new JLabel("Name :");
         panContent.add(lblItem, "cell 0 1,alignx left");
 
         cmbItem = new JComboBox();
@@ -130,7 +130,7 @@ public class AddPOItem extends PopUp implements ActionListener, FocusListener {
                 int quantity = parseStringInt(txtQuantity.getText());
                 float price = (float) parseStringFloat(txtPrice.getText());
                 float result = quantity * price;
-                lblAmountValue.setText(String.valueOf(result));
+                lblAmountValue.setText(String.valueOf(df.format(result)));
             }
         });
         panContent.add(txtQuantity, "cell 1 6");
@@ -181,13 +181,6 @@ public class AddPOItem extends PopUp implements ActionListener, FocusListener {
         this.revalidate();
     }
 
-    public void populateItemComboBox() {
-        /**
-         * **
-         * DEV Insert code here to populate the item combobox**
-         */
-    }
-
     public void populateItems() {
         specificItems = new DefaultComboBoxModel();
         Iterator items = inventoryItemController.getDistinct("itemData");
@@ -223,14 +216,16 @@ public class AddPOItem extends PopUp implements ActionListener, FocusListener {
 
     public void fillForm() {
         ItemData ii = (ItemData) itemDataController.get((String) cmbItem.getSelectedItem());
+       
         if (ii != null) {
             txtDescription.setText(ii.getDescription());
             txtPrice.setText(String.valueOf(ii.getUnitPrice()));
             
             int quantity = parseStringInt(txtQuantity.getText());
             float price = (float) parseStringFloat(txtPrice.getText());
-            float result = quantity * price;
-            lblAmountValue.setText(String.valueOf(result));
+            double result = quantity * price;
+            lblAmountValue.setText(String.valueOf(df.format(result)));
+            System.out.println("AMOUNT: "+ String.valueOf(df.format(result)));
         }
     }
 

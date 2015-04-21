@@ -31,7 +31,7 @@ import view.PopUp;
 
 public class FilterInventory extends PopUp implements ActionListener {
 
-    private JButton btnFilter;
+    private JButton btnFilter, btnRemoveFilter;
     private JComboBox cmbItem;
     private JComboBox cmbClassification, cmbAssignee, cmbQuantity, cmbOffice;
     private JTextField txtQuantity;
@@ -49,7 +49,7 @@ public class FilterInventory extends PopUp implements ActionListener {
         panMain.setBackground(Color.WHITE);
         panMain.setPreferredSize(new Dimension(450, 380));
         panMain.setSize(new Dimension(500, 380));
-        add(panMain);
+        getContentPane().add(panMain);
         panMain.setLayout(new BorderLayout(0, 0));
 
         JPanel panFooter = new JPanel();
@@ -63,6 +63,13 @@ public class FilterInventory extends PopUp implements ActionListener {
         btnFilter.setBackground(new Color(32, 130, 213));
         btnFilter.setFont(new Font("Arial", Font.PLAIN, 18));
         panFooter.add(btnFilter);
+        
+        btnRemoveFilter = new JButton("Remove Filter");
+        btnRemoveFilter.setForeground(new Color(255, 255, 255));
+        btnRemoveFilter.setFont(new Font("Arial", Font.PLAIN, 18));
+        btnRemoveFilter.setBackground(new Color(32, 130, 213));
+        btnRemoveFilter.addActionListener(this);
+        panFooter.add(btnRemoveFilter);
 
         JPanel panContent = new JPanel();
         panContent.setBackground(Color.WHITE);
@@ -245,6 +252,15 @@ public class FilterInventory extends PopUp implements ActionListener {
             this.isClosed = false;
             this.dispose();
         } else if (e.getSource() == getClose()) {
+            this.dispose();
+        } else if (e.getSource() == btnRemoveFilter) {
+            /**
+             * *
+             * DEV insert code statements here to remove the filter and set the
+             * view table to the original meaning yung walang filter...
+			****
+             */
+          
             this.dispose();
         }
     }

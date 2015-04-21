@@ -40,22 +40,22 @@ import model.InventoryItem;
 import model.Warranty;
 import model.database.UserDAO;
 
-public class Notification extends JPanel implements ActionListener, Observer{
+public class Notification extends JPanel implements ActionListener, Observer {
 	private JPanel listContract, listWarranty, panContract, panWarranty;;
-	private JButton btnContract, btnWarranty;
+	private JButton btnContract, btnWarranty, btnDarkWarranty, btnDarkContract;
 	private JLabel numContract, numWarranty, redContract, redWarranty;
 	private JScrollPane scrollPane;
 	private SpringLayout springContract, springWarranty;
 	private int cntContract, cntWarranty;
-        private WarrantyController warrantyController;
-        private ContractController contractController;
-        private InventoryItemController inventoryItemController;
-        private String warrantyDuration, contractDuration;
+	private WarrantyController warrantyController;
+	private ContractController contractController;
+	private InventoryItemController inventoryItemController;
+	private String warrantyDuration, contractDuration;
 
 	public Notification(String username) {
 		setBackground(new Color(32, 130, 213));
 		setLayout(new BorderLayout(0, 0));
-                
+
 		cntContract = cntWarranty = 0;
 
 		JPanel panHeader = new JPanel();
@@ -98,6 +98,14 @@ public class Notification extends JPanel implements ActionListener, Observer{
 		btnContract.addActionListener(this);
 		panContract.add(btnContract);
 
+		btnDarkContract = new Button.ButtonBuilder().img(
+				"src/assets/Metro/DocumentsDark.png", 60, 60).build();
+		btnDarkContract.setToolTipText("Contract Notifications");
+		sl_panContract.putConstraint(SpringLayout.NORTH, btnDarkContract, 15,
+				SpringLayout.NORTH, panContract);
+		btnDarkContract.addActionListener(this);
+		panContract.add(btnDarkContract);
+
 		panWarranty = new JPanel();
 		panWarranty.setBackground(new Color(32, 130, 213));
 		panWarranty.setPreferredSize(new Dimension(70, 75));
@@ -133,6 +141,14 @@ public class Notification extends JPanel implements ActionListener, Observer{
 		btnWarranty.addActionListener(this);
 		panWarranty.add(btnWarranty);
 
+		btnDarkWarranty = new Button.ButtonBuilder().img(
+				"src/assets/Metro/Document3Dark.png", 60, 60).build();
+		btnDarkWarranty.setToolTipText("Warranty Notifications");
+		sl_panWarranty.putConstraint(SpringLayout.NORTH, btnDarkWarranty, 15,
+				SpringLayout.NORTH, panWarranty);
+		btnDarkWarranty.addActionListener(this);
+		panWarranty.add(btnDarkWarranty);
+
 		JPanel panContent = new JPanel();
 		panContent.setBackground(new Color(32, 130, 213));
 		add(panContent, BorderLayout.CENTER);
@@ -166,69 +182,80 @@ public class Notification extends JPanel implements ActionListener, Observer{
 		listWarranty.setLayout(springWarranty);
 
 		scrollPane.setViewportView(listContract);
-                
-                warrantyController = WarrantyController.getInstance();
-                contractController = ContractController.getInstance();
-                inventoryItemController = new InventoryItemController();
-                UserDAO userDAO = new UserDAO();
-                Iterator i = userDAO.getNotificationDuration(username);
-                if(i.hasNext()){
-                    warrantyDuration = i.next().toString();
-                }
-                if(i.hasNext()){
-                    contractDuration = i.next().toString();
-                }
-                System.out.println(username + " " +warrantyDuration + " " + contractDuration);
-                
-                warrantyController.registerObserver(this);
-                contractController.registerObserver(this);
-                
-               
-		
+
+		warrantyController = WarrantyController.getInstance();
+		contractController = ContractController.getInstance();
+		inventoryItemController = new InventoryItemController();
+		UserDAO userDAO = new UserDAO();
+		Iterator i = userDAO.getNotificationDuration(username);
+		if (i.hasNext()) {
+			warrantyDuration = i.next().toString();
+		}
+		if (i.hasNext()) {
+			contractDuration = i.next().toString();
+		}
+		System.out.println(username + " " + warrantyDuration + " "
+				+ contractDuration);
+
+		warrantyController.registerObserver(this);
+		contractController.registerObserver(this);
+
+		btnWarranty.setVisible(false);
+		btnContract.setVisible(true);
+		btnDarkWarranty.setVisible(true);
+		btnDarkContract.setVisible(false);
 	}
-        @Override
-        public void update(){
-            listContract.removeAll();
-            listWarranty.removeAll();
-            cntContract = cntWarranty = 0;
-            GregorianCalendar gregorianCalendar = new GregorianCalendar();
-            java.util.Date date = new java.util.Date(gregorianCalendar.getTimeInMillis());
-            if( warrantyDuration != null ) {
-	            for(Iterator i = warrantyController.search(warrantyDuration); i.hasNext();){
-	                Warranty warranty = (Warranty)i.next();
-	                InventoryItem inventoryItem = ((InventoryItem)inventoryItemController.get("" + warranty.getHardware()));
-	                int daysLeft = (int)((warranty.getEndDate().getTime() - date.getTime()) / (24 * 60 * 60 * 1000));
-	                addWarranty(inventoryItem.getName(), daysLeft);
-	            }
-            }
-            
-            if( contractDuration != null ) {
-	            for(Iterator i = contractController.search(contractDuration); i.hasNext();){
-	                Contract contract = (Contract)i.next();
-	                InventoryItem inventoryItem = (InventoryItem)inventoryItemController.get("" + contract.getHardware());
-	                int daysLeft = (int)((contract.getEndDate().getTime() - date.getTime()) / (24 * 60 * 60 * 1000));
-	                addContract(inventoryItem.getName(), daysLeft);
-	            }
-            }
-            
-            listContract.repaint();
-            listContract.revalidate();
-            listWarranty.repaint();
-            listWarranty.revalidate();
-            cntWarranty = listWarranty.getComponents().length;
-            cntContract = listContract.getComponents().length;
-            numWarranty.setText(cntWarranty + "");
-            numContract.setText(cntContract + "");
-            if(cntWarranty == 0){
-                redWarranty.setVisible(false);
-                numWarranty.setVisible(false);
-            }
-            if(cntContract == 0){
-                redContract.setVisible(false);
-                numContract.setVisible(false);
-            }
-        }
-        
+
+	@Override
+	public void update() {
+		listContract.removeAll();
+		listWarranty.removeAll();
+		cntContract = cntWarranty = 0;
+		GregorianCalendar gregorianCalendar = new GregorianCalendar();
+		java.util.Date date = new java.util.Date(
+				gregorianCalendar.getTimeInMillis());
+		if (warrantyDuration != null) {
+			for (Iterator i = warrantyController.search(warrantyDuration); i
+					.hasNext();) {
+				Warranty warranty = (Warranty) i.next();
+				InventoryItem inventoryItem = ((InventoryItem) inventoryItemController
+						.get("" + warranty.getHardware()));
+				int daysLeft = (int) ((warranty.getEndDate().getTime() - date
+						.getTime()) / (24 * 60 * 60 * 1000));
+				addWarranty(inventoryItem.getName(), daysLeft);
+			}
+		}
+
+		if (contractDuration != null) {
+			for (Iterator i = contractController.search(contractDuration); i
+					.hasNext();) {
+				Contract contract = (Contract) i.next();
+				InventoryItem inventoryItem = (InventoryItem) inventoryItemController
+						.get("" + contract.getHardware());
+				int daysLeft = (int) ((contract.getEndDate().getTime() - date
+						.getTime()) / (24 * 60 * 60 * 1000));
+				addContract(inventoryItem.getName(), daysLeft);
+			}
+		}
+
+		listContract.repaint();
+		listContract.revalidate();
+		listWarranty.repaint();
+		listWarranty.revalidate();
+		cntWarranty = listWarranty.getComponents().length;
+		cntContract = listContract.getComponents().length;
+		numWarranty.setText(cntWarranty + "");
+		numContract.setText(cntContract + "");
+		if (cntWarranty == 0) {
+			redWarranty.setVisible(false);
+			numWarranty.setVisible(false);
+		}
+		if (cntContract == 0) {
+			redContract.setVisible(false);
+			numContract.setVisible(false);
+		}
+	}
+
 	public void addContract(String name, int days) {
 		cntContract++;
 		redContract.setVisible(true);
@@ -274,14 +301,22 @@ public class Notification extends JPanel implements ActionListener, Observer{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
-		if (e.getSource() == btnContract) {
+		if (e.getSource() == btnContract  || e.getSource() == btnDarkContract) {
 			panWarranty.setBorder(null);
 			scrollPane.setViewportView(listContract);
+			btnWarranty.setVisible(false);
+			btnContract.setVisible(true);
+			btnDarkWarranty.setVisible(true);
+			btnDarkContract.setVisible(false);
 			this.repaint();
 			this.revalidate();
-		} else if (e.getSource() == btnWarranty) {
+		} else if (e.getSource() == btnWarranty || e.getSource() == btnDarkWarranty) {
 			panContract.setBorder(null);
 			scrollPane.setViewportView(listWarranty);
+			btnWarranty.setVisible(true);
+			btnContract.setVisible(false);
+			btnDarkWarranty.setVisible(false);
+			btnDarkContract.setVisible(true);
 			this.repaint();
 			this.revalidate();
 		}
