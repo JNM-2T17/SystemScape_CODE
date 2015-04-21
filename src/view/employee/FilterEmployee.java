@@ -40,12 +40,14 @@ public class FilterEmployee extends PopUp implements ActionListener {
     private EmployeeController employeeController;
     private ProjectController projectController;
     private ArrayList list;
+    private ViewEmployee viewEmployee;
 
-    public FilterEmployee(JFrame parent) {
+    public FilterEmployee(JFrame parent, ViewEmployee viewEmployee) {
         super(parent);
         list = new ArrayList();
         employeeController = EmployeeController.getInstance();
         projectController = ProjectController.getInstance();
+        this.viewEmployee = viewEmployee;
         JPanel panMain = new JPanel();
         panMain.setBackground(Color.WHITE);
         panMain.setPreferredSize(new Dimension(450, 250));
@@ -185,24 +187,19 @@ public class FilterEmployee extends PopUp implements ActionListener {
 		 ****
          */
         else if (checkFields() == false && e.getSource() == btnFilter) {
+        	Iterator values = employeeController.filter(getValues());
+        	viewEmployee.filterPopulate(values);
             closed = false;
             this.dispose();
+        } else if (checkFields() == true && e.getSource() == btnFilter || 
+        		       e.getSource() == btnRemoveFilter) {
             /**
              * **
              * DEV Insert Code statements here to set the list to the original
              * if not one of the fields is filled up/ All fields are empty
 			 ****
              */
-            list = null;
-            closed = false;
-            this.dispose();
-        } else if (e.getSource() == btnRemoveFilter) {
-            /**
-             * *
-             * DEV insert code statements here to remove the filter and set the
-             * view table to the original meaning yung walang filter...
-			****
-             */
+        	viewEmployee.update();
             list = null;
             closed = false;
             this.dispose();

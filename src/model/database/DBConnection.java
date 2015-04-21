@@ -27,7 +27,7 @@ public class DBConnection {
         url = "jdbc:mysql://localhost:3306/";
         database = "caista";
         username = "root";
-        password = "iloveyouGod";//tempo
+        password = "B@l3r10n7476";//tempo
     }
      
     /**
