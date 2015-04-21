@@ -118,6 +118,11 @@ public class EmployeeController implements Subject {
         return dao.get("Employee", key);
     }
     
+    
+    public int getEmployeeID(String user){
+    	return userDAO.getEmployeeIDUsingUser(user);
+    }
+    
     public Employee getEmployee(){
     	return employee;
     }

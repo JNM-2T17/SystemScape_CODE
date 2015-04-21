@@ -269,6 +269,24 @@ public class UserDAO implements IDBGet {
         return password;
     }
     
+    public int getEmployeeIDUsingUser(String key){
+    	int id = 0;
+    	try {
+            String query = "SELECT employeeID FROM user where username = ?";
+            PreparedStatement preparedStatement = DBConnection.getConnection().prepareStatement(query);
+            preparedStatement.setString(1, key);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                 id = resultSet.getInt("employeeID");
+                
+            }
+        } catch (SQLException sqlException) {
+            sqlException.printStackTrace();
+        
+        }
+        return id;
+    }
+    
     public void updateNotificationDuration(String contractDuration, String warrantyDuration, String username){
         try {
 
