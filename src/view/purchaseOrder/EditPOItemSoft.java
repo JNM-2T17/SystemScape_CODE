@@ -251,7 +251,7 @@ public class EditPOItemSoft extends PopUp implements ActionListener, FocusListen
             if (error.equals("") == true) {
 
                 InventoryItem ii = new SoftwareItem(0, itemData.getName(), itemData.getDescription(), itemData.getUnitPrice(), txtInvoice.getText(),
-                        (String) cbxLocation.getSelectedItem(), (String) cbxStatus.getSelectedItem(), "Hard", txtLicense.getText());
+                        (String) cbxLocation.getSelectedItem(), (String) cbxStatus.getSelectedItem(), "Soft", txtLicense.getText());
 
                 inventoryItemController.addInventoryItem(ii);
                 if (((String) cbxStatus.getSelectedItem()).equals("In Use")) {
