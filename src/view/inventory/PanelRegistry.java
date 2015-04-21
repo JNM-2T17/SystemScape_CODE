@@ -23,6 +23,7 @@ import controller.ITAssetController;
 import controller.InventoryItemController;
 import controller.WarrantyController;
 import java.text.DateFormat;
+import java.util.Calendar;
 
 import java.util.Date;
 import java.util.Locale;
@@ -44,6 +45,8 @@ import view.inventory.itemtileview.ItemTileWarrantyView;
 import view.inventory.itemtileview.TypeItemTileView;
 import model.Contract;
 import model.Warranty;
+import view.inventory.itemtilefield.ItemTileGeneralField;
+import view.inventory.itemtilefield.ItemTileNonITField;
 
 public class PanelRegistry implements PanelRegistration {
 
@@ -165,6 +168,7 @@ public class PanelRegistry implements PanelRegistration {
 		System.out.println(typeInfo.get(0).getClass() + "\n");
 		int ID = InventoryItemController.getInstance().getID();
                 ID++;
+                String status;
                 System.out.println(ID + "company");
 		if (type.equalsIgnoreCase("IT")) {
 
@@ -180,6 +184,16 @@ public class PanelRegistry implements PanelRegistration {
 						(Date) contractInfo.get(2),
 						Float.parseFloat((String) contractInfo.get(0)));
 			}
+                        
+                        if(generalInfo.get(5).toString().equalsIgnoreCase("In Use")){
+                            if(typeInfo.get(0).toString().equals("None")){
+                                status = "In Store";
+                            }else{
+                                status = generalInfo.get(5).toString();
+                            }
+                        }else{
+                                status = generalInfo.get(5).toString();
+                            }
 
 			ITAsset itAsset = new ITAsset.ITAssetBuilder()
                                         .addID(ID)
@@ -188,7 +202,7 @@ public class PanelRegistry implements PanelRegistration {
 					.addUnitPrice(unitPrice)
 					.addInvoiveNo(generalInfo.get(3).toString())
 					.addLocation(generalInfo.get(4).toString())
-					.addStatus(generalInfo.get(5).toString())
+					.addStatus(status)
 					.addClassification("IT")
 					.addAssetTag(assetTag)
 					.addServiceTag(typeInfo.get(3).toString())
@@ -205,6 +219,16 @@ public class PanelRegistry implements PanelRegistration {
 
 		} else if (type.equalsIgnoreCase("Non-IT")) {
                        
+                        if(generalInfo.get(5).toString().equalsIgnoreCase("In Use")){
+                            if(typeInfo.get(0).toString().equals("None")){
+                                status = "In Store";
+                            }else{
+                                status = generalInfo.get(5).toString();
+                            }
+                        }else{
+                                status = generalInfo.get(5).toString();
+                            }
+                    
 			NonITAsset nonItAsset = new NonITAsset.NonITAssetBuilder()
                                         .addID(ID)
 					.addName(generalInfo.get(0).toString())
@@ -212,13 +236,31 @@ public class PanelRegistry implements PanelRegistration {
 					.addUnitPrice(unitPrice)
 					.addInvoiveNo(generalInfo.get(3).toString())
 					.addLocation(generalInfo.get(4).toString())
-					.addStatus(generalInfo.get(5).toString()) 
-					.addClassification("Non-IT").build();
+					.addStatus(status) 
+					.addClassification("Non-IT")
+                                        .addContract(
+							new Contract(0, (Date) contractInfo.get(1),
+									(Date) contractInfo.get(2),
+									Float.parseFloat((String) contractInfo
+											.get(0))))
+					.addWarranty(
+							new Warranty(0, (Date) warrantyInfo.get(0),
+									(Date) warrantyInfo.get(1))).build();
 					
 			inventoryItem = nonItAsset;
 			
 		} else if (type.equalsIgnoreCase("Soft")) {
                         
+                    if(generalInfo.get(5).toString().equalsIgnoreCase("In Use")){
+                            if(typeInfo.get(0).toString().equals("None")){
+                                status = "In Store";
+                            }else{
+                                status = generalInfo.get(5).toString();
+                            }
+                        }else{
+                                status = generalInfo.get(5).toString();
+                            }
+                    
 			SoftwareItem software = new SoftwareItem.SoftwareBuilder()
                                         .addID(ID)
 					.addName(generalInfo.get(0).toString())
@@ -226,13 +268,24 @@ public class PanelRegistry implements PanelRegistration {
 					.addUnitPrice(unitPrice)
 					.addInvoiveNo(generalInfo.get(3).toString())
 					.addLocation(generalInfo.get(4).toString())
-					.addStatus(generalInfo.get(5).toString())
+					.addStatus(status)
 					.addClassification("Soft")
 					.addLicenseKey(typeInfo.get(3).toString()).build();
 			
 			inventoryItem = software;
 			
 		} else if (type.equalsIgnoreCase("Others")) {
+                    
+                        if(generalInfo.get(5).toString().equalsIgnoreCase("In Use")){
+                            if(typeInfo.get(0).toString().equals("None")){
+                                status = "In Store";
+                            }else{
+                                status = generalInfo.get(5).toString();
+                            }
+                        }else{
+                                status = generalInfo.get(5).toString();
+                            }
+                        
 			InventoryItem general = new InventoryItem.InventoryItemBuilder()
                                         .addID(ID)
 					.addName(generalInfo.get(0).toString())
@@ -240,7 +293,7 @@ public class PanelRegistry implements PanelRegistration {
 					.addUnitPrice(unitPrice)
 					.addInvoiveNo(generalInfo.get(3).toString())
 					.addLocation(generalInfo.get(4).toString())
-					.addStatus(generalInfo.get(5).toString())
+					.addStatus(status)
 					.addClassification("Others").build();
 			
 			inventoryItem = general;
@@ -349,16 +402,20 @@ public class PanelRegistry implements PanelRegistration {
                 Iterator i = assignmentController.filter(""+ii.getID());
                 ArrayList<String> employees = new ArrayList<String>();
                 Iterator<Employee> employeeIter = employeeController.getAll();
-                
+                 ArrayList<Date> assigneeDates = new ArrayList();
+                 
                 Assignment assignment;                      // This code
                 if(i.hasNext()){                             // assumes item can
                     assignment = ((Assignment)i.next());    // only be assigned to one employee
                     employees.add(assignment.getEmployee().getName());
+                   assigneeDates.add(assignment.getStartDate());
+                    assigneeDates.add(assignment.getEndDate());
                 }
-                else
+                else{
                     employees.add("None");
-		
-		
+                    assigneeDates.add(Calendar.getInstance().getTime());
+                    assigneeDates.add(Calendar.getInstance().getTime());
+                }
 		
 		while(employeeIter.hasNext())
 		{
@@ -367,7 +424,7 @@ public class PanelRegistry implements PanelRegistration {
                         employees.add(name);
 		}
                 if(!employees.contains("None"))
-                    employees.add("Remove Assignment");
+                    employees.add("None");
 		InventoryItem inventoryItem;
 		
 		if(typeInventoryItem.equalsIgnoreCase("IT"))
@@ -398,6 +455,8 @@ public class PanelRegistry implements PanelRegistration {
 					ItemStorageIT.getInstance()
 					.saveAssetTag(((ITAsset) inventoryItem).getAssetTag())
 					.saveServiceTag(((ITAsset) inventoryItem).getServiceTag())
+                                        .saveStartDate(assigneeDates.get(0))
+                                        .saveEndDate(assigneeDates.get(1))
 					.loadList()
 			);
 			
@@ -415,8 +474,8 @@ public class PanelRegistry implements PanelRegistration {
 					.loadList()
 			);
 			
-			((ItemTileContractField)participantList.get(3)).setContractStartDate(((ITAsset) inventoryItem).getWarrantyStartDate());
-			((ItemTileContractField)participantList.get(3)).setContractEndDate(((ITAsset) inventoryItem).getWarrantyEndDate());
+			((ItemTileContractField)participantList.get(3)).setContractStartDate(((ITAsset) inventoryItem).getContractStartDate());
+			((ItemTileContractField)participantList.get(3)).setContractEndDate(((ITAsset) inventoryItem).getContractEndDate());
 			System.out.println("Finished IT");
 			
 		}
@@ -439,6 +498,20 @@ public class PanelRegistry implements PanelRegistration {
 			((TypeItemTileField) participantList.get(1)).loadAssigneeList(employees.iterator());
 			((TypeItemTileField) participantList.get(1)).setType("Non-IT Assets");
 			
+                        ((ItemTileNonITField) participantList.get(1)).saveStartDate(assigneeDates.get(0));
+			((ItemTileNonITField) participantList.get(1)).saveEndDate(assigneeDates.get(1));
+                        
+                        ((ItemTileWarrantyField)participantList.get(2)).setWarrantyStartDate(((NonITAsset) inventoryItem).getWarrantyStartDate());
+			((ItemTileWarrantyField)participantList.get(2)).setWarrantyEndDate(((NonITAsset) inventoryItem).getWarrantyEndDate());
+			
+                        participantList.get(3).loadPresets(
+					ItemStorageContract.getInstance()
+					.saveMainCost(((NonITAsset) inventoryItem).getMaintenanceCost())
+					.loadList()
+			);
+                        
+                        ((ItemTileContractField)participantList.get(3)).setContractStartDate(((NonITAsset) inventoryItem).getWarrantyStartDate());
+			((ItemTileContractField)participantList.get(3)).setContractEndDate(((NonITAsset) inventoryItem).getWarrantyEndDate());
 //			tabInventory.showAddPanel();
 		}
 		else if(typeInventoryItem.equalsIgnoreCase("Soft"))
@@ -468,6 +541,8 @@ public class PanelRegistry implements PanelRegistration {
 					ItemStorageSoftware.getInstance()
 					//.saveAssignee(((SoftwareItem) inventoryItem).getAssignee(); Assignee
 					.saveLicenseKey(((SoftwareItem) inventoryItem).getLicenseKey())
+                                        .saveStartDate(assigneeDates.get(0))
+                                        .saveEndDate(assigneeDates.get(1))
 					.loadList()
 			);
 		
@@ -494,6 +569,9 @@ public class PanelRegistry implements PanelRegistration {
 
 			((TypeItemTileField) participantList.get(1)).loadAssigneeList(employees.iterator());
 			((TypeItemTileField) participantList.get(1)).setType("Others");
+			
+                        ((ItemTileGeneralField) participantList.get(1)).saveStartDate(assigneeDates.get(0));
+			((ItemTileGeneralField) participantList.get(1)).saveEndDate(assigneeDates.get(1));
 			
 			
 //			tabInventory.showAddPanel();
@@ -572,13 +650,11 @@ public class PanelRegistry implements PanelRegistration {
 			participantList.get(3).loadPresets(
 					ItemStorageContract.getInstance()
 					.saveMainCost(((ITAsset) inventoryItem).getContractMaintenanceCost())
-//					.saveStartDate(((ITAsset) inventoryItem).getContractStartDate())
-//					.saveEndDate(((ITAsset) inventoryItem).getContractEndDate())
 					.loadList()
 			);
 			
-			((ItemTileContractView)participantList.get(3)).setContractStartDate(((ITAsset) inventoryItem).getWarrantyStartDate());
-			((ItemTileContractView)participantList.get(3)).setContractEndDate(((ITAsset) inventoryItem).getWarrantyEndDate());
+			((ItemTileContractView)participantList.get(3)).setContractStartDate(((ITAsset) inventoryItem).getContractStartDate());
+			((ItemTileContractView)participantList.get(3)).setContractEndDate(((ITAsset) inventoryItem).getContractEndDate());
 			
 			
 //			tabInventory.showAddPanel();
@@ -600,8 +676,21 @@ public class PanelRegistry implements PanelRegistration {
 					.loadList()
 			);
 			
-			((TypeItemTileField) participantList.get(1)).setType("Non-IT Assets");
+			((TypeItemTileView) participantList.get(1)).setType("Non-IT Assets");
                         ((TypeItemTileView) participantList.get(1)).loadAssignee(assignee);
+                        
+                        ((ItemTileWarrantyView)participantList.get(2)).setWarrantyStartDate(((NonITAsset) inventoryItem).getWarrantyStartDate());
+			((ItemTileWarrantyView)participantList.get(2)).setWarrantyEndDate(((NonITAsset) inventoryItem).getWarrantyEndDate());
+                        
+                        participantList.get(3).loadPresets(
+					ItemStorageContract.getInstance()
+					.saveMainCost(((NonITAsset) inventoryItem).getMaintenanceCost())
+					.loadList()
+			);
+                        
+                        ((ItemTileContractView)participantList.get(3)).setContractStartDate(((NonITAsset) inventoryItem).getContractStartDate());
+			((ItemTileContractView)participantList.get(3)).setContractEndDate(((NonITAsset) inventoryItem).getContractEndDate());
+			
 			//PROBLEM
 			
 //			tabInventory.showAddPanel();
@@ -703,7 +792,21 @@ public class PanelRegistry implements PanelRegistration {
 		
 		((TypeItemTileField) participantList.get(1)).setAssigneeVisible(stat);
 	}
-
+        
+        public boolean isAdd(){
+            return isAdd;
+        }
+        
+        public boolean checkInputFromAll() {
+		// TODO Auto-generated method stub
+		for(int i = 0; i < participantList.size(); i++)
+		{
+			if(!participantList.get(i).checkInput())
+				return false;
+		}
+		System.out.println("returned True");
+		return true;
+	}
 
 
 }

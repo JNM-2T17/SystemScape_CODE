@@ -51,7 +51,11 @@ public class InventoryItemDAO implements IDBCUD {
                             resultSet.getString("status"),
                             resultSet.getString("classification"),
                             resultSet.getDate("Warranty Start"),
-                            resultSet.getDate("Warranty End"));
+                            resultSet.getDate("Warranty End"),
+                            resultSet.getDate("Contract Start"),
+                            resultSet.getDate("Contract End"),
+                            resultSet.getFloat("maintenanceCost"));
+                            
                 } else if (itemClass.equalsIgnoreCase("Soft")) {
                     inventoryItem = new SoftwareItem(resultSet.getInt("ID"), resultSet.getString("name"),
                             resultSet.getString("description"),
@@ -147,12 +151,18 @@ public class InventoryItemDAO implements IDBCUD {
                             String query6 = "SELECT * FROM warranty WHERE hardware = \"" + resultSet.getString("ID") + "\"";
                             PreparedStatement preparedStatement6 = con.prepareStatement(query6);
                             ResultSet resultSet6 = preparedStatement6.executeQuery();
-                            if (resultSet6.next()) {
+                            
+                             String query7 = "SELECT * FROM contract WHERE hardware = \"" + resultSet.getString("ID") + "\"";
+                            PreparedStatement preparedStatement7 = con.prepareStatement(query7);
+                            ResultSet resultSet7 = preparedStatement7.executeQuery();
+                            
+                            if (resultSet7.next() && resultSet6.next()) {
                                 inventoryItem = new NonITAsset(resultSet.getInt("ID"), resultSet2.getString("name"),
                                         resultSet2.getString("description"), resultSet2.getFloat("unitPrice"),
                                         resultSet.getString("invoiceNo"), resultSet.getString("location"),
                                         resultSet.getString("status"), resultSet.getString("classification"),
-                                        resultSet6.getDate("startDate"), resultSet6.getDate("endDate"));
+                                        resultSet6.getDate("startDate"), resultSet6.getDate("endDate"),
+                                        resultSet7.getDate("startDate"), resultSet7.getDate("endDate"), resultSet7.getFloat("maintenanceCost"));
                             }
                         }
                     } else {//Else not hardware
@@ -299,12 +309,18 @@ public class InventoryItemDAO implements IDBCUD {
                             String query6 = "SELECT * FROM warranty WHERE hardware = \"" + resultSet.getString("ID") + "\"";
                             PreparedStatement preparedStatement6 = con.prepareStatement(query6);
                             ResultSet resultSet6 = preparedStatement6.executeQuery();
-                            if (resultSet6.next()) {
+                            
+                             String query7 = "SELECT * FROM contract WHERE hardware = \"" + resultSet.getString("ID") + "\"";
+                            PreparedStatement preparedStatement7 = con.prepareStatement(query7);
+                            ResultSet resultSet7 = preparedStatement7.executeQuery();
+                            
+                            if (resultSet7.next() && resultSet6.next()) {
                                 inventoryItem = new NonITAsset(resultSet.getInt("ID"), resultSet2.getString("name"),
                                         resultSet2.getString("description"), resultSet2.getFloat("unitPrice"),
                                         resultSet.getString("invoiceNo"), resultSet.getString("location"),
                                         resultSet.getString("status"), resultSet.getString("classification"),
-                                        resultSet6.getDate("startDate"), resultSet6.getDate("endDate"));
+                                        resultSet6.getDate("startDate"), resultSet6.getDate("endDate"),
+                                        resultSet7.getDate("startDate"), resultSet7.getDate("endDate"), resultSet7.getFloat("maintenanceCost"));
                             }
                         }
                     } else {//Else not hardware
@@ -411,6 +427,15 @@ public class InventoryItemDAO implements IDBCUD {
                     preparedStatement.setDate(2, new java.sql.Date(((NonITAsset) inventoryItem).getWarrantyStartDate().getTime()));
                     preparedStatement.setDate(3, new java.sql.Date(((NonITAsset) inventoryItem).getWarrantyEndDate().getTime()));
                     preparedStatement.execute();
+                    
+                    query = "INSERT INTO contract \n"
+                            + "VALUES (?, ?, ?, ?)";
+                    preparedStatement = con.prepareStatement(query);
+                    preparedStatement.setInt(1, id);
+                    preparedStatement.setDate(2, new java.sql.Date(((NonITAsset) inventoryItem).getContractStartDate().getTime()));
+                    preparedStatement.setDate(3, new java.sql.Date(((NonITAsset) inventoryItem).getContractEndDate().getTime()));
+                    preparedStatement.setFloat(4, ((NonITAsset) inventoryItem).getMaintenanceCost());
+                    preparedStatement.execute();
                 }
             } else if (object instanceof SoftwareItem) {
                 inventoryItem = (SoftwareItem) object;
@@ -460,7 +485,7 @@ public class InventoryItemDAO implements IDBCUD {
             int id = Integer.parseInt(origKey);
             InventoryItem previous = (InventoryItem) get(origKey);
             InventoryItem current = (InventoryItem) object;
-
+            System.out.println(origKey+"wraped\n");
             DAO.getInstance().update("itemdata", new ItemData(current.getName(), current.getDescription(), current.getUnitPrice()), previous.getName());
             String query = "UPDATE inventoryitem SET itemData = ?, "
                     + "status= ?, classification = ?, invoiceNo=?, location=? WHERE ID = ?;";
@@ -544,6 +569,15 @@ public class InventoryItemDAO implements IDBCUD {
                     preparedStatement.setInt(1, id);
                     preparedStatement.setDate(2, new java.sql.Date(((NonITAsset) inventoryItem).getWarrantyStartDate().getTime()));
                     preparedStatement.setDate(3, new java.sql.Date(((NonITAsset) inventoryItem).getWarrantyEndDate().getTime()));
+                    preparedStatement.execute();
+                    
+                    query = "INSERT INTO contract \n"
+                            + "VALUES (?, ?, ?, ?)";
+                    preparedStatement = con.prepareStatement(query);
+                    preparedStatement.setInt(1, id);
+                    preparedStatement.setDate(2, new java.sql.Date(((NonITAsset) inventoryItem).getContractStartDate().getTime()));
+                    preparedStatement.setDate(3, new java.sql.Date(((NonITAsset) inventoryItem).getContractEndDate().getTime()));
+                    preparedStatement.setFloat(4, ((NonITAsset) inventoryItem).getMaintenanceCost());
                     preparedStatement.execute();
                 }
             } else if (object instanceof SoftwareItem) {

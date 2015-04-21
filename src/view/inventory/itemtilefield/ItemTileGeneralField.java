@@ -231,7 +231,7 @@ public class ItemTileGeneralField extends ItemPanelDecorator implements ItemPane
 		lblAssignEnd.setVisible(stat);
 		startDateChooser.setVisible(stat);
 		endDateChooser.setVisible(stat);
-		cbAssignee.setSelectedItem("None");
+                    cbAssignee.setSelectedItem("None");
 	}
 
 	@Override

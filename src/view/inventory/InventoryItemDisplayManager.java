@@ -8,6 +8,7 @@ import javax.swing.JPanel;
 import model.InventoryItem;
 import view.Content;
 import view.Gui;
+import view.Message;
 import view.inventory.itemtilefield.ItemTileContractField;
 import view.inventory.itemtilefield.ItemTileGenInfoField;
 import view.inventory.itemtilefield.ItemTileGeneralField;
@@ -575,8 +576,15 @@ public class InventoryItemDisplayManager {
 	
 	public void retrieveInformation() {
 		// TODO Auto-generated method stub
-		panelRegistry.retrieveInformationFromAll();
-		tab.setReturn();
+		if(panelRegistry.checkInputFromAll())
+		{
+			System.out.println("PASSED RETRIEVE INFO AND CLOSE");
+			panelRegistry.retrieveInformationFromAll();
+                        if(panelRegistry.isAdd())
+                            new Message(gui, Message.SUCCESS, "Item added to the database");
+                        else  new Message(gui, Message.SUCCESS, "Item edit successful");
+			tab.setReturn();
+		}
 	}
 	public static InventoryItemDisplayManager getInstance()
 	{

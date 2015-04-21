@@ -15,15 +15,18 @@ import java.util.Date;
  */
 public class NonITAsset extends HardwareItem{
     private Warranty warranty;
+    private Contract contract;
         
-    public NonITAsset(int ID, String name, String description, float unitPrice, String invoiceNo, String location, String status, String classification, Date warrantyStartDate, Date warrantyEndDate) {
+    public NonITAsset(int ID, String name, String description, float unitPrice, String invoiceNo, String location, String status, String classification, Date warrantyStartDate, Date warrantyEndDate, Date contractStartDate, Date contractEndDate, float contractMaintenanceCost) {
         super(ID, name, description, unitPrice, invoiceNo, location, status, classification);
         setWarranty(new Warranty(ID, warrantyStartDate, warrantyEndDate));
+        setContract(new Contract(ID, contractEndDate, contractEndDate, contractMaintenanceCost));
     }   
     
     public NonITAsset(NonITAssetBuilder niab) {
         super(niab.ID, niab.name, niab.description, niab.unitPrice, niab.invoiceNo, niab.location, niab.status, niab.classification);
         setWarranty(niab.warranty);
+        setContract(niab.contract);
     }   
         
         public Warranty getWarranty(){
@@ -50,6 +53,38 @@ public class NonITAsset extends HardwareItem{
             this.warranty.setEndDate(warrantyStartDate);
         }
         
+        public Contract getContract(){
+            return contract;
+        }
+        
+        public Date getContractStartDate(){
+            return contract.getStartDate();
+        }
+        
+        public Date getContractEndDate(){
+            return contract.getEndDate();
+        }
+        
+        public float getMaintenanceCost(){
+            return contract.getMaintenanceCost();
+        }
+        
+        public void setContract(Contract contract){
+             this.contract = contract;
+        }
+        
+        public void setContractStartDate(Date contractStartDate){
+            this.contract.setStartDate(contractStartDate);
+        }
+        
+        public void setContractEndDate(Date contractStartDate){
+            this.contract.setEndDate(contractStartDate);
+        }
+        
+        public void setMaintenanceCost(float maintenanceCost){
+            this.contract.setMaintenanceCost(maintenanceCost);
+        }
+        
 	public static class NonITAssetBuilder {
 			
 			private int ID;
@@ -63,6 +98,7 @@ public class NonITAsset extends HardwareItem{
                         private Date startDate;
                         private Date endDate;
                         private Warranty warranty;
+                        private Contract contract;
 			
 			public NonITAssetBuilder()
 			{
@@ -129,6 +165,11 @@ public class NonITAsset extends HardwareItem{
                         public NonITAssetBuilder addWarranty(Warranty buildWarranty)
                         {
                             warranty = buildWarranty;
+                            return this;
+                        }
+                        public NonITAssetBuilder addContract(Contract buildContract)
+                        {
+                            contract = buildContract;
                             return this;
                         }
 			public NonITAsset build() {
