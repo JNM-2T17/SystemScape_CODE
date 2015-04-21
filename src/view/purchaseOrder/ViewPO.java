@@ -73,9 +73,8 @@ public class ViewPO extends ViewTemplate implements Observer {
 			purchaseOrder = (PurchaseOrder) data.next();
 			sDate = dateFormat.format(purchaseOrder.getDate());
 			
-			
 			getModel().setRowCount(getModel().getRowCount() + 1);
-			getModel().setValueAt(purchaseOrder.getIdNo(),
+			getModel().setValueAt(purchaseOrder.getType()+"-"+"1076-"+String.format("%03d", (purchaseOrder.getIdNo()/9999))+"-"+String.format("%04d", (purchaseOrder.getIdNo()%9999)),//input.ToString().PadLeft(length, '0');
 					getModel().getRowCount() - 1, 0);
 			getModel().setValueAt(purchaseOrder.getSupplier().getName(),
 					getModel().getRowCount() - 1, 1);
@@ -100,7 +99,7 @@ public class ViewPO extends ViewTemplate implements Observer {
 			
 			
 			getModel().setRowCount(getModel().getRowCount() + 1);
-			getModel().setValueAt(purchaseOrder.getType()+"-"+purchaseOrder.getIdNo(),
+			getModel().setValueAt(purchaseOrder.getType()+"-"+"1076-"+String.format("%03d", (purchaseOrder.getIdNo()/9999))+"-"+String.format("%04d", (purchaseOrder.getIdNo()%9999)),
 					getModel().getRowCount() - 1, 0);
 			getModel().setValueAt(purchaseOrder.getSupplier().getName(),
 					getModel().getRowCount() - 1, 1);
