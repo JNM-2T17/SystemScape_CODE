@@ -153,7 +153,7 @@ public class EditEmployee extends JPanel implements ActionListener {
 		btnSubmit.setFont(new Font("Arial", Font.PLAIN, 18));
 		btnSubmit.addActionListener(this);
 		
-		if(emp.getType().equals("technician")){
+		if(emp.getType().equals("technician") || emp.getType().equals("admin")){
 			
 			btnAdmin = new JButton("Give Admin Rights");
 			panFooter.add(btnAdmin);
@@ -168,7 +168,7 @@ public class EditEmployee extends JPanel implements ActionListener {
 			btnRemove.setBackground(new Color(32, 130, 213));
 			btnRemove.setFont(new Font("Arial", Font.PLAIN, 18));
 			btnRemove.addActionListener(this);
-			if(emp.getIsAdmin()){
+			if(emp.getType().equals("admin")){
 				btnAdmin.setVisible(false);
 				btnRemove.setVisible(true);
 			}

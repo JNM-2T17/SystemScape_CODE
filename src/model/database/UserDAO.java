@@ -205,11 +205,12 @@ public class UserDAO implements IDBGet {
        
         try {
 
-            String query = "INSERT INTO admin VALUES(?);";
+            String query = "INSERT INTO admin VALUES(?,?,?);";
             Connection connection = DBConnection.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(query);
             preparedStatement.setString(1, name);
-           
+            preparedStatement.setString(2, "1 Weeks");
+            preparedStatement.setString(3, "1 Weeks");
             preparedStatement.execute();
         } catch (SQLException sqlException) {
             sqlException.printStackTrace();

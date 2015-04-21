@@ -131,11 +131,37 @@ public class ViewEmployee extends ViewTemplate implements Observer{
 	public void filterPopulate(Iterator data) {
 		SimpleDateFormat df=new SimpleDateFormat("MMMM dd, yyyy");
 		clearTable();
-		Employee employee;
+		Employee employee = null;
+		Employee prevEmployee = null;
 		while(data.hasNext()){
-			employee = (Employee) data.next();
+			if(prevEmployee!=null){
+				while(prevEmployee == employee)
+					prevEmployee = (Employee) data.next();
+				prevEmployee = (Employee) data.next();
+				employee = prevEmployee;
+			}
+			else{
+				employee = (Employee) data.next();
+			}
+			
+			/////////////////////////////////////////
+			ArrayList<String> projectsList = new ArrayList<String>();
+			Iterator projectAssignmentIT = employeeController.getProjectsFromAssignment(Integer.toString(employee.getID()));
+			while(projectAssignmentIT.hasNext()){
+				ProjectAssignment pa = (ProjectAssignment) projectAssignmentIT.next();
+				System.out.println("Employee id: "+pa.getEmployeeID());
+				projectsList.add(pa.getProject());
+			}
+			
+			ArrayList<Project> projectArrayList = new ArrayList<Project>();
+			for(int i = 0; i<projectsList.size(); i++){
+				Project projTemp = (Project) projectController.getObject(projectsList.get(i));
+				projectArrayList.add(projTemp);
+			}
+			
+			///////////////////////////////////////////
 			System.out.println("Employee THINGY " + employee.getName());
-			Iterator projectsIterator = employee.getProjectList();
+			Iterator projectsIterator = projectArrayList.iterator();
 			Date sDate = null;
 			Date eDate = null;
 			boolean start=true;
@@ -180,6 +206,8 @@ public class ViewEmployee extends ViewTemplate implements Observer{
                 
                 packTable();
 			}
+			
+			prevEmployee = employee;
 		}
 	}
 
