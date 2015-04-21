@@ -11,14 +11,16 @@ package model;
  */
 public class User {
 
-	String username;
-	String password;
+	private String username;
+	private String password;
 	boolean isManager;
+	private int employeeID;
 	
-	public User(String username, String password, boolean isManager) {
+	public User(String username, String password, boolean isManager, int employeeID) {
 		setUsername(username);
 		setPassword(password);
 		setIsManager(isManager);
+		setEmployeeID(employeeID);
 
 	}
 	
@@ -26,7 +28,7 @@ public class User {
 		setUsername("");
 		setPassword("");
 		setIsManager(false);
-
+		
 	}
 
 
@@ -36,6 +38,14 @@ public class User {
 
 	public String getPassword() {
 		return password;
+	}
+	
+	public int getEmployeeID(){
+		return employeeID;
+	}
+	
+	public void setEmployeeID(int employeeID){
+		this.employeeID = employeeID;
 	}
 
 	public boolean isManager(){

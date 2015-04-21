@@ -10,6 +10,7 @@ import java.util.Iterator;
 
 import model.database.DAO;
 import model.database.UserDAO;
+import model.Encryption;
 import model.User;
 
 /**
@@ -43,8 +44,16 @@ public class UserController {
     public void addUser(User user){
     	u.setUsername(user.getUsername());
     	u.setPassword(user.getPassword());
+    	u.setEmployeeID(user.getEmployeeID());
     	u.setIsManager(u.isManager());
     	userDAO.add(u);
+    }
+    
+    public void editPassword(User user){
+    	u.setUsername(user.getUsername());
+    	u.setPassword(user.getPassword());
+    	System.out.println("Edit password: "+ u.getPassword());
+    	userDAO.update(u, u.getUsername());
     }
     
     public boolean checkExistingUser(String user){
@@ -62,5 +71,23 @@ public class UserController {
     	
     	return false;
     	
+    }
+    
+    public boolean checkPassword(String user, String pass){
+    	String password = userDAO.getPasswordUsingUser(user);
+    	Encryption decrypt = new Encryption();
+    	try {
+			password = decrypt.decryptString(password);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	if(pass.equals(password)){
+    		return true;
+    	}
+    	else{
+    		return false;
+    	
+    	}
     }
 }
