@@ -83,20 +83,20 @@ public class EditPOItemSoft extends PopUp implements ActionListener, FocusListen
 
         panCenter.setBackground(Color.white);
         panCenter.setLayout(new BorderLayout(0, 0));
-        panCenter.setSize(new Dimension(600, 400));
-        panCenter.setPreferredSize(new Dimension(500, 308));
+        panCenter.setSize(new Dimension(500, 310));
+        panCenter.setPreferredSize(new Dimension(500, 310));
 
         panContent = new JPanel();
         panContent.setBackground(Color.white);
         panCenter.add(panContent, BorderLayout.CENTER);
-        panContent.setLayout(new MigLayout("", "[grow][148.00,grow][grow][][]", "[][][45.00][][37.00][][][-44.00][grow][grow]"));
+        panContent.setLayout(new MigLayout("", "[grow][128.00,grow][grow][][]", "[][][45.00][][37.00][][][-44.00][grow][grow]"));
 
-        lblInvoice = new JLabel("Invoice #:");
-        lblInvoice.setFont(new Font("Arial", Font.PLAIN, 14));
+        lblInvoice = new JLabel("Invoice Number :");
+        lblInvoice.setFont(new Font("Arial", Font.PLAIN, 12));
         panContent.add(lblInvoice, "cell 0 1,alignx left");
 
         txtInvoice = new JTextField();
-        txtInvoice.setFont(new Font("Arial", Font.PLAIN, 14));
+        txtInvoice.setFont(new Font("Arial", Font.PLAIN, 12));
         panContent.add(txtInvoice, "cell 1 1,growx");
         txtInvoice.setColumns(10);
         txtInvoice.setDocument(new JTextFieldFilter(JTextFieldFilter.NUMERIC));
@@ -115,42 +115,42 @@ public class EditPOItemSoft extends PopUp implements ActionListener, FocusListen
         });
 
         lblDeliveryDate = new JLabel("Delivery Date :");
-        lblDeliveryDate.setFont(new Font("Arial", Font.PLAIN, 14));
+        lblDeliveryDate.setFont(new Font("Arial", Font.PLAIN, 12));
         panContent.add(lblDeliveryDate, "cell 0 2,alignx left");
 
         dateChooserDelivery = new JDateChooser();
         dateChooserDelivery.setDate(new Date());
         dateChooserDelivery.setDateFormatString("MMMM dd, yyyy");
-        dateChooserDelivery.setFont(new Font("Arial", Font.PLAIN, 14));
+        dateChooserDelivery.setFont(new Font("Arial", Font.PLAIN, 12));
         panContent.add(dateChooserDelivery, "cell 1 2,growx");
 
         lblLocation = new JLabel("Location :");
-        lblLocation.setFont(new Font("Arial", Font.PLAIN, 14));
+        lblLocation.setFont(new Font("Arial", Font.PLAIN, 12));
         panContent.add(lblLocation, "cell 0 3,alignx left");
 
         cbxLocation = new JComboBox();
         cbxLocation.setBackground(Color.WHITE);
         cbxLocation.setModel(new DefaultComboBoxModel(new String[]{"1WS", "DAO"}));
-        cbxLocation.setFont(new Font("Arial", Font.PLAIN, 14));
+        cbxLocation.setFont(new Font("Arial", Font.PLAIN, 12));
         panContent.add(cbxLocation, "cell 1 3,alignx left");
 
         lblStatus = new JLabel("Status :");
-        lblStatus.setFont(new Font("Arial", Font.PLAIN, 14));
+        lblStatus.setFont(new Font("Arial", Font.PLAIN, 12));
         panContent.add(lblStatus, "cell 0 4,alignx left");
 
         cbxStatus = new JComboBox();
         cbxStatus.setBackground(Color.WHITE);
-        cbxStatus.setFont(new Font("Arial", Font.PLAIN, 14));
+        cbxStatus.setFont(new Font("Arial", Font.PLAIN, 12));
         cbxStatus.setModel(new DefaultComboBoxModel(new String[]{"In Use", "In Store"}));
         cbxStatus.addItemListener(new ItemAssigneeChangeListener());
         panContent.add(cbxStatus, "cell 1 4,alignx left");
 
         lblLicense = new JLabel("License Key :");
-        lblLicense.setFont(new Font("Arial", Font.PLAIN, 14));
+        lblLicense.setFont(new Font("Arial", Font.PLAIN, 12));
         panContent.add(lblLicense, "cell 0 5,alignx left");
 
         txtLicense = new JTextField();
-        txtLicense.setFont(new Font("Arial", Font.PLAIN, 14));
+        txtLicense.setFont(new Font("Arial", Font.PLAIN, 12));
         panContent.add(txtLicense, "cell 1 5,growx");
         txtLicense.setColumns(10);
         txtLicense.addFocusListener(new FocusListener() {
@@ -168,39 +168,39 @@ public class EditPOItemSoft extends PopUp implements ActionListener, FocusListen
         });
 
         lblAssiginee = new JLabel("Assginee :");
-        lblAssiginee.setFont(new Font("Arial", Font.PLAIN, 14));
+        lblAssiginee.setFont(new Font("Arial", Font.PLAIN, 12));
         panContent.add(lblAssiginee, "cell 0 6,alignx left");
         cmbAssignee = new JComboBox();
         populateCmbEmployee();
-        cmbAssignee.setFont(new Font("Arial", Font.PLAIN, 14));
-        cmbAssignee.setPreferredSize(new Dimension(145, 32));
+        cmbAssignee.setFont(new Font("Arial", Font.PLAIN, 12));
+        cmbAssignee.setPreferredSize(new Dimension(125, 32));
         cmbAssignee.setBackground(Color.WHITE);
         panContent.add(cmbAssignee, "cell 1 6,alignx left");
 
-        lblStartDate = new JLabel("Start Date :");
-        lblStartDate.setFont(new Font("Arial", Font.PLAIN, 14));
+        lblStartDate = new JLabel("Assign Start :");
+        lblStartDate.setFont(new Font("Arial", Font.PLAIN, 12));
         panContent.add(lblStartDate, "cell 1 8");
 
         startDateChooser = new JDateChooser();
-        startDateChooser.setFont(new Font("Arial", Font.PLAIN, 14));
+        startDateChooser.setFont(new Font("Arial", Font.PLAIN, 12));
         startDateChooser.setDateFormatString("MMMM dd, yyyy");
-        panContent.add(startDateChooser, "cell 2 8,grow");
+        panContent.add(startDateChooser, "cell 2 8,growx");
 
-        lblEndDate = new JLabel("End Date :");
-        lblEndDate.setFont(new Font("Arial", Font.PLAIN, 14));
+        lblEndDate = new JLabel("Assign End :");
+        lblEndDate.setFont(new Font("Arial", Font.PLAIN, 12));
         panContent.add(lblEndDate, "cell 1 9");
 
         endDateChooser = new JDateChooser();
-        endDateChooser.setFont(new Font("Arial", Font.PLAIN, 14));
+        endDateChooser.setFont(new Font("Arial", Font.PLAIN, 12));
         endDateChooser.setDateFormatString("MMMM dd, yyyy");
-        panContent.add(endDateChooser, "cell 2 9,grow");
+        panContent.add(endDateChooser, "cell 2 9,growx");
 
         panSubmit = new JPanel();
         panSubmit.setBackground(Color.white);
         panCenter.add(panSubmit, BorderLayout.SOUTH);
 
         btnSubmit = new JButton("Submit");
-        btnSubmit.setFont(new Font("Arial", Font.PLAIN, 14));
+        btnSubmit.setFont(new Font("Arial", Font.PLAIN, 12));
         btnSubmit.addActionListener(this);
         btnSubmit.setForeground(Color.WHITE);
         btnSubmit.setBackground(new Color(32, 130, 213));
@@ -213,7 +213,6 @@ public class EditPOItemSoft extends PopUp implements ActionListener, FocusListen
     }
 
     public void populateCmbEmployee() {
-        cmbAssignee.addItem("None");
         EmployeeController ec = EmployeeController.getInstance();
         Iterator<Employee> eList = ec.getAll();
         while (eList.hasNext()) {

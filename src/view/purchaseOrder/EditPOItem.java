@@ -112,7 +112,7 @@ public class EditPOItem extends PopUp implements ActionListener, FocusListener {
         panCenter.add(panContent, BorderLayout.CENTER);
         panContent.setLayout(new MigLayout("", "[grow][188.00,grow][][][]", "[][][][grow][][][][][]"));
 
-        lblItem = new JLabel("Item :");
+        lblItem = new JLabel("Name :");
         panContent.add(lblItem, "cell 0 1,alignx left");
 
         cmbItem = new JComboBox();
@@ -217,7 +217,7 @@ public class EditPOItem extends PopUp implements ActionListener, FocusListener {
                 int quantity = parseStringInt(txtQuantity.getText());
                 float price = (float) parseStringFloat(txtPrice.getText());
                 float result = quantity * price;
-                lblAmountValue.setText(String.valueOf(result));
+                lblAmountValue.setText(String.valueOf(df.format(result)));
             }
         });
 
@@ -287,7 +287,7 @@ public class EditPOItem extends PopUp implements ActionListener, FocusListener {
             int quantity = parseStringInt(txtQuantity.getText());
             float price = (float) parseStringFloat(txtPrice.getText());
             float result = quantity * price;
-            lblAmountValue.setText(String.valueOf(result));
+            lblAmountValue.setText(String.valueOf(df.format(result)));
         }
     }
 
@@ -404,7 +404,7 @@ public class EditPOItem extends PopUp implements ActionListener, FocusListener {
             int quantity = parseStringInt(txtQuantity.getText());
             float price = (float) parseStringFloat(txtPrice.getText());
             float result = quantity * price;
-            lblAmountValue.setText(String.valueOf(result));
+            lblAmountValue.setText(String.valueOf(df.format(result)));
         }
 
     }
