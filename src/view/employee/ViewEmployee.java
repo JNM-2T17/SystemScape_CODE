@@ -135,8 +135,11 @@ public class ViewEmployee extends ViewTemplate implements Observer{
 		Employee prevEmployee = null;
 		while(data.hasNext()){
 			if(prevEmployee!=null){
-				while(prevEmployee == employee)
+				while(data.hasNext() && prevEmployee == employee )
 					prevEmployee = (Employee) data.next();
+				if( !data.hasNext() ) {
+					break;
+				}
 				prevEmployee = (Employee) data.next();
 				employee = prevEmployee;
 			}

@@ -187,7 +187,6 @@ public class FilterEmployee extends PopUp implements ActionListener {
         else if (checkFields() == false && e.getSource() == btnFilter) {
             closed = false;
             this.dispose();
-        } else if (checkFields() == true && e.getSource() == btnFilter) {
             /**
              * **
              * DEV Insert Code statements here to set the list to the original

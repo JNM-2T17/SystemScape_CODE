@@ -65,11 +65,7 @@ public class TabEmployees extends JPanel implements ActionListener{
 			cl.show(this, "add");
 		}
 		else if(((JButton) e.getSource()).getActionCommand().equals("filter")){
-			FilterEmployee fe = new FilterEmployee(gui);
-			if(!fe.isClosed()){
-				Iterator values = employeeController.filter(fe.getValues());
-				((ViewEmployee)list.get(0).getContent()).filterPopulate(values);
-			}
+			FilterEmployee fe = new FilterEmployee(gui,(ViewEmployee)list.get(0).getContent());
 		}
 		else if(((JButton) e.getSource()).getActionCommand().equals("back")){
 			((AddEmployee) list.get(1).getContent()).clear();
