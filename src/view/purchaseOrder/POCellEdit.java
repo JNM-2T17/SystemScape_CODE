@@ -26,16 +26,12 @@ public class POCellEdit extends JPanel implements ActionListener {
 				30).build();
 		view=new Button.ButtonBuilder().img("src/assets/Round/Preview.png", 30,
 				30).build();
-		export=new Button.ButtonBuilder().img("src/assets/Round/Export.png", 30,
-				30).build();
 		
 		edit.addActionListener(this);
 		view.addActionListener(this);
-		export.addActionListener(this);
 		
 		this.add(view);
 		this.add(edit);
-		this.add(export);
 		
 		this.po=po;
 		this.tab=tab;
@@ -49,9 +45,6 @@ public class POCellEdit extends JPanel implements ActionListener {
 	public JButton getBtnView(){
 		return view;
 	}
-	public JButton getBtnExport(){
-		return export;
-	}
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
@@ -60,9 +53,6 @@ public class POCellEdit extends JPanel implements ActionListener {
 		}
 		else if(e.getSource()==getBtnView()){
 			tab.setView(po);
-		}
-		else if(e.getSource()==getBtnExport()){
-			new ExportPO(parent);
 		}
 	}
 }
