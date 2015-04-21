@@ -193,19 +193,24 @@ public class Notification extends JPanel implements ActionListener, Observer{
             cntContract = cntWarranty = 0;
             GregorianCalendar gregorianCalendar = new GregorianCalendar();
             java.util.Date date = new java.util.Date(gregorianCalendar.getTimeInMillis());
-            for(Iterator i = warrantyController.search(warrantyDuration); i.hasNext();){
-                Warranty warranty = (Warranty)i.next();
-                InventoryItem inventoryItem = ((InventoryItem)inventoryItemController.get("" + warranty.getHardware()));
-                int daysLeft = (int)((warranty.getEndDate().getTime() - date.getTime()) / (24 * 60 * 60 * 1000));
-                addWarranty(inventoryItem.getName(), daysLeft);
+            if( warrantyDuration != null ) {
+	            for(Iterator i = warrantyController.search(warrantyDuration); i.hasNext();){
+	                Warranty warranty = (Warranty)i.next();
+	                InventoryItem inventoryItem = ((InventoryItem)inventoryItemController.get("" + warranty.getHardware()));
+	                int daysLeft = (int)((warranty.getEndDate().getTime() - date.getTime()) / (24 * 60 * 60 * 1000));
+	                addWarranty(inventoryItem.getName(), daysLeft);
+	            }
             }
             
-            for(Iterator i = contractController.search(contractDuration); i.hasNext();){
-                Contract contract = (Contract)i.next();
-                InventoryItem inventoryItem = (InventoryItem)inventoryItemController.get("" + contract.getHardware());
-                int daysLeft = (int)((contract.getEndDate().getTime() - date.getTime()) / (24 * 60 * 60 * 1000));
-                addContract(inventoryItem.getName(), daysLeft);
+            if( contractDuration != null ) {
+	            for(Iterator i = contractController.search(contractDuration); i.hasNext();){
+	                Contract contract = (Contract)i.next();
+	                InventoryItem inventoryItem = (InventoryItem)inventoryItemController.get("" + contract.getHardware());
+	                int daysLeft = (int)((contract.getEndDate().getTime() - date.getTime()) / (24 * 60 * 60 * 1000));
+	                addContract(inventoryItem.getName(), daysLeft);
+	            }
             }
+            
             listContract.repaint();
             listContract.revalidate();
             listWarranty.repaint();
