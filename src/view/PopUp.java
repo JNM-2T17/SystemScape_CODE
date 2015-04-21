@@ -81,6 +81,10 @@ public abstract class PopUp extends JDialog {
 		this.setLocation(new Point(x, y));
 
 	}
+	
+	public void setClosable(boolean stat){
+		btnClose.setVisible(stat);
+	}
 
 	public JButton getClose() {
 		return btnClose;
