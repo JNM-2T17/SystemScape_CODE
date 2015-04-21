@@ -20,4 +20,6 @@ public interface TypeItemTileField {
 	 */
 	
 	public void setAssigneeVisible(boolean stat);
+	
+	public void isSwitchable(boolean stat);
 }

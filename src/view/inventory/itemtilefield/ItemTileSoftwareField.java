@@ -170,9 +170,9 @@ public class ItemTileSoftwareField extends ItemPanelDecorator implements ItemPan
 		// TODO Auto-generated method stub
 		ArrayList infoList = new ArrayList(); 
 		infoList.add(cbAssignee.getSelectedItem().toString());
-		infoList.add(tfLicenseKey.getText());
                 infoList.add(startDateChooser.getDate());
 		infoList.add(endDateChooser.getDate());
+		infoList.add(tfLicenseKey.getText());
 		return infoList.iterator();
 	}
 	

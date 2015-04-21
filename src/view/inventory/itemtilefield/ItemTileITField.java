@@ -189,12 +189,13 @@ public class ItemTileITField extends ItemPanelDecorator implements ItemPanelPart
 		// TODO Auto-generated method stub
 		ArrayList infoList = new ArrayList();
 		System.out.println("Date: " + (deliveryDateChooser.getDate() instanceof java.util.Date));
-		infoList.add(deliveryDateChooser.getDate());
-		infoList.add(cbAssignee.getSelectedItem().toString());
-		infoList.add(tfAssetTag.getText());
-		infoList.add(tfServiceTag.getText());
-    	infoList.add(endDateChooser.getDate());
+                infoList.add(cbAssignee.getSelectedItem().toString());
+                infoList.add(endDateChooser.getDate());
 		infoList.add(startDateChooser.getDate());
+                infoList.add(tfServiceTag.getText());
+		infoList.add(deliveryDateChooser.getDate());
+		infoList.add(tfAssetTag.getText());
+		
 		return infoList.iterator();
 	}
 

@@ -157,10 +157,10 @@ public class ItemTileGeneralField extends ItemPanelDecorator implements ItemPane
 	public Iterator retrieveInformation() {
 		// TODO Auto-generated method stub
 		ArrayList infoList = new ArrayList(); 
-		infoList.add(deliveryDateChooser.getDate());
-		infoList.add(cbAssignee.getSelectedItem().toString());
-        infoList.add(startDateChooser.getDate());
+                infoList.add(cbAssignee.getSelectedItem().toString());
+                infoList.add(startDateChooser.getDate());
 		infoList.add(endDateChooser.getDate());
+		infoList.add(deliveryDateChooser.getDate());
 		return infoList.iterator();
 	}
 
