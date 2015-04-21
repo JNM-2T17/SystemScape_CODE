@@ -324,6 +324,7 @@ public class EditProject extends JPanel implements ActionListener {
 		// TODO Auto-generated method stub
 		if (e.getSource() == btnSubmit) {
 			String text = checkInput();
+			employeeList.clear();
 			if (text.equals("")) {
 				
 				Project project = new Project(txtProjects.getText(), dateStart.getDate(), dateEnd.getDate());
