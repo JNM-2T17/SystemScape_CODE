@@ -204,6 +204,7 @@ public class ItemTileNonITField extends ItemPanelDecorator implements ItemPanelP
 	public void loadPresets(Iterator iter) {
 		// TODO Auto-generated method stub
 		if(iter.hasNext()) cbAssignee.setSelectedItem(iter.next().toString());
+                
 	}
 	@Override
 	public void setType(String type) {

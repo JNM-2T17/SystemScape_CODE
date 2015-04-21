@@ -9,6 +9,7 @@ import model.InventoryItem;
 import view.Content;
 import view.Gui;
 import view.Message;
+import view.inventory.itemstorage.ItemStorageGenInfo;
 import view.inventory.itemtilefield.ItemTileContractField;
 import view.inventory.itemtilefield.ItemTileGenInfoField;
 import view.inventory.itemtilefield.ItemTileGeneralField;
@@ -310,7 +311,7 @@ public class InventoryItemDisplayManager {
 		{
 			tab.remove(temp);
 		}
-		
+		InventoryItem inventoryItem = panelRegistry.getCurrentInventoryItem();
 		panelRegistry.clearParticipants();
 		BasicItemField template = new BasicItemField();
 		itemTileContractField = new ItemTileContractField(gui, template);
@@ -328,7 +329,21 @@ public class InventoryItemDisplayManager {
 		panelRegistry.registerParticipant(itemTileWarrantyField);
 		panelRegistry.registerParticipant(itemTileContractField);
 		
-		panelRegistry.setIsAdd(true);
+		if(inventoryItem != null){
+                    itemTileGenInfoField.loadPresets(
+					ItemStorageGenInfo.getInstance()
+					.saveID(inventoryItem.getID())
+					.saveName(inventoryItem.getName())
+					.saveDescription(inventoryItem.getDescription())
+					.saveUnitPrice(inventoryItem.getUnitPrice())
+					.saveInvoiceNumber(inventoryItem.getInvoiceNo())
+					.saveLocation(inventoryItem.getLocation())
+					.saveStatus(inventoryItem.getStatus())
+					.loadList()
+			);
+                    panelRegistry.setIsAdd(false);
+                }
+                else panelRegistry.setIsAdd(true);
 		
 		return template;
 	}
@@ -342,6 +357,8 @@ public class InventoryItemDisplayManager {
 		{
 			tab.remove(temp);
 		}
+                InventoryItem inventoryItem = panelRegistry.getCurrentInventoryItem();
+                
 		panelRegistry.clearParticipants();
 		BasicItemField template = new BasicItemField();
 		itemTileContractField = new ItemTileContractField(gui, template);
@@ -349,7 +366,7 @@ public class InventoryItemDisplayManager {
 		itemTileNonITField = new ItemTileNonITField(gui, itemTileWarrantyField);
 		itemTileGenInfoField = new ItemTileGenInfoField(gui, itemTileNonITField);
 		ItemPanelDecorator dec = itemTileGenInfoField;
-		
+                
 		dec.renderPanel();
 		dec.repaint();
 		dec.revalidate();
@@ -358,8 +375,21 @@ public class InventoryItemDisplayManager {
 		panelRegistry.registerParticipant(itemTileNonITField);
 		panelRegistry.registerParticipant(itemTileWarrantyField);
 		panelRegistry.registerParticipant(itemTileContractField);
-		
-		panelRegistry.setIsAdd(true);
+		if(inventoryItem != null){
+                    itemTileGenInfoField.loadPresets(
+					ItemStorageGenInfo.getInstance()
+					.saveID(inventoryItem.getID())
+					.saveName(inventoryItem.getName())
+					.saveDescription(inventoryItem.getDescription())
+					.saveUnitPrice(inventoryItem.getUnitPrice())
+					.saveInvoiceNumber(inventoryItem.getInvoiceNo())
+					.saveLocation(inventoryItem.getLocation())
+					.saveStatus(inventoryItem.getStatus())
+					.loadList()
+			);
+                    panelRegistry.setIsAdd(false);
+                }
+                else panelRegistry.setIsAdd(true);
 		
 		return template;
 	}	
@@ -373,6 +403,7 @@ public class InventoryItemDisplayManager {
 		if(temp != null) {
 			tab.remove(temp);
 		}
+                InventoryItem inventoryItem = panelRegistry.getCurrentInventoryItem();
 		panelRegistry.clearParticipants();
 		BasicItemField template = new BasicItemField();
 		itemTileSoftwareField = new ItemTileSoftwareField(gui, template);
@@ -386,7 +417,21 @@ public class InventoryItemDisplayManager {
 		panelRegistry.registerParticipant(itemTileGenInfoField);
 		panelRegistry.registerParticipant(itemTileSoftwareField);
 		
-		panelRegistry.setIsAdd(true);
+		if(inventoryItem != null){
+                    itemTileGenInfoField.loadPresets(
+					ItemStorageGenInfo.getInstance()
+					.saveID(inventoryItem.getID())
+					.saveName(inventoryItem.getName())
+					.saveDescription(inventoryItem.getDescription())
+					.saveUnitPrice(inventoryItem.getUnitPrice())
+					.saveInvoiceNumber(inventoryItem.getInvoiceNo())
+					.saveLocation(inventoryItem.getLocation())
+					.saveStatus(inventoryItem.getStatus())
+					.loadList()
+			);
+                    panelRegistry.setIsAdd(false);
+                }
+                else panelRegistry.setIsAdd(true);
 
 		
 		return template;
@@ -402,6 +447,7 @@ public class InventoryItemDisplayManager {
 		{
 			tab.remove(temp);
 		}
+                InventoryItem inventoryItem = panelRegistry.getCurrentInventoryItem();
 		panelRegistry.clearParticipants();
 		BasicItemField template = new BasicItemField();
 		itemTileGenInfoField = new ItemTileGenInfoField(gui, template);
@@ -415,7 +461,21 @@ public class InventoryItemDisplayManager {
 		panelRegistry.registerParticipant(itemTileGenInfoField);
 		panelRegistry.registerParticipant(itemTileGeneralField);
 		
-		panelRegistry.setIsAdd(true);
+		if(inventoryItem != null){
+                    itemTileGenInfoField.loadPresets(
+					ItemStorageGenInfo.getInstance()
+					.saveID(inventoryItem.getID())
+					.saveName(inventoryItem.getName())
+					.saveDescription(inventoryItem.getDescription())
+					.saveUnitPrice(inventoryItem.getUnitPrice())
+					.saveInvoiceNumber(inventoryItem.getInvoiceNo())
+					.saveLocation(inventoryItem.getLocation())
+					.saveStatus(inventoryItem.getStatus())
+					.loadList()
+			);
+                    panelRegistry.setIsAdd(false);
+                }
+                else panelRegistry.setIsAdd(true);
 		
 		System.out.println("Pass");
 		if(template == null)

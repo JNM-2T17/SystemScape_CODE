@@ -1,6 +1,7 @@
 package view.inventory;
 
 import controller.EmployeeController;
+import controller.InventoryItemController;
 import javax.swing.JPanel;
 
 import java.awt.Dimension;
@@ -22,8 +23,7 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
 import model.Employee;
-import model.ItemData;
-import model.database.ItemDataDAO;
+import model.InventoryItem;
 
 import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 
@@ -260,7 +260,8 @@ public class FilterInventory extends PopUp implements ActionListener {
              * view table to the original meaning yung walang filter...
 			****
              */
-          
+            list = null;
+            isClosed = false;
             this.dispose();
         }
     }
@@ -276,10 +277,12 @@ public class FilterInventory extends PopUp implements ActionListener {
 
     public void populateItemNames() {
         ArrayList<String> itemNames = new ArrayList();
-        ItemDataDAO itemDataDAO = new ItemDataDAO();
+        InventoryItemController inventoryItemController = InventoryItemController.getInstance();
         itemNames.add("");
-        for (Iterator i = itemDataDAO.get(); i.hasNext();) {
-            itemNames.add(((ItemData) i.next()).getName());
+        for (Iterator i = inventoryItemController.getAll(); i.hasNext();) {
+            String item = ((InventoryItem) i.next()).getName();
+            if(!itemNames.contains(item))
+                itemNames.add(item);
         }
         cmbItem.setModel(new DefaultComboBoxModel(itemNames.toArray()));
     }

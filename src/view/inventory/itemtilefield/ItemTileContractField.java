@@ -189,7 +189,11 @@ public class ItemTileContractField extends ItemPanelDecorator implements ItemPan
 			new Message(parent, Message.ERROR, "Contract start date must occur before the end date");
 			stat=false;
 		}
-		else{
+		else if(Float.parseFloat(tfMainCost.getText())<0){
+                    new Message(parent, Message.ERROR,
+						"Invalid maintenance cost.");
+                    stat = false;
+                }{
 			try{
 				float f=Float.parseFloat(tfMainCost.getText());
 			}

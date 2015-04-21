@@ -181,7 +181,11 @@ public class ItemTileGenInfoField extends ItemPanelDecorator implements ItemPane
 			new Message(parent, Message.ERROR,
 					"Please specify item invoice number.");
 			stat = false;
-		} else {
+		} else if(Float.parseFloat(tfUnitPrice.getText())<0){
+                    new Message(parent, Message.ERROR,
+						"Invalid unit price.");
+                    stat = false;
+                }else {
 			try {
 				float f = Float.parseFloat(tfUnitPrice.getText());
 			} catch (Exception e) {
