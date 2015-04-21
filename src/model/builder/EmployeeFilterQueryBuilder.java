@@ -47,11 +47,11 @@ public class EmployeeFilterQueryBuilder implements FilterQueryBuilder {
             }
             temp = conditions.next().toString();
             if (!temp.equals("")) {
-                where = where + "e.status LIKE \"%" + temp + "%\" OR ";
+                where = where + "e.status LIKE \"%" + temp + "%\" && ";
             }
             temp = conditions.next().toString();
             if (!temp.equals("")) {
-                where = where + "p.name LIKE \"%" + temp + "%\" OR ";
+                where = where + "p.name LIKE \"%" + temp + "%\" && ";
             }
 
             where = where.substring(0, where.length() - 3);
