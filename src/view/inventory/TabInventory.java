@@ -217,7 +217,7 @@ public class TabInventory extends JPanel implements ActionListener{
                                                             current = current + entry[0] + entry [1]+", ";
                                                         else current = current + model.getValueAt(i, j)+", ";
                                                     }
-                                                    else current = current + "null, ";
+                                                    else current = current + ", ";
                                                     
                                                  }
 					}
