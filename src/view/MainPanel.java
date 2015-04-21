@@ -31,6 +31,8 @@ import java.util.Iterator;
 
 import javax.swing.JScrollPane;
 
+import model.InventoryItem;
+import view.inventory.TabInventory;
 import view.purchaseOrder.AddPO;
 import view.purchaseOrder.TabPO;
 import view.supplier.AddSupplier;
@@ -111,7 +113,7 @@ public class MainPanel extends JPanel implements ActionListener {
 		btnClose.addActionListener(this);
 		panUser.add(btnClose);
 
-		panNotif = new Notification(name);
+		panNotif = new Notification(this, name);
                 ((Observer)panNotif).update();
                 
 		panNotif.setPreferredSize(new Dimension(200, 10));
@@ -175,6 +177,11 @@ public class MainPanel extends JPanel implements ActionListener {
 	
 	public void enableNotif(boolean stat){
 		panNotif.setVisible(false);
+	}
+	
+	public void setView(InventoryItem item){
+		setTab((JButton) panTabs.getComponent(2));
+		((TabInventory)panContent.getComponent(2)).setView(item);
 	}
 
 	private void setTab(JButton btn) {

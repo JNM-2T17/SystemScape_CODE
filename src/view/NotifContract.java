@@ -11,13 +11,22 @@ import javax.swing.SpringLayout;
 import javax.swing.JButton;
 
 import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
-public class NotifContract extends JPanel {
-	private JButton btnView;
+import model.InventoryItem;
 
-	public NotifContract(String name, int days) {
+public class NotifContract extends JPanel implements ActionListener{
+	private JButton btnView;
+	private InventoryItem item;
+	private MainPanel mainPanel;
+
+	public NotifContract(MainPanel mainPanel, InventoryItem item, int days) {
+		this.mainPanel=mainPanel;
+		this.item=item;
 		setBorder(new EmptyBorder(5, 5, 5, 5));
 		setLayout(new BorderLayout(0, 0));
 		
@@ -50,13 +59,20 @@ public class NotifContract extends JPanel {
 				SpringLayout.NORTH, panLeft);
 		panLeft.add(redDuration);
 
-		JLabel lblContract = new JLabel(name);
+		JLabel lblContract = new JLabel(item.getName());
 		lblContract.setHorizontalAlignment(SwingConstants.CENTER);
 		lblContract.setFont(new Font("Arial", Font.PLAIN, 14));
 		add(lblContract, BorderLayout.CENTER);
 
 		btnView = new Button.ButtonBuilder().img(
 				"src/assets/Round/Preview.png", 35, 35).build();
+		btnView.addActionListener(this);
 		add(btnView, BorderLayout.EAST);
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		mainPanel.setView(item);
 	}
 }

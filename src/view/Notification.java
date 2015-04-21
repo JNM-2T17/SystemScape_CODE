@@ -51,8 +51,10 @@ public class Notification extends JPanel implements ActionListener, Observer {
 	private ContractController contractController;
 	private InventoryItemController inventoryItemController;
 	private String warrantyDuration, contractDuration;
+	private MainPanel mainPanel;
 
-	public Notification(String username) {
+	public Notification(MainPanel mainPanel, String username) {
+		this.mainPanel=mainPanel;
 		setBackground(new Color(32, 130, 213));
 		setLayout(new BorderLayout(0, 0));
 
@@ -222,7 +224,7 @@ public class Notification extends JPanel implements ActionListener, Observer {
 						.get("" + warranty.getHardware()));
 				int daysLeft = (int) ((warranty.getEndDate().getTime() - date
 						.getTime()) / (24 * 60 * 60 * 1000));
-				addWarranty(inventoryItem.getName(), daysLeft);
+				addWarranty(inventoryItem, daysLeft);
 			}
 		}
 
@@ -234,7 +236,7 @@ public class Notification extends JPanel implements ActionListener, Observer {
 						.get("" + contract.getHardware());
 				int daysLeft = (int) ((contract.getEndDate().getTime() - date
 						.getTime()) / (24 * 60 * 60 * 1000));
-				addContract(inventoryItem.getName(), daysLeft);
+				addContract(inventoryItem, daysLeft);
 			}
 		}
 
@@ -256,13 +258,14 @@ public class Notification extends JPanel implements ActionListener, Observer {
 		}
 	}
 
-	public void addContract(String name, int days) {
+	public void addContract(InventoryItem item, int days) {
+		
 		cntContract++;
 		redContract.setVisible(true);
 		numContract.setText(cntContract + "");
 		numContract.setVisible(true);
 
-		NotifContract notifContract = new NotifContract(name, days);
+		NotifContract notifContract = new NotifContract(mainPanel, item, days);
 		springContract.putConstraint(SpringLayout.WEST, notifContract, 0,
 				SpringLayout.WEST, listContract);
 		springContract.putConstraint(SpringLayout.EAST, notifContract, 0,
@@ -277,13 +280,13 @@ public class Notification extends JPanel implements ActionListener, Observer {
 		listContract.revalidate();
 	}
 
-	public void addWarranty(String name, int days) {
+	public void addWarranty(InventoryItem item, int days) {
 		cntWarranty++;
 		redWarranty.setVisible(true);
 		numWarranty.setText(cntWarranty + "");
 		numWarranty.setVisible(true);
 
-		NotifWarranty notifWarranty = new NotifWarranty(name, days);
+		NotifWarranty notifWarranty = new NotifWarranty(mainPanel, item, days);
 		springWarranty.putConstraint(SpringLayout.WEST, notifWarranty, 0,
 				SpringLayout.WEST, listWarranty);
 		springWarranty.putConstraint(SpringLayout.EAST, notifWarranty, 0,
