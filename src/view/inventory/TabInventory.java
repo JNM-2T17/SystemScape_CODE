@@ -136,7 +136,9 @@ public class TabInventory extends JPanel implements ActionListener{
 	public void setDelete()
 	{
 		System.out.println("Delete");
-		displayManager.callDeleteInventoryItem();
+		Message msg = new Message(gui, Message.WARNING, "Items cannot be recovered once deleted. Are you sure you want to delete this item?");
+		int n=msg.getValue();
+		if(n==msg.YES) displayManager.callDeleteInventoryItem();
 		System.out.println("Deleting... ");
 	}
 
