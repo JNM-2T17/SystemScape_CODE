@@ -8,10 +8,12 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 import controller.SupplierController;
+import model.Employee;
 import model.Supplier;
 import view.Content;
 import view.Gui;
 import view.Content.ContentBuilder;
+import view.employee.EditEmployee;
 
 import java.awt.CardLayout;
 import java.awt.Color;
@@ -54,6 +56,7 @@ public class TabSupplier extends JPanel implements ActionListener{
 	public void setEdit(Supplier supp){
 		Content temp=new Content.ContentBuilder().caption("Edit Supplier").back(true).delete(true).content(new EditSupplier(gui, supp)).build();
 		temp.getBtnBack().addActionListener(this);
+		temp.getBtnDelete().addActionListener(this);
 		this.add(temp, "edit");
 		list.add(temp);
 
@@ -93,6 +96,17 @@ public class TabSupplier extends JPanel implements ActionListener{
 		}
 		else if(((JButton) e.getSource()).getActionCommand().equals("suppFilter")){
 			System.out.println("filtered");
+		}
+		else if(((JButton) e.getSource()).getActionCommand().equals("delete")){
+			Supplier del = null;
+			int i=list.size()-1;
+			while(i>=0){
+				if(list.get(i).getContent() instanceof EditSupplier){
+					 del=((EditSupplier)list.get(i).getContent()).getSupplier();
+				}
+				i--;
+			}
+			System.out.println(del);
 		}
 	}
 

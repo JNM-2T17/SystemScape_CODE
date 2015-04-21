@@ -185,6 +185,10 @@ public class EditEmployee extends JPanel implements ActionListener {
 		init();
 	}
 	
+	public Employee getEmp(){
+		return emp;
+	}
+	
 	public void cmbInit(){
 		Iterator it=projectController.getAll();
 		while(it.hasNext()){

@@ -53,6 +53,7 @@ public class TabEmployees extends JPanel implements ActionListener{
 	public void setEdit(Employee emp){
 		Content temp=new Content.ContentBuilder().caption("Edit Employee").back(true).delete(true).content(new EditEmployee(gui, emp)).build();
 		temp.getBtnBack().addActionListener(this);
+		temp.getBtnDelete().addActionListener(this);
 		this.add(temp, "edit");
 		list.add(temp);
 
@@ -70,6 +71,17 @@ public class TabEmployees extends JPanel implements ActionListener{
 		else if(((JButton) e.getSource()).getActionCommand().equals("back")){
 			((AddEmployee) list.get(1).getContent()).clear();
 			cl.show(this, "view");
+		}
+		else if(((JButton) e.getSource()).getActionCommand().equals("delete")){
+			Employee del = null;
+			int i=list.size()-1;
+			while(i>=0){
+				if(list.get(i).getContent() instanceof EditEmployee){
+					 del=((EditEmployee)list.get(i).getContent()).getEmp();
+				}
+				i--;
+			}
+			System.out.println(del);
 		}
 	}
 	

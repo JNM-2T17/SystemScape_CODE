@@ -52,9 +52,12 @@ public class EditProject extends JPanel implements ActionListener {
 	private EmployeeController employeeController;
 	private String prevKey;
 	private ArrayList<Employee> employeeList;
+	
+	private Project project;
 
 	public EditProject(JFrame parent, Project project) {
 		this.parent = parent;
+		this.project=project;
 		
 		allModel=new DefaultListModel();
 		empModel=new DefaultListModel();
@@ -302,6 +305,10 @@ public class EditProject extends JPanel implements ActionListener {
 		
 
 		
+	}
+	
+	public Project getProject(){
+		return project;
 	}
 
 	public String checkInput() {
