@@ -213,7 +213,7 @@ public class InventoryItemDisplayManager {
 		}
 		panelRegistry.clearParticipants();
 		BasicItemField template = new BasicItemField();
-		//itemTileContractField = new ItemTileContractField(gui, template);
+		itemTileContractField = new ItemTileContractField(gui, template);
 		itemTileWarrantyField = new ItemTileWarrantyField(gui, template);
 		itemTileNonITField = new ItemTileNonITField(gui, itemTileWarrantyField);
 		itemTileGenInfoField = new ItemTileGenInfoField(gui, itemTileNonITField);
@@ -226,7 +226,7 @@ public class InventoryItemDisplayManager {
 		panelRegistry.registerParticipant(itemTileGenInfoField);
 		panelRegistry.registerParticipant(itemTileNonITField);
 		panelRegistry.registerParticipant(itemTileWarrantyField);
-		//panelRegistry.registerParticipant(itemTileContractField);
+		panelRegistry.registerParticipant(itemTileContractField);
 
 		panelRegistry.setIsAdd(false);
 		System.out.println("Passes setEdit");
@@ -344,7 +344,7 @@ public class InventoryItemDisplayManager {
 		}
 		panelRegistry.clearParticipants();
 		BasicItemField template = new BasicItemField();
-		//itemTileContractField = new ItemTileContractField(gui, template);
+		itemTileContractField = new ItemTileContractField(gui, template);
 		itemTileWarrantyField = new ItemTileWarrantyField(gui, template);
 		itemTileNonITField = new ItemTileNonITField(gui, itemTileWarrantyField);
 		itemTileGenInfoField = new ItemTileGenInfoField(gui, itemTileNonITField);
@@ -357,7 +357,7 @@ public class InventoryItemDisplayManager {
 		panelRegistry.registerParticipant(itemTileGenInfoField);
 		panelRegistry.registerParticipant(itemTileNonITField);
 		panelRegistry.registerParticipant(itemTileWarrantyField);
-		//panelRegistry.registerParticipant(itemTileContractField);
+		panelRegistry.registerParticipant(itemTileContractField);
 		
 		panelRegistry.setIsAdd(true);
 		
@@ -480,7 +480,7 @@ public class InventoryItemDisplayManager {
 		itemTileGenInfoView = new ItemTileGenInfoView(gui, template);
 		itemTileNonITView = new ItemTileNonITView(gui, itemTileGenInfoView);
 		itemTileWarrantyView = new ItemTileWarrantyView(gui, itemTileNonITView);
-		//itemTileContractView = new ItemTileContractView(gui, itemTileWarrantyView);
+		itemTileContractView = new ItemTileContractView(gui, itemTileWarrantyView);
 		ItemPanelDecorator dec = itemTileWarrantyView;
 		
 		dec.renderPanel();
@@ -490,7 +490,7 @@ public class InventoryItemDisplayManager {
 		panelRegistry.registerParticipant(itemTileGenInfoView);
 		panelRegistry.registerParticipant(itemTileNonITView);
 		panelRegistry.registerParticipant(itemTileWarrantyView);
-		//panelRegistry.registerParticipant(itemTileContractView);
+		panelRegistry.registerParticipant(itemTileContractView);
 		
 		panelRegistry.setCurrentInventoryItem(viewList.pCurr());
 		panelRegistry.setViewToCurrentSet();
