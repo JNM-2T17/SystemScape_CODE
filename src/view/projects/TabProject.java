@@ -7,11 +7,13 @@ import javax.swing.table.DefaultTableModel;
 
 import controller.ProjectController;
 import controller.SupplierController;
+import model.Employee;
 import model.Project;
 import model.Supplier;
 import view.Content;
 import view.Gui;
 import view.Content.ContentBuilder;
+import view.employee.EditEmployee;
 import view.purchaseOrder.AddPO;
 import view.supplier.FilterSupplier;
 import view.supplier.ViewListSuppliers;
@@ -57,6 +59,7 @@ public class TabProject extends JPanel implements ActionListener{
 	public void setEdit(Project txt){
 		Content temp=new Content.ContentBuilder().caption("Edit Project").back(true).delete(true).content(new EditProject(gui, txt)).build();
 		temp.getBtnBack().addActionListener(this);
+		temp.getBtnDelete().addActionListener(this);
 		
 		this.add(temp, "edit");
 		list.add(temp);
@@ -91,6 +94,17 @@ public class TabProject extends JPanel implements ActionListener{
 		else if(((JButton) e.getSource()).getActionCommand().equals("back")){
 			((AddProject) list.get(1).getContent()).clear();
 			cl.show(this, "view");
+		}
+		else if(((JButton) e.getSource()).getActionCommand().equals("delete")){
+			Project del = null;
+			int i=list.size()-1;
+			while(i>=0){
+				if(list.get(i).getContent() instanceof EditProject){
+					 del=((EditProject)list.get(i).getContent()).getProject();
+				}
+				i--;
+			}
+			System.out.println(del);
 		}
 	}
 

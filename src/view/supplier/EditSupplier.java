@@ -210,6 +210,10 @@ public class EditSupplier extends JPanel implements ActionListener {
 		this.repaint();
 		this.revalidate();
 	}
+	
+	public Supplier getSupplier(){
+		return supp;
+	}
 
 
 	public boolean contactError(String val) {

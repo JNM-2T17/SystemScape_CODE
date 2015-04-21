@@ -37,6 +37,7 @@ import model.SupplierContact;
 public class ViewSpecificProject extends JPanel {
 	private JLabel lblProjects;
 	private JLabel dateStart, dateEnd;
+	
 
 	public ViewSpecificProject() {
 		setBackground(Color.WHITE);
@@ -122,6 +123,7 @@ public class ViewSpecificProject extends JPanel {
 		JPanel panEmp = new JPanel();
 		scrollPane.setViewportView(panEmp);
 	}
+	
 	
 	public void setProject(Project proj){
 		lblProjects.setText(proj.getName());

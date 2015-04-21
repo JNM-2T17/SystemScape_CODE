@@ -303,6 +303,10 @@ public class EditPO extends JPanel implements ActionListener, Observer {
 		poController.registerObserver(this);
 
 	}
+	
+	public PurchaseOrder getPO(){
+		return po;
+	}
 
 	public void setPOCurrency(PurchaseOrder po) {
 		for (int i = 0; i < cmbCurrency.getItemCount(); i++) {
