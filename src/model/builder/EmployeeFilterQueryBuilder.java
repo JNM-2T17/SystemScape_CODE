@@ -41,8 +41,9 @@ public class EmployeeFilterQueryBuilder implements FilterQueryBuilder {
         if (conditions != null) {
             String temp;
             temp = (String) conditions.next();
+            int check = 0;
             if (!temp.equals("")) {
-                where = where + "e.name LIKE \"%" + temp + "%\" OR ";
+                where = where + "e.name LIKE \"%" + temp + "%\" && ";
             }
             temp = conditions.next().toString();
             if (!temp.equals("")) {
