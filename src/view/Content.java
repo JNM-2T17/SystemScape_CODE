@@ -32,6 +32,7 @@ public class Content extends JPanel {
 
 		btnBack = new Button.ButtonBuilder().img("src/assets/Round/In.png", 35,
 				35).build();
+		btnBack.setToolTipText("Back");
 		btnBack.setVisible(cb.back);
 		btnBack.setActionCommand("back");
 		panCaption.add(btnBack);
@@ -55,21 +56,25 @@ public class Content extends JPanel {
 
 		btnDelete = new Button.ButtonBuilder().img(
 				"src/assets/Round/Delete.png", 35, 35).build();
+		
 		btnDelete.setVisible(cb.delete);
 		btnDelete.setActionCommand("delete");
 		panOption.add(btnDelete);
 
 		btnAdd = new Button.ButtonBuilder().img("src/assets/Round/Add.png", 35,35).build();
+		btnAdd.setToolTipText("Add");
 		btnAdd.setVisible(cb.add);
 		btnAdd.setActionCommand("add");
 		panOption.add(btnAdd);
 
 		btnFilter = new Button.ButtonBuilder().img("src/assets/Round/Find.png",35, 35).build();
+		btnFilter.setToolTipText("Filter");
 		btnFilter.setVisible(cb.filter);
 		btnFilter.setActionCommand("filter");
 		panOption.add(btnFilter);
 
 		btnExport = new Button.ButtonBuilder().img("src/assets/Round/Export.png", 35, 35).build();
+		btnExport.setToolTipText("Export");
 		btnExport.setVisible(cb.export);
 		btnExport.setActionCommand("export");
 		panOption.add(btnExport);

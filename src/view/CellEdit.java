@@ -12,8 +12,10 @@ public abstract class CellEdit extends JPanel implements ActionListener {
 	public CellEdit(){
 		edit=new Button.ButtonBuilder().img("src/assets/Round/Note2.png", 30,
 				30).build();
+		edit.setToolTipText("Edit");
 		view=new Button.ButtonBuilder().img("src/assets/Round/Preview.png", 30,
 				30).build();
+		view.setToolTipText("View");
 		
 		edit.addActionListener(this);
 		view.addActionListener(this);
