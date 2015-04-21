@@ -22,9 +22,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.FlowLayout;
 import java.awt.CardLayout;
+import java.util.Arrays;
 
 import javax.swing.JSpinner;
 import javax.swing.JComboBox;
+
+import controller.UserController;
+import model.Encryption;
+import model.User;
 import model.database.UserDAO;
 
 public class Settings extends PopUp implements ActionListener {
@@ -38,12 +43,14 @@ public class Settings extends PopUp implements ActionListener {
 	private CardLayout cl;
 	private JPanel panCenter;
 	private JButton btnChangePassword, btnNotificationSettings;
+	private UserController userController;
 
 	private String username;
 	public Settings(JFrame parent, String username) {
 		super(parent);
 		this.parent = parent;
-		this.username=username;
+		this.username = username;
+		userController = UserController.getInstance();
 		JPanel panMain = new JPanel();
 		add(panMain);
 		panMain.setLayout(new BorderLayout(0, 0));
@@ -93,8 +100,9 @@ public class Settings extends PopUp implements ActionListener {
 		btnSubmit.setForeground(Color.white);
 		btnSubmit.setBackground(new Color(32, 130, 213));
 		btnSubmit.setFont(new Font("Arial", Font.PLAIN, 16));
+		
 		panFooter.add(btnSubmit);
-
+		
 		JPanel panContent = new JPanel();
 		panPass.add(panContent, BorderLayout.CENTER);
 		panContent.setBackground(Color.WHITE);
@@ -228,33 +236,97 @@ public class Settings extends PopUp implements ActionListener {
 		btnNotifSubmit.setForeground(Color.white);
 		btnNotifSubmit.setBackground(new Color(32, 130, 213));
 		btnNotifSubmit.setFont(new Font("Arial", Font.PLAIN, 16));
+		btnNotifSubmit.addActionListener(this);
 		panNotFooter.add(btnNotifSubmit);
-
+		
+		btnSubmit.addActionListener(this);
 		getClose().addActionListener(this);
 		setContent(panMain);
 		//
 
 		btnNotificationSettings.setBackground(Color.LIGHT_GRAY);
+		
 		cl.show(panCenter, "pass");
 		this.setVisible(true);
 		this.repaint();
 		this.revalidate();
-
+		
+	}
+	
+	public String checkInput(){
+		String text = "";
+		String passwordTest = new String(txtOld.getPassword());
+		if(txtOld.getPassword().length == 0 && txtNew.getPassword().length == 0 && txtConf.getPassword().length == 0){
+			txtOld.setBorder(BorderFactory.createLineBorder(Color.RED, 1));
+			txtNew.setBorder(BorderFactory.createLineBorder(Color.RED, 1));
+			txtConf.setBorder(BorderFactory.createLineBorder(Color.RED, 1));
+			text+="Please complete all fields.\n";	
+		}else if(userController.checkPassword(username, passwordTest) == false){
+			txtOld.setBorder(BorderFactory.createLineBorder(Color.RED, 1));
+			text+="Incorrect password!\n";	
+		}
+		else{
+			if(txtOld.getPassword().length == 0){
+				txtOld.setBorder(BorderFactory.createLineBorder(Color.RED, 1));
+				text+="Please specify old password.\n";	
+			}
+			if(txtNew.getPassword().length == 0){
+				txtNew.setBorder(BorderFactory.createLineBorder(Color.RED, 1));
+				text+="Please specify new password.\n";	
+			}
+			if(txtConf.getPassword().length == 0){
+				txtConf.setBorder(BorderFactory.createLineBorder(Color.RED, 1));
+				text+="Please confirm new password.\n";	
+			}
+			if(!Arrays.equals(txtNew.getPassword(), txtConf.getPassword())){
+				txtConf.setBorder(BorderFactory.createLineBorder(Color.RED, 1));
+				text+="Passwords do not match.\n";
+			}
+		}
+		return text;
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == btnChangePassword) {
+			System.out.println("X");
 			cl.show(panCenter, "pass");
 			btnChangePassword.setBackground(Color.white);
 			btnNotificationSettings.setBackground(Color.LIGHT_GRAY);
+//			isPass=true;
+			System.out.println("here");
+			
 		} else if (e.getSource() == btnNotificationSettings) {
+			System.out.println("Z");
 			cl.show(panCenter, "notif");
 			btnNotificationSettings.setBackground(Color.white);
 			btnChangePassword.setBackground(Color.LIGHT_GRAY);
+//			isPass=false;
+			System.out.println("HERE");
 		} else if(e.getSource()==btnSubmit){
-				Message msg = new Message(parent, Message.SUCCESS,
+				String text = checkInput();
+				if(text == ""){
+					User u = (User) userController.getUser(username);
+					String s = new String(txtNew.getPassword());
+					String userPass = s;
+					System.out.println("User pass: "+userPass);
+					Encryption encrypt = new Encryption();
+					try {
+						userPass = encrypt.encryptString(userPass);
+						System.out.println("User pass2: "+userPass);
+					} catch (Exception e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					u.setPassword(userPass);
+					userController.editPassword(u);
+					Message msg = new Message(parent, Message.SUCCESS,
 						"Password successfully edited.");
+					
+				}else{
+					Message msg = new Message(parent, Message.ERROR,
+							text);
+				}
 		}else if(e.getSource()==btnNotifSubmit){
                                 UserDAO userDAO = new UserDAO();
                                 userDAO.updateNotificationDuration(spnContract.getValue().toString() + " " + cmbContract.getSelectedItem().toString(), spnWarranty.getValue().toString() + " " + cmbWarranty.getSelectedItem().toString(), username);
