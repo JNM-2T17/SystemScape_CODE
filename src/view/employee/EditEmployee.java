@@ -317,7 +317,7 @@ public class EditEmployee extends JPanel implements ActionListener {
 				employeeController.init();
 				
 				Message msg = new Message(parent, Message.SUCCESS,
-						"Employee added successfully.");
+						"Employee edited successfully.");
 				
 			}else{
 				new Message(parent, Message.ERROR,
