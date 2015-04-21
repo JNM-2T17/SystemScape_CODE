@@ -52,22 +52,17 @@ public class ViewEmployee extends ViewTemplate implements Observer{
 		// TODO Auto-generated method stub
 		
 	}
-
+	
 	public void update() {
 		SimpleDateFormat df=new SimpleDateFormat("MMMM dd, yyyy");
 		clearTable();
-		Employee employee = null;
+		Employee employee;
 		Iterator data = employeeController.getAll();
-		ArrayList<Employee> data2 = new ArrayList<Employee>();
 		while(data.hasNext()){
-			data2.add((Employee) data.next());
-		}
-		System.out.println("SIZE: "+data2.size());
-		data = data2.iterator();
-		
-		while(data.hasNext()){
-			
 			employee = (Employee) data.next();
+			System.out.println("Employee THINGY " + employee.getName());
+			
+			//added
 			ArrayList<String> projectsList = new ArrayList<String>();
 			Iterator projectAssignmentIT = employeeController.getProjectsFromAssignment(Integer.toString(employee.getID()));
 			while(projectAssignmentIT.hasNext()){
@@ -81,8 +76,11 @@ public class ViewEmployee extends ViewTemplate implements Observer{
 				Project projTemp = (Project) projectController.getObject(projectsList.get(i));
 				projectArrayList.add(projTemp);
 			}
-
-			Iterator projectsIterator = projectArrayList.iterator();
+			
+			Iterator it = projectArrayList.iterator();
+			//
+			
+			Iterator projectsIterator = employee.getProjectList();
 			Date sDate = null;
 			Date eDate = null;
 			boolean start=true;
@@ -121,7 +119,6 @@ public class ViewEmployee extends ViewTemplate implements Observer{
 	            else{
 	            	getModel().setValueAt(new EmployeeCellEdit(null, tab), getModel().getRowCount() - 1, 5);
 		        }
-	                    
 	            
                 start=false;
                 
@@ -135,30 +132,19 @@ public class ViewEmployee extends ViewTemplate implements Observer{
 		SimpleDateFormat df=new SimpleDateFormat("MMMM dd, yyyy");
 		clearTable();
 		Employee employee = null;
-		
-		ArrayList<Employee> employeeListNoDuplicate = new ArrayList<Employee>();
-		int check = 0;
-		int h = 0;
+		Employee prevEmployee = null;
 		while(data.hasNext()){
-			if(check == 0){
-				employeeListNoDuplicate.add((Employee) data.next());
-				check++;
+			if(prevEmployee!=null){
+				while(prevEmployee == employee)
+					prevEmployee = (Employee) data.next();
+				prevEmployee = (Employee) data.next();
+				employee = prevEmployee;
 			}
 			else{
-				Employee test = (Employee) data.next();
-				if(!employeeListNoDuplicate.get(h).getName().equals(test.getName())){
-					employeeListNoDuplicate.add(test);
-					h++;
-				}
-				
+				employee = (Employee) data.next();
 			}
-		}
-		
-		data = employeeListNoDuplicate.iterator();
-		
-		while(data.hasNext()){
 			
-			employee = (Employee) data.next();
+			/////////////////////////////////////////
 			ArrayList<String> projectsList = new ArrayList<String>();
 			Iterator projectAssignmentIT = employeeController.getProjectsFromAssignment(Integer.toString(employee.getID()));
 			while(projectAssignmentIT.hasNext()){
@@ -172,7 +158,9 @@ public class ViewEmployee extends ViewTemplate implements Observer{
 				Project projTemp = (Project) projectController.getObject(projectsList.get(i));
 				projectArrayList.add(projTemp);
 			}
-
+			
+			///////////////////////////////////////////
+			System.out.println("Employee THINGY " + employee.getName());
 			Iterator projectsIterator = projectArrayList.iterator();
 			Date sDate = null;
 			Date eDate = null;
@@ -218,6 +206,8 @@ public class ViewEmployee extends ViewTemplate implements Observer{
                 
                 packTable();
 			}
+			
+			prevEmployee = employee;
 		}
 	}
 
