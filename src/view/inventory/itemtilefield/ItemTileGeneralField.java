@@ -185,7 +185,7 @@ public class ItemTileGeneralField extends ItemPanelDecorator implements ItemPane
 	public boolean checkInput() {
 		// TODO Auto-generated method stub
                 
-                if(startDateChooser.getDate().getTime()>endDateChooser.getDate().getTime()){
+                if(startDateChooser.getDate().getTime()>endDateChooser.getDate().getTime()&&!cbAssignee.getSelectedItem().toString().equalsIgnoreCase("none")){
                         new Message(parent, Message.ERROR, "Start date cannot be after the End date.");
 			return false;
                 }

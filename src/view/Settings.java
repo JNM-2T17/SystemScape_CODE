@@ -28,6 +28,7 @@ import javax.swing.JSpinner;
 import javax.swing.JComboBox;
 
 import controller.UserController;
+import controller.WarrantyController;
 import model.Encryption;
 import model.User;
 import model.database.UserDAO;
@@ -332,6 +333,7 @@ public class Settings extends PopUp implements ActionListener {
                                 userDAO.updateNotificationDuration(spnContract.getValue().toString() + " " + cmbContract.getSelectedItem().toString(), spnWarranty.getValue().toString() + " " + cmbWarranty.getSelectedItem().toString(), username);
                                 Message msg = new Message(parent, Message.SUCCESS,
 						"Notification settings successfully edited.");
+                                WarrantyController.getInstance().notifyObserver();
                                 this.dispose();
 			
 		}

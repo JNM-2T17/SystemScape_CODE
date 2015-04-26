@@ -198,7 +198,7 @@ public class ItemTileSoftwareField extends ItemPanelDecorator implements ItemPan
 		if(tfLicenseKey.getText().equals("")){
 			new Message(parent, Message.ERROR, "Please specity item license key.");
 			stat = false;
-		}else if(startDateChooser.getDate().getTime()>endDateChooser.getDate().getTime()){
+		}else if(startDateChooser.getDate().getTime()>endDateChooser.getDate().getTime()&&!cbAssignee.getSelectedItem().toString().equalsIgnoreCase("none")){
                         new Message(parent, Message.ERROR, "Start date cannot be after the End date.");
 			stat=false;
                 }

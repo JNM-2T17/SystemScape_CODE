@@ -183,13 +183,14 @@ public class ItemTileNonITField extends ItemPanelDecorator implements ItemPanelP
 			else if(cbType.getSelectedItem().equals("Others"))
 				InventoryItemDisplayManager.getInstance().overrideContentPanel("Others");
 		}
+                
 	}
 
 	@Override
 	public boolean checkInput() {
 		// TODO Auto-generated method stub
 		
-                if(startDateChooser.getDate().getTime()>endDateChooser.getDate().getTime()){
+                if(startDateChooser.getDate().getTime()>endDateChooser.getDate().getTime()&&!cbAssignee.getSelectedItem().toString().equalsIgnoreCase("none")){
                         new Message(parent, Message.ERROR, "Start date cannot be after the End date.");
 			return false;
                 }
@@ -234,7 +235,7 @@ public class ItemTileNonITField extends ItemPanelDecorator implements ItemPanelP
 		lblAssignEnd.setVisible(stat);
 		startDateChooser.setVisible(stat);
 		endDateChooser.setVisible(stat);
-		//cbAssignee.setSelectedItem("None");
+		cbAssignee.setSelectedItem("None");
 	}
 
 	@Override

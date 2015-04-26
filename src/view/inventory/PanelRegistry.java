@@ -338,7 +338,7 @@ public class PanelRegistry implements PanelRegistration {
                                 }
                             }  
                         }else{
-                            if(typeInfo.get(0).toString().equals("Remove Assignment")){
+                            if(typeInfo.get(0).toString().equals("Remove Assignment")||typeInfo.get(0).toString().equals("None")){
                                 if(i.hasNext()){
                                     assignment = (Assignment)i.next();
                                     System.out.println("brothers " + assignment.getEmployee().getID());

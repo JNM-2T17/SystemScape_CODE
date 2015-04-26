@@ -232,7 +232,7 @@ public class ItemTileITField extends ItemPanelDecorator implements ItemPanelPart
 			new Message(parent, Message.ERROR, "Please specity item service tag.");
 			stat=false;
 		}
-                else if(startDateChooser.getDate().getTime()>endDateChooser.getDate().getTime()){
+                else if(startDateChooser.getDate().getTime()>endDateChooser.getDate().getTime()&&!cbAssignee.getSelectedItem().toString().equalsIgnoreCase("none")){
                         new Message(parent, Message.ERROR, "Start date cannot be after the End date.");
 			stat=false;
                 }

@@ -50,14 +50,14 @@ public class Notification extends JPanel implements ActionListener, Observer {
 	private WarrantyController warrantyController;
 	private ContractController contractController;
 	private InventoryItemController inventoryItemController;
-	private String warrantyDuration, contractDuration;
+	private String warrantyDuration, contractDuration, username;
 	private MainPanel mainPanel;
 
 	public Notification(MainPanel mainPanel, String username) {
 		this.mainPanel=mainPanel;
 		setBackground(new Color(32, 130, 213));
 		setLayout(new BorderLayout(0, 0));
-
+                this.username = username;
 		cntContract = cntWarranty = 0;
 
 		JPanel panHeader = new JPanel();
@@ -213,6 +213,14 @@ public class Notification extends JPanel implements ActionListener, Observer {
 		listContract.removeAll();
 		listWarranty.removeAll();
 		cntContract = cntWarranty = 0;
+                UserDAO userDAO = new UserDAO();
+		Iterator j = userDAO.getNotificationDuration(username);
+		if (j.hasNext()) {
+			warrantyDuration = j.next().toString();
+		}
+		if (j.hasNext()) {
+			contractDuration = j.next().toString();
+		}
 		GregorianCalendar gregorianCalendar = new GregorianCalendar();
 		java.util.Date date = new java.util.Date(
 				gregorianCalendar.getTimeInMillis());
