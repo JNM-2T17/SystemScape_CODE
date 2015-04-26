@@ -21,6 +21,7 @@ import model.PurchaseOrder;
 import model.Supplier;
 import view.Content;
 import view.Gui;
+import view.Message;
 import view.Content.ContentBuilder;
 import view.supplier.EditSupplier;
 import view.supplier.ViewListSuppliers;
@@ -79,8 +80,12 @@ public class TabPO extends JPanel implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		if (((JButton) e.getSource()).getActionCommand().equals("add")) {
-			cl.show(this, "add");
-			updateSupplierBox();
+			if( !((AddPO)list.get(1).getContent()).hasPO() ) {
+				Message msg = new Message(gui, Message.ERROR, "No suppliers yet!");
+			} else {
+				cl.show(this, "add");
+				updateSupplierBox();
+			}
 			// JOptionPane.showMessageDialog(null, "hi");
 		} else if (((JButton) e.getSource()).getActionCommand()
 				.equals("filter")) {

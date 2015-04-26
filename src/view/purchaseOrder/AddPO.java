@@ -359,8 +359,16 @@ public class AddPO extends JPanel implements ActionListener, Observer {
         }
     }
 
+    public boolean hasPO() {
+    	boolean hasPO = ( cmbSupplier.getModel().getSize() > 0 );
+    	
+    	return hasPO;
+    }
+    
     public void clear() {
-        cmbSupplier.setSelectedIndex(0);
+		if( hasPO() ) {
+	        cmbSupplier.setSelectedIndex(0);
+		}
         cmbClass.setSelectedIndex(0);
         lblGrandValue.setText("");
         dateChooser.setDate(new Date());
