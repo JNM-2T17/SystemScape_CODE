@@ -77,7 +77,7 @@ public class Gui extends JFrame {
 		//this.setSize(new Dimension(1500, 1000));
 		Toolkit toolKit = Toolkit.getDefaultToolkit();
 		Dimension dim = toolKit.getScreenSize();
-		setSize((int)(dim.width/1.7), (int)(dim.height/1.5));//1.7, 1.5
+		setSize((int)(dim.width/1), (int)(dim.height/1));//1.7, 1.5
 	}
 	
 	public void setPanel(String key){

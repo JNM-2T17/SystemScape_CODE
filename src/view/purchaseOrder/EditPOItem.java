@@ -119,6 +119,7 @@ public class EditPOItem extends PopUp implements ActionListener, FocusListener {
         cmbItem.setBackground(Color.WHITE);
         cmbItem.addItemListener(new ItemChangeListener());
         cmbItem.setEditable(true);
+        
         populateItems();
         panContent.add(cmbItem, "cell 1 1,growx");
 
@@ -241,6 +242,9 @@ public class EditPOItem extends PopUp implements ActionListener, FocusListener {
         btnSubmit.setBackground(new Color(32, 130, 213));
         panSubmit.add(btnSubmit);
 
+        
+        cmbItem.setSelectedItem(itemData.getName());
+        fillForm();
         setContent(panCenter);
         getClose().addActionListener(this);
 

@@ -232,6 +232,7 @@ public class EditPOItemGen extends PopUp implements ActionListener, FocusListene
                 InventoryItem ii = new InventoryItem(0, itemData.getName(), itemData.getDescription(), itemData.getUnitPrice(), txtInvoice.getText(),
                         (String) cbxLocation.getSelectedItem(), (String) cbxStatus.getSelectedItem(), "Others");
                 inventoryItemController.addInventoryItem(ii);
+                Message msg = new Message(parent, Message.SUCCESS, "Item successfully received!");
                 if (((String) cbxStatus.getSelectedItem()).equals("In Use")) {
                     int maxID = inventoryItemController.getID();
                     Employee employee = (Employee) employeeController.getObject(((String) cmbAssignee.getSelectedItem()));

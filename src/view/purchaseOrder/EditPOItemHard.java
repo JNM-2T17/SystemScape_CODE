@@ -461,10 +461,11 @@ public class EditPOItemHard extends PopUp implements ActionListener, FocusListen
 							dateChooserContractStart.getDate(), dateChooserContractEnd.getDate(), Float.parseFloat(txtMaintenance.getText()));
 				}else {
 					ii = new NonITAsset(0, itemData.getName(), itemData.getDescription(), itemData.getUnitPrice(), txtInvoice.getText(),
-							(String) cbxLocation.getSelectedItem(), (String) cbxStatus.getSelectedItem(), (String) cmbType.getSelectedItem(), dateChooserWarrantyStart.getDate(), dateChooserWarrantyEnd.getDate());
+							(String) cbxLocation.getSelectedItem(), (String) cbxStatus.getSelectedItem(), (String) cmbType.getSelectedItem(), dateChooserWarrantyStart.getDate(), dateChooserWarrantyEnd.getDate(), dateChooserContractStart.getDate(), dateChooserContractEnd.getDate(), Float.parseFloat(txtMaintenance.getText()));
 				}
 
 				inventoryItemController.addInventoryItem(ii);
+                                Message msg = new Message(parent, Message.SUCCESS, "Item successfully received!");
 				if (((String) cbxStatus.getSelectedItem()).equals("In Use")) {
 					int maxID = inventoryItemController.getID();
 					Employee employee = (Employee) employeeController.getObject(((String) cmbAssignee.getSelectedItem()));
