@@ -118,7 +118,7 @@ public class ViewSpecificInventoryItem extends JPanel {
 		panClose.setVisible(false);
 		// populate();
 
-		System.out.println("STUPID");
+		//System.out.println("STUPID");
 	}
 
 	private void init(Iterator it) {

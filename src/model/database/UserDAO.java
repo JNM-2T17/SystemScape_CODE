@@ -226,7 +226,7 @@ public class UserDAO implements IDBGet {
             PreparedStatement preparedStatement = DBConnection.getConnection().prepareStatement(query);
             //preparedStatement.setString(1, user.getUsername());
             preparedStatement.setString(1, user.getPassword());//not sure bout the address format
-            System.out.println("Inside update! "+user.getPassword());
+            //System.out.println("Inside update! "+user.getPassword());
             preparedStatement.setString(2, origKey);
             preparedStatement.execute();
             

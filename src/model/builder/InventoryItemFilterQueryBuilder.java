@@ -142,7 +142,7 @@ public class InventoryItemFilterQueryBuilder implements FilterQueryBuilder {
         addCondition(conditions);
 
         addGrouping("ii.ID");
-                System.out.println("huwaw\n" + select.substring(0, select.length() - 2) + " " + from.substring(0, from.length() - 1) + " " + where + " " + groupBy.substring(0, groupBy.length() - 2));
+                //System.out.println("huwaw\n" + select.substring(0, select.length() - 2) + " " + from.substring(0, from.length() - 1) + " " + where + " " + groupBy.substring(0, groupBy.length() - 2));
 
         return select.substring(0, select.length() - 2) + " " + from.substring(0, from.length() - 1) + " " + where + " " + groupBy.substring(0, groupBy.length() - 2);
     }

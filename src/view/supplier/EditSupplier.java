@@ -173,7 +173,7 @@ public class EditSupplier extends JPanel implements ActionListener {
 
 		supplierController = SupplierController.getInstance();
 		// populate();
-		System.out.println("STUPID");
+		//System.out.println("STUPID");
 		
 		init();
 	}
@@ -289,7 +289,7 @@ public class EditSupplier extends JPanel implements ActionListener {
 			if(cmbCity.getText().equals("")) cmbCity.setBorder(BorderFactory.createLineBorder(Color.RED, 1));
 			text+="Please accomplish supplier location.\n";
 		}
-		System.out.println(text);
+		//System.out.println(text);
 		return text;
 	}
 
@@ -299,7 +299,7 @@ public class EditSupplier extends JPanel implements ActionListener {
 		if (e.getActionCommand().equals("add")) {
 			addContact(value.getText(), (String)type.getSelectedItem());
 		} else if (e.getSource() == btnSubmit) {
-			String text=checkInput();System.out.println(text);
+			String text=checkInput();//System.out.println(text);
 			if (text.equals("")) {
 				
 				Supplier checkSupplier;
@@ -312,7 +312,7 @@ public class EditSupplier extends JPanel implements ActionListener {
 						.getObject(supplier.getName());
 
 					for (int i = 0; i < list.size(); i++) {
-						System.out.println("RISSA: "+i);
+						//System.out.println("RISSA: "+i);
 						supplier.addSupplierContact(txtSupp.getText(), list
 								.get(i).getType().toString(), list.get(i).getValue());
 					}
@@ -321,7 +321,7 @@ public class EditSupplier extends JPanel implements ActionListener {
 							"Supplier edited successfully.");
 				
 				supplierController.editSupplier(supplier, prevKey);
-				System.out.println("Putaaaa");
+				//System.out.println("Putaaaa");
 				supplierController.init();
 				//clear();
 			}
@@ -335,7 +335,7 @@ public class EditSupplier extends JPanel implements ActionListener {
 			close.remove(index);
 			panClose.remove(index);
 			list.remove(index);
-			System.out.println(list.size());
+			//System.out.println(list.size());
 			panClose.setMaximumSize(new Dimension(360,
 					panClose.getComponentCount() * 37));
 			this.repaint();

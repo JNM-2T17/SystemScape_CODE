@@ -64,12 +64,12 @@ public class ViewPO extends ViewTemplate implements Observer {
 
 	@Override
 	public void update() {
-		// System.out.println("WE GO HERE BERI HARD");
+		// //System.out.println("WE GO HERE BERI HARD");
 		clearTable();
 		PurchaseOrder purchaseOrder;
 		Iterator data = poController.getAll();
 		while (data.hasNext()) {
-			// System.out.println("WE HERE BERI BERI BERI HARD");
+			// //System.out.println("WE HERE BERI BERI BERI HARD");
 			purchaseOrder = (PurchaseOrder) data.next();
 			sDate = dateFormat.format(purchaseOrder.getDate());
 			

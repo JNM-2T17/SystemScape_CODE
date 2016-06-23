@@ -104,7 +104,7 @@ public class ProjectController implements Subject {
         Iterator i = project.getEmployeeList();
         while(i.hasNext()){
         	Employee ofthemonth = (Employee) i.next();
-        	System.out.println("Controller employee: "+ofthemonth.getName());
+        	//System.out.println("Controller employee: "+ofthemonth.getName());
         	projectDAO.addEmployees(ofthemonth, this.project);
         	
         }

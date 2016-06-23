@@ -43,23 +43,23 @@ public class DragUndecoratedWindow {
 
 			if (this.positionx > this.x1) {
 				this.x2 = this.positionx - this.x1;
-				System.out.println("x " + positionx);
+				//System.out.println("x " + positionx);
 				this.frame.setLocation(this.frame.getX() + this.x2,
 						this.frame.getY());
 			} else if (this.positionx < this.x1) {
 				this.x2 = this.x1 - this.positionx;
-				System.out.println("x " + positionx);
+				//System.out.println("x " + positionx);
 				this.frame.setLocation(this.frame.getX() - this.x2,
 						this.frame.getY());
 			}
 			if (this.positiony > this.y1) {
 				this.y2 = this.positiony - this.y1;
-				System.out.println("y " + positiony);
+				//System.out.println("y " + positiony);
 				this.frame.setLocation(this.frame.getX(), this.frame.getY()
 						+ this.y2);
 			} else if (this.positiony < this.y1) {
 				this.y2 = this.y1 - this.positiony;
-				System.out.println("y " + positiony);
+				//System.out.println("y " + positiony);
 				this.frame.setLocation(this.frame.getX(), this.frame.getY()
 						- this.y2);
 			}

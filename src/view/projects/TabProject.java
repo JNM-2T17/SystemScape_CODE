@@ -104,7 +104,7 @@ public class TabProject extends JPanel implements ActionListener{
 				}
 				i--;
 			}
-			System.out.println(del);
+			//System.out.println(del);
 		}
 	}
 

@@ -86,9 +86,9 @@ public class ViewProjects extends ViewTemplate implements Observer {
 
         }
         if (this.tab == null) {
-            System.out.println("VIEW TAB NULL");
+            //System.out.println("VIEW TAB NULL");
         } else {
-            System.out.println("Gio");
+            //System.out.println("Gio");
         }
         
 	}

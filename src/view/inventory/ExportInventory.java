@@ -140,9 +140,9 @@ public class ExportInventory extends PopUp implements ActionListener {
 				txtDest.setText(file.getAbsolutePath());
 			}
 		} else if (e.getSource() == btnExport) {
-			System.out.println("a");this.dispose();
+			//System.out.println("a");this.dispose();
 			GenerationProgress gp=new GenerationProgress(parent, txtDest.getText(), txtName.getText(), data);
-//			System.out.println("b");
+//			//System.out.println("b");
 			gp.writeCsvFile(txtDest.getText() + "\\" + txtName.getText() + ".csv");
 			
 			

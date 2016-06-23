@@ -52,7 +52,7 @@ public class UserController {
     public void editPassword(User user){
     	u.setUsername(user.getUsername());
     	u.setPassword(user.getPassword());
-    	System.out.println("Edit password: "+ u.getPassword());
+    	//System.out.println("Edit password: "+ u.getPassword());
     	userDAO.update(u, u.getUsername());
     }
     

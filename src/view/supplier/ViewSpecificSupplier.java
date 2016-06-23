@@ -121,7 +121,7 @@ public class ViewSpecificSupplier extends JPanel {
 		panClose.setVisible(false);
 		// populate();
 
-		System.out.println("STUPID");
+		//System.out.println("STUPID");
 	}
 
 	private void init(Iterator it) {

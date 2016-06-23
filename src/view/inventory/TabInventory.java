@@ -86,7 +86,7 @@ public class TabInventory extends JPanel implements ActionListener{
 	 * @param ii
 	 */
 	public void setEdit(InventoryItem ii){
-		System.out.println("Edit");
+		//System.out.println("Edit");
 		Content temp=new Content.ContentBuilder().caption("Edit Item").back(true).delete(true).content(displayManager.buildContentEdit(ii,ii.getClassification())).build();
 		temp.getBtnBack().addActionListener(this);
 		temp.getBtnDelete().addActionListener(this);
@@ -97,11 +97,11 @@ public class TabInventory extends JPanel implements ActionListener{
 		repaint();
 		revalidate();
 		
-		System.out.println("SET EDIT PASS CHK1");
+		//System.out.println("SET EDIT PASS CHK1");
 	}
 	
 	public void setView(InventoryItem ii){
-		System.out.println("View");
+		//System.out.println("View");
 		displayManager.createNewViewList();
 		Content temp=new Content.ContentBuilder().caption("View Specific Item").back(true).content(displayManager.buildContentView(ii,ii.getClassification())).build();
 		
@@ -113,13 +113,13 @@ public class TabInventory extends JPanel implements ActionListener{
 		repaint();
 		revalidate();
 		
-		System.out.println("SET VIEW PASS CHK1");
+		//System.out.println("SET VIEW PASS CHK1");
 	}
 	
 	public void setAdd(String type)
 	{	
-		System.out.println("Add");
-		System.out.println("STRING TYPE IN SET ADD: " + type);
+		//System.out.println("Add");
+		//System.out.println("STRING TYPE IN SET ADD: " + type);
 		Content temp=new Content.ContentBuilder().caption("Add Item").back(true).content(displayManager.buildContentAdd(type)).build();
 		
 		temp.getBtnBack().addActionListener(this);
@@ -130,16 +130,16 @@ public class TabInventory extends JPanel implements ActionListener{
 		repaint();
 		revalidate();
 		
-		System.out.println("SET ADD PASS CHK1");
+		//System.out.println("SET ADD PASS CHK1");
 	}
 	
 	public void setDelete()
 	{
-		System.out.println("Delete");
+		//System.out.println("Delete");
 		Message msg = new Message(gui, Message.WARNING, "Items cannot be recovered once deleted. Are you sure you want to delete this item?");
 		int n=msg.getValue();
 		if(n==msg.YES) displayManager.callDeleteInventoryItem();
-		System.out.println("Deleting... ");
+		//System.out.println("Deleting... ");
 	}
 
 
@@ -228,12 +228,12 @@ public class TabInventory extends JPanel implements ActionListener{
                                 data.add(current);
 			}
                          for(Iterator i = data.iterator();i.hasNext();){
-                            System.out.print(i.next());
+                            //System.out.print(i.next());
                         }
                         new ExportInventory(gui, data.iterator());
 		}
 		else if(((JButton) e.getSource()).getActionCommand().equals("back")){
-			System.out.println("HEEERE");
+			//System.out.println("HEEERE");
 			setReturn();
 		}
 		else if(((JButton) e.getSource()).getActionCommand().equals("delete")){

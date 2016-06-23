@@ -150,7 +150,7 @@ public class ItemTileGenInfoField extends ItemPanelDecorator implements ItemPane
 	public Iterator retrieveInformation() {
 		// TODO Auto-generated method stub
 		
-		System.out.println("PASS" + currentID);
+		//System.out.println("PASS" + currentID);
 		
 		ArrayList infoList = new ArrayList();
 		infoList.add(tfName.getText());

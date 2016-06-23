@@ -225,7 +225,7 @@ public class ProjectDAO implements IDBCUD {
         QueryFilterDirector director = new QueryFilterDirector(new ProjectFilterQueryBuilder());
         try {
             String query = director.getQuery(conditions);
-            System.out.println(query + " method\n");
+            //System.out.println(query + " method\n");
             PreparedStatement preparedStatement = con.prepareStatement(query);
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {

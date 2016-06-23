@@ -202,7 +202,7 @@ public class EditEmployee extends JPanel implements ActionListener {
 		Iterator projectAssignmentIT = employeeController.getProjectsFromAssignment(Integer.toString(emp.getID()));
 		while(projectAssignmentIT.hasNext()){
 			ProjectAssignment pa = (ProjectAssignment) projectAssignmentIT.next();
-			System.out.println("Employee id: "+pa.getEmployeeID());
+			//System.out.println("Employee id: "+pa.getEmployeeID());
 			projectsList.add(pa.getProject());
 		}
 		
@@ -297,7 +297,7 @@ public class EditEmployee extends JPanel implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		if(e.getSource()==btnSubmit){	
-			System.out.println(projList);
+			//System.out.println(projList);
 			String text=checkInput();
 			if(text.equals("")){
 				
@@ -305,14 +305,14 @@ public class EditEmployee extends JPanel implements ActionListener {
 				employee = new Employee(emp.getID(), txtName.getText(), (String)cmbStatus.getSelectedItem(), emp.getType());
 				
 				int employeeID = emp.getID();
-				System.out.println("Employee id selected: "+employeeID);
-				System.out.println("Employee status: "+employee.getStatus());
+				//System.out.println("Employee id selected: "+employeeID);
+				//System.out.println("Employee status: "+employee.getStatus());
 				int i = 0;
-				System.out.println("ProjList size: "+projList.size());
+				//System.out.println("ProjList size: "+projList.size());
 				
 				
 				for(i = 0; i<projList.size(); i++){
-					System.out.println("project k: "+projList.get(i).getName());
+					//System.out.println("project k: "+projList.get(i).getName());
 					
 					employee.addProject(projList.get(i).getName(), projList.get(i).getStartDate(), projList.get(i).getEndDate());
 				}
@@ -349,7 +349,7 @@ public class EditEmployee extends JPanel implements ActionListener {
 			employeeController.turnAdmin(usernameToGet);
 			emp.setType("admin");
 			employeeController.editEmployee(emp, Integer.toString(emp.getID()));
-			System.out.println("Username to get: "+usernameToGet);
+			//System.out.println("Username to get: "+usernameToGet);
 			Message msg = new Message(parent, Message.SUCCESS,
 					"Admin rights successfully granted.");
 			btnAdmin.setVisible(false);

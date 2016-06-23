@@ -218,7 +218,7 @@ public class FilterSupplier extends PopUp implements ActionListener {
 		   txtContact.getText().equals("") && txtCity.getText().equals("") && 
 		   cmbContact.getSelectedIndex() == 0 && cmbSupplier.getSelectedIndex() == 0)
 		{
-			System.out.println("EMPTY FILEDS:");
+			//System.out.println("EMPTY FILEDS:");
 			isEmpty = true;
 		}
 		

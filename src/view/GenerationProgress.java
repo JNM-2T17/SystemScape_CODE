@@ -61,7 +61,7 @@ public class GenerationProgress extends PopUp implements ActionListener {
 	}
 	
 	public void writeCsvFile(String fileName) {
-		System.out.println("here");
+		//System.out.println("here");
 		FileWriter fileWriter = null;
 		
 		try {
@@ -76,11 +76,11 @@ public class GenerationProgress extends PopUp implements ActionListener {
 				
 			}
 
-			System.out.println("CSV file was created successfully !!!");
+			//System.out.println("CSV file was created successfully !!!");
 
 		} catch (Exception e) {
 
-			System.out.println("Error in CsvFileWriter !!!");
+			//System.out.println("Error in CsvFileWriter !!!");
 
 			e.printStackTrace();
 
@@ -94,14 +94,14 @@ public class GenerationProgress extends PopUp implements ActionListener {
 
 			} catch (Exception e) {
 
-				System.out.println("Error while flushing/closing fileWriter");
+				//System.out.println("Error while flushing/closing fileWriter");
 
 				e.printStackTrace();
 
 			}
 
 		}
-		System.out.println("there");
+		//System.out.println("there");
 		setClosable(true);
 	}
 

@@ -225,7 +225,7 @@ public class AddPOItem extends PopUp implements ActionListener, FocusListener {
             float price = (float) parseStringFloat(txtPrice.getText());
             double result = quantity * price;
             lblAmountValue.setText(String.valueOf(df.format(result)));
-            System.out.println("AMOUNT: "+ String.valueOf(df.format(result)));
+            //System.out.println("AMOUNT: "+ String.valueOf(df.format(result)));
         }
     }
 

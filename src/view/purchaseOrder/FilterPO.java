@@ -224,7 +224,7 @@ public class FilterPO extends PopUp implements ActionListener {
                     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
                     dateFormat.format(dateChooser.getDate());
                     list.add(""+dateFormat.format(dateChooser.getDate()));
-                    System.out.println("tryyyyy "+dateFormat.format(dateChooser.getDate()));
+                    //System.out.println("tryyyyy "+dateFormat.format(dateChooser.getDate()));
                 }
                 list.add((String)cmbUnit.getSelectedItem());
                 list.add((String)cmbTotal.getSelectedItem());

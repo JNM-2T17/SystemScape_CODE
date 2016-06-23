@@ -196,8 +196,8 @@ public class Notification extends JPanel implements ActionListener, Observer {
 		if (i.hasNext()) {
 			contractDuration = i.next().toString();
 		}
-		System.out.println(username + " " + warrantyDuration + " "
-				+ contractDuration);
+		//System.out.println(username + " " + warrantyDuration + " "
+		//		+ contractDuration);
 
 		warrantyController.registerObserver(this);
 		contractController.registerObserver(this);

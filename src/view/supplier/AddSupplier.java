@@ -252,7 +252,7 @@ public class AddSupplier extends JPanel implements ActionListener {
 			if(txtCountry.getText().equals("")) txtCountry.setBorder(BorderFactory.createLineBorder(Color.RED, 1));
 			text+="Please accomplish supplier location.\n";
 		}
-		System.out.println(text);
+		//System.out.println(text);
 		return text;
 	}
 
@@ -262,7 +262,7 @@ public class AddSupplier extends JPanel implements ActionListener {
 		if (e.getActionCommand().equals("add")) {
 			addContact(value.getText(), (String)type.getSelectedItem());
 		} else if (e.getSource() == btnSubmit) {
-			String text=checkInput();System.out.println(text);
+			String text=checkInput();//System.out.println(text);
 			if (text.equals("")) {
 				Supplier checkSupplier;
 				Supplier supplier = new Supplier(txtSupp.getText(),
@@ -301,7 +301,7 @@ public class AddSupplier extends JPanel implements ActionListener {
 			close.remove(index);
 			panClose.remove(index);
 			list.remove(index);
-			System.out.println(list.size());
+			//System.out.println(list.size());
 			panClose.setMaximumSize(new Dimension(360,
 					panClose.getComponentCount() * 37));
 			this.repaint();

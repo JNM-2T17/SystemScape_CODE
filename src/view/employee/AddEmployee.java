@@ -206,16 +206,16 @@ public class AddEmployee extends JPanel implements ActionListener {
 				try {
 					pass = encryption.encryptString(pass);
 					String gg = encryption.decryptString(pass);
-					System.out.println("User pass:" +gg);
+					//System.out.println("User pass:" +gg);
 				} catch (Exception e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 				if(rdTechnician.isSelected() == true){
 					int idKo = employeeController.getInstance().getEmployeeID()+1;
-					System.out.println("ID: "+ idKo);
+					//System.out.println("ID: "+ idKo);
 					User user = new User(txtUsername.getText(), pass, false, idKo);
-					System.out.println("ID ni user: "+user.getEmployeeID());
+					//System.out.println("ID ni user: "+user.getEmployeeID());
 					userController.addUser(user);
 					employee.setType("technician");
 				}

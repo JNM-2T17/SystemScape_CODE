@@ -108,7 +108,7 @@ public class EmployeeFilterQueryBuilder implements FilterQueryBuilder {
         addLeftJoin("project p");
         addOn("pa.project = p.name");
         addCondition(conditions);
-        System.out.println(select.substring(0, (select.length() - 2)) + " " + from.substring(0, from.length() - 1) + " " + where);
+        //System.out.println(select.substring(0, (select.length() - 2)) + " " + from.substring(0, from.length() - 1) + " " + where);
         return select.substring(0, (select.length() - 2)) + " " + from.substring(0, from.length() - 1) + " " + where;
     }
 

@@ -290,31 +290,31 @@ public class Settings extends PopUp implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == btnChangePassword) {
-			System.out.println("X");
+			//System.out.println("X");
 			cl.show(panCenter, "pass");
 			btnChangePassword.setBackground(Color.white);
 			btnNotificationSettings.setBackground(Color.LIGHT_GRAY);
 //			isPass=true;
-			System.out.println("here");
+			//System.out.println("here");
 			
 		} else if (e.getSource() == btnNotificationSettings) {
-			System.out.println("Z");
+			//System.out.println("Z");
 			cl.show(panCenter, "notif");
 			btnNotificationSettings.setBackground(Color.white);
 			btnChangePassword.setBackground(Color.LIGHT_GRAY);
 //			isPass=false;
-			System.out.println("HERE");
+			//System.out.println("HERE");
 		} else if(e.getSource()==btnSubmit){
 				String text = checkInput();
 				if(text == ""){
 					User u = (User) userController.getUser(username);
 					String s = new String(txtNew.getPassword());
 					String userPass = s;
-					System.out.println("User pass: "+userPass);
+					//System.out.println("User pass: "+userPass);
 					Encryption encrypt = new Encryption();
 					try {
 						userPass = encrypt.encryptString(userPass);
-						System.out.println("User pass2: "+userPass);
+						//System.out.println("User pass2: "+userPass);
 					} catch (Exception e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();

@@ -44,7 +44,7 @@ public class SupplierController implements SupplierInterface, Subject {
     
     public void editSupplier(Supplier supp, String key){
     	
-    	System.out.println("boom punit "+supp.getName());
+    	//System.out.println("boom punit "+supp.getName());
         supplier.setName(supp.getName());
         supplier.setCountry(supp.getCountry());
         supplier.setState(supp.getState());
@@ -57,7 +57,7 @@ public class SupplierController implements SupplierInterface, Subject {
         while (i.hasNext()) {
             dao.add("SupplierContact", (SupplierContact) i.next());
         }
-        System.out.println("SHIT" + SupplierController.getInstance().supplier.getName());
+        //System.out.println("SHIT" + SupplierController.getInstance().supplier.getName());
         notifyObserver();
     }
     

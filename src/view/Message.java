@@ -41,7 +41,7 @@ public class Message extends PopUp implements ActionListener{
 
 	public Message(JFrame parent, int type, String text) {
 		super(parent);
-		System.out.println("Mesage");
+		//System.out.println("Mesage");
 
 		getClose().addActionListener(this);
 		
@@ -162,7 +162,7 @@ public class Message extends PopUp implements ActionListener{
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		System.out.println("lol");
+		//System.out.println("lol");
 		if (e.getSource()==getClose()){
 			this.dispose();
 		}

@@ -53,11 +53,11 @@ public abstract class ViewTemplate extends JPanel{
 			}
 		};
 
-		System.out.println("MODEL: "+ model);
+		//System.out.println("MODEL: "+ model);
 		 table = new JXTable(model);
 		 table.setHorizontalScrollEnabled(true);
 		 table.getTableHeader().setReorderingAllowed(false);
-		// System.out.println("TABLE: "+ table);
+		// //System.out.println("TABLE: "+ table);
 		 ColumnControlButton columnControl = new ColumnControlButton(table) {
 
 			    @Override
@@ -131,7 +131,7 @@ public abstract class ViewTemplate extends JPanel{
 	}
 	
 	public boolean isColVisible(String colName){
-//		System.out.println("STAT: "+table.getColumnExt(colName).isVisible());
+//		//System.out.println("STAT: "+table.getColumnExt(colName).isVisible());
 		if(table.getColumnExt(colName) != null && table.getColumnExt(colName).isVisible()){
 			return true;
 		}

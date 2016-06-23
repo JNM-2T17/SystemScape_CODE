@@ -139,7 +139,7 @@ public class AddProject extends JPanel implements ActionListener {
 	}
 
 	public String checkInput() {
-		System.out.println(cmbName.getSelectedItem());
+		//System.out.println(cmbName.getSelectedItem());
 		String text = "";
 		if (cmbName.getSelectedItem().equals("")) {
 			text += "Please specify project name.\n";
@@ -175,7 +175,7 @@ public class AddProject extends JPanel implements ActionListener {
 				
 				Message msg = new Message(parent, Message.SUCCESS,
 						"Project added successfully.");
-				System.out.println("Yey project: " + project.getName());
+				//System.out.println("Yey project: " + project.getName());
 				clear();
 			}
 			else{

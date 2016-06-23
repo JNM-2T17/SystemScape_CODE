@@ -321,7 +321,7 @@ public class PurchaseOrderDAO implements IDBCUD {
             while (currItems.hasNext()) {
                 es = (Map.Entry) currItems.next();
                 itemData = (ItemData) es.getKey();
-                System.out.println("ADDING TO POITEM: " + itemData.getName());
+                //System.out.println("ADDING TO POITEM: " + itemData.getName());
                 query = "INSERT INTO poitem  VALUES(?,?,?,?,?);";
                 preparedStatement = con.prepareStatement(query);
                 preparedStatement.setString(1, currentPO.getType());
@@ -342,7 +342,7 @@ public class PurchaseOrderDAO implements IDBCUD {
                 sqlee.printStackTrace();
             }
         }
-        System.out.println("update shouldve happened");
+        //System.out.println("update shouldve happened");
     }
 
     public void delete(Object object) {

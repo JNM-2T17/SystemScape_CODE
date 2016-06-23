@@ -112,7 +112,7 @@ public class ItemTileWarrantyField extends ItemPanelDecorator implements ItemPan
 	public void setWarrantyStartDate(Date date)
 	{
 		startWarrantyDate.setDate(date);
-		System.out.println("Date Retrieved");
+		//System.out.println("Date Retrieved");
 	}
 	
 	/**

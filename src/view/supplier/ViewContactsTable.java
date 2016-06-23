@@ -34,13 +34,13 @@ public class ViewContactsTable extends ViewTemplate implements Observer{
      
      @Override
      public void update() {
-//         System.out.println("WE GO HERE BERI HARD");
+//         //System.out.println("WE GO HERE BERI HARD");
 //         //clearTable();
 //         PurchaseOrder purchaseOrder;
 //         Iterator data = poController.getAll();
 //         while(data.hasNext())
 //         {
-//             System.out.println("WE HERE BERI BERI BERI HARD");
+//             //System.out.println("WE HERE BERI BERI BERI HARD");
 //             purchaseOrder = (PurchaseOrder) data.next();
 //             getModel().setRowCount(getModel().getRowCount() + 1);
 //			 getModel().setValueAt(purchaseOrder.getIdNo(), getModel().getRowCount() - 1, 0);

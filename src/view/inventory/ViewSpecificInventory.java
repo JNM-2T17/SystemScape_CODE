@@ -42,13 +42,13 @@ public class ViewSpecificInventory extends ViewSpecificTemplate implements ItemP
 	
 	private void setViewPrevious()
 	{
-		System.out.println("Previous");
+		//System.out.println("Previous");
 		InventoryItem previousItem = viewList.pPrev();
 		if(previousItem != null) tab.setView(previousItem);
 	}
 	private void setViewNext()
 	{
-		System.out.println("Next");
+		//System.out.println("Next");
 		InventoryItem nextItem = viewList.pNext();
 		if(nextItem != null) tab.setView(nextItem);
 	}

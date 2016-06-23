@@ -95,7 +95,7 @@ public class TabSupplier extends JPanel implements ActionListener{
 			cl.show(this, "view");
 		}
 		else if(((JButton) e.getSource()).getActionCommand().equals("suppFilter")){
-			System.out.println("filtered");
+			//System.out.println("filtered");
 		}
 		else if(((JButton) e.getSource()).getActionCommand().equals("delete")){
 			Supplier del = null;
@@ -106,7 +106,7 @@ public class TabSupplier extends JPanel implements ActionListener{
 				}
 				i--;
 			}
-			System.out.println(del);
+			//System.out.println(del);
 		}
 	}
 

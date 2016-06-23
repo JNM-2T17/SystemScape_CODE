@@ -258,7 +258,7 @@ public class EditProject extends JPanel implements ActionListener {
 		Iterator projectAssignmentIT = projectController.getProjectAssignment(project.getName());
 		while(projectAssignmentIT.hasNext()){
 			ProjectAssignment pa = (ProjectAssignment) projectAssignmentIT.next();
-			System.out.println("Employee id: "+pa.getEmployeeID());
+			//System.out.println("Employee id: "+pa.getEmployeeID());
 			employeeIDs.add(pa.getEmployeeID());
 			check++;
 		}
@@ -341,7 +341,7 @@ public class EditProject extends JPanel implements ActionListener {
 				}
 				
 				project.setEmployeeList(employeeList.iterator());
-				System.out.println(employeeList);
+				//System.out.println(employeeList);
 				
 				projectController.editProject(project, prevKey);
 				Message msg = new Message(parent, Message.SUCCESS,
@@ -355,27 +355,27 @@ public class EditProject extends JPanel implements ActionListener {
 			if(e.getSource()==btnRight){
 				//Employee emp=(Employee) listAll.getSelectedValue();
 				String empName = (String) listAll.getSelectedValue();
-				System.out.println("Add: "+empName);
+				//System.out.println("Add: "+empName);
 				if(empName!=null){
 					allModel.removeElement(empName);
 					empModel.addElement(empName);
 //					Employee toAdd = (Employee) employeeController.getObject(empName);
 //					employeeList.add(toAdd);
 				}
-				System.out.println(employeeList);
+				//System.out.println(employeeList);
 			}
 			if(e.getSource()==btnLeft){
 				//Employee emp=(Employee) listEmp.getSelectedValue();
 				String empName = (String) listEmp.getSelectedValue();
-				System.out.println("Remove: "+empName);
+				//System.out.println("Remove: "+empName);
 				if(empName!=null){
 					empModel.removeElement(empName);
 					allModel.addElement(empName);
 //					Employee toAdd = (Employee) employeeController.getObject(empName);
 //					employeeList.remove(toAdd);
-//					System.out.println("To remove: "+toAdd.getName());
+//					//System.out.println("To remove: "+toAdd.getName());
 				}
-				System.out.println(employeeList);
+				//System.out.println(employeeList);
 			}
 			if(e.getSource()==btnDblRight){
 				for (int i = 0; i < allModel.getSize(); i++) {
@@ -387,7 +387,7 @@ public class EditProject extends JPanel implements ActionListener {
 //					Employee tempToAdd = (Employee) getAllEmp.next();
 //					employeeList.add(tempToAdd);
 //				}
-				System.out.println(employeeList);
+				//System.out.println(employeeList);
 			}
 			if(e.getSource()==btnDblLeft){
 				for (int i = 0; i < empModel.getSize(); i++) {

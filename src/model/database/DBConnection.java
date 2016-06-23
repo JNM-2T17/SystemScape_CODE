@@ -1,5 +1,9 @@
 package model.database;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -27,7 +31,22 @@ public class DBConnection {
         url = "jdbc:mysql://localhost:3306/";
         database = "caista";
         username = "root";
-        password = "cokidoki231";//tempo
+        BufferedReader br = null;
+        try {
+        	br = new BufferedReader(new FileReader(new File("config.txt")));
+            password = br.readLine();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			try {
+				br.close();
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+        
     }
      
     /**

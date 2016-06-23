@@ -36,7 +36,7 @@ public class ViewInventoryItemLinkedList {
 	public InventoryItem pNext()
 	{
 		currIndex++;
-		System.out.println("Current Index: " + currIndex);
+		//System.out.println("Current Index: " + currIndex);
 		if(nodeMap.get(currIndex) != null && currIndex < nodeMap.size())
 		{
 			return nodeMap.get(currIndex);
@@ -53,7 +53,7 @@ public class ViewInventoryItemLinkedList {
 	public InventoryItem pPrev()
 	{
 		currIndex--;
-		System.out.println("Current Index: " + currIndex);
+		//System.out.println("Current Index: " + currIndex);
 		if(nodeMap.get(currIndex) != null && currIndex >= 0)
 		{
 			return nodeMap.get(currIndex);
@@ -74,7 +74,7 @@ public class ViewInventoryItemLinkedList {
 			if(nodeMap.get(i).getID() == ii.getID())
 			{
 				currIndex = i;
-				System.out.println("EUREKA");
+				//System.out.println("EUREKA");
 				break;
 			}
 		}

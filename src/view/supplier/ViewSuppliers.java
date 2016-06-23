@@ -34,9 +34,9 @@ public class ViewSuppliers extends ViewTemplate implements Observer {
         super();
         this.tab = tab;
         if (this.tab == null) {
-            System.out.println("VIEW CONST TAB NULL");
+            //System.out.println("VIEW CONST TAB NULL");
         } else {
-            System.out.println("Gio");
+            //System.out.println("Gio");
         }
         supplierController = SupplierController.getInstance();
         supplierController.registerObserver(this);
@@ -71,7 +71,7 @@ public class ViewSuppliers extends ViewTemplate implements Observer {
 
             supplier = (Supplier) data.next();
 
-            System.out.println("SUPPLIER THINGY" + supplier.getName());
+            //System.out.println("SUPPLIER THINGY" + supplier.getName());
 
             Iterator contactsIterator = supplier.getSupplierContactList();
 
@@ -81,7 +81,7 @@ public class ViewSuppliers extends ViewTemplate implements Observer {
                 contactsString = contactsString
                         + ((SupplierContact) contactsIterator.next())
                         .toString() + ", ";
-                System.out.println(contactsString);
+                //System.out.println(contactsString);
 
             }
 
@@ -98,9 +98,9 @@ public class ViewSuppliers extends ViewTemplate implements Observer {
                     getModel().getRowCount() - 1, 3);
         }
         if (this.tab == null) {
-            System.out.println("VIEW TAB NULL");
+            //System.out.println("VIEW TAB NULL");
         } else {
-            System.out.println("Gio");
+            //System.out.println("Gio");
         }
         packTable();
     }
@@ -110,12 +110,12 @@ public class ViewSuppliers extends ViewTemplate implements Observer {
         Supplier supplier;
         while (data.hasNext()) {
             supplier = (Supplier) data.next();
-            System.out.println("SUPPLIER THINGY" + supplier.getName());
+            //System.out.println("SUPPLIER THINGY" + supplier.getName());
             Iterator contactsIterator = supplier.getSupplierContactList();
             String contactsString = "";
             while (contactsIterator.hasNext()) {
                 contactsString = contactsString + ((SupplierContact) contactsIterator.next()).toString() + ", ";
-                System.out.println(contactsString);
+                //System.out.println(contactsString);
             }
             getModel().setRowCount(getModel().getRowCount() + 1);
             getModel().setValueAt(supplier.getName(), getModel().getRowCount() - 1, 0);
@@ -125,9 +125,9 @@ public class ViewSuppliers extends ViewTemplate implements Observer {
             getModel().setValueAt(new SupplierCellEdit(supplier, tab), getModel().getRowCount() - 1, 3);
         }
         if (this.tab == null) {
-            System.out.println("VIEW TAB NULL");
+            //System.out.println("VIEW TAB NULL");
         } else {
-            System.out.println("Gio");
+            //System.out.println("Gio");
         }
         packTable();
     }

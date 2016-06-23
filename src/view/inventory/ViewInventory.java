@@ -122,8 +122,8 @@ public class ViewInventory extends ViewTemplate implements Observer,
 			assignment = (Assignment) assignmentController.getObject(""
 					+ inventoryItem.getID());
 			if (assignment != null) {
-				System.out.println("update "
-						+ assignment.getEmployee().getName());
+				//System.out.println("update "
+					//	+ assignment.getEmployee().getName());
 				employee = assignment.getEmployee().getName();
 			}
 
@@ -218,8 +218,8 @@ public class ViewInventory extends ViewTemplate implements Observer,
 			assignment = (Assignment) assignmentController.getObject(""
 					+ inventoryItem.getID());
 			if (assignment != null) {
-				System.out.println("update "
-						+ assignment.getEmployee().getName());
+				//System.out.println("update "
+					//	+ assignment.getEmployee().getName());
 				employee = assignment.getEmployee().getName();
 			}
 

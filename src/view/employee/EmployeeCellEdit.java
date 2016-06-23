@@ -24,15 +24,6 @@ class EmployeeCellEdit extends CellEdit implements ActionListener{
 		this.tab=tab;
 		this.employee=employee;
 		
-		
-		if(tab==null) System.out.println("TAB NUUUUL");
-		else System.out.println("WUUUUUUUUUUUUUT");
-		
-		if(employee==null) System.out.println("NUOOOO");
-		else{
-			System.out.println("YEEEEEY");
-		}
-		
 		if(employee==null){
 			clear();
 		}
@@ -45,11 +36,11 @@ class EmployeeCellEdit extends CellEdit implements ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource()==getBtnEdit()){
-			if(tab==null) System.out.println("ACT TAB NUUUUL");
+			if(tab==null) //System.out.println("ACT TAB NUUUUL");
 			tab.setEdit(employee);
 		}
 		else if(e.getSource()==getBtnView()){
-			/*if(tab==null) System.out.println("ACT TAB NUUUUL");*/
+			/*if(tab==null) //System.out.println("ACT TAB NUUUUL");*/
 			tab.setView(employee);
 		}
 		

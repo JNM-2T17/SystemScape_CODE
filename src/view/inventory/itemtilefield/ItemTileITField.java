@@ -188,7 +188,7 @@ public class ItemTileITField extends ItemPanelDecorator implements ItemPanelPart
 	public Iterator retrieveInformation() {
 		// TODO Auto-generated method stub
 		ArrayList infoList = new ArrayList();
-		System.out.println("Date: " + (deliveryDateChooser.getDate() instanceof java.util.Date));
+		//System.out.println("Date: " + (deliveryDateChooser.getDate() instanceof java.util.Date));
                 infoList.add(cbAssignee.getSelectedItem().toString());
                 infoList.add(endDateChooser.getDate());
 		infoList.add(startDateChooser.getDate());
@@ -224,7 +224,7 @@ public class ItemTileITField extends ItemPanelDecorator implements ItemPanelPart
 	public boolean checkInput() {
 		boolean stat=true;
 		if(tfAssetTag.getText().equals("")){
-			System.out.println("ASSET: "+tfAssetTag.getText());
+			//System.out.println("ASSET: "+tfAssetTag.getText());
 			new Message(parent, Message.ERROR, "Please specity item asset tag.");
 			stat=false;
 		}
@@ -267,11 +267,11 @@ public class ItemTileITField extends ItemPanelDecorator implements ItemPanelPart
 	     }
 	     if(cbAssignee == null)
 	     {
-	    	 System.out.println("Assignee is null");
+	    	 //System.out.println("Assignee is null");
 	     }
 	     if(assigneeList == null)
 	     {
-	    	 System.out.println("List is null");
+	    	 //System.out.println("List is null");
 	     }
 	     cbAssignee.setModel(new DefaultComboBoxModel(assigneeList.toArray()));
 	}

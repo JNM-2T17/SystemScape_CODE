@@ -99,15 +99,15 @@ public class EmployeeController implements Subject {
     	employee.setStatus(emp.getStatus());
     	employee.setType(emp.getType());
     	employee.setProjectList(emp.getProjectList());
-    	System.out.println("Employee name: "+employee.getName());
-    	System.out.println("Employee id: "+employee.getID());
-    	System.out.println("Employee status: "+employee.getStatus());
+    	//System.out.println("Employee name: "+employee.getName());
+    	//System.out.println("Employee id: "+employee.getID());
+    	//System.out.println("Employee status: "+employee.getStatus());
     	employeeDAO.deleteProjects(key);
     	dao.update("Employee", employee, key);
     	Iterator i = employee.getProjectList();
     	while(i.hasNext()){
     		Project pie = (Project) i.next();
-    		System.out.println("Project: "+pie);
+    		//System.out.println("Project: "+pie);
     		employeeDAO.addProjects(employee, pie);
     	}
     	

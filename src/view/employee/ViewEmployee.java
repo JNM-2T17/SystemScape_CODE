@@ -60,14 +60,14 @@ public class ViewEmployee extends ViewTemplate implements Observer{
 		Iterator data = employeeController.getAll();
 		while(data.hasNext()){
 			employee = (Employee) data.next();
-			System.out.println("Employee THINGY " + employee.getName());
+			//System.out.println("Employee THINGY " + employee.getName());
 			
 			//added
 			ArrayList<String> projectsList = new ArrayList<String>();
 			Iterator projectAssignmentIT = employeeController.getProjectsFromAssignment(Integer.toString(employee.getID()));
 			while(projectAssignmentIT.hasNext()){
 				ProjectAssignment pa = (ProjectAssignment) projectAssignmentIT.next();
-				System.out.println("Employee id: "+pa.getEmployeeID());
+				//System.out.println("Employee id: "+pa.getEmployeeID());
 				projectsList.add(pa.getProject());
 			}
 			
@@ -147,12 +147,12 @@ public class ViewEmployee extends ViewTemplate implements Observer{
 				employee = (Employee) data.next();
 			}
 			
-			/////////////////////////////////////////
+			///////////
 			ArrayList<String> projectsList = new ArrayList<String>();
 			Iterator projectAssignmentIT = employeeController.getProjectsFromAssignment(Integer.toString(employee.getID()));
 			while(projectAssignmentIT.hasNext()){
 				ProjectAssignment pa = (ProjectAssignment) projectAssignmentIT.next();
-				System.out.println("Employee id: "+pa.getEmployeeID());
+				//System.out.println("Employee id: "+pa.getEmployeeID());
 				projectsList.add(pa.getProject());
 			}
 			
@@ -162,8 +162,8 @@ public class ViewEmployee extends ViewTemplate implements Observer{
 				projectArrayList.add(projTemp);
 			}
 			
-			///////////////////////////////////////////
-			System.out.println("Employee THINGY " + employee.getName());
+			/////////////
+			//System.out.println("Employee THINGY " + employee.getName());
 			Iterator projectsIterator = projectArrayList.iterator();
 			Date sDate = null;
 			Date eDate = null;

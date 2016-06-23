@@ -97,7 +97,7 @@ public class InventoryItemDisplayManager {
 	
 	public JPanel buildContentEdit(InventoryItem ii, String type) {
 		// TODO Auto-generated method stub
-			System.out.println("PassEDIT");
+			//System.out.println("PassEDIT");
 			if(ii.getClassification().equalsIgnoreCase("IT"))
 			{
 				return displayITField(ii);
@@ -122,7 +122,7 @@ public class InventoryItemDisplayManager {
 	
 	public JPanel buildContentView(InventoryItem ii, String type)
 	{
-			System.out.println("PassVIEW");
+			//System.out.println("PassVIEW");
 			if(ii.getClassification().equalsIgnoreCase("IT"))
 			{
 				return displayITView(ii);
@@ -144,7 +144,7 @@ public class InventoryItemDisplayManager {
 	
 	public JPanel buildContentAdd(String type) {
 		// TODO Auto-generated method stub
-		System.out.println("Mode IN ADD");
+		//System.out.println("Mode IN ADD");
 		if(type.equalsIgnoreCase("IT"))
 		{
 			return displayITField();
@@ -159,7 +159,7 @@ public class InventoryItemDisplayManager {
 		}
 		else if(type.equalsIgnoreCase("Others"))
 		{
-			System.out.println("buildContentAdd Others BUILD");
+			//System.out.println("buildContentAdd Others BUILD");
 			return displayGeneralField();
 		
 		}
@@ -196,7 +196,7 @@ public class InventoryItemDisplayManager {
 		panelRegistry.registerParticipant(itemTileContractField);
 		
 		panelRegistry.isAdd(false);
-		System.out.println("Passes setEdit");
+		//System.out.println("Passes setEdit");
 		panelRegistry.setCurrentInventoryItem(ii);
 		panelRegistry.setEditToCurrentSet();
 		
@@ -229,7 +229,7 @@ public class InventoryItemDisplayManager {
 		panelRegistry.registerParticipant(itemTileContractField);
 
 		panelRegistry.isAdd(false);
-		System.out.println("Passes setEdit");
+		//System.out.println("Passes setEdit");
 		panelRegistry.setCurrentInventoryItem(ii);
 		panelRegistry.setEditToCurrentSet();
 		
@@ -261,7 +261,7 @@ public class InventoryItemDisplayManager {
 		
 		panelRegistry.isAdd(false);
 		
-		System.out.println("Passes setEdit");
+		//System.out.println("Passes setEdit");
 		panelRegistry.setCurrentInventoryItem(ii);
 		panelRegistry.setEditToCurrentSet();
 		
@@ -294,7 +294,7 @@ public class InventoryItemDisplayManager {
 		
 		panelRegistry.isAdd(false);
 		
-		System.out.println("Passes setEdit");
+		//System.out.println("Passes setEdit");
 		panelRegistry.setCurrentInventoryItem(ii);
 		panelRegistry.setEditToCurrentSet();
 		
@@ -417,10 +417,10 @@ public class InventoryItemDisplayManager {
 		
 		panelRegistry.isAdd(true);
 		
-		System.out.println("Pass");
+		//System.out.println("Pass");
 		if(template == null)
 		{
-			System.out.println("NULL template");
+			//System.out.println("NULL template");
 		}
 		
 		return template;
@@ -438,7 +438,7 @@ public class InventoryItemDisplayManager {
 		
 		panelRegistry.clearParticipants();
 		createNewViewList();
-		System.out.println("VIEW LIST - COUNT: " + viewList.getCount());
+		//System.out.println("VIEW LIST - COUNT: " + viewList.getCount());
 		viewList.jumpToItem(ii);
 		ViewSpecificInventory template = new ViewSpecificInventory(tab, viewList);
 		itemTileGenInfoView = new ItemTileGenInfoView(gui, template);
@@ -563,7 +563,7 @@ public class InventoryItemDisplayManager {
 	
 	public void overrideContentPanel(String type)
 	{
-		System.out.println("TYPE IN OVERRIDE: " + type);
+		//System.out.println("TYPE IN OVERRIDE: " + type);
 		tab.setAdd(type);
                 panelRegistry.setCurrentType(type);
 	}
@@ -578,7 +578,7 @@ public class InventoryItemDisplayManager {
 		// TODO Auto-generated method stub
 		if(panelRegistry.checkInputFromAll())
 		{
-			System.out.println("PASSED RETRIEVE INFO AND CLOSE");
+			//System.out.println("PASSED RETRIEVE INFO AND CLOSE");
 			panelRegistry.retrieveInformationFromAll();
                         if(panelRegistry.isAdd())
                             new Message(gui, Message.SUCCESS, "Item added to the database");

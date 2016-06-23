@@ -100,15 +100,15 @@ public class POItemCellDelivered extends DefaultCellEditor implements TableCellR
         if (a.getSource() == button) {
             if (po.getQuantity(i) != po.getQuantityRcvd(i)) {
 
-                System.out.println("DEPUTEEEEEEE type: " + po.getType());
+                //System.out.println("DEPUTEEEEEEE type: " + po.getType());
                 if (po.getType().equals("Hard")) {
-                    System.out.println("Hard deputek");
+                    //System.out.println("Hard deputek");
                     EditPOItemHard eHard = new EditPOItemHard(parent, i, poController);
                 } else if (po.getType().equals("Soft")) {
-                    System.out.println("Soft deputek");
+                    //System.out.println("Soft deputek");
                     EditPOItemSoft eSoft = new EditPOItemSoft(parent, i, poController);
                 } else if (po.getType().equals("Gen")) {
-                    System.out.println("Gen deputek");
+                    //System.out.println("Gen deputek");
                     EditPOItemGen eGen = new EditPOItemGen(parent, i, poController);
                 }
             }else{

@@ -104,7 +104,7 @@ public class ProjectFilterQueryBuilder implements FilterQueryBuilder {
         if (groupBy.length() > 0) {
             groupBy = groupBy.substring(0, groupBy.length() - 1);
         }
-        System.out.println("where: "+where);
+        //System.out.println("where: "+where);
         return select.substring(0, (select.length() - 2)) + " " + from.substring(0, from.length() - 2) + " " + where;
     }
 }

@@ -17,14 +17,6 @@ public class SupplierCellEdit extends CellEdit implements ActionListener {
 		super();
 		this.tab=tab;
 		this.supp=supp;
-		
-		if(tab==null) System.out.println("TAB NUUUUL");
-		else System.out.println("WUUUUUUUUUUUUUT");
-		
-		if(supp==null) System.out.println("NUOOOO");
-		else{
-			System.out.println("YEEEEEY");
-		}
 	}
 	
 	public Object get(){
@@ -33,11 +25,11 @@ public class SupplierCellEdit extends CellEdit implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource()==getBtnEdit()){
-			if(tab==null) System.out.println("ACT TAB NUUUUL");
+			if(tab==null) //System.out.println("ACT TAB NUUUUL");
 			tab.setEdit(supp);
 		}
 		else if(e.getSource()==getBtnView()){
-			if(tab==null) System.out.println("ACT TAB NUUUUL");
+			if(tab==null) //System.out.println("ACT TAB NUUUUL");
 			tab.setView(supp);
 		}
 		

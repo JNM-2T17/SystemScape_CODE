@@ -79,7 +79,7 @@ public class ItemStorageGenInfo implements ItemStorage{
 		ArrayList compiledList = new ArrayList();
 		compiledList.add(ID);
 		compiledList.add(name);
-                System.out.println(name+"wow\n");
+                //System.out.println(name+"wow\n");
 		compiledList.add(description);
 		compiledList.add(unitPrice);
 		compiledList.add(invoiceNumber);

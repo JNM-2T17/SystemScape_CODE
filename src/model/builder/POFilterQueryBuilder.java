@@ -126,7 +126,7 @@ public class POFilterQueryBuilder implements FilterQueryBuilder {
         addGrouping("po.no");
         addGrouping("po.type");
         addCondition(conditions);
-        System.out.println(select.substring(0, select.length() - 1) + " " + from.substring(0, from.length() - 1) + " " + where + " " + groupBy.substring(0, groupBy.length() - 1));
+        //System.out.println(select.substring(0, select.length() - 1) + " " + from.substring(0, from.length() - 1) + " " + where + " " + groupBy.substring(0, groupBy.length() - 1));
         return select.substring(0, (select.length() - 2)) + " " + from.substring(0, from.length() - 2) + " " + where + " " + groupBy.substring(0, groupBy.length() - 2) + " " + having;
     }
 }
@@ -134,7 +134,7 @@ public class POFilterQueryBuilder implements FilterQueryBuilder {
         
  SELECT po.no, po.type, po.supplier, po.date, SUM(pi.quantityOrdered*id.unitPrice) AS Sum
  FROM purchaseorder po, poitem pi, itemdata id
- WHERE po.type="Hard" && po.supplier=”Shayane” && po.no=pi.no && pi.itemname=id.name && po.date="2015-03-04"
+ WHERE po.type="Hard" && po.supplier=â€�Shayaneâ€� && po.no=pi.no && pi.itemname=id.name && po.date="2015-03-04"
  GROUP BY  po.no
  HAVING Sum=1400
  */

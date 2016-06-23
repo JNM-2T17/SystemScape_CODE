@@ -55,7 +55,7 @@ public class InventoryItemController implements InventoryItemInterface, Subject 
     }
 
     public void editInventoryItem(InventoryItem inventoryItem, String origKey){
-        System.out.println(inventoryItem.getName()+"wow\n");
+        //System.out.println(inventoryItem.getName()+"wow\n");
 	dao.update("InventoryItem", inventoryItem, origKey);
 	notifyObserver();
         WarrantyController.getInstance().notifyObserver();
