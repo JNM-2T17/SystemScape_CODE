@@ -215,7 +215,7 @@ public class EditPO extends JPanel implements ActionListener, Observer {
 		add(panCenter, BorderLayout.CENTER);
 		panCenter.setLayout(new BorderLayout(0, 0));
 
-		btnAddItem = new Button.ButtonBuilder().img("src/assets/Round/Add.png",
+		btnAddItem = new Button.ButtonBuilder().img("/assets/Round/Add.png",
 				30, 30).build();
 		btnAddItem.setActionCommand("add");
 		btnAddItem.addActionListener(this);

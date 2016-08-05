@@ -37,7 +37,7 @@ public class POItemCellDelivered extends DefaultCellEditor implements TableCellR
         this.parent = parent;
         this.i = i;
         this.po = po;
-        button = new Button.ButtonBuilder().img("src/assets/Round/Check Box.png", 30, 30).build();
+        button = new Button.ButtonBuilder().img("/assets/Round/Check Box.png", 30, 30).build();
         button.setOpaque(true);
         button.setHorizontalAlignment(JLabel.CENTER);
         button.addActionListener(this);

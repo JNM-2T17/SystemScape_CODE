@@ -103,13 +103,13 @@ public class MainPanel extends JPanel implements ActionListener {
 		btnLogOut.addActionListener(this);
 		
 		btnSettings = new Button.ButtonBuilder().img(
-				"src/assets/Settings.png", 25, 25).build();
+				"/assets/Settings.png", 25, 25).build();
 		btnSettings.addActionListener(this);
 		panUser.add(btnSettings);
 		panUser.add(btnLogOut);
 
 		btnClose = new Button.ButtonBuilder().img(
-				"src/assets/Metro/Delete.png", 30, 30).build();
+				"/assets/Metro/Delete.png", 30, 30).build();
 		btnClose.addActionListener(this);
 		panUser.add(btnClose);
 
@@ -121,13 +121,13 @@ public class MainPanel extends JPanel implements ActionListener {
 		panNotif.setBackground(new Color(32, 130, 213));
 
 		btnWarr = new Button.ButtonBuilder().img(
-				"src/assets/Metro/Document3.png", 90, 90).build();
+				"/assets/Metro/Document3.png", 90, 90).build();
 		btnWarr.setContentAreaFilled(false);
 		btnWarr.setBorderPainted(false);
 		btnWarr.setToolTipText("Warranty");
 
 		btnCont = new Button.ButtonBuilder().img(
-				"src/assets/Metro/Documents.png", 90, 90).build();
+				"/assets/Metro/Documents.png", 90, 90).build();
 		btnCont.setContentAreaFilled(false);
 		btnCont.setBorderPainted(false);
 		btnCont.setToolTipText("Contracts");

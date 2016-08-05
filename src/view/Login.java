@@ -111,7 +111,7 @@ public class Login extends JPanel implements ActionListener, KeyListener {
         panMain.setLayout(new BorderLayout(0, 0));
 
         JLabel logo = new JLabel(" ");
-        ImageIcon ii = new ImageIcon("src/assets/logo.png");
+        ImageIcon ii = new ImageIcon(getClass().getResource("/assets/logo.png"));
         Image img = ii.getImage();
         Image newimg = img.getScaledInstance((int) (ii.getIconWidth() * 0.5),
                 (int) (ii.getIconHeight() * 0.5), java.awt.Image.SCALE_SMOOTH);
@@ -124,7 +124,7 @@ public class Login extends JPanel implements ActionListener, KeyListener {
         panClose.setBackground(new Color(32, 130, 213));
         panMain.add(panClose, BorderLayout.EAST);
 
-        close = new Button.ButtonBuilder().img("src/assets/Metro/Delete.png",
+        close = new Button.ButtonBuilder().img("/assets/Metro/Delete.png",
                 30, 30).build();
         close.addActionListener(this);
         panClose.add(close);

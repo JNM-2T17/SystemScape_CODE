@@ -124,7 +124,7 @@ public class EditEmployee extends JPanel implements ActionListener {
 		cmbProj=new JComboBox();
 		cmbProj.setBackground(Color.white);
 		cmbProj.setPreferredSize(new Dimension(200, 25));
-		btnAdd = new Button.ButtonBuilder().img("src/assets/Round/Add.png", 30,
+		btnAdd = new Button.ButtonBuilder().img("/assets/Round/Add.png", 30,
 				30).build();
 
 		temp = new JPanel();
@@ -218,7 +218,7 @@ public class EditEmployee extends JPanel implements ActionListener {
 			Project project = (Project) it.next();
 			
 			JButton close = new Button.ButtonBuilder().img(
-					"src/assets/Round/Delete.png", 30, 30).build();
+					"/assets/Round/Delete.png", 30, 30).build();
 			close.addActionListener(this);
 			this.close.add(close);
 			
@@ -259,7 +259,7 @@ public class EditEmployee extends JPanel implements ActionListener {
 	
 	public void addProject(JComboBox pan){
 			JButton close = new Button.ButtonBuilder().img(
-					"src/assets/Round/Delete.png", 30, 30).build();
+					"/assets/Round/Delete.png", 30, 30).build();
 			close.addActionListener(this);
 			this.close.add(close);
 

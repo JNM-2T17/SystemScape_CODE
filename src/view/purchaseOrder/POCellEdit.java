@@ -22,10 +22,10 @@ public class POCellEdit extends JPanel implements ActionListener {
 	
 	public POCellEdit(JFrame parent, PurchaseOrder po, TabPO tab){
 		this.parent=parent;
-		edit=new Button.ButtonBuilder().img("src/assets/Round/Note2.png", 30,
+		edit=new Button.ButtonBuilder().img("/assets/Round/Note2.png", 30,
 				30).build();
 		edit.setToolTipText("Edit");
-		view=new Button.ButtonBuilder().img("src/assets/Round/Preview.png", 30,
+		view=new Button.ButtonBuilder().img("/assets/Round/Preview.png", 30,
 				30).build();
 		view.setToolTipText("View");
 		

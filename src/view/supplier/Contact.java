@@ -43,7 +43,7 @@ public class Contact extends JPanel {
 		type.setBackground(Color.white);
 		type.setPreferredSize(new Dimension(120, 25));
 		
-		btn= new Button.ButtonBuilder().img("src/assets/Round/Add.png", 30,
+		btn= new Button.ButtonBuilder().img("/assets/Round/Add.png", 30,
 				30).build();
 		btn.setActionCommand("add");
 		

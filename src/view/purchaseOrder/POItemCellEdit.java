@@ -41,7 +41,7 @@ public class POItemCellEdit extends DefaultCellEditor implements TableCellRender
       this.i = i;
       this.parent = parent;
       this.po = po;
-      button = new Button.ButtonBuilder().img("src/assets/Round/Note2.png", 30,30).build();
+      button = new Button.ButtonBuilder().img("/assets/Round/Note2.png", 30,30).build();
       button.setOpaque(true);
       button.setHorizontalAlignment(JLabel.CENTER);
       button.addActionListener(this);

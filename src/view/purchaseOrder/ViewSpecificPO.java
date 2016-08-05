@@ -213,7 +213,7 @@ public class ViewSpecificPO extends JPanel {
 		panNorth.setLayout(new BorderLayout(0, 0));
 
 		lblLogo = new JLabel("");
-		ImageIcon ii = new ImageIcon("src/assets/logo.png");
+		ImageIcon ii = new ImageIcon(getClass().getResource("/assets/logo.png"));
 		Image img = ii.getImage();
 		Image newimg = img.getScaledInstance((int) (ii.getIconWidth() * 0.5),
 				(int) (ii.getIconHeight() * 0.5), java.awt.Image.SCALE_SMOOTH);

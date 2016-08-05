@@ -35,7 +35,7 @@ public class ProjectPanel extends JPanel {
 		value.setBackground(Color.white);
 		value.setPreferredSize(new Dimension(200, 25));
 		
-		btn= new Button.ButtonBuilder().img("src/assets/Round/Add.png", 30,
+		btn= new Button.ButtonBuilder().img("/assets/Round/Add.png", 30,
 				30).build();
 		btn.setActionCommand("add");
 		

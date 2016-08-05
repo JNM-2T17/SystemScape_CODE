@@ -54,7 +54,7 @@ public class NotifWarranty extends JPanel implements ActionListener{
 		panLeft.add(lblDuration);
 
 		JLabel redDuration = new ImageLabel.ImageBuilder().img(
-				"src/assets/red.png", 0.08).build();
+				"/assets/red.png", 0.08).build();
 		sl_panLeft.putConstraint(SpringLayout.NORTH, redDuration, 0,
 				SpringLayout.NORTH, panLeft);
 		panLeft.add(redDuration);
@@ -65,7 +65,7 @@ public class NotifWarranty extends JPanel implements ActionListener{
 		add(lblWarranty, BorderLayout.CENTER);
 
 		btnView = new Button.ButtonBuilder().img(
-				"src/assets/Round/Preview.png", 35, 35).build();
+				"/assets/Round/Preview.png", 35, 35).build();
 		btnView.addActionListener(this);
 		add(btnView, BorderLayout.EAST);
 	}

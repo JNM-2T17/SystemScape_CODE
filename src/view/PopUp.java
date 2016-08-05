@@ -39,7 +39,7 @@ public abstract class PopUp extends JDialog {
 		getContentPane().setLayout(springLayout);
 
 		btnClose = new Button.ButtonBuilder().img(
-				"src/assets/Round/Cancel.png", 35, 35).build();
+				"/assets/Round/Cancel.png", 35, 35).build();
 		springLayout.putConstraint(SpringLayout.NORTH, btnClose, 0,
 				SpringLayout.NORTH, getContentPane());
 		springLayout.putConstraint(SpringLayout.EAST, btnClose, 0,

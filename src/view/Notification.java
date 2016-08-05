@@ -81,7 +81,7 @@ public class Notification extends JPanel implements ActionListener, Observer {
 				SpringLayout.EAST, panContract);
 		panContract.add(numContract);
 
-		redContract = new ImageLabel.ImageBuilder().img("src/assets/red.png",
+		redContract = new ImageLabel.ImageBuilder().img("/assets/red.png",
 				0.05).build();
 		sl_panContract.putConstraint(SpringLayout.NORTH, redContract, 0,
 				SpringLayout.NORTH, panContract);
@@ -93,7 +93,7 @@ public class Notification extends JPanel implements ActionListener, Observer {
 		numContract.setVisible(false);
 
 		btnContract = new Button.ButtonBuilder().img(
-				"src/assets/Metro/Documents.png", 60, 60).build();
+				"/assets/Metro/Documents.png", 60, 60).build();
 		btnContract.setToolTipText("Contract Notifications");
 		sl_panContract.putConstraint(SpringLayout.NORTH, btnContract, 15,
 				SpringLayout.NORTH, panContract);
@@ -101,7 +101,7 @@ public class Notification extends JPanel implements ActionListener, Observer {
 		panContract.add(btnContract);
 
 		btnDarkContract = new Button.ButtonBuilder().img(
-				"src/assets/Metro/DocumentsDark.png", 60, 60).build();
+				"/assets/Metro/DocumentsDark.png", 60, 60).build();
 		btnDarkContract.setToolTipText("Contract Notifications");
 		sl_panContract.putConstraint(SpringLayout.NORTH, btnDarkContract, 15,
 				SpringLayout.NORTH, panContract);
@@ -124,7 +124,7 @@ public class Notification extends JPanel implements ActionListener, Observer {
 				SpringLayout.EAST, panWarranty);
 		panWarranty.add(numWarranty);
 
-		redWarranty = new ImageLabel.ImageBuilder().img("src/assets/red.png",
+		redWarranty = new ImageLabel.ImageBuilder().img("/assets/red.png",
 				0.05).build();
 		sl_panWarranty.putConstraint(SpringLayout.NORTH, redWarranty, 0,
 				SpringLayout.NORTH, panWarranty);
@@ -136,7 +136,7 @@ public class Notification extends JPanel implements ActionListener, Observer {
 		numWarranty.setVisible(false);
 
 		btnWarranty = new Button.ButtonBuilder().img(
-				"src/assets/Metro/Document3.png", 60, 60).build();
+				"/assets/Metro/Document3.png", 60, 60).build();
 		btnWarranty.setToolTipText("Warranty Notifications");
 		sl_panWarranty.putConstraint(SpringLayout.NORTH, btnWarranty, 15,
 				SpringLayout.NORTH, panWarranty);
@@ -144,7 +144,7 @@ public class Notification extends JPanel implements ActionListener, Observer {
 		panWarranty.add(btnWarranty);
 
 		btnDarkWarranty = new Button.ButtonBuilder().img(
-				"src/assets/Metro/Document3Dark.png", 60, 60).build();
+				"/assets/Metro/Document3Dark.png", 60, 60).build();
 		btnDarkWarranty.setToolTipText("Warranty Notifications");
 		sl_panWarranty.putConstraint(SpringLayout.NORTH, btnDarkWarranty, 15,
 				SpringLayout.NORTH, panWarranty);

@@ -34,7 +34,7 @@ public abstract class ViewSpecificTemplate extends JPanel implements ActionListe
 		add(panPrev, BorderLayout.WEST);
 		panPrev.setLayout(new BorderLayout(0, 0));
 		
-		btnPrev = new Button.ButtonBuilder().img("src/assets/back.png", 80,60).build();
+		btnPrev = new Button.ButtonBuilder().img("/assets/back.png", 80,60).build();
 		btnPrev.setActionCommand("prev");
 		panPrev.add(btnPrev, BorderLayout.CENTER);
 		
@@ -44,7 +44,7 @@ public abstract class ViewSpecificTemplate extends JPanel implements ActionListe
 		add(panNext, BorderLayout.EAST);
 		panNext.setLayout(new BorderLayout(0, 0));
 		
-		btnNext = new Button.ButtonBuilder().img("src/assets/next.png", 80,60).build();
+		btnNext = new Button.ButtonBuilder().img("/assets/next.png", 80,60).build();
 		btnNext.setActionCommand("next");
 		panNext.add(btnNext, BorderLayout.CENTER);
 		
@@ -72,11 +72,11 @@ public abstract class ViewSpecificTemplate extends JPanel implements ActionListe
 		panButtonContainer.setBackground(new Color(0, 0, 0, 0));
 		panButtons.add(panButtonContainer, BorderLayout.EAST);
 		
-		btnEdit = new Button.ButtonBuilder().img("src/assets/Round/Note2.png", 40,40).build();
+		btnEdit = new Button.ButtonBuilder().img("/assets/Round/Note2.png", 40,40).build();
 		btnEdit.setActionCommand("edit");
 		panButtonContainer.add(btnEdit);
 		
-		btnClose = new Button.ButtonBuilder().img("src/assets/Round/Cancel.png", 40,40).build();
+		btnClose = new Button.ButtonBuilder().img("/assets/Round/Cancel.png", 40,40).build();
 		btnClose.setActionCommand("close");
 		panButtonContainer.add(btnClose);
 		

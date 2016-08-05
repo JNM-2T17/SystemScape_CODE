@@ -148,7 +148,7 @@ public class AddSupplier extends JPanel implements ActionListener {
 		type.setPreferredSize(new Dimension(120, 25));
 		temp.add(type);
 		
-		btn= new Button.ButtonBuilder().img("src/assets/Round/Add.png", 30,
+		btn= new Button.ButtonBuilder().img("/assets/Round/Add.png", 30,
 				30).build();
 		temp.add(btn);
 		btn.setActionCommand("add");
@@ -195,7 +195,7 @@ public class AddSupplier extends JPanel implements ActionListener {
 		
 		} else {
 			JButton close = new Button.ButtonBuilder().img(
-					"src/assets/Round/Delete.png", 30, 30).build();
+					"/assets/Round/Delete.png", 30, 30).build();
 			close.addActionListener(this);
 			this.close.add(close);
 

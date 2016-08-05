@@ -33,7 +33,7 @@ public class ImageLabel extends JLabel {
 		}
 
 		public ImageBuilder img(String path, int height, int width) {
-			img = new ImageIcon(path);
+			img = new ImageIcon(getClass().getResource(path));
 			Image image = img.getImage();
 			Image newimg = image.getScaledInstance(width, height,
 					java.awt.Image.SCALE_SMOOTH);
@@ -42,7 +42,7 @@ public class ImageLabel extends JLabel {
 		}
 
 		public ImageBuilder img(String path, double d) {
-			img = new ImageIcon(path);
+			img = new ImageIcon(getClass().getResource(path));
 			Image image = img.getImage();
 			Image newimg = image.getScaledInstance(
 					(int) (img.getIconWidth() * d),
